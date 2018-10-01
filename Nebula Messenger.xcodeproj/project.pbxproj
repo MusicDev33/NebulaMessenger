@@ -7,13 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1314EDA20D1149BD02F576FE /* Pods_Nebula_MessengerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1801EBBDFE532B9E5184890A /* Pods_Nebula_MessengerUITests.framework */; };
 		1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2672152227F00DC9525 /* AppDelegate.swift */; };
-		1F68B26A2152227F00DC9525 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2692152227F00DC9525 /* ViewController.swift */; };
+		1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2692152227F00DC9525 /* LoginVC.swift */; };
 		1F68B26D2152227F00DC9525 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B26B2152227F00DC9525 /* Main.storyboard */; };
 		1F68B26F2152228100DC9525 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B26E2152228100DC9525 /* Assets.xcassets */; };
 		1F68B2722152228100DC9525 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B2702152228100DC9525 /* LaunchScreen.storyboard */; };
 		1F68B27D2152228100DC9525 /* Nebula_MessengerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B27C2152228100DC9525 /* Nebula_MessengerTests.swift */; };
 		1F68B2882152228100DC9525 /* Nebula_MessengerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2872152228100DC9525 /* Nebula_MessengerUITests.swift */; };
+		1F68B298215222DD00DC9525 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F68B297215222DD00DC9525 /* MapKit.framework */; };
+		1F68B29A215222E400DC9525 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F68B299215222E400DC9525 /* StoreKit.framework */; };
+		1F68B29E2152245A00DC9525 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B29D2152245A00DC9525 /* GoogleService-Info.plist */; };
+		1F68B2A02152258400DC9525 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B29F2152258400DC9525 /* SwiftyJSON.swift */; };
+		1F68B2A42152367A00DC9525 /* FirebaseGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2A32152367A00DC9525 /* FirebaseGlobals.swift */; };
+		1F68B2AE2152740700DC9525 /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2AD2152740700DC9525 /* SocketIOManager.swift */; };
+		1F68B2B02152749700DC9525 /* GlobalUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2AF2152749700DC9525 /* GlobalUser.swift */; };
+		1F68B2B22152751700DC9525 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2B12152751700DC9525 /* Routes.swift */; };
+		1F68B2B6215275CB00DC9525 /* PublicStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2B5215275CB00DC9525 /* PublicStructs.swift */; };
+		1F68B2B82152762A00DC9525 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2B72152762A00DC9525 /* Utility.swift */; };
+		1F68B2BB2152789B00DC9525 /* RouteUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2BA2152789B00DC9525 /* RouteUtils.swift */; };
+		1F68B2BD2152DD1300DC9525 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2BC2152DD1300DC9525 /* RegisterVC.swift */; };
+		1F68B2BF2154A64D00DC9525 /* MessengerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2BE2154A64D00DC9525 /* MessengerVC.swift */; };
+		1F68B2C12154C1C400DC9525 /* MainMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2C02154C1C400DC9525 /* MainMenuVC.swift */; };
+		1F68B2C4215583AF00DC9525 /* RouteLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2C3215583AF00DC9525 /* RouteLogic.swift */; };
+		1F76C7DA215859C200EB6C8C /* RetroTone.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B2B32152757300DC9525 /* RetroTone.caf */; };
+		1F76C7DC215899B500EB6C8C /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DB215899B500EB6C8C /* MyProfileVC.swift */; };
+		1F76C7DE2158A09E00EB6C8C /* PoolingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */; };
+		1F76C7E02158A95500EB6C8C /* CreateMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DF2158A95500EB6C8C /* CreateMessageVC.swift */; };
+		521D9F1CB2278C1EC9063910 /* Pods_Nebula_MessengerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DD9EE7AAF24FC32A1834E4 /* Pods_Nebula_MessengerTests.framework */; };
+		9C3B0985CA5BFC63A7CBB7BB /* Pods_Nebula_Messenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41745756096BA6F4D1D8B161 /* Pods_Nebula_Messenger.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,9 +56,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1801EBBDFE532B9E5184890A /* Pods_Nebula_MessengerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_MessengerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F68B2642152227F00DC9525 /* Nebula Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nebula Messenger.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F68B2672152227F00DC9525 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1F68B2692152227F00DC9525 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1F68B2692152227F00DC9525 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		1F68B26C2152227F00DC9525 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1F68B26E2152228100DC9525 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F68B2712152228100DC9525 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +70,35 @@
 		1F68B2832152228100DC9525 /* Nebula MessengerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Nebula MessengerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F68B2872152228100DC9525 /* Nebula_MessengerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nebula_MessengerUITests.swift; sourceTree = "<group>"; };
 		1F68B2892152228100DC9525 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F68B295215222D000DC9525 /* Nebula Messenger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Nebula Messenger.entitlements"; sourceTree = "<group>"; };
+		1F68B297215222DD00DC9525 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		1F68B299215222E400DC9525 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		1F68B29B2152230300DC9525 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
+		1F68B29D2152245A00DC9525 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1F68B29F2152258400DC9525 /* SwiftyJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		1F68B2A32152367A00DC9525 /* FirebaseGlobals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseGlobals.swift; sourceTree = "<group>"; };
+		1F68B2AD2152740700DC9525 /* SocketIOManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
+		1F68B2AF2152749700DC9525 /* GlobalUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalUser.swift; sourceTree = "<group>"; };
+		1F68B2B12152751700DC9525 /* Routes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routes.swift; sourceTree = "<group>"; };
+		1F68B2B32152757300DC9525 /* RetroTone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RetroTone.caf; sourceTree = "<group>"; };
+		1F68B2B5215275CB00DC9525 /* PublicStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicStructs.swift; sourceTree = "<group>"; };
+		1F68B2B72152762A00DC9525 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		1F68B2BA2152789B00DC9525 /* RouteUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteUtils.swift; sourceTree = "<group>"; };
+		1F68B2BC2152DD1300DC9525 /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
+		1F68B2BE2154A64D00DC9525 /* MessengerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerVC.swift; sourceTree = "<group>"; };
+		1F68B2C02154C1C400DC9525 /* MainMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuVC.swift; sourceTree = "<group>"; };
+		1F68B2C3215583AF00DC9525 /* RouteLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteLogic.swift; sourceTree = "<group>"; };
+		1F76C7DB215899B500EB6C8C /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
+		1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolingVC.swift; sourceTree = "<group>"; };
+		1F76C7DF2158A95500EB6C8C /* CreateMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMessageVC.swift; sourceTree = "<group>"; };
+		41745756096BA6F4D1D8B161 /* Pods_Nebula_Messenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_Messenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DA8CAA5C0A1BB47FB13F9BA /* Pods-Nebula Messenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula Messenger.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger.release.xcconfig"; sourceTree = "<group>"; };
+		8A09D3646B102188B8CFCEE4 /* Pods-Nebula MessengerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerUITests/Pods-Nebula MessengerUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		9B5B4F00BE82A17321B0E8A7 /* Pods-Nebula Messenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula Messenger.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger.debug.xcconfig"; sourceTree = "<group>"; };
+		E3DD9EE7AAF24FC32A1834E4 /* Pods_Nebula_MessengerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_MessengerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8BA8CB424CE3ED74AD005E6 /* Pods-Nebula MessengerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerUITests/Pods-Nebula MessengerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		FD3D17897675A3BFB54B55B0 /* Pods-Nebula MessengerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerTests/Pods-Nebula MessengerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FF0D45659CD995521180A2FA /* Pods-Nebula MessengerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerTests/Pods-Nebula MessengerTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +106,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F68B298215222DD00DC9525 /* MapKit.framework in Frameworks */,
+				1F68B29A215222E400DC9525 /* StoreKit.framework in Frameworks */,
+				9C3B0985CA5BFC63A7CBB7BB /* Pods_Nebula_Messenger.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				521D9F1CB2278C1EC9063910 /* Pods_Nebula_MessengerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +124,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1314EDA20D1149BD02F576FE /* Pods_Nebula_MessengerUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +138,8 @@
 				1F68B27B2152228100DC9525 /* Nebula MessengerTests */,
 				1F68B2862152228100DC9525 /* Nebula MessengerUITests */,
 				1F68B2652152227F00DC9525 /* Products */,
+				1F68B296215222DD00DC9525 /* Frameworks */,
+				F290589D164F84332EEA1EDB /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,11 +156,16 @@
 		1F68B2662152227F00DC9525 /* Nebula Messenger */ = {
 			isa = PBXGroup;
 			children = (
+				1F68B295215222D000DC9525 /* Nebula Messenger.entitlements */,
 				1F68B2672152227F00DC9525 /* AppDelegate.swift */,
-				1F68B2692152227F00DC9525 /* ViewController.swift */,
+				1F68B2B9215276AE00DC9525 /* ViewControllers */,
+				1F68B2B42152757800DC9525 /* Sound */,
+				1F68B2A22152366600DC9525 /* Globals */,
+				1F68B2A12152260400DC9525 /* Lib */,
 				1F68B26B2152227F00DC9525 /* Main.storyboard */,
 				1F68B26E2152228100DC9525 /* Assets.xcassets */,
 				1F68B2702152228100DC9525 /* LaunchScreen.storyboard */,
+				1F68B29D2152245A00DC9525 /* GoogleService-Info.plist */,
 				1F68B2732152228100DC9525 /* Info.plist */,
 			);
 			path = "Nebula Messenger";
@@ -125,6 +189,85 @@
 			path = "Nebula MessengerUITests";
 			sourceTree = "<group>";
 		};
+		1F68B296215222DD00DC9525 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1F68B29B2152230300DC9525 /* AuthenticationServices.framework */,
+				1F68B299215222E400DC9525 /* StoreKit.framework */,
+				1F68B297215222DD00DC9525 /* MapKit.framework */,
+				41745756096BA6F4D1D8B161 /* Pods_Nebula_Messenger.framework */,
+				E3DD9EE7AAF24FC32A1834E4 /* Pods_Nebula_MessengerTests.framework */,
+				1801EBBDFE532B9E5184890A /* Pods_Nebula_MessengerUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1F68B2A12152260400DC9525 /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				1F68B29F2152258400DC9525 /* SwiftyJSON.swift */,
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
+		1F68B2A22152366600DC9525 /* Globals */ = {
+			isa = PBXGroup;
+			children = (
+				1F68B2C22155838B00DC9525 /* Routing */,
+				1F68B2A32152367A00DC9525 /* FirebaseGlobals.swift */,
+				1F68B2AD2152740700DC9525 /* SocketIOManager.swift */,
+				1F68B2AF2152749700DC9525 /* GlobalUser.swift */,
+				1F68B2B5215275CB00DC9525 /* PublicStructs.swift */,
+				1F68B2B72152762A00DC9525 /* Utility.swift */,
+			);
+			path = Globals;
+			sourceTree = "<group>";
+		};
+		1F68B2B42152757800DC9525 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				1F68B2B32152757300DC9525 /* RetroTone.caf */,
+			);
+			path = Sound;
+			sourceTree = "<group>";
+		};
+		1F68B2B9215276AE00DC9525 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				1F68B2BC2152DD1300DC9525 /* RegisterVC.swift */,
+				1F68B2692152227F00DC9525 /* LoginVC.swift */,
+				1F68B2C02154C1C400DC9525 /* MainMenuVC.swift */,
+				1F68B2BE2154A64D00DC9525 /* MessengerVC.swift */,
+				1F76C7DB215899B500EB6C8C /* MyProfileVC.swift */,
+				1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */,
+				1F76C7DF2158A95500EB6C8C /* CreateMessageVC.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		1F68B2C22155838B00DC9525 /* Routing */ = {
+			isa = PBXGroup;
+			children = (
+				1F68B2B12152751700DC9525 /* Routes.swift */,
+				1F68B2BA2152789B00DC9525 /* RouteUtils.swift */,
+				1F68B2C3215583AF00DC9525 /* RouteLogic.swift */,
+			);
+			path = Routing;
+			sourceTree = "<group>";
+		};
+		F290589D164F84332EEA1EDB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9B5B4F00BE82A17321B0E8A7 /* Pods-Nebula Messenger.debug.xcconfig */,
+				7DA8CAA5C0A1BB47FB13F9BA /* Pods-Nebula Messenger.release.xcconfig */,
+				FD3D17897675A3BFB54B55B0 /* Pods-Nebula MessengerTests.debug.xcconfig */,
+				FF0D45659CD995521180A2FA /* Pods-Nebula MessengerTests.release.xcconfig */,
+				8A09D3646B102188B8CFCEE4 /* Pods-Nebula MessengerUITests.debug.xcconfig */,
+				E8BA8CB424CE3ED74AD005E6 /* Pods-Nebula MessengerUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +275,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F68B28C2152228100DC9525 /* Build configuration list for PBXNativeTarget "Nebula Messenger" */;
 			buildPhases = (
+				9610BB83E0D03D58BBC8429B /* [CP] Check Pods Manifest.lock */,
 				1F68B2602152227F00DC9525 /* Sources */,
 				1F68B2612152227F00DC9525 /* Frameworks */,
 				1F68B2622152227F00DC9525 /* Resources */,
+				377E57E38B2DB61ABDAC18B7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -149,6 +294,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F68B28F2152228100DC9525 /* Build configuration list for PBXNativeTarget "Nebula MessengerTests" */;
 			buildPhases = (
+				A90820EEFB1D25967CE4C289 /* [CP] Check Pods Manifest.lock */,
 				1F68B2742152228100DC9525 /* Sources */,
 				1F68B2752152228100DC9525 /* Frameworks */,
 				1F68B2762152228100DC9525 /* Resources */,
@@ -167,6 +313,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F68B2922152228100DC9525 /* Build configuration list for PBXNativeTarget "Nebula MessengerUITests" */;
 			buildPhases = (
+				A81D9AB33C9BE26D8EBD7A73 /* [CP] Check Pods Manifest.lock */,
 				1F68B27F2152228100DC9525 /* Sources */,
 				1F68B2802152228100DC9525 /* Frameworks */,
 				1F68B2812152228100DC9525 /* Resources */,
@@ -193,6 +340,32 @@
 				TargetAttributes = {
 					1F68B2632152227F00DC9525 = {
 						CreatedOnToolsVersion = 10.0;
+						SystemCapabilities = {
+							com.apple.AccessWiFi = {
+								enabled = 1;
+							};
+							com.apple.AutoFillCredentialProvider = {
+								enabled = 1;
+							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.DataProtection = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					1F68B2772152228100DC9525 = {
 						CreatedOnToolsVersion = 10.0;
@@ -229,9 +402,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F76C7DA215859C200EB6C8C /* RetroTone.caf in Resources */,
 				1F68B2722152228100DC9525 /* LaunchScreen.storyboard in Resources */,
 				1F68B26F2152228100DC9525 /* Assets.xcassets in Resources */,
 				1F68B26D2152227F00DC9525 /* Main.storyboard in Resources */,
+				1F68B29E2152245A00DC9525 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,13 +426,115 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		377E57E38B2DB61ABDAC18B7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
+				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9610BB83E0D03D58BBC8429B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Nebula Messenger-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A81D9AB33C9BE26D8EBD7A73 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Nebula MessengerUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A90820EEFB1D25967CE4C289 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Nebula MessengerTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1F68B2602152227F00DC9525 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F68B26A2152227F00DC9525 /* ViewController.swift in Sources */,
+				1F68B2A02152258400DC9525 /* SwiftyJSON.swift in Sources */,
+				1F68B2B22152751700DC9525 /* Routes.swift in Sources */,
+				1F68B2BF2154A64D00DC9525 /* MessengerVC.swift in Sources */,
+				1F68B2C12154C1C400DC9525 /* MainMenuVC.swift in Sources */,
+				1F68B2B82152762A00DC9525 /* Utility.swift in Sources */,
+				1F68B2AE2152740700DC9525 /* SocketIOManager.swift in Sources */,
+				1F68B2C4215583AF00DC9525 /* RouteLogic.swift in Sources */,
+				1F68B2BD2152DD1300DC9525 /* RegisterVC.swift in Sources */,
+				1F68B2A42152367A00DC9525 /* FirebaseGlobals.swift in Sources */,
+				1F68B2BB2152789B00DC9525 /* RouteUtils.swift in Sources */,
+				1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */,
+				1F76C7DE2158A09E00EB6C8C /* PoolingVC.swift in Sources */,
+				1F68B2B6215275CB00DC9525 /* PublicStructs.swift in Sources */,
+				1F76C7DC215899B500EB6C8C /* MyProfileVC.swift in Sources */,
 				1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */,
+				1F68B2B02152749700DC9525 /* GlobalUser.swift in Sources */,
+				1F76C7E02158A95500EB6C8C /* CreateMessageVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,11 +707,14 @@
 		};
 		1F68B28D2152228100DC9525 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B5B4F00BE82A17321B0E8A7 /* Pods-Nebula Messenger.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Nebula Messenger/Nebula Messenger.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C98483BJST;
 				INFOPLIST_FILE = "Nebula Messenger/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -442,17 +722,20 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "musicdev.Nebula-Messenger";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		1F68B28E2152228100DC9525 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7DA8CAA5C0A1BB47FB13F9BA /* Pods-Nebula Messenger.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Nebula Messenger/Nebula Messenger.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C98483BJST;
 				INFOPLIST_FILE = "Nebula Messenger/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -460,12 +743,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "musicdev.Nebula-Messenger";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 		1F68B2902152228100DC9525 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD3D17897675A3BFB54B55B0 /* Pods-Nebula MessengerTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -487,6 +771,7 @@
 		};
 		1F68B2912152228100DC9525 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF0D45659CD995521180A2FA /* Pods-Nebula MessengerTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -508,6 +793,7 @@
 		};
 		1F68B2932152228100DC9525 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8A09D3646B102188B8CFCEE4 /* Pods-Nebula MessengerUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -528,6 +814,7 @@
 		};
 		1F68B2942152228100DC9525 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E8BA8CB424CE3ED74AD005E6 /* Pods-Nebula MessengerUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
