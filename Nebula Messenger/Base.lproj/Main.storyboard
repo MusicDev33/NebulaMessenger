@@ -241,6 +241,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ex-ac-enl">
                                 <rect key="frame" x="16" y="31" width="48" height="48"/>
                                 <state key="normal" image="ProfileBlack"/>
+                                <connections>
+                                    <action selector="profileButtonPressed:" destination="Dct-AK-1Jl" eventType="touchUpInside" id="93X-zC-6Da"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nxg-TI-p1h">
                                 <rect key="frame" x="312" y="31" width="48" height="48"/>
@@ -321,11 +324,39 @@
                     <view key="view" contentMode="scaleToFill" id="6T5-eH-ULq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wyb-p9-zpt">
+                                <rect key="frame" x="147.5" y="313.5" width="80" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="Log Out"/>
+                                <connections>
+                                    <action selector="logoutButtonPressed:" destination="D5I-AV-VyX" eventType="touchUpInside" id="YO7-xD-yKd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rEU-e2-X3L" userLabel="Back Button">
+                                <rect key="frame" x="15" y="11" width="48" height="48"/>
+                                <state key="normal" image="BackArrowBlack"/>
+                                <connections>
+                                    <action selector="backButtonPressed:" destination="D5I-AV-VyX" eventType="touchUpInside" id="hjt-Jk-tjP"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="rEU-e2-X3L" firstAttribute="leading" secondItem="VfJ-Ah-h0p" secondAttribute="leading" constant="15" id="bmh-gN-7HA"/>
+                            <constraint firstItem="wyb-p9-zpt" firstAttribute="centerY" secondItem="6T5-eH-ULq" secondAttribute="centerY" id="eYe-Mj-LW1"/>
+                            <constraint firstItem="VfJ-Ah-h0p" firstAttribute="top" secondItem="rEU-e2-X3L" secondAttribute="top" constant="9" id="k7v-Vo-oOh"/>
+                            <constraint firstItem="wyb-p9-zpt" firstAttribute="centerX" secondItem="6T5-eH-ULq" secondAttribute="centerX" id="mfe-XF-ehh"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="VfJ-Ah-h0p"/>
                     </view>
+                    <connections>
+                        <segue destination="JDP-nF-f3z" kind="unwind" identifier="toMainMenuFromProfile" unwindAction="didUnwindFromProfileView:" id="50O-UC-yb7"/>
+                        <segue destination="JDP-nF-f3z" kind="unwind" identifier="toLoginFromProfileView" unwindAction="didUnwindFromProfileViewToLogin:" id="hfx-68-sAs"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y7i-dW-C7D" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="JDP-nF-f3z" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="482" y="914"/>
         </scene>

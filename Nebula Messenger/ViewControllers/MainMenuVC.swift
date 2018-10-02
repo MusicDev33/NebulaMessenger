@@ -140,12 +140,13 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        FriendRoutes.removeFriend(friend: "marina"){
-            self.convTable.reloadData()
-        }
     }
     
     //MARK: Actions
+    @IBAction func profileButtonPressed(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "toMyProfileView", sender: self)
+    }
+    
     @IBAction func poolButtonPressed(_ sender: UIButton) {
         self.performSegue(withIdentifier: "toPools", sender: self)
     }
@@ -220,6 +221,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @IBAction func didUnwindFromCreateMessage(_ sender: UIStoryboardSegue){
         guard sender.source is CreateMessageVC else {return}
+    }
+    
+    @IBAction func didUnwindFromProfileView(_ sender: UIStoryboardSegue){
+        guard sender.source is MyProfileVC else {return}
     }
 
 }

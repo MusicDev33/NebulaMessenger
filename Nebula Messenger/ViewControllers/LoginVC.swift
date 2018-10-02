@@ -106,5 +106,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @IBAction func didUnwindFromRegister(_ sender: UIStoryboardSegue){
         guard sender.source is RegisterVC else {return}
     }
+    
+    @IBAction func didUnwindFromProfileViewToLogin(_ sender: UIStoryboardSegue){
+        guard sender.source is MyProfileVC else {return}
+    }
 }
 

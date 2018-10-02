@@ -16,7 +16,14 @@ class MyProfileVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
+    @IBAction func logoutButtonPressed(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "toLoginFromProfileView", sender: self)
+    }
+    
+    @IBAction func backButtonPressed(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "toMainMenuFromProfile", sender: self)
+    }
+    
     /*
     // MARK: - Navigation
 
