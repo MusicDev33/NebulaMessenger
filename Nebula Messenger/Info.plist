@@ -30,7 +30,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.3</string>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>7</string>
 	<key>ITSEncryptionExportComplianceCode</key>
 	<string>NO</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -61,19 +61,19 @@
 	<array>
 		<dict>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Slap</string>
+			<string>Test</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>None</string>
 		</dict>
 		<dict>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>My</string>
+			<string>Test</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>None</string>
 		</dict>
 		<dict>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Nuts</string>
+			<string>Test</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>None</string>
 		</dict>
