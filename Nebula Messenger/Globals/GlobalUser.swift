@@ -40,4 +40,10 @@ class GlobalUser: NSObject {
         }
     }
     
+    static func addFriend(friend: String){
+        if !self.friends.contains(friend){
+            self.friends.append(friend)
+        }
+    }
+    
 }

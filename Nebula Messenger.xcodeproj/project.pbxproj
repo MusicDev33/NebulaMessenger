@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1314EDA20D1149BD02F576FE /* Pods_Nebula_MessengerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1801EBBDFE532B9E5184890A /* Pods_Nebula_MessengerUITests.framework */; };
+		1F170F162162FD1B009673E2 /* FriendRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F170F152162FD1B009673E2 /* FriendRoutes.swift */; };
 		1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2672152227F00DC9525 /* AppDelegate.swift */; };
 		1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2692152227F00DC9525 /* LoginVC.swift */; };
 		1F68B26D2152227F00DC9525 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B26B2152227F00DC9525 /* Main.storyboard */; };
@@ -57,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		1801EBBDFE532B9E5184890A /* Pods_Nebula_MessengerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_MessengerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F170F152162FD1B009673E2 /* FriendRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRoutes.swift; sourceTree = "<group>"; };
 		1F68B2642152227F00DC9525 /* Nebula Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nebula Messenger.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F68B2672152227F00DC9525 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F68B2692152227F00DC9525 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				1F68B2B12152751700DC9525 /* Routes.swift */,
 				1F68B2BA2152789B00DC9525 /* RouteUtils.swift */,
 				1F68B2C3215583AF00DC9525 /* RouteLogic.swift */,
+				1F170F152162FD1B009673E2 /* FriendRoutes.swift */,
 			);
 			path = Routing;
 			sourceTree = "<group>";
@@ -523,6 +526,7 @@
 				1F68B2BF2154A64D00DC9525 /* MessengerVC.swift in Sources */,
 				1F68B2C12154C1C400DC9525 /* MainMenuVC.swift in Sources */,
 				1F68B2B82152762A00DC9525 /* Utility.swift in Sources */,
+				1F170F162162FD1B009673E2 /* FriendRoutes.swift in Sources */,
 				1F68B2AE2152740700DC9525 /* SocketIOManager.swift in Sources */,
 				1F68B2C4215583AF00DC9525 /* RouteLogic.swift in Sources */,
 				1F68B2BD2152DD1300DC9525 /* RegisterVC.swift in Sources */,

@@ -92,6 +92,7 @@ class Utility {
         }
         
         userArray = userArray.filter { $0 != user }
+        userArray = userArray.sorted {$0.localizedStandardCompare($1) == .orderedAscending}
         let joint = ", "
         return userArray.joined(separator: joint)
     }

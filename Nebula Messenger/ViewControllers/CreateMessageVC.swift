@@ -77,11 +77,25 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             let vc = segue.destination as? MessengerVC
             vc?.id = ""
             if self.selectedFriendsList.count > 1{
-                vc?.involved = self.passInvolved
-                vc?.friend = self.passFriend
                 vc?.skipNotif = true
+                var passList = self.selectedFriendsList
+                passList.append(GlobalUser.username)
+                let tempConvId = Utility.createConvId(names: passList)
+                let friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: tempConvId)
+                
+                self.passFriend = friend
+                vc?.friend = self.passFriend
+                if GlobalUser.convNames.contains(friend){
+                    vc?.involved = GlobalUser.involvedDict[self.passFriend]!
+                    vc?.id = GlobalUser.friendsConvDict[self.passFriend]!
+                }else{
+                    vc?.involved = tempConvId
+                    vc?.friend = friend
+                }
+                
             }else{
                 vc?.friend = self.selectedFriendsList[0]
+                self.passFriend = self.selectedFriendsList[0]
                 if GlobalUser.convNames.contains(self.selectedFriendsList[0]){
                     vc?.involved = GlobalUser.involvedDict[self.passFriend]!
                     vc?.id = GlobalUser.friendsConvDict[self.passFriend]!

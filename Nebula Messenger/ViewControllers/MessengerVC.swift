@@ -76,10 +76,6 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
             tableView.deselectRow(at: indexPath, animated: true)
         }
         view.endEditing(true)
-        print(self.msgList[indexPath.row])
-        print("picked")
-        //currentCell.imageView!.image = UIImage(named: "BlackX")
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -95,16 +91,7 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
     }
     
     
-    //MARK: UITextFieldDelegate
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        moveTextField(textField, moveDistance: -210, up: true)
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
+    //MARK: UITextViewDelegate
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
             textView.resignFirstResponder()
@@ -113,28 +100,12 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
         return true
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        moveTextField(textField, moveDistance: -210, up: false)
-    }
-    
     func textViewDidBeginEditing(_ textView: UITextView) {
         moveTextView(textView, moveDistance: -210, up: true)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         moveTextView(textView, moveDistance: 210, up: true)
-    }
-    
-    // Move the text field in a pretty animation!
-    func moveTextField(_ textField: UITextField, moveDistance: Int, up: Bool) {
-        let moveDuration = 0.3
-        let movement: CGFloat = CGFloat(up ? moveDistance : -moveDistance)
-        
-        UIView.beginAnimations("animateTextField", context: nil)
-        UIView.setAnimationBeginsFromCurrentState(true)
-        UIView.setAnimationDuration(moveDuration)
-        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
-        UIView.commitAnimations()
     }
     
     func moveTextView(_ textView: UITextView, moveDistance: Int, up: Bool) {
@@ -166,6 +137,7 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
         now.insert(" ", at: now.index(now.startIndex, offsetBy: +13))
         
         if (self.skipNotif){
+            print("No Notifs")
             requestJson["groupChat"] = "HELLO" // Set groupChat to something random, it doesn't matter
         }
         requestJson["sender"] = GlobalUser.username
