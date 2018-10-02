@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import FirebaseMessaging
 
 class MyProfileVC: UIViewController {
 
@@ -17,6 +19,11 @@ class MyProfileVC: UIViewController {
     }
     
     @IBAction func logoutButtonPressed(_ sender: UIButton) {
+        Messaging.messaging().unsubscribe(fromTopic: GlobalUser.username)
+        GlobalUser.emptyGlobals()
+        UserDefaults.standard.set("", forKey: "username")
+        UserDefaults.standard.set("", forKey: "password")
+        UserDefaults.standard.set(false, forKey: "isLoggedIn")
         self.performSegue(withIdentifier: "toLoginFromProfileView", sender: self)
     }
     

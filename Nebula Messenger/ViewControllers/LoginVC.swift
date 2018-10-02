@@ -92,6 +92,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 UserDefaults.standard.set(true, forKey: "isLoggedIn")
                 RouteLogic.getConversations {
                     print(GlobalUser.conversations)
+                    Messaging.messaging().subscribe(toTopic: GlobalUser.username) { error in
+                        print("Subscribed to " + GlobalUser.username)
+                    }
                     self.performSegue(withIdentifier: "toMainMenuVC", sender: self)
                 }
             }

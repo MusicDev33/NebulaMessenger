@@ -46,4 +46,16 @@ class GlobalUser: NSObject {
         }
     }
     
+    static func emptyGlobals(){
+        self.name = ""
+        self.username = ""
+        self.email = ""
+        self.friends = []
+        self.conversations = []
+        self.convNames = []
+        self.involvedDict = [String:String]()
+        self.friendsConvDict = [String:String]()
+        
+    }
+    
 }
