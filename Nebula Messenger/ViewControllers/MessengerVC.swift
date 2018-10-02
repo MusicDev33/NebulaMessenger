@@ -29,6 +29,7 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
     
     @IBOutlet weak var messagesTable: UITableView!
     @IBOutlet weak var messageTextView: UITextView!
+    @IBOutlet weak var deleteMsgLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +50,10 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         self.messagesTable.estimatedRowHeight = 120.0
         self.messagesTable.rowHeight = UITableView.automaticDimension
+        self.messagesTable.allowsMultipleSelection = true
+        self.messagesTable.allowsMultipleSelectionDuringEditing = true
+        
+        self.deleteMsgLabel.isHidden = true
         
         self.openSocket {
         }
@@ -72,6 +77,7 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
         if self.deleteModeOn{
             print("Picked!")
             print(self.msgList[indexPath.row])
+            self.deleteArray.append(self.msgList[indexPath.row]._id!)
         }else{
             tableView.deselectRow(at: indexPath, animated: true)
         }
@@ -196,12 +202,31 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
     
     @IBAction func tappedOnTrashButton(_ sender: UIButton) {
         self.deleteModeOn = !self.deleteModeOn
-        print(deleteModeOn)
-        RouteLogic.deleteMessages(msgsArray: self.deleteArray){
-            
+        if self.deleteModeOn{
+            self.deleteMsgLabel.isHidden = !self.deleteModeOn
         }
-        self.deleteArray = [String]()
-        
+        if self.deleteArray.count > 0{
+            let alert = UIAlertController(title: "Do you want to delete these messages?", message: "", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: {action in
+                RouteLogic.deleteMessages(msgsArray: self.deleteArray){
+                    for id in self.deleteArray{
+                        self.msgList = self.msgList.filter { $0._id != id }
+                    }
+                    
+                    self.deleteArray = [String]()
+                    self.messagesTable.reloadData()
+                    self.deleteMsgLabel.isHidden = !self.deleteModeOn
+                }
+            }))
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: {action in
+                self.messagesTable.reloadData()
+                self.deleteArray = [String]()
+                self.deleteMsgLabel.isHidden = !self.deleteModeOn
+            }))
+            
+            self.present(alert, animated: true)
+        }
     }
     /*
     @IBAction func tappedOnScreen(_ sender: UITapGestureRecognizer) {

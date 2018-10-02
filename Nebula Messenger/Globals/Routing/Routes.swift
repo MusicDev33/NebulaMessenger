@@ -42,6 +42,7 @@ let getConvsRoute = conversationsRoot + "getconvs"
 let getConvRoute = conversationsRoot + "getconv"
 let addConvRoute = conversationsRoot + "addconv"
 let updateConvRoute = conversationsRoot + "updateconv"
+let deleteConvRoute = conversationsRoot + "deleteconv"
 
 // For later
 func buildRequest(){

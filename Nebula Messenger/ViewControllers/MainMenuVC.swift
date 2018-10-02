@@ -71,6 +71,45 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        //let deleteAction = self.contextualDeleteAction(forRowAtIndexPath: indexPath)
+        let deleteAction = self.contextualDelete(forRowAtIndexPath: indexPath)
+ 
+        let swipeConfig = UISwipeActionsConfiguration(actions: [deleteAction])
+        return swipeConfig
+    }
+    
+    func contextualDelete(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+        // 1
+        //var email = data[indexPath.row]
+        // 2
+        let action = UIContextualAction(style: .destructive,
+                                        title: "Delete") { (contextAction: UIContextualAction, sourceView: UIView, completionHandler: (Bool) -> Void) in
+                                            // 3
+                                            if true {
+                                                // 4
+                                                //self.data[indexPath.row] = email
+                                                let tempId = GlobalUser.friendsConvDict[GlobalUser.convNames[indexPath.row]]
+                                                ConversationRoutes.deleteConversation(id: tempId!, convName: GlobalUser.convNames[indexPath.row]){
+                                                    self.convTable.reloadData()
+                                                    print(GlobalUser.convNames)
+                                                }
+                                                //print(GlobalUser.convNames)
+                                                print("Delete")
+                                                // 5
+                                                completionHandler(true)
+                                            } else {
+                                                // 6
+                                                completionHandler(false)
+                                            }
+        }
+        // 7
+        action.image = UIImage(named: "Trashcan")
+        action.backgroundColor = UIColor.red
+        return action
+    }
+    
     //Search Controller Setup
     func configureSearchController(){
         searchController = UISearchController(searchResultsController: nil)
@@ -140,6 +179,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        self.convTable.reloadData()
     }
     
     //MARK: Actions

@@ -493,6 +493,12 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deleting Messages" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYY-bY-Qgy">
+                                <rect key="frame" x="114.5" y="34" width="146" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
@@ -504,8 +510,10 @@
                             <constraint firstItem="Eca-Vf-h0K" firstAttribute="trailing" secondItem="5yk-FL-8qI" secondAttribute="trailing" id="GLH-6z-1NP"/>
                             <constraint firstItem="5yk-FL-8qI" firstAttribute="leading" secondItem="Eca-Vf-h0K" secondAttribute="leading" id="KLG-qS-xvg"/>
                             <constraint firstItem="Gpa-hf-7h7" firstAttribute="leading" secondItem="Eca-Vf-h0K" secondAttribute="leading" constant="16" id="LBe-h1-hlU"/>
+                            <constraint firstItem="NYY-bY-Qgy" firstAttribute="top" secondItem="Eca-Vf-h0K" secondAttribute="top" constant="14" id="O2C-QU-run"/>
                             <constraint firstItem="Gpa-hf-7h7" firstAttribute="top" secondItem="Eca-Vf-h0K" secondAttribute="top" id="ZQp-Tl-MCt"/>
                             <constraint firstItem="Eca-Vf-h0K" firstAttribute="bottom" secondItem="5yk-FL-8qI" secondAttribute="bottom" constant="118" id="dSf-Yb-1XV"/>
+                            <constraint firstItem="NYY-bY-Qgy" firstAttribute="centerX" secondItem="Eca-Vf-h0K" secondAttribute="centerX" id="jco-gT-Pa0"/>
                             <constraint firstItem="ZO4-Xa-qBg" firstAttribute="top" secondItem="5yk-FL-8qI" secondAttribute="bottom" constant="41" id="mBz-Yu-Lb3"/>
                             <constraint firstItem="ZO4-Xa-qBg" firstAttribute="leading" secondItem="Eca-Vf-h0K" secondAttribute="leading" constant="16" id="n70-sq-rh2"/>
                             <constraint firstItem="ZO4-Xa-qBg" firstAttribute="centerY" secondItem="2eJ-TF-GrE" secondAttribute="centerY" id="nWB-0v-RRE"/>
@@ -515,6 +523,7 @@
                         <viewLayoutGuide key="safeArea" id="Eca-Vf-h0K"/>
                     </view>
                     <connections>
+                        <outlet property="deleteMsgLabel" destination="NYY-bY-Qgy" id="Wna-Bg-ent"/>
                         <outlet property="messageTextView" destination="ZO4-Xa-qBg" id="fzo-SB-xOM"/>
                         <outlet property="messagesTable" destination="5yk-FL-8qI" id="ZrN-do-h9J"/>
                         <segue destination="4py-m5-PS5" kind="unwind" identifier="messengerVCToMainMenu" unwindAction="didUnwindFromMessengerVC:" id="yqj-0X-hkL"/>

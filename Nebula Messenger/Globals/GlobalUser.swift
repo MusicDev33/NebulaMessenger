@@ -40,6 +40,15 @@ class GlobalUser: NSObject {
         }
     }
     
+    static func removeFromConvNames(convName: String){
+        if self.convNames.contains(convName){
+            self.convNames = self.convNames.filter { $0 != convName }
+            self.conversations = self.conversations.filter { $0 != self.involvedDict[convName] }
+            self.involvedDict[convName] = nil
+            self.friendsConvDict[convName] = nil
+        }
+    }
+    
     static func addFriend(friend: String){
         if !self.friends.contains(friend){
             self.friends.append(friend)
