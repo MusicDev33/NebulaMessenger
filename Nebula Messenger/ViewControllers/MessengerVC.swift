@@ -33,6 +33,9 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var deleteMsgLabel: UILabel!
     
+    @IBOutlet weak var messageTableBottom: NSLayoutConstraint!
+    @IBOutlet weak var messageTextFieldTop: NSLayoutConstraint!
+    @IBOutlet weak var messageTextFieldBottom: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -62,6 +65,7 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }
         
         GlobalUser.currentConv = self.friend
+        self.messagesTable.allowsSelection = false
         
         //self.messagesTable.registerClass(MessageBubble.class, forCellReuseIdentifier: MessageBubble)
     }
@@ -102,8 +106,33 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
         //self.performSegue(withIdentifier: "toMessenger", sender: self)
         if self.deleteModeOn{
             print("Picked!")
-            print(self.msgList[indexPath.row])
-            self.deleteArray.append(self.msgList[indexPath.row]._id!)
+            //print(self.msgList[indexPath.row])
+            if self.deleteArray.contains(self.msgList[indexPath.row]._id!){
+            }else{
+                self.deleteArray.append(self.msgList[indexPath.row]._id!)
+                print(self.deleteArray)
+            }
+            
+        }else{
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+        view.endEditing(true)
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let currentCell = tableView.cellForRow(at: indexPath) as! UITableViewCell
+        //self.performSegue(withIdentifier: "toMessenger", sender: self)
+        if self.deleteModeOn{
+            print("Picked!")
+            //print(self.msgList[indexPath.row])
+            if self.deleteArray.contains(self.msgList[indexPath.row]._id!){
+                self.deleteArray = self.deleteArray.filter {$0 != self.msgList[indexPath.row]._id!}
+                tableView.deselectRow(at: indexPath, animated: true)
+                print(self.deleteArray)
+            }else{
+                
+            }
+            
         }else{
             tableView.deselectRow(at: indexPath, animated: true)
         }
@@ -147,7 +176,15 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
         UIView.beginAnimations("animateTextField", context: nil)
         UIView.setAnimationBeginsFromCurrentState(true)
         UIView.setAnimationDuration(moveDuration)
-        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
+        //self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
+        print(self.messageTextFieldBottom.constant)
+        print(self.messageTextFieldTop.constant)
+        self.messageTableBottom.constant -= movement
+        self.messageTextFieldTop.constant -= movement
+        //self.messageTextFieldBottom.constant -= movement
+        print(self.messageTextFieldBottom.constant)
+        print(self.messageTextFieldTop.constant)
+        view.layoutIfNeeded()
         UIView.commitAnimations()
     }
     
@@ -229,8 +266,13 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
     
     @IBAction func tappedOnTrashButton(_ sender: UIButton) {
         self.deleteModeOn = !self.deleteModeOn
+        self.messagesTable.allowsSelection = self.deleteModeOn
+        self.messagesTable.allowsMultipleSelection = self.deleteModeOn
+        self.messagesTable.allowsMultipleSelectionDuringEditing = self.deleteModeOn
         if self.deleteModeOn{
             self.deleteMsgLabel.isHidden = !self.deleteModeOn
+        }else{
+            self.deleteMsgLabel.isHidden = true
         }
         if self.deleteArray.count > 0{
             let alert = UIAlertController(title: "Do you want to delete these messages?", message: "", preferredStyle: .alert)

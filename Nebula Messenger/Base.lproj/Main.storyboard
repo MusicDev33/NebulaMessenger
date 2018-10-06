@@ -567,7 +567,7 @@
                             <constraint firstItem="Gpa-hf-7h7" firstAttribute="top" secondItem="Eca-Vf-h0K" secondAttribute="top" id="ZQp-Tl-MCt"/>
                             <constraint firstItem="Eca-Vf-h0K" firstAttribute="bottom" secondItem="5yk-FL-8qI" secondAttribute="bottom" constant="118" id="dSf-Yb-1XV"/>
                             <constraint firstItem="NYY-bY-Qgy" firstAttribute="centerX" secondItem="Eca-Vf-h0K" secondAttribute="centerX" id="jco-gT-Pa0"/>
-                            <constraint firstItem="ZO4-Xa-qBg" firstAttribute="top" secondItem="5yk-FL-8qI" secondAttribute="bottom" constant="41" id="mBz-Yu-Lb3"/>
+                            <constraint firstItem="ZO4-Xa-qBg" firstAttribute="top" secondItem="5yk-FL-8qI" secondAttribute="bottom" priority="750" constant="41" id="mBz-Yu-Lb3"/>
                             <constraint firstItem="ZO4-Xa-qBg" firstAttribute="leading" secondItem="Eca-Vf-h0K" secondAttribute="leading" constant="16" id="n70-sq-rh2"/>
                             <constraint firstItem="ZO4-Xa-qBg" firstAttribute="centerY" secondItem="2eJ-TF-GrE" secondAttribute="centerY" id="nWB-0v-RRE"/>
                             <constraint firstItem="Eca-Vf-h0K" firstAttribute="trailing" secondItem="Jn5-hW-2tZ" secondAttribute="trailing" constant="14" id="uqN-hR-ZbF"/>
@@ -577,6 +577,9 @@
                     </view>
                     <connections>
                         <outlet property="deleteMsgLabel" destination="NYY-bY-Qgy" id="Wna-Bg-ent"/>
+                        <outlet property="messageTableBottom" destination="dSf-Yb-1XV" id="srw-O4-TDl"/>
+                        <outlet property="messageTextFieldBottom" destination="8Bf-9U-uvF" id="fPi-Kg-0Q4"/>
+                        <outlet property="messageTextFieldTop" destination="mBz-Yu-Lb3" id="jCr-Xj-gY3"/>
                         <outlet property="messageTextView" destination="ZO4-Xa-qBg" id="fzo-SB-xOM"/>
                         <outlet property="messagesTable" destination="5yk-FL-8qI" id="ZrN-do-h9J"/>
                         <segue destination="4py-m5-PS5" kind="unwind" identifier="messengerVCToMainMenu" unwindAction="didUnwindFromMessengerVC:" id="yqj-0X-hkL"/>
