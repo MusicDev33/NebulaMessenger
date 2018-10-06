@@ -39,6 +39,8 @@
 		1F76C7DE2158A09E00EB6C8C /* PoolingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */; };
 		1F76C7E02158A95500EB6C8C /* CreateMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DF2158A95500EB6C8C /* CreateMessageVC.swift */; };
 		1FE4F0F721685E4F00E4EF72 /* SecretVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */; };
+		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
+		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
 		521D9F1CB2278C1EC9063910 /* Pods_Nebula_MessengerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DD9EE7AAF24FC32A1834E4 /* Pods_Nebula_MessengerTests.framework */; };
 		9C3B0985CA5BFC63A7CBB7BB /* Pods_Nebula_Messenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41745756096BA6F4D1D8B161 /* Pods_Nebula_Messenger.framework */; };
 /* End PBXBuildFile section */
@@ -101,6 +103,8 @@
 		1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolingVC.swift; sourceTree = "<group>"; };
 		1F76C7DF2158A95500EB6C8C /* CreateMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMessageVC.swift; sourceTree = "<group>"; };
 		1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretVC.swift; sourceTree = "<group>"; };
+		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
+		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
 		41745756096BA6F4D1D8B161 /* Pods_Nebula_Messenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_Messenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DA8CAA5C0A1BB47FB13F9BA /* Pods-Nebula Messenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula Messenger.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger.release.xcconfig"; sourceTree = "<group>"; };
 		8A09D3646B102188B8CFCEE4 /* Pods-Nebula MessengerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerUITests/Pods-Nebula MessengerUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -168,6 +172,7 @@
 			children = (
 				1F68B295215222D000DC9525 /* Nebula Messenger.entitlements */,
 				1F68B2672152227F00DC9525 /* AppDelegate.swift */,
+				1FE4F0F821687CF400E4EF72 /* Custom Classes */,
 				1F68B2B9215276AE00DC9525 /* ViewControllers */,
 				1F68B2B42152757800DC9525 /* Sound */,
 				1F68B2A22152366600DC9525 /* Globals */,
@@ -266,8 +271,17 @@
 				1F170F152162FD1B009673E2 /* FriendRoutes.swift */,
 				1F170F172163DBB3009673E2 /* ConversationRoutes.swift */,
 				1F170F1921647156009673E2 /* PoolRoutes.swift */,
+				1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */,
 			);
 			path = Routing;
+			sourceTree = "<group>";
+		};
+		1FE4F0F821687CF400E4EF72 /* Custom Classes */ = {
+			isa = PBXGroup;
+			children = (
+				1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */,
+			);
+			path = "Custom Classes";
 			sourceTree = "<group>";
 		};
 		F290589D164F84332EEA1EDB /* Pods */ = {
@@ -537,6 +551,7 @@
 				1FE4F0F721685E4F00E4EF72 /* SecretVC.swift in Sources */,
 				1F68B2A02152258400DC9525 /* SwiftyJSON.swift in Sources */,
 				1F68B2B22152751700DC9525 /* Routes.swift in Sources */,
+				1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */,
 				1F68B2BF2154A64D00DC9525 /* MessengerVC.swift in Sources */,
 				1F68B2C12154C1C400DC9525 /* MainMenuVC.swift in Sources */,
 				1F68B2B82152762A00DC9525 /* Utility.swift in Sources */,
@@ -555,6 +570,7 @@
 				1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */,
 				1F68B2B02152749700DC9525 /* GlobalUser.swift in Sources */,
 				1F76C7E02158A95500EB6C8C /* CreateMessageVC.swift in Sources */,
+				1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

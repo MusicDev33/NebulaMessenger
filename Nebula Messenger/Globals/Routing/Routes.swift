@@ -15,6 +15,7 @@ let messageRoot = "http://159.89.152.215:3000/messages/"
 let friendsRoot = "http://159.89.152.215:3000/friends/"
 let conversationsRoot = "http://159.89.152.215:3000/conversations/"
 let poolsRoot = "http://159.89.152.215:3000/pools/"
+let diagRoot = "http://159.89.152.215:3000/diagnostics/"
 
 
 // MARK: Messages
@@ -48,6 +49,9 @@ let deleteConvRoute = conversationsRoot + "deleteconv"
 // MARK: Pools
 let createPoolRoute = poolsRoot + "createpool"
 let getPoolsRoute = poolsRoot + "getpools"
+
+// MARK: Diagnostics Data
+let sendInfoRoute = diagRoot + "sendinfo"
 
 // For later
 func buildRequest(){

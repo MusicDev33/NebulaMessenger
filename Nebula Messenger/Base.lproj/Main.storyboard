@@ -160,18 +160,10 @@
                                     <action selector="backButtonPressed:" destination="odD-nb-Exo" eventType="touchUpInside" id="gNS-0T-cg3"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ben sucks lol" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bco-Ik-5IM">
-                                <rect key="frame" x="137" y="34" width="101" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Bco-Ik-5IM" firstAttribute="top" secondItem="LB0-wW-27V" secondAttribute="top" constant="14" id="90L-kM-S14"/>
                             <constraint firstItem="8qq-C2-X7r" firstAttribute="top" secondItem="LB0-wW-27V" secondAttribute="top" id="mQq-oQ-sUq"/>
-                            <constraint firstItem="Bco-Ik-5IM" firstAttribute="centerX" secondItem="LB0-wW-27V" secondAttribute="centerX" id="pCj-Rc-gqB"/>
                             <constraint firstItem="8qq-C2-X7r" firstAttribute="leading" secondItem="LB0-wW-27V" secondAttribute="leading" constant="16" id="rDS-UO-f3P"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="LB0-wW-27V"/>

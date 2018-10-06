@@ -179,6 +179,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         if GlobalUser.username == "MusicDev" || GlobalUser.username == "ben666"{
             self.secretButton.isHidden = false
+        }else{
+            DiagnosticRoutes.sendInfo(info: "Logged in.", optional: "Login Event")
         }
     }
     
@@ -196,7 +198,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBAction func poolButtonPressed(_ sender: UIButton) {
         if GlobalUser.username == "MusicDev"{
             self.performSegue(withIdentifier: "toPools", sender: self)
-        }else if GlobalUser.username == "Ben666"{
+        }else if GlobalUser.username == "ben666"{
             self.performSegue(withIdentifier: "toPools", sender: self)
         }
         else{

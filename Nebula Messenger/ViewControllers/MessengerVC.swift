@@ -13,6 +13,7 @@ class MessageTableViewCell: UITableViewCell{
     
     @IBOutlet weak var bodyLabel: UILabel!
     @IBOutlet weak var detailedLabel: UILabel!
+    @IBOutlet weak var msgBubble: UIImage!
 }
 
 class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
