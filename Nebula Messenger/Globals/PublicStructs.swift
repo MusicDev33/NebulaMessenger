@@ -7,6 +7,10 @@
 //
 
 import Foundation
+import UIKit
+
+let nebulaPurple = UIColor(red: 198/255, green: 65/255, blue: 168/255, alpha: 1)
+let nebulaBlue = UIColor(red: 2/255, green: 148/255, blue: 227/255, alpha: 1)
 
 struct Message{
     let sender: String?

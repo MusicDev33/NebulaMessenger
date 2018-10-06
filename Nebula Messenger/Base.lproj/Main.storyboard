@@ -499,45 +499,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5yk-FL-8qI">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5yk-FL-8qI">
                                 <rect key="frame" x="0.0" y="75" width="375" height="474"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" red="0.98042909263959388" green="0.98042909263959388" blue="0.98042909263959388" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="messageCell" rowHeight="58" id="hCe-xE-DjM" customClass="MessageTableViewCell" customModule="Nebula_Messenger" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="58"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="messageCell" rowHeight="106" id="hCe-xE-DjM" customClass="MessageBubble" customModule="Nebula_Messenger" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="106"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hCe-xE-DjM" id="QKL-3q-hSA">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="57.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="106"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p7J-oZ-8ZE" userLabel="Body">
-                                                    <rect key="frame" x="15" y="11" width="337" height="20.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V7l-Jd-Yp1" userLabel="Date">
-                                                    <rect key="frame" x="15" y="34.5" width="33" height="16"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="V7l-Jd-Yp1" secondAttribute="bottom" constant="7" id="ICA-Kr-Qos"/>
-                                                <constraint firstItem="V7l-Jd-Yp1" firstAttribute="leading" secondItem="QKL-3q-hSA" secondAttribute="leading" constant="15" id="MFw-Z9-Sh2"/>
-                                                <constraint firstItem="V7l-Jd-Yp1" firstAttribute="top" secondItem="p7J-oZ-8ZE" secondAttribute="bottom" constant="3" id="S9S-eu-ggQ"/>
-                                                <constraint firstItem="p7J-oZ-8ZE" firstAttribute="leading" secondItem="QKL-3q-hSA" secondAttribute="leadingMargin" id="gcb-nJ-Fcq"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="p7J-oZ-8ZE" secondAttribute="trailing" constant="8" id="j15-fd-TeA"/>
-                                                <constraint firstItem="p7J-oZ-8ZE" firstAttribute="top" secondItem="QKL-3q-hSA" secondAttribute="topMargin" id="lBr-y1-B9i"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
-                                        <connections>
-                                            <outlet property="bodyLabel" destination="p7J-oZ-8ZE" id="uTg-sL-Axn"/>
-                                            <outlet property="detailedLabel" destination="V7l-Jd-Yp1" id="52z-rE-Gvk"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>

@@ -13,7 +13,8 @@ class MessageTableViewCell: UITableViewCell{
     
     @IBOutlet weak var bodyLabel: UILabel!
     @IBOutlet weak var detailedLabel: UILabel!
-    @IBOutlet weak var msgBubble: UIImage!
+    @IBOutlet weak var bubbleImage: UIImageView!
+    
 }
 
 class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
@@ -53,6 +54,7 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.messagesTable.rowHeight = UITableView.automaticDimension
         self.messagesTable.allowsMultipleSelection = true
         self.messagesTable.allowsMultipleSelectionDuringEditing = true
+        self.messagesTable.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 58, right: 0)
         
         self.deleteMsgLabel.isHidden = true
         
@@ -60,6 +62,8 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }
         
         GlobalUser.currentConv = self.friend
+        
+        //self.messagesTable.registerClass(MessageBubble.class, forCellReuseIdentifier: MessageBubble)
     }
     
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int{
@@ -67,10 +71,30 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCell(withIdentifier: "messageCell", for: indexPath) as! MessageTableViewCell
-        cell.bodyLabel.text = self.msgList[indexPath.row].body
-        cell.detailedLabel.text = "Sent from " + self.msgList[indexPath.row].sender! + " on " + self.msgList[indexPath.row].dateTime!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "messageCell", for: indexPath) as! MessageBubble
+        let text = self.msgList[indexPath.row].body
+        cell.messageLabel.text = text
+        cell.bubbleWidthAnchor?.constant = findSize(text: text!, label: cell.messageLabel).width + 32
+        if self.msgList[indexPath.row].sender == GlobalUser.username{
+            cell.bubbleView.backgroundColor = nebulaPurple
+            cell.bubbleViewRightAnchor?.isActive = true
+            cell.bubbleViewLeftAnchor?.isActive = false
+        }else{
+            cell.bubbleView.backgroundColor = nebulaBlue
+            cell.bubbleViewRightAnchor?.isActive = false
+            cell.bubbleViewLeftAnchor?.isActive = true
+        }
         return cell
+    }
+    
+    func findSize(text: String, label: UILabel) -> CGRect{
+        let constraintRect = CGSize(width: 0.66 * view.frame.width,
+                                    height: .greatestFiniteMagnitude)
+        let returnRect = text.boundingRect(with: constraintRect,
+                                            options: .usesLineFragmentOrigin,
+                                            attributes: [.font: label.font],
+                                            context: nil)
+        return returnRect
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
