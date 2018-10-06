@@ -17,7 +17,8 @@ class MessageTableViewCell: UITableViewCell{
     
 }
 
-class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
+class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     var msgList = [TerseMessage]()
     
     var id = ""
@@ -29,9 +30,10 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
     var deleteModeOn = false
     var deleteArray = [String]()
     
-    @IBOutlet weak var messagesTable: UITableView!
+    //@IBOutlet weak var messagesTable: UITableView!
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var deleteMsgLabel: UILabel!
+    @IBOutlet weak var messagesCollection: UICollectionView!
     
     @IBOutlet weak var messageTableBottom: NSLayoutConstraint!
     @IBOutlet weak var messageTextFieldTop: NSLayoutConstraint!
@@ -40,12 +42,12 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.messageTextView.delegate = self
-        self.messagesTable.delegate = self
-        self.messagesTable.dataSource = self
+        //self.messagesTable.delegate = self
+        //self.messagesTable.dataSource = self
         
         RouteLogic.getMessages(id: self.id){messageList in
             self.msgList = messageList
-            self.messagesTable.reloadData()
+            self.messagesCollection.reloadData()
             self.scrollToBottom()
         }
         
@@ -53,11 +55,23 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
         messageTextView!.layer.borderColor = UIColor.lightGray.cgColor
         messageTextView.layer.cornerRadius = 10.0
         
-        self.messagesTable.estimatedRowHeight = 120.0
-        self.messagesTable.rowHeight = UITableView.automaticDimension
-        self.messagesTable.allowsMultipleSelection = true
-        self.messagesTable.allowsMultipleSelectionDuringEditing = true
-        self.messagesTable.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 58, right: 0)
+        if let collectionViewFlowLayout = messagesCollection?.collectionViewLayout as? UICollectionViewFlowLayout {
+            //collectionViewFlowLayout.estimatedItemSize = CGSize(width: view.frame.width,height: 1000)
+            // Use collectionViewFlowLayout
+            
+        }
+        var lineView = UIView(frame: CGRect(x: 0, y: self.messagesCollection.frame.origin.y, width: view.frame.width, height: 1.0))
+        lineView.layer.borderWidth = 1.0
+        lineView.layer.borderColor = UIColor.gray.cgColor
+        self.view.addSubview(lineView)
+        
+        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
+        
+//        self.messagesTable.estimatedRowHeight = 120.0
+//        self.messagesTable.rowHeight = UITableView.automaticDimension
+//        self.messagesTable.allowsMultipleSelection = true
+//        self.messagesTable.allowsMultipleSelectionDuringEditing = true
+//        self.messagesTable.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 58, right: 0)
         
         self.deleteMsgLabel.isHidden = true
         
@@ -65,20 +79,23 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }
         
         GlobalUser.currentConv = self.friend
-        self.messagesTable.allowsSelection = false
+        //self.messagesTable.allowsSelection = false
         
         //self.messagesTable.registerClass(MessageBubble.class, forCellReuseIdentifier: MessageBubble)
     }
     
-    func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.msgList.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCell(withIdentifier: "messageCell", for: indexPath) as! MessageBubble
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messageBubble", for: indexPath) as! MessageBubble
         let text = self.msgList[indexPath.row].body
+        
         cell.messageLabel.text = text
-        cell.bubbleWidthAnchor?.constant = findSize(text: text!, label: cell.messageLabel).width + 32
+        cell.bubbleWidthAnchor?.constant = findSize(text: text!, label: cell.messageLabel).width + 20
+        print(text)
+        
         if self.msgList[indexPath.row].sender == GlobalUser.username{
             cell.bubbleView.backgroundColor = nebulaPurple
             cell.bubbleViewRightAnchor?.isActive = true
@@ -88,66 +105,33 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true
         }
+        
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messageBubble", for: indexPath) as! MessageBubble
+        var height: CGFloat = 80
+        height = findSize(text: self.msgList[indexPath.row].body!, label: cell.messageLabel).height + 30
+        return CGSize(width: view.frame.width, height: height)
     }
     
     func findSize(text: String, label: UILabel) -> CGRect{
         let constraintRect = CGSize(width: 0.66 * view.frame.width,
                                     height: .greatestFiniteMagnitude)
         let returnRect = text.boundingRect(with: constraintRect,
-                                            options: .usesLineFragmentOrigin,
-                                            attributes: [.font: label.font],
-                                            context: nil)
+                                           options: .usesLineFragmentOrigin,
+                                           attributes: [.font: label.font],
+                                           context: nil)
         return returnRect
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let currentCell = tableView.cellForRow(at: indexPath) as! UITableViewCell
-        //self.performSegue(withIdentifier: "toMessenger", sender: self)
-        if self.deleteModeOn{
-            print("Picked!")
-            //print(self.msgList[indexPath.row])
-            if self.deleteArray.contains(self.msgList[indexPath.row]._id!){
-            }else{
-                self.deleteArray.append(self.msgList[indexPath.row]._id!)
-                print(self.deleteArray)
-            }
-            
-        }else{
-            tableView.deselectRow(at: indexPath, animated: true)
-        }
-        view.endEditing(true)
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let currentCell = tableView.cellForRow(at: indexPath) as! UITableViewCell
-        //self.performSegue(withIdentifier: "toMessenger", sender: self)
-        if self.deleteModeOn{
-            print("Picked!")
-            //print(self.msgList[indexPath.row])
-            if self.deleteArray.contains(self.msgList[indexPath.row]._id!){
-                self.deleteArray = self.deleteArray.filter {$0 != self.msgList[indexPath.row]._id!}
-                tableView.deselectRow(at: indexPath, animated: true)
-                print(self.deleteArray)
-            }else{
-                
-            }
-            
-        }else{
-            tableView.deselectRow(at: indexPath, animated: true)
-        }
-        view.endEditing(true)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
     
     func scrollToBottom(){
-        let numberOfSections = self.messagesTable.numberOfSections
+        let numberOfSections = self.messagesCollection.numberOfSections
         let indexPath = IndexPath(row: self.msgList.count-1, section: numberOfSections-1)
         if indexPath[1] > -1{
-            self.messagesTable.scrollToRow(at: indexPath, at: UITableView.ScrollPosition.bottom, animated: true)
+            self.messagesCollection.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.bottom, animated: true)
         }
     }
     
@@ -176,14 +160,7 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
         UIView.beginAnimations("animateTextField", context: nil)
         UIView.setAnimationBeginsFromCurrentState(true)
         UIView.setAnimationDuration(moveDuration)
-        //self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
-        print(self.messageTextFieldBottom.constant)
-        print(self.messageTextFieldTop.constant)
-        self.messageTableBottom.constant -= movement
-        self.messageTextFieldTop.constant -= movement
-        //self.messageTextFieldBottom.constant -= movement
-        print(self.messageTextFieldBottom.constant)
-        print(self.messageTextFieldTop.constant)
+        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
         view.layoutIfNeeded()
         UIView.commitAnimations()
     }
@@ -239,7 +216,7 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
                     print(jsonObject)
                     print("Success!!!")
                     //let jsonObject = JSON(Json)
-                    self.messagesTable.reloadData()
+                    self.messagesCollection.reloadData()
                     self.messageTextView.text = ""
                     SocketIOManager.sendMessage(message: [dec])
                     self.scrollToBottom()
@@ -266,9 +243,9 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
     
     @IBAction func tappedOnTrashButton(_ sender: UIButton) {
         self.deleteModeOn = !self.deleteModeOn
-        self.messagesTable.allowsSelection = self.deleteModeOn
-        self.messagesTable.allowsMultipleSelection = self.deleteModeOn
-        self.messagesTable.allowsMultipleSelectionDuringEditing = self.deleteModeOn
+        self.messagesCollection.allowsSelection = self.deleteModeOn
+        self.messagesCollection.allowsMultipleSelection = self.deleteModeOn
+        //self.messagesCollection.allowsMultipleSelectionDuringEditing = self.deleteModeOn
         if self.deleteModeOn{
             self.deleteMsgLabel.isHidden = !self.deleteModeOn
         }else{
@@ -284,12 +261,12 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
                     }
                     
                     self.deleteArray = [String]()
-                    self.messagesTable.reloadData()
+                    self.messagesCollection.reloadData()
                     self.deleteMsgLabel.isHidden = !self.deleteModeOn
                 }
             }))
             alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: {action in
-                self.messagesTable.reloadData()
+                self.messagesCollection.reloadData()
                 self.deleteArray = [String]()
                 self.deleteMsgLabel.isHidden = !self.deleteModeOn
             }))
@@ -320,7 +297,7 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
                                            read: false)
                 if msg["convId"].string! == self.involved{
                     self.msgList.append(tempMsg)
-                    self.messagesTable.reloadData()
+                    self.messagesCollection.reloadData()
                     self.scrollToBottom()
                 }
             } catch {

@@ -22,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        self.window!.tintColor = UIColor.init(red: 175/255, green: 0/255, blue: 124/255, alpha: 1)
+        
+        
         FirebaseApp.configure()
         
         Messaging.messaging().delegate = self

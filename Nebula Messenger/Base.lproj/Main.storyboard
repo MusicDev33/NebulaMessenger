@@ -499,26 +499,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5yk-FL-8qI">
-                                <rect key="frame" x="0.0" y="75" width="375" height="474"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="sectionIndexBackgroundColor" red="0.98042909263959388" green="0.98042909263959388" blue="0.98042909263959388" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="messageCell" rowHeight="106" id="hCe-xE-DjM" customClass="MessageBubble" customModule="Nebula_Messenger" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="106"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hCe-xE-DjM" id="QKL-3q-hSA">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="106"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                        <gestureRecognizers/>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="eE2-x0-ebg" id="dOj-du-itX"/>
-                                    <outlet property="delegate" destination="eE2-x0-ebg" id="V1e-NZ-Odf"/>
-                                </connections>
-                            </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2eJ-TF-GrE">
                                 <rect key="frame" x="312" y="580" width="48" height="48"/>
                                 <state key="normal" image="SendBlack"/>
@@ -552,36 +532,57 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="N00-um-FBz">
+                                <rect key="frame" x="0.0" y="92" width="375" height="455"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OlP-gl-wfo">
+                                    <size key="itemSize" width="375" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="messageBubble" id="nvJ-fA-Thd" customClass="MessageBubble" customModule="Nebula_Messenger" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="eE2-x0-ebg" id="q7F-A8-a8g"/>
+                                    <outlet property="delegate" destination="eE2-x0-ebg" id="kq7-hH-N7i"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="Jn5-hW-2tZ" firstAttribute="top" secondItem="Eca-Vf-h0K" secondAttribute="top" id="2S1-MQ-Sbz"/>
+                            <constraint firstItem="Eca-Vf-h0K" firstAttribute="trailing" secondItem="N00-um-FBz" secondAttribute="trailing" id="6vx-ys-vTo"/>
                             <constraint firstItem="Eca-Vf-h0K" firstAttribute="trailing" secondItem="2eJ-TF-GrE" secondAttribute="trailing" constant="15" id="7D4-TE-9AS"/>
-                            <constraint firstItem="Eca-Vf-h0K" firstAttribute="bottom" secondItem="ZO4-Xa-qBg" secondAttribute="bottom" constant="49" id="8Bf-9U-uvF"/>
-                            <constraint firstItem="5yk-FL-8qI" firstAttribute="top" secondItem="Eca-Vf-h0K" secondAttribute="top" constant="55" id="EZF-Ty-SuS"/>
-                            <constraint firstItem="Eca-Vf-h0K" firstAttribute="trailing" secondItem="5yk-FL-8qI" secondAttribute="trailing" id="GLH-6z-1NP"/>
-                            <constraint firstItem="5yk-FL-8qI" firstAttribute="leading" secondItem="Eca-Vf-h0K" secondAttribute="leading" id="KLG-qS-xvg"/>
+                            <constraint firstItem="ZO4-Xa-qBg" firstAttribute="centerY" secondItem="2eJ-TF-GrE" secondAttribute="centerY" id="FEq-kn-rmI"/>
                             <constraint firstItem="Gpa-hf-7h7" firstAttribute="leading" secondItem="Eca-Vf-h0K" secondAttribute="leading" constant="16" id="LBe-h1-hlU"/>
                             <constraint firstItem="NYY-bY-Qgy" firstAttribute="top" secondItem="Eca-Vf-h0K" secondAttribute="top" constant="14" id="O2C-QU-run"/>
+                            <constraint firstItem="N00-um-FBz" firstAttribute="leading" secondItem="Eca-Vf-h0K" secondAttribute="leading" id="R8T-oD-9ll"/>
+                            <constraint firstItem="Eca-Vf-h0K" firstAttribute="bottom" secondItem="ZO4-Xa-qBg" secondAttribute="bottom" constant="49" id="U53-4J-y8J"/>
                             <constraint firstItem="Gpa-hf-7h7" firstAttribute="top" secondItem="Eca-Vf-h0K" secondAttribute="top" id="ZQp-Tl-MCt"/>
-                            <constraint firstItem="Eca-Vf-h0K" firstAttribute="bottom" secondItem="5yk-FL-8qI" secondAttribute="bottom" constant="118" id="dSf-Yb-1XV"/>
+                            <constraint firstItem="ZO4-Xa-qBg" firstAttribute="top" secondItem="N00-um-FBz" secondAttribute="bottom" constant="43" id="cqN-3I-uNM"/>
                             <constraint firstItem="NYY-bY-Qgy" firstAttribute="centerX" secondItem="Eca-Vf-h0K" secondAttribute="centerX" id="jco-gT-Pa0"/>
-                            <constraint firstItem="ZO4-Xa-qBg" firstAttribute="top" secondItem="5yk-FL-8qI" secondAttribute="bottom" priority="750" constant="41" id="mBz-Yu-Lb3"/>
                             <constraint firstItem="ZO4-Xa-qBg" firstAttribute="leading" secondItem="Eca-Vf-h0K" secondAttribute="leading" constant="16" id="n70-sq-rh2"/>
-                            <constraint firstItem="ZO4-Xa-qBg" firstAttribute="centerY" secondItem="2eJ-TF-GrE" secondAttribute="centerY" id="nWB-0v-RRE"/>
+                            <constraint firstItem="Eca-Vf-h0K" firstAttribute="bottom" secondItem="N00-um-FBz" secondAttribute="bottom" constant="120" id="u51-vR-IvH"/>
                             <constraint firstItem="Eca-Vf-h0K" firstAttribute="trailing" secondItem="Jn5-hW-2tZ" secondAttribute="trailing" constant="14" id="uqN-hR-ZbF"/>
                             <constraint firstItem="Eca-Vf-h0K" firstAttribute="trailing" secondItem="ZO4-Xa-qBg" secondAttribute="trailing" constant="71" id="y2n-G1-dYh"/>
+                            <constraint firstItem="N00-um-FBz" firstAttribute="top" secondItem="Eca-Vf-h0K" secondAttribute="top" constant="72" id="yZ4-x3-3g8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Eca-Vf-h0K"/>
                     </view>
                     <connections>
                         <outlet property="deleteMsgLabel" destination="NYY-bY-Qgy" id="Wna-Bg-ent"/>
-                        <outlet property="messageTableBottom" destination="dSf-Yb-1XV" id="srw-O4-TDl"/>
-                        <outlet property="messageTextFieldBottom" destination="8Bf-9U-uvF" id="fPi-Kg-0Q4"/>
-                        <outlet property="messageTextFieldTop" destination="mBz-Yu-Lb3" id="jCr-Xj-gY3"/>
                         <outlet property="messageTextView" destination="ZO4-Xa-qBg" id="fzo-SB-xOM"/>
-                        <outlet property="messagesTable" destination="5yk-FL-8qI" id="ZrN-do-h9J"/>
+                        <outlet property="messagesCollection" destination="N00-um-FBz" id="7Ge-sm-ncj"/>
                         <segue destination="4py-m5-PS5" kind="unwind" identifier="messengerVCToMainMenu" unwindAction="didUnwindFromMessengerVC:" id="yqj-0X-hkL"/>
                     </connections>
                 </viewController>
