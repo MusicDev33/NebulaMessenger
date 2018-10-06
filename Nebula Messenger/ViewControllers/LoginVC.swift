@@ -46,6 +46,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         Messaging.messaging().subscribe(toTopic: GlobalUser.username) { error in
                             print("Subscribed to " + GlobalUser.username)
                         }
+                        self.usernameTextField.text = ""
+                        self.passwordTextField.text = ""
                         self.performSegue(withIdentifier: "toMainMenuVC", sender: self)
                     }
                 }else{

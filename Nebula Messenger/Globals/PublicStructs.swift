@@ -33,3 +33,11 @@ struct TerseMessage {
     let dateTime: String?
     let read: Bool?
 }
+
+struct PublicPool {
+    let coordinates: [Double]?
+    let poolId: String?
+    let name: String?
+    let connectionLimit: Int?
+    let usersConnected: [String]?
+}

@@ -23,6 +23,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @IBOutlet weak var addFriendsButton: UIButton!
     
+    @IBOutlet weak var featureMessageLabel: UILabel!
+    @IBOutlet weak var secretButton: UIButton!
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if addFriendsMode{
@@ -175,10 +177,14 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         RouteLogic.getFriendsAndConversations {
             self.configureSearchController()
         }
+        if GlobalUser.username == "MusicDev" || GlobalUser.username == "ben666"{
+            self.secretButton.isHidden = false
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        GlobalUser.currentConv = ""
         self.convTable.reloadData()
     }
     
@@ -188,7 +194,18 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     @IBAction func poolButtonPressed(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "toPools", sender: self)
+        if GlobalUser.username == "MusicDev"{
+            self.performSegue(withIdentifier: "toPools", sender: self)
+        }else if GlobalUser.username == "Ben666"{
+            self.performSegue(withIdentifier: "toPools", sender: self)
+        }
+        else{
+            self.featureMessageLabel.isHidden = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.featureMessageLabel.isHidden = true
+            }
+        }
+        
     }
     
     @IBAction func editButtonTapped(_ sender: UIButton) {
@@ -206,6 +223,15 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.searchResults = []
         self.convTable.reloadData()
     }
+    
+    @IBAction func secretButtonPressed(_ sender: UIButton) {
+        // Just in case!!!
+        if GlobalUser.username == "MusicDev" || GlobalUser.username == "ben666"{
+            self.performSegue(withIdentifier: "toSecretPage", sender: self)
+        }
+        
+    }
+    
     
     //MARK: Sockets
     func openSocket(completion: () -> Void) {
@@ -251,6 +277,11 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     // Unwinding
+    /*
+     The more of these I add, the more I get the feeling I'm doing something wrong/dumb...
+     I bet I could probably collapse these into one or two functions,
+     I'll do some research and find out.
+    */
     @IBAction func didUnwindFromMessengerVC(_ sender: UIStoryboardSegue){
         guard sender.source is MessengerVC else {return}
     }
@@ -265,6 +296,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @IBAction func didUnwindFromProfileView(_ sender: UIStoryboardSegue){
         guard sender.source is MyProfileVC else {return}
+    }
+    
+    @IBAction func didUnwindFromSecretView(_ sender: UIStoryboardSegue){
+        guard sender.source is SecretVC else {return}
     }
 
 }

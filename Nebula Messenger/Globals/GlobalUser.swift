@@ -9,6 +9,8 @@
 import Foundation
 
 class GlobalUser: NSObject {
+    static var showNotification = true
+    
     static var username = ""
     
     static var name = ""
@@ -26,6 +28,12 @@ class GlobalUser: NSObject {
     
     // Only Conv Names: Ben, Tim, Dan
     static var convNames = [String]()
+    
+    // Conv Name then Boolean: Ben: true
+    // This will be for muting conversations in the future
+    static var notificationDict = [String: Bool]()
+    
+    static var currentConv = ""
     
     
     // MARK: Methods

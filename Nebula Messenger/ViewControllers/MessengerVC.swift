@@ -58,6 +58,7 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.openSocket {
         }
         
+        GlobalUser.currentConv = self.friend
     }
     
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int{
@@ -197,6 +198,7 @@ class MessengerVC: UIViewController, UITableViewDataSource, UITableViewDelegate,
     }
     
     @IBAction func backButton(_ sender: UIButton) {
+        GlobalUser.currentConv = ""
         self.performSegue(withIdentifier: "messengerVCToMainMenu", sender: self)
     }
     

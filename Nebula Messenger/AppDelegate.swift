@@ -149,10 +149,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         // Print full message.
-        print(userInfo)
-        
-        // Change this to your preferred presentation option
-        completionHandler([.alert, .badge, .sound])
+        print("REMOTE")
+        guard
+            let aps = userInfo[AnyHashable("aps")] as? NSDictionary,
+            let alert = aps["alert"] as? NSDictionary,
+            let body = alert["body"] as? String,
+            let title = alert["title"] as? String
+            else {
+                // handle any error here
+                return
+        }
+        print(title)
+        if (title != GlobalUser.currentConv){
+            completionHandler([.alert, .badge, .sound])
+        }else{
+            completionHandler([])
+        }
     }
     
     

@@ -10,6 +10,8 @@
 		1314EDA20D1149BD02F576FE /* Pods_Nebula_MessengerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1801EBBDFE532B9E5184890A /* Pods_Nebula_MessengerUITests.framework */; };
 		1F170F162162FD1B009673E2 /* FriendRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F170F152162FD1B009673E2 /* FriendRoutes.swift */; };
 		1F170F182163DBB3009673E2 /* ConversationRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F170F172163DBB3009673E2 /* ConversationRoutes.swift */; };
+		1F170F1A21647157009673E2 /* PoolRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F170F1921647156009673E2 /* PoolRoutes.swift */; };
+		1F170F1C216718E5009673E2 /* RetroTone.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1F170F1B216718B8009673E2 /* RetroTone.caf */; };
 		1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2672152227F00DC9525 /* AppDelegate.swift */; };
 		1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2692152227F00DC9525 /* LoginVC.swift */; };
 		1F68B26D2152227F00DC9525 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B26B2152227F00DC9525 /* Main.storyboard */; };
@@ -32,10 +34,11 @@
 		1F68B2BF2154A64D00DC9525 /* MessengerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2BE2154A64D00DC9525 /* MessengerVC.swift */; };
 		1F68B2C12154C1C400DC9525 /* MainMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2C02154C1C400DC9525 /* MainMenuVC.swift */; };
 		1F68B2C4215583AF00DC9525 /* RouteLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2C3215583AF00DC9525 /* RouteLogic.swift */; };
-		1F76C7DA215859C200EB6C8C /* RetroTone.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B2B32152757300DC9525 /* RetroTone.caf */; };
+		1F76C7DA215859C200EB6C8C /* RetroTone1.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B2B32152757300DC9525 /* RetroTone1.caf */; };
 		1F76C7DC215899B500EB6C8C /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DB215899B500EB6C8C /* MyProfileVC.swift */; };
 		1F76C7DE2158A09E00EB6C8C /* PoolingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */; };
 		1F76C7E02158A95500EB6C8C /* CreateMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DF2158A95500EB6C8C /* CreateMessageVC.swift */; };
+		1FE4F0F721685E4F00E4EF72 /* SecretVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */; };
 		521D9F1CB2278C1EC9063910 /* Pods_Nebula_MessengerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DD9EE7AAF24FC32A1834E4 /* Pods_Nebula_MessengerTests.framework */; };
 		9C3B0985CA5BFC63A7CBB7BB /* Pods_Nebula_Messenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41745756096BA6F4D1D8B161 /* Pods_Nebula_Messenger.framework */; };
 /* End PBXBuildFile section */
@@ -61,6 +64,8 @@
 		1801EBBDFE532B9E5184890A /* Pods_Nebula_MessengerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_MessengerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F170F152162FD1B009673E2 /* FriendRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRoutes.swift; sourceTree = "<group>"; };
 		1F170F172163DBB3009673E2 /* ConversationRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationRoutes.swift; sourceTree = "<group>"; };
+		1F170F1921647156009673E2 /* PoolRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolRoutes.swift; sourceTree = "<group>"; };
+		1F170F1B216718B8009673E2 /* RetroTone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RetroTone.caf; sourceTree = "<group>"; };
 		1F68B2642152227F00DC9525 /* Nebula Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nebula Messenger.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F68B2672152227F00DC9525 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F68B2692152227F00DC9525 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -84,7 +89,7 @@
 		1F68B2AD2152740700DC9525 /* SocketIOManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
 		1F68B2AF2152749700DC9525 /* GlobalUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalUser.swift; sourceTree = "<group>"; };
 		1F68B2B12152751700DC9525 /* Routes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routes.swift; sourceTree = "<group>"; };
-		1F68B2B32152757300DC9525 /* RetroTone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RetroTone.caf; sourceTree = "<group>"; };
+		1F68B2B32152757300DC9525 /* RetroTone1.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RetroTone1.caf; sourceTree = "<group>"; };
 		1F68B2B5215275CB00DC9525 /* PublicStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicStructs.swift; sourceTree = "<group>"; };
 		1F68B2B72152762A00DC9525 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		1F68B2BA2152789B00DC9525 /* RouteUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteUtils.swift; sourceTree = "<group>"; };
@@ -95,6 +100,7 @@
 		1F76C7DB215899B500EB6C8C /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
 		1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolingVC.swift; sourceTree = "<group>"; };
 		1F76C7DF2158A95500EB6C8C /* CreateMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMessageVC.swift; sourceTree = "<group>"; };
+		1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretVC.swift; sourceTree = "<group>"; };
 		41745756096BA6F4D1D8B161 /* Pods_Nebula_Messenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_Messenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DA8CAA5C0A1BB47FB13F9BA /* Pods-Nebula Messenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula Messenger.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger.release.xcconfig"; sourceTree = "<group>"; };
 		8A09D3646B102188B8CFCEE4 /* Pods-Nebula MessengerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerUITests/Pods-Nebula MessengerUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -230,7 +236,8 @@
 		1F68B2B42152757800DC9525 /* Sound */ = {
 			isa = PBXGroup;
 			children = (
-				1F68B2B32152757300DC9525 /* RetroTone.caf */,
+				1F170F1B216718B8009673E2 /* RetroTone.caf */,
+				1F68B2B32152757300DC9525 /* RetroTone1.caf */,
 			);
 			path = Sound;
 			sourceTree = "<group>";
@@ -238,6 +245,7 @@
 		1F68B2B9215276AE00DC9525 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */,
 				1F68B2BC2152DD1300DC9525 /* RegisterVC.swift */,
 				1F68B2692152227F00DC9525 /* LoginVC.swift */,
 				1F68B2C02154C1C400DC9525 /* MainMenuVC.swift */,
@@ -257,6 +265,7 @@
 				1F68B2C3215583AF00DC9525 /* RouteLogic.swift */,
 				1F170F152162FD1B009673E2 /* FriendRoutes.swift */,
 				1F170F172163DBB3009673E2 /* ConversationRoutes.swift */,
+				1F170F1921647156009673E2 /* PoolRoutes.swift */,
 			);
 			path = Routing;
 			sourceTree = "<group>";
@@ -408,7 +417,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F76C7DA215859C200EB6C8C /* RetroTone.caf in Resources */,
+				1F170F1C216718E5009673E2 /* RetroTone.caf in Resources */,
+				1F76C7DA215859C200EB6C8C /* RetroTone1.caf in Resources */,
 				1F68B2722152228100DC9525 /* LaunchScreen.storyboard in Resources */,
 				1F68B26F2152228100DC9525 /* Assets.xcassets in Resources */,
 				1F68B26D2152227F00DC9525 /* Main.storyboard in Resources */,
@@ -524,6 +534,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FE4F0F721685E4F00E4EF72 /* SecretVC.swift in Sources */,
 				1F68B2A02152258400DC9525 /* SwiftyJSON.swift in Sources */,
 				1F68B2B22152751700DC9525 /* Routes.swift in Sources */,
 				1F68B2BF2154A64D00DC9525 /* MessengerVC.swift in Sources */,
@@ -535,6 +546,7 @@
 				1F68B2BD2152DD1300DC9525 /* RegisterVC.swift in Sources */,
 				1F68B2A42152367A00DC9525 /* FirebaseGlobals.swift in Sources */,
 				1F68B2BB2152789B00DC9525 /* RouteUtils.swift in Sources */,
+				1F170F1A21647157009673E2 /* PoolRoutes.swift in Sources */,
 				1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */,
 				1F76C7DE2158A09E00EB6C8C /* PoolingVC.swift in Sources */,
 				1F68B2B6215275CB00DC9525 /* PublicStructs.swift in Sources */,
