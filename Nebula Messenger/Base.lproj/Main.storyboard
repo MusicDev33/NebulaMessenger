@@ -499,13 +499,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2eJ-TF-GrE">
-                                <rect key="frame" x="312" y="580" width="48" height="48"/>
-                                <state key="normal" image="SendBlack"/>
-                                <connections>
-                                    <action selector="sendMessage:" destination="eE2-x0-ebg" eventType="touchUpInside" id="gsp-NG-0KC"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gpa-hf-7h7" userLabel="BackButton">
                                 <rect key="frame" x="16" y="20" width="48" height="48"/>
                                 <state key="normal" image="BackArrowBlack"/>
@@ -520,12 +513,6 @@
                                     <action selector="tappedOnTrashButton:" destination="eE2-x0-ebg" eventType="touchUpInside" id="6fe-Kk-pty"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZO4-Xa-qBg">
-                                <rect key="frame" x="16" y="590" width="288" height="28"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes"/>
-                            </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deleting Messages" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYY-bY-Qgy">
                                 <rect key="frame" x="114.5" y="34" width="146" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -533,7 +520,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="N00-um-FBz">
-                                <rect key="frame" x="0.0" y="92" width="375" height="455"/>
+                                <rect key="frame" x="0.0" y="92" width="375" height="491"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OlP-gl-wfo">
                                     <size key="itemSize" width="375" height="50"/>
@@ -556,30 +543,58 @@
                                     <outlet property="delegate" destination="eE2-x0-ebg" id="kq7-hH-N7i"/>
                                 </connections>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KHV-wV-OL9">
+                                <rect key="frame" x="0.0" y="583" width="375" height="84"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2eJ-TF-GrE" userLabel="Send">
+                                        <rect key="frame" x="319" y="18" width="48" height="48"/>
+                                        <state key="normal" image="SendBlack"/>
+                                        <connections>
+                                            <action selector="sendMessage:" destination="eE2-x0-ebg" eventType="touchUpInside" id="gsp-NG-0KC"/>
+                                        </connections>
+                                    </button>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZO4-Xa-qBg">
+                                        <rect key="frame" x="8" y="28" width="288" height="28"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes"/>
+                                    </textView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.93030218908629436" green="0.93030218908629436" blue="0.93030218908629436" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="2eJ-TF-GrE" firstAttribute="leading" secondItem="ZO4-Xa-qBg" secondAttribute="trailing" constant="23" id="1WU-gf-QMK"/>
+                                    <constraint firstAttribute="trailing" secondItem="2eJ-TF-GrE" secondAttribute="trailing" constant="8" id="6qQ-Mo-suu"/>
+                                    <constraint firstItem="2eJ-TF-GrE" firstAttribute="centerY" secondItem="KHV-wV-OL9" secondAttribute="centerY" id="6ws-og-R1a"/>
+                                    <constraint firstItem="ZO4-Xa-qBg" firstAttribute="centerY" secondItem="KHV-wV-OL9" secondAttribute="centerY" id="VUM-lB-jJJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="ZO4-Xa-qBg" secondAttribute="bottom" constant="28" id="WtJ-Qh-LSI"/>
+                                    <constraint firstItem="ZO4-Xa-qBg" firstAttribute="top" secondItem="KHV-wV-OL9" secondAttribute="top" constant="28" id="XOF-1x-2Ht"/>
+                                    <constraint firstAttribute="height" constant="84" id="Yn9-Xi-o9d"/>
+                                    <constraint firstItem="ZO4-Xa-qBg" firstAttribute="leading" secondItem="KHV-wV-OL9" secondAttribute="leading" constant="8" id="le9-ob-KbD"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="Jn5-hW-2tZ" firstAttribute="top" secondItem="Eca-Vf-h0K" secondAttribute="top" id="2S1-MQ-Sbz"/>
                             <constraint firstItem="Eca-Vf-h0K" firstAttribute="trailing" secondItem="N00-um-FBz" secondAttribute="trailing" id="6vx-ys-vTo"/>
-                            <constraint firstItem="Eca-Vf-h0K" firstAttribute="trailing" secondItem="2eJ-TF-GrE" secondAttribute="trailing" constant="15" id="7D4-TE-9AS"/>
-                            <constraint firstItem="ZO4-Xa-qBg" firstAttribute="centerY" secondItem="2eJ-TF-GrE" secondAttribute="centerY" id="FEq-kn-rmI"/>
+                            <constraint firstItem="Eca-Vf-h0K" firstAttribute="bottom" secondItem="N00-um-FBz" secondAttribute="bottom" constant="84" id="8JP-xd-I75"/>
                             <constraint firstItem="Gpa-hf-7h7" firstAttribute="leading" secondItem="Eca-Vf-h0K" secondAttribute="leading" constant="16" id="LBe-h1-hlU"/>
                             <constraint firstItem="NYY-bY-Qgy" firstAttribute="top" secondItem="Eca-Vf-h0K" secondAttribute="top" constant="14" id="O2C-QU-run"/>
                             <constraint firstItem="N00-um-FBz" firstAttribute="leading" secondItem="Eca-Vf-h0K" secondAttribute="leading" id="R8T-oD-9ll"/>
-                            <constraint firstItem="Eca-Vf-h0K" firstAttribute="bottom" secondItem="ZO4-Xa-qBg" secondAttribute="bottom" constant="49" id="U53-4J-y8J"/>
                             <constraint firstItem="Gpa-hf-7h7" firstAttribute="top" secondItem="Eca-Vf-h0K" secondAttribute="top" id="ZQp-Tl-MCt"/>
-                            <constraint firstItem="ZO4-Xa-qBg" firstAttribute="top" secondItem="N00-um-FBz" secondAttribute="bottom" constant="43" id="cqN-3I-uNM"/>
+                            <constraint firstItem="Eca-Vf-h0K" firstAttribute="bottom" secondItem="KHV-wV-OL9" secondAttribute="bottom" id="a7N-YV-E9z"/>
+                            <constraint firstItem="KHV-wV-OL9" firstAttribute="leading" secondItem="Eca-Vf-h0K" secondAttribute="leading" id="fma-Hl-Ocx"/>
                             <constraint firstItem="NYY-bY-Qgy" firstAttribute="centerX" secondItem="Eca-Vf-h0K" secondAttribute="centerX" id="jco-gT-Pa0"/>
-                            <constraint firstItem="ZO4-Xa-qBg" firstAttribute="leading" secondItem="Eca-Vf-h0K" secondAttribute="leading" constant="16" id="n70-sq-rh2"/>
-                            <constraint firstItem="Eca-Vf-h0K" firstAttribute="bottom" secondItem="N00-um-FBz" secondAttribute="bottom" constant="120" id="u51-vR-IvH"/>
                             <constraint firstItem="Eca-Vf-h0K" firstAttribute="trailing" secondItem="Jn5-hW-2tZ" secondAttribute="trailing" constant="14" id="uqN-hR-ZbF"/>
-                            <constraint firstItem="Eca-Vf-h0K" firstAttribute="trailing" secondItem="ZO4-Xa-qBg" secondAttribute="trailing" constant="71" id="y2n-G1-dYh"/>
+                            <constraint firstItem="Eca-Vf-h0K" firstAttribute="trailing" secondItem="KHV-wV-OL9" secondAttribute="trailing" id="v9Q-Lp-UNh"/>
                             <constraint firstItem="N00-um-FBz" firstAttribute="top" secondItem="Eca-Vf-h0K" secondAttribute="top" constant="72" id="yZ4-x3-3g8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Eca-Vf-h0K"/>
                     </view>
                     <connections>
+                        <outlet property="bottomView" destination="KHV-wV-OL9" id="cqL-8g-ywK"/>
+                        <outlet property="bottomViewBottomAnchor" destination="a7N-YV-E9z" id="say-6D-9fx"/>
                         <outlet property="deleteMsgLabel" destination="NYY-bY-Qgy" id="Wna-Bg-ent"/>
                         <outlet property="messageTextView" destination="ZO4-Xa-qBg" id="fzo-SB-xOM"/>
                         <outlet property="messagesCollection" destination="N00-um-FBz" id="7Ge-sm-ncj"/>

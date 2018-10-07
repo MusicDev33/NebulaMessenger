@@ -9,14 +9,6 @@
 import UIKit
 import Alamofire
 
-class MessageTableViewCell: UITableViewCell{
-    
-    @IBOutlet weak var bodyLabel: UILabel!
-    @IBOutlet weak var detailedLabel: UILabel!
-    @IBOutlet weak var bubbleImage: UIImageView!
-    
-}
-
 class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var msgList = [TerseMessage]()
@@ -29,21 +21,22 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     
     var deleteModeOn = false
     var deleteArray = [String]()
+    var bottomLineView = UIView()
     
     //@IBOutlet weak var messagesTable: UITableView!
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var deleteMsgLabel: UILabel!
     @IBOutlet weak var messagesCollection: UICollectionView!
     
-    @IBOutlet weak var messageTableBottom: NSLayoutConstraint!
-    @IBOutlet weak var messageTextFieldTop: NSLayoutConstraint!
-    @IBOutlet weak var messageTextFieldBottom: NSLayoutConstraint!
+    
+    @IBOutlet weak var bottomView: UIView!
+    
+    @IBOutlet weak var bottomViewBottomAnchor: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.messageTextView.delegate = self
-        //self.messagesTable.delegate = self
-        //self.messagesTable.dataSource = self
         
         RouteLogic.getMessages(id: self.id){messageList in
             self.msgList = messageList
@@ -55,23 +48,23 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         messageTextView!.layer.borderColor = UIColor.lightGray.cgColor
         messageTextView.layer.cornerRadius = 10.0
         
-        if let collectionViewFlowLayout = messagesCollection?.collectionViewLayout as? UICollectionViewFlowLayout {
-            //collectionViewFlowLayout.estimatedItemSize = CGSize(width: view.frame.width,height: 1000)
-            // Use collectionViewFlowLayout
-            
-        }
+        self.setupKeyboardObservers()
+        
+        //Adding lines that make it look good
+        //Top line
         var lineView = UIView(frame: CGRect(x: 0, y: self.messagesCollection.frame.origin.y, width: view.frame.width, height: 1.0))
         lineView.layer.borderWidth = 1.0
         lineView.layer.borderColor = UIColor.gray.cgColor
         self.view.addSubview(lineView)
         
-        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
+        //Bottom Line lol
+        bottomLineView = UIView(frame: CGRect(x: 0, y: self.bottomView.frame.origin.y, width: view.frame.width, height: 1.0))
+        bottomLineView.layer.borderWidth = 1.0
+        bottomLineView.layer.borderColor = UIColor.gray.cgColor
+        self.view.addSubview(bottomLineView)
         
-//        self.messagesTable.estimatedRowHeight = 120.0
-//        self.messagesTable.rowHeight = UITableView.automaticDimension
-//        self.messagesTable.allowsMultipleSelection = true
-//        self.messagesTable.allowsMultipleSelectionDuringEditing = true
-//        self.messagesTable.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 58, right: 0)
+        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        self.messagesCollection.keyboardDismissMode = .interactive
         
         self.deleteMsgLabel.isHidden = true
         
@@ -79,9 +72,10 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         }
         
         GlobalUser.currentConv = self.friend
-        //self.messagesTable.allowsSelection = false
-        
-        //self.messagesTable.registerClass(MessageBubble.class, forCellReuseIdentifier: MessageBubble)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -126,13 +120,38 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         return returnRect
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.view.endEditing(true)
+    }
+    
     
     func scrollToBottom(){
-        let numberOfSections = self.messagesCollection.numberOfSections
-        let indexPath = IndexPath(row: self.msgList.count-1, section: numberOfSections-1)
-        if indexPath[1] > -1{
-            self.messagesCollection.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.bottom, animated: true)
+        self.messagesCollection?.scrollToItem(at: IndexPath(item: self.msgList.count-1, section: 0), at: UICollectionView.ScrollPosition.top, animated: false)
+        /*
+        var item = self.messagesCollection(self.messagesCollection!, numberOfItemsInSection: 0) - 1
+        let lastItemIndex = NSIndexPath(item: self.msgList.count - 1, section: 0)
+        self.messagesCollection?.scrollToItem(at: lastItemIndex as IndexPath, at: UICollectionView.ScrollPosition.top, animated: true)*/
+        
+    }
+    
+    func scrollToBottomAnimated(animated: Bool) {
+        guard self.messagesCollection.numberOfSections > 0 else{
+            return
         }
+        
+        let items = self.messagesCollection.numberOfItems(inSection: 0)
+        if items == 0 { return }
+        
+        let collectionViewContentHeight = self.messagesCollection.collectionViewLayout.collectionViewContentSize.height
+        let isContentTooSmall: Bool = (collectionViewContentHeight < self.messagesCollection.bounds.size.height)
+        
+        if isContentTooSmall {
+            self.messagesCollection.scrollRectToVisible(CGRect(x: 0, y: collectionViewContentHeight - 1, width: 1, height: 1), animated: animated)
+            return
+        }
+        
+        self.messagesCollection.scrollToItem(at: NSIndexPath(item: items - 1, section: 0) as IndexPath, at: .top, animated: animated)
+        
     }
     
     
@@ -146,23 +165,40 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        moveTextView(textView, moveDistance: -210, up: true)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        moveTextView(textView, moveDistance: 210, up: true)
     }
     
-    func moveTextView(_ textView: UITextView, moveDistance: Int, up: Bool) {
-        let moveDuration = 0.3
-        let movement: CGFloat = CGFloat(up ? moveDistance : -moveDistance)
+    func setupKeyboardObservers(){
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
-        UIView.beginAnimations("animateTextField", context: nil)
-        UIView.setAnimationBeginsFromCurrentState(true)
-        UIView.setAnimationDuration(moveDuration)
-        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
-        view.layoutIfNeeded()
-        UIView.commitAnimations()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func handleKeyboardWillShow(notification: NSNotification){
+        print("HHOHOHOH")
+        let keyboardFrame: CGRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect)
+        
+        let keyboardDuration: Double = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double)
+        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: keyboardFrame.height+8, right: 0)
+        
+        self.bottomViewBottomAnchor?.constant += keyboardFrame.height
+        self.bottomLineView.frame.origin.y -= keyboardFrame.height
+        UIView.animate(withDuration: keyboardDuration){
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    
+    @objc func handleKeyboardWillHide(notification: NSNotification){
+        let keyboardDuration: Double = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double)
+        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        self.bottomViewBottomAnchor?.constant = 0
+        self.bottomLineView.frame.origin.y = self.view.frame.height - self.bottomView.frame.height
+        UIView.animate(withDuration: keyboardDuration){
+            self.view.layoutIfNeeded()
+        }
     }
     
     
@@ -213,13 +249,10 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                 switch response.result{
                 case .success(let Json):
                     let jsonObject = JSON(Json)
-                    print(jsonObject)
-                    print("Success!!!")
                     //let jsonObject = JSON(Json)
                     self.messagesCollection.reloadData()
                     self.messageTextView.text = ""
                     SocketIOManager.sendMessage(message: [dec])
-                    self.scrollToBottom()
                     if jsonObject["id"].exists(){
                         self.id = jsonObject["id"].string!
                         GlobalUser.addToConvNames(convName: self.friend, id: self.id, involved: self.involved)
@@ -274,20 +307,12 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             self.present(alert, animated: true)
         }
     }
-    /*
-    @IBAction func tappedOnScreen(_ sender: UITapGestureRecognizer) {
-        print("Tapped")
-        view.endEditing(true)
-    }*/
     
     //MARK: Sockets
     func openSocket(completion: () -> Void) {
         SocketIOManager.socket.on("message") { ( data, ack) -> Void in
             guard let parsedData = data[0] as? String else { return }
             let msg = JSON.init(parseJSON: parsedData)
-            print("Socket Beginning")
-            // print(parsedData)
-            // print(msg)
             do {
                 
                 let tempMsg = TerseMessage(_id: "", //Fix this
@@ -298,7 +323,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                 if msg["convId"].string! == self.involved{
                     self.msgList.append(tempMsg)
                     self.messagesCollection.reloadData()
-                    self.scrollToBottom()
+                    //self.scrollToBottomAnimated(animated: true)
                 }
             } catch {
                 print(msg)
