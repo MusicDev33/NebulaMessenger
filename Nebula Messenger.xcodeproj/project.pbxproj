@@ -44,6 +44,7 @@
 		1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */; };
 		1FE4F101216B139200E4EF72 /* FeedbackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F100216B139200E4EF72 /* FeedbackVC.swift */; };
 		1FE4F103216CA86C00E4EF72 /* PoolChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F102216CA86C00E4EF72 /* PoolChatCell.swift */; };
+		1FE4F105216D321A00E4EF72 /* PoolChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F104216D321A00E4EF72 /* PoolChatVC.swift */; };
 		521D9F1CB2278C1EC9063910 /* Pods_Nebula_MessengerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DD9EE7AAF24FC32A1834E4 /* Pods_Nebula_MessengerTests.framework */; };
 		9C3B0985CA5BFC63A7CBB7BB /* Pods_Nebula_Messenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41745756096BA6F4D1D8B161 /* Pods_Nebula_Messenger.framework */; };
 /* End PBXBuildFile section */
@@ -111,6 +112,7 @@
 		1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		1FE4F100216B139200E4EF72 /* FeedbackVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVC.swift; sourceTree = "<group>"; };
 		1FE4F102216CA86C00E4EF72 /* PoolChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolChatCell.swift; sourceTree = "<group>"; };
+		1FE4F104216D321A00E4EF72 /* PoolChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolChatVC.swift; sourceTree = "<group>"; };
 		41745756096BA6F4D1D8B161 /* Pods_Nebula_Messenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_Messenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DA8CAA5C0A1BB47FB13F9BA /* Pods-Nebula Messenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula Messenger.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger.release.xcconfig"; sourceTree = "<group>"; };
 		8A09D3646B102188B8CFCEE4 /* Pods-Nebula MessengerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerUITests/Pods-Nebula MessengerUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -263,8 +265,9 @@
 				1F68B2C02154C1C400DC9525 /* MainMenuVC.swift */,
 				1F68B2BE2154A64D00DC9525 /* MessengerVC.swift */,
 				1F76C7DB215899B500EB6C8C /* MyProfileVC.swift */,
-				1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */,
 				1F76C7DF2158A95500EB6C8C /* CreateMessageVC.swift */,
+				1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */,
+				1FE4F104216D321A00E4EF72 /* PoolChatVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -578,6 +581,7 @@
 				1F68B2BD2152DD1300DC9525 /* RegisterVC.swift in Sources */,
 				1F68B2A42152367A00DC9525 /* FirebaseGlobals.swift in Sources */,
 				1F68B2BB2152789B00DC9525 /* RouteUtils.swift in Sources */,
+				1FE4F105216D321A00E4EF72 /* PoolChatVC.swift in Sources */,
 				1FE4F103216CA86C00E4EF72 /* PoolChatCell.swift in Sources */,
 				1F170F1A21647157009673E2 /* PoolRoutes.swift in Sources */,
 				1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */,

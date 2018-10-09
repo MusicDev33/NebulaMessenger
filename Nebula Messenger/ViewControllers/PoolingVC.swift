@@ -149,7 +149,7 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = self.poolTable.dequeueReusableCell(withReuseIdentifier: "poolCell",for: indexPath) as! PoolChatCell
-        
+        self.performSegue(withIdentifier: "toPoolChat", sender: self)
     }
     
     
@@ -230,14 +230,9 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     @IBAction func swipedRight(_ sender: UISwipeGestureRecognizer) {
         self.performSegue(withIdentifier: "unwindToMainMenuFromPools", sender: self)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    @IBAction func didUnwindFromPoolChat(_ sender: UIStoryboardSegue){
+        guard sender.source is PoolChatVC else {return}
     }
-    */
 
 }
