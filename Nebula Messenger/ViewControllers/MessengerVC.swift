@@ -33,15 +33,23 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     
     @IBOutlet weak var bottomViewBottomAnchor: NSLayoutConstraint!
     
+    @IBOutlet weak var sendButton: UIButton!
+    
+    var didScroll = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.messageTextView.delegate = self
         
+        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        self.messagesCollection.keyboardDismissMode = .interactive
+        
         RouteLogic.getMessages(id: self.id){messageList in
             self.msgList = messageList
             self.messagesCollection.reloadData()
-            self.scrollToBottom()
+            self.messagesCollection.layoutIfNeeded()
+            //self.scrollToBottom()
         }
         
         messageTextView!.layer.borderWidth = 1
@@ -63,15 +71,33 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         bottomLineView.layer.borderColor = UIColor.gray.cgColor
         self.view.addSubview(bottomLineView)
         
-        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        self.messagesCollection.keyboardDismissMode = .interactive
-        
         self.deleteMsgLabel.isHidden = true
         
         self.openSocket {
         }
         
+        self.sendButton.isEnabled = false
+        
         GlobalUser.currentConv = self.friend
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.messagesCollection.layoutIfNeeded()
+    }
+    
+    override func viewDidLayoutSubviews(){
+        super.viewDidLayoutSubviews()
+        self.messagesCollection.layoutIfNeeded()
+        if !didScroll{
+            self.scrollToBottom()
+            didScroll = true
+        }
+        
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.scrollToBottom()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -88,14 +114,13 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         
         cell.messageLabel.text = text
         cell.bubbleWidthAnchor?.constant = findSize(text: text!, label: cell.messageLabel).width + 20
-        print(text)
         
         if self.msgList[indexPath.row].sender == GlobalUser.username{
-            cell.bubbleView.backgroundColor = nebulaPurple
+            cell.bubbleView.backgroundColor = userTextColor
             cell.bubbleViewRightAnchor?.isActive = true
             cell.bubbleViewLeftAnchor?.isActive = false
         }else{
-            cell.bubbleView.backgroundColor = nebulaBlue
+            cell.bubbleView.backgroundColor = otherTextColor
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true
         }
@@ -122,38 +147,21 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.view.endEditing(true)
+        print(self.messagesCollection.contentOffset)
+        print(self.messagesCollection.contentSize.height)
+        print(self.messagesCollection.frame.height)
     }
     
-    
-    func scrollToBottom(){
-        self.messagesCollection?.scrollToItem(at: IndexPath(item: self.msgList.count-1, section: 0), at: UICollectionView.ScrollPosition.top, animated: false)
-        /*
-        var item = self.messagesCollection(self.messagesCollection!, numberOfItemsInSection: 0) - 1
-        let lastItemIndex = NSIndexPath(item: self.msgList.count - 1, section: 0)
-        self.messagesCollection?.scrollToItem(at: lastItemIndex as IndexPath, at: UICollectionView.ScrollPosition.top, animated: true)*/
-        
-    }
-    
-    func scrollToBottomAnimated(animated: Bool) {
-        guard self.messagesCollection.numberOfSections > 0 else{
-            return
+    func scrollToBottom() {
+        DispatchQueue.main.async {
+            self.messagesCollection.layoutIfNeeded()
+            var scrollToY = self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + 8
+            
+            let contentPoint = CGPoint(x: 0, y: scrollToY)
+            self.messagesCollection.setContentOffset(contentPoint, animated: false)
+            //self.messagesCollection?.scrollToItem(at: IndexPath(item: self.msgList.count-1, section: 0), at: UICollectionView.ScrollPosition.bottom, animated: true)
         }
-        
-        let items = self.messagesCollection.numberOfItems(inSection: 0)
-        if items == 0 { return }
-        
-        let collectionViewContentHeight = self.messagesCollection.collectionViewLayout.collectionViewContentSize.height
-        let isContentTooSmall: Bool = (collectionViewContentHeight < self.messagesCollection.bounds.size.height)
-        
-        if isContentTooSmall {
-            self.messagesCollection.scrollRectToVisible(CGRect(x: 0, y: collectionViewContentHeight - 1, width: 1, height: 1), animated: animated)
-            return
-        }
-        
-        self.messagesCollection.scrollToItem(at: NSIndexPath(item: items - 1, section: 0) as IndexPath, at: .top, animated: animated)
-        
     }
-    
     
     //MARK: UITextViewDelegate
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -161,6 +169,22 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             textView.resignFirstResponder()
             return false
         }
+        print(textView.text)
+        print(":"+text+":")
+        if text == ""{
+            if textView.text.count-1 > 0{
+                self.sendButton.isEnabled = true
+            }else{
+                self.sendButton.isEnabled = false
+            }
+        }else{
+            if textView.text.count+1 > 0{
+                self.sendButton.isEnabled = true
+            }else{
+                self.sendButton.isEnabled = false
+            }
+        }
+        
         return true
     }
     

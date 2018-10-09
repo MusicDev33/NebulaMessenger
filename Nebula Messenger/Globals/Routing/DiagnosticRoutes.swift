@@ -16,6 +16,7 @@ class DiagnosticRoutes{
         requestJson["username"] = GlobalUser.username
         requestJson["info"] = info
         requestJson["optional"] = optional
+        requestJson["device"] = "iOS"
         do {
             let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
             let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)

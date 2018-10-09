@@ -41,6 +41,8 @@
 		1FE4F0F721685E4F00E4EF72 /* SecretVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
+		1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */; };
+		1FE4F101216B139200E4EF72 /* FeedbackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F100216B139200E4EF72 /* FeedbackVC.swift */; };
 		521D9F1CB2278C1EC9063910 /* Pods_Nebula_MessengerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DD9EE7AAF24FC32A1834E4 /* Pods_Nebula_MessengerTests.framework */; };
 		9C3B0985CA5BFC63A7CBB7BB /* Pods_Nebula_Messenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41745756096BA6F4D1D8B161 /* Pods_Nebula_Messenger.framework */; };
 /* End PBXBuildFile section */
@@ -105,6 +107,8 @@
 		1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretVC.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
+		1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
+		1FE4F100216B139200E4EF72 /* FeedbackVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVC.swift; sourceTree = "<group>"; };
 		41745756096BA6F4D1D8B161 /* Pods_Nebula_Messenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_Messenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DA8CAA5C0A1BB47FB13F9BA /* Pods-Nebula Messenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula Messenger.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger.release.xcconfig"; sourceTree = "<group>"; };
 		8A09D3646B102188B8CFCEE4 /* Pods-Nebula MessengerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerUITests/Pods-Nebula MessengerUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 				1F68B295215222D000DC9525 /* Nebula Messenger.entitlements */,
 				1F68B2672152227F00DC9525 /* AppDelegate.swift */,
 				1FE4F0F821687CF400E4EF72 /* Custom Classes */,
+				1FE4F0FF216B131200E4EF72 /* TestingViewControllers */,
 				1F68B2B9215276AE00DC9525 /* ViewControllers */,
 				1F68B2B42152757800DC9525 /* Sound */,
 				1F68B2A22152366600DC9525 /* Globals */,
@@ -280,8 +285,17 @@
 			isa = PBXGroup;
 			children = (
 				1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */,
+				1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */,
 			);
 			path = "Custom Classes";
+			sourceTree = "<group>";
+		};
+		1FE4F0FF216B131200E4EF72 /* TestingViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				1FE4F100216B139200E4EF72 /* FeedbackVC.swift */,
+			);
+			path = TestingViewControllers;
 			sourceTree = "<group>";
 		};
 		F290589D164F84332EEA1EDB /* Pods */ = {
@@ -564,7 +578,9 @@
 				1F170F1A21647157009673E2 /* PoolRoutes.swift in Sources */,
 				1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */,
 				1F76C7DE2158A09E00EB6C8C /* PoolingVC.swift in Sources */,
+				1FE4F101216B139200E4EF72 /* FeedbackVC.swift in Sources */,
 				1F68B2B6215275CB00DC9525 /* PublicStructs.swift in Sources */,
+				1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */,
 				1F170F182163DBB3009673E2 /* ConversationRoutes.swift in Sources */,
 				1F76C7DC215899B500EB6C8C /* MyProfileVC.swift in Sources */,
 				1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */,

@@ -12,7 +12,7 @@ import Alamofire
 // Contains the more complicated route logic
 // I honestly don't know how to organize this
 class RouteLogic {
-    static func sendLogin(username: String, password: String, completion:@escaping (Bool) -> ()){
+    static func sendLogin(username: String, password: String, completion:@escaping (ServerMessage) -> ()){
         let url = URL(string: authenticateUserRoute)
         var requestJson = [String:Any]()
         
@@ -30,8 +30,8 @@ class RouteLogic {
                     let jObj = JSON(Json)
                     //print(jObj)
                     if (jObj["success"] == false){
-                        print("false")
-                        completion(false)
+                        let serverMessage = ServerMessage(message: jObj["msg"].string!, success: false)
+                        completion(serverMessage)
                     }
                     if (jObj["success"] == true){
                         //print("true")
@@ -43,11 +43,17 @@ class RouteLogic {
                         UserDefaults.standard.set(username, forKey: "username")
                         UserDefaults.standard.set(password, forKey: "password")
                         UserDefaults.standard.set(true, forKey: "isLoggedIn")
-                        completion(true)
+                        
+                        let serverMessage = ServerMessage(message: "Successful", success: true)
+                        
+                        completion(serverMessage)
                     }
                     
-                case .failure(_):
+                case .failure(let Json):
+                    let jObj = JSON(Json)
                     print("Failed to register.")
+                    let serverMessage = ServerMessage(message: jObj["msg"].string!, success: false)
+                    completion(serverMessage)
                 }
             })
         }catch{

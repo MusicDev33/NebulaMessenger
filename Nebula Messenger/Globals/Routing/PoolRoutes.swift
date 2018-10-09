@@ -65,6 +65,7 @@ class PoolRoutes{
                         var tempPool = PublicPool(coordinates: doubleList,
                             poolId: jsonObject["pools"][index]["poolId"].string!,
                             name: jsonObject["pools"][index]["name"].string!,
+                            creator: jsonObject["pools"][index]["creator"].string!,
                             connectionLimit: jsonObject["pools"][index]["connectionLimit"].int!,
                             usersConnected: usersList)
                         pools.append(tempPool)

@@ -172,15 +172,21 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+        self.secretButton.isHidden = false
         SocketIOManager.establishConnection()
         RouteLogic.getFriendsAndConversations {
             self.configureSearchController()
         }
         if GlobalUser.username == "MusicDev" || GlobalUser.username == "ben666"{
-            self.secretButton.isHidden = false
+            self.secretButton.setTitle("Secret", for: .normal)
         }else{
-            DiagnosticRoutes.sendInfo(info: "Logged in.", optional: "Login Event")
+            self.secretButton.setTitle("Feedback", for: .normal)
+            let df = DateFormatter()
+            df.dateFormat = "dd/MM/yyyy hh:mm:ss"
+            
+            // Creating the date object
+            let now = df.string(from: Date())
+            DiagnosticRoutes.sendInfo(info: "Logged in.", optional: now+": Login Event")
         }
     }
     
@@ -230,6 +236,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         // Just in case!!!
         if GlobalUser.username == "MusicDev" || GlobalUser.username == "ben666"{
             self.performSegue(withIdentifier: "toSecretPage", sender: self)
+        }else{
+            self.performSegue(withIdentifier: "toFeedbackVC", sender: self)
         }
         
     }
@@ -302,6 +310,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @IBAction func didUnwindFromSecretView(_ sender: UIStoryboardSegue){
         guard sender.source is SecretVC else {return}
+    }
+    
+    @IBAction func didUnwindFromFeedbackView(_ sender: UIStoryboardSegue){
+        guard sender.source is FeedbackVC else {return}
     }
 
 }
