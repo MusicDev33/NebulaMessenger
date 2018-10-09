@@ -635,6 +635,9 @@
                                     <segment title="Past Pools"/>
                                     <segment title="Pools"/>
                                 </segments>
+                                <connections>
+                                    <action selector="pressedOnSegment:" destination="4wp-jj-STV" eventType="valueChanged" id="fBl-xH-XSF"/>
+                                </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zJp-SO-C9R" userLabel="BackButton">
                                 <rect key="frame" x="14" y="34" width="48" height="48"/>
@@ -665,12 +668,13 @@
                     </view>
                     <connections>
                         <outlet property="mapView" destination="fM7-qs-HlJ" id="Pis-BM-jV8"/>
+                        <outlet property="segmentedTabs" destination="gIq-GN-o1n" id="YBL-Qy-1Np"/>
                         <segue destination="dNo-h7-e0J" kind="unwind" identifier="unwindToMainMenuFromPools" unwindAction="didUnwindFromPools:" id="x9f-5l-vjq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T9i-cs-dwc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="dNo-h7-e0J" userLabel="Exit" sceneMemberID="exit"/>
-                <tapGestureRecognizer id="6Ql-f0-I0F">
+                <tapGestureRecognizer cancelsTouchesInView="NO" id="6Ql-f0-I0F">
                     <connections>
                         <action selector="tappedOnScreen:" destination="4wp-jj-STV" id="a8Y-g7-yzP"/>
                     </connections>

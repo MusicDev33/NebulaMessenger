@@ -10,11 +10,22 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class PoolingVC: UIViewController, CLLocationManagerDelegate {
+class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,UIGestureRecognizerDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
+    
     let locationManager = CLLocationManager()
     
     @IBOutlet weak var mapView: MKMapView!
     let regionRadius: CLLocationDistance = 250
+    var shouldCenter = true
+    
+    var panRec: UIPanGestureRecognizer!
+    
+    var poolsInArea = [PublicPool]()
+    var currentPools = [PublicPool]()
+    
+    @IBOutlet weak var segmentedTabs: UISegmentedControl!
+    
+    var poolTable: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,24 +36,52 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate {
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
         self.mapView.showsUserLocation = true;
+        self.mapView.delegate = self
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
+        
+        panRec = UIPanGestureRecognizer(target: self, action: #selector(draggedMap(gesture:)))
+        panRec.delegate = self
+        self.mapView.addGestureRecognizer(panRec)
 
         // Do any additional setup after loading the view.
         PoolRoutes.getPools(){pools in
             for pool in pools{
+                self.poolsInArea.append(pool)
                 let annotation = MKPointAnnotation()
                 let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
                 annotation.coordinate = coordinate
+                let circle = MKCircle(center: coordinate, radius: 20)
+                self.mapView.addOverlay(circle)
                 annotation.title = pool.name
                 self.mapView.addAnnotation(annotation)
             }
             
         }
+    }
+    
+    @objc func draggedMap(gesture: UIPanGestureRecognizer){
+        if (gesture.state == UIGestureRecognizer.State.ended){
+            self.shouldCenter = false
+        }
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        guard let circelOverLay = overlay as? MKCircle else {return MKOverlayRenderer()}
+        
+        let circleRenderer = MKCircleRenderer(circle: circelOverLay)
+        circleRenderer.strokeColor = .red
+        circleRenderer.fillColor = .red
+        circleRenderer.alpha = 0.3
+        return circleRenderer
     }
     
     //Map Functions
@@ -54,9 +93,63 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
         let point = CLLocation(latitude: locValue.latitude, longitude: locValue.longitude)
-        self.centerMapOnLocation(location: point)
+        if self.shouldCenter{
+            self.centerMapOnLocation(location: point)
+        }
+        for pool in self.poolsInArea{
+            let poolCenter = CLLocation(latitude: pool.coordinates?[0] ?? 0, longitude: pool.coordinates?[1] ?? 0)
+            if point.distance(from: poolCenter) < 21 {
+                if !currentPools.contains(where: { $0.poolId == pool.poolId}){
+                    currentPools.append(pool)
+                    print(pool.poolId!)
+                }
+            }else{
+                if currentPools.contains(where: { $0.poolId == pool.poolId}){
+                    currentPools = currentPools.filter {$0.poolId != pool.poolId}
+                    print(currentPools)
+                }
+            }
+        }
+    }
+    
+    // Set up the Pool Table (Funny joke haha)
+    func setupPoolTable(){
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
+        layout.itemSize = CGSize(width: view.frame.width, height: 50)
+        layout.scrollDirection = .vertical
+        
+        var poolTableFrame = CGRect(x: 0, y: 100, width: view.frame.width, height: view.frame.height-100)
+        
+        self.poolTable = UICollectionView(frame: poolTableFrame, collectionViewLayout: layout)
+        self.poolTable.delegate = self
+        self.poolTable.dataSource = self
+        self.poolTable.isUserInteractionEnabled = true
+        self.poolTable.allowsSelection = true
+        self.poolTable.alwaysBounceVertical = true
+        poolTable.register(PoolChatCell.self, forCellWithReuseIdentifier: "poolCell")
+        poolTable.backgroundColor = UIColor.white
+        self.view.addSubview(poolTable)
+        self.view.bringSubviewToFront(poolTable)
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.currentPools.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = self.poolTable.dequeueReusableCell(withReuseIdentifier: "poolCell",for: indexPath) as! PoolChatCell
+        cell.poolNameLabel.text = self.currentPools[indexPath.row].name
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = self.poolTable.dequeueReusableCell(withReuseIdentifier: "poolCell",for: indexPath) as! PoolChatCell
+        
     }
     
     
@@ -87,6 +180,11 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate {
             print("Text field: \(textField.text)")
             annotation.title = textField.text
             PoolRoutes.createPool(name: textField.text!, coords: [annotation.coordinate.latitude, annotation.coordinate.longitude]){
+                
+                let coordinate = CLLocationCoordinate2D(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
+                
+                let circle = MKCircle(center: coordinate, radius: 10)
+                self.mapView.addOverlay(circle)
                 self.mapView.addAnnotation(annotation)
             }
             
@@ -100,6 +198,31 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
+    //Set up pool view table
+    
+    @IBAction func pressedOnSegment(_ sender: UISegmentedControl) {
+        switch segmentedTabs.selectedSegmentIndex{
+        case 0:
+            self.mapView.isHidden = false
+            if (self.poolTable != nil){
+                self.poolTable.isHidden = true
+            }
+            print("selected 0")
+        case 1:
+            print("selected 1")
+        case 2:
+            self.mapView.isHidden = true
+            if (self.poolTable == nil){
+                self.setupPoolTable()
+                self.poolTable.reloadData()
+            }else{
+                self.poolTable.isHidden = false
+            }
+            print("selected 2")
+        default:
+            print("Something happened")
+        }
+    }
     
     @IBAction func tappedOnScreen(_ sender: UITapGestureRecognizer) {
     }
