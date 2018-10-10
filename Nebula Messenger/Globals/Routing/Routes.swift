@@ -49,6 +49,8 @@ let deleteConvRoute = conversationsRoot + "deleteconv"
 // MARK: Pools
 let createPoolRoute = poolsRoot + "createpool"
 let getPoolsRoute = poolsRoot + "getpools"
+let sendPoolsRoute = poolsRoot + "send"
+let getPoolMessagesRoute = poolsRoot + "getmsgs"
 
 // MARK: Diagnostics Data
 let sendInfoRoute = diagRoot + "sendinfo"

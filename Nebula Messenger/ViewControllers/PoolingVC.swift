@@ -27,6 +27,8 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     
     var poolTable: UICollectionView!
     
+    var passPoolId = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -149,6 +151,7 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = self.poolTable.dequeueReusableCell(withReuseIdentifier: "poolCell",for: indexPath) as! PoolChatCell
+        self.passPoolId = self.currentPools[indexPath.row].poolId ?? ""
         self.performSegue(withIdentifier: "toPoolChat", sender: self)
     }
     
@@ -229,6 +232,17 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     
     @IBAction func swipedRight(_ sender: UISwipeGestureRecognizer) {
         self.performSegue(withIdentifier: "unwindToMainMenuFromPools", sender: self)
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+        
+        if segue.destination is PoolChatVC{
+            let vc = segue.destination as? PoolChatVC
+            vc?.poolId = passPoolId
+        }
     }
     
     @IBAction func didUnwindFromPoolChat(_ sender: UIStoryboardSegue){

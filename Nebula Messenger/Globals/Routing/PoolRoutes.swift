@@ -82,4 +82,52 @@ class PoolRoutes{
         }catch{
         }
     }
+    
+    
+    static func getPoolMessages(id: String, completion: @escaping ([TerseMessage]) -> Void){
+        let url = URL(string: getPoolMessagesRoute)
+        var requestJson = [String:Any]()
+        requestJson["id"] = id
+        
+        var passMsgList = [TerseMessage]()
+        
+        do {
+            let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
+            
+            var request = URLRequest(url: url!)
+            request.httpMethod = "POST"
+            request.httpBody = data
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("application/json", forHTTPHeaderField: "Accept")
+            
+            Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
+                switch response.result{
+                case .success(let Json):
+                    let jsonObject = JSON(Json)
+                    print(jsonObject)
+                    var index = 0
+                    if jsonObject.count > 0{
+                        for item in jsonObject{
+                            print(item)
+                            let tempMsg = TerseMessage(_id: jsonObject[index]["_id"].string!,
+                                                       sender: jsonObject[index]["sender"].string!,
+                                                       body: jsonObject[index]["body"].string!,
+                                                       dateTime: jsonObject[index]["dateTime"].string!,
+                                                       read: false)
+                            passMsgList.append(tempMsg)
+                            index += 1
+                        }
+                    }
+                    
+                    //self.messagesTable.reloadData()
+                    //self.scrollToBottom()
+                    completion(passMsgList)
+                case .failure(_):
+                    print("failed")
+                }
+            })
+        }catch{
+            
+        }
+    }
 }

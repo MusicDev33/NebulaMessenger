@@ -26,6 +26,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBOutlet weak var featureMessageLabel: UILabel!
     @IBOutlet weak var secretButton: UIButton!
     
+    let authorizedUsers = ["MusicDev", "ben666", "justinhunter20", "testaccount"]
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if addFriendsMode{
             return searchResults.count
@@ -202,9 +204,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     @IBAction func poolButtonPressed(_ sender: UIButton) {
-        if GlobalUser.username == "MusicDev"{
-            self.performSegue(withIdentifier: "toPools", sender: self)
-        }else if GlobalUser.username == "ben666"{
+        if self.authorizedUsers.contains(GlobalUser.username){
             self.performSegue(withIdentifier: "toPools", sender: self)
         }
         else{
@@ -269,8 +269,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
     
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
