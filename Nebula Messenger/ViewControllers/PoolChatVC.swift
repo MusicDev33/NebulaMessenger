@@ -9,11 +9,10 @@
 import UIKit
 import Alamofire
 
-class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UITextViewDelegate {
+class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UITextViewDelegate, UICollectionViewDelegateFlowLayout {
     
     
     @IBOutlet weak var messagesCollection: UICollectionView!
-    
     @IBOutlet weak var messageTextView: UITextView!
     
     var currentPoolMessages = [TerseMessage]()
@@ -24,10 +23,7 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
     @IBOutlet weak var bottomViewBottomAnchor: NSLayoutConstraint!
     
     var bottomLineView: UIView!
-    
     var poolId = ""
-    
-    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currentPoolMessages.count
@@ -49,7 +45,6 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true
         }
-        
         return cell
     }
     
@@ -69,14 +64,12 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
                                            context: nil)
         return returnRect
     }
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         self.messagesCollection.keyboardDismissMode = .interactive
-        
         
         PoolRoutes.getPoolMessages(id: self.poolId){messagesList in
             self.currentPoolMessages = messagesList
@@ -93,7 +86,7 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         messageTextView.layer.cornerRadius = 10.0
         
         // Top line
-        var lineView = UIView(frame: CGRect(x: 0, y: self.messagesCollection.frame.origin.y, width: view.frame.width, height: 1.0))
+        let lineView = UIView(frame: CGRect(x: 0, y: self.messagesCollection.frame.origin.y, width: view.frame.width, height: 1.0))
         lineView.layer.borderWidth = 1.0
         lineView.layer.borderColor = UIColor.gray.cgColor
         self.view.addSubview(lineView)
@@ -106,8 +99,6 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         
         self.openSocket {
         }
-        
-        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -151,11 +142,9 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: keyboardFrame.height+8, right: 0)
         
         self.bottomViewBottomAnchor?.constant += keyboardFrame.height
-        print(self.bottomViewBottomAnchor?.constant)
         self.bottomLineView.frame.origin.y -= keyboardFrame.height
         UIView.animate(withDuration: keyboardDuration){
             self.view.layoutIfNeeded()
-            print(self.sendButton.frame.origin.y)
         }
     }
     
@@ -169,7 +158,6 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
             self.view.layoutIfNeeded()
         }
     }
-    
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
         self.performSegue(withIdentifier: "backToPoolingView", sender: self)
@@ -217,8 +205,8 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
             Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
                 
                 switch response.result{
-                case .success(let Json):
-                    let jsonObject = JSON(Json)
+                case .success( _):
+                    //let jsonObject = JSON(Json)
                     //let jsonObject = JSON(Json)
                     self.messagesCollection.reloadData()
                     self.messageTextView.text = ""
@@ -236,10 +224,12 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
     
     //MARK: Sockets
     func openSocket(completion: () -> Void) {
+        print("Opened Pool Socket!")
         SocketIOManager.socket.on("message") { ( data, ack) -> Void in
             guard let parsedData = data[0] as? String else { return }
             let msg = JSON.init(parseJSON: parsedData)
             do {
+                
                 let tempMsg = TerseMessage(_id: "", //Fix this
                     sender: msg["sender"].string!,
                     body: msg["body"].string!,
@@ -257,4 +247,8 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         }
     }
     
+    //MARK: Nav
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        SocketIOManager.shutOffListener()
+    }
 }

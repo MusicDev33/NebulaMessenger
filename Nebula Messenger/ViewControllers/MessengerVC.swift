@@ -60,7 +60,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         
         //Adding lines that make it look good
         //Top line
-        var lineView = UIView(frame: CGRect(x: 0, y: self.messagesCollection.frame.origin.y, width: view.frame.width, height: 1.0))
+        let lineView = UIView(frame: CGRect(x: 0, y: self.messagesCollection.frame.origin.y, width: view.frame.width, height: 1.0))
         lineView.layer.borderWidth = 1.0
         lineView.layer.borderColor = UIColor.gray.cgColor
         self.view.addSubview(lineView)
@@ -155,7 +155,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     func scrollToBottom() {
         DispatchQueue.main.async {
             self.messagesCollection.layoutIfNeeded()
-            var scrollToY = self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + 8
+            let scrollToY = self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + 8
             
             let contentPoint = CGPoint(x: 0, y: scrollToY)
             self.messagesCollection.setContentOffset(contentPoint, animated: false)
@@ -256,6 +256,8 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         
         print(requestJson)
         
+        self.sendButton.isEnabled = false
+        
         do {
             let data = try JSONSerialization.data(withJSONObject: requestJson, options:.prettyPrinted)
             // dec = decoded
@@ -336,7 +338,10 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     func openSocket(completion: () -> Void) {
         SocketIOManager.socket.on("message") { ( data, ack) -> Void in
             guard let parsedData = data[0] as? String else { return }
+            print("DATA")
+            print(parsedData)
             let msg = JSON.init(parseJSON: parsedData)
+            print(msg)
             do {
                 
                 let tempMsg = TerseMessage(_id: "", //Fix this
@@ -353,6 +358,13 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                 print(msg)
                 print("Error JSON: \(error)")
             }
+        }
+    }
+    
+    //MARK: Nav
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is MainMenuVC{
+            SocketIOManager.shutOffListener()
         }
     }
 }

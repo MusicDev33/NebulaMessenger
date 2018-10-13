@@ -16,6 +16,7 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     
     @IBOutlet weak var mapView: MKMapView!
     let regionRadius: CLLocationDistance = 250
+    let defaultRadius = 50
     var shouldCenter = true
     
     var panRec: UIPanGestureRecognizer!
@@ -29,11 +30,17 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     
     var passPoolId = ""
     
+    var testPool = PublicPool(coordinates: [0, 0], poolId: "testpool;;;", name: "Test Pool", creator: "MusicDev", connectionLimit: 50, usersConnected: [String]())
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Ask for Authorisation from the User.
         self.locationManager.requestAlwaysAuthorization()
+        
+        currentPools.append(self.testPool)
+        
+        self.mapView.tintColor = nebulaPurple
         
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
@@ -54,15 +61,15 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         PoolRoutes.getPools(){pools in
             for pool in pools{
                 self.poolsInArea.append(pool)
-                let annotation = MKPointAnnotation()
+                let annotation = PoolAnnotation()
                 let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
                 annotation.coordinate = coordinate
-                let circle = MKCircle(center: coordinate, radius: 20)
+                let circle = MKCircle(center: coordinate, radius: CLLocationDistance(self.defaultRadius))
                 self.mapView.addOverlay(circle)
                 annotation.title = pool.name
+                annotation.imageName = "CloudCircle"
                 self.mapView.addAnnotation(annotation)
             }
-            
         }
     }
     
@@ -102,7 +109,7 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         }
         for pool in self.poolsInArea{
             let poolCenter = CLLocation(latitude: pool.coordinates?[0] ?? 0, longitude: pool.coordinates?[1] ?? 0)
-            if point.distance(from: poolCenter) < 21 {
+            if point.distance(from: poolCenter) < CLLocationDistance(self.defaultRadius+1) {
                 if !currentPools.contains(where: { $0.poolId == pool.poolId}){
                     currentPools.append(pool)
                     print(pool.poolId!)
@@ -116,6 +123,41 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         }
     }
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        // Don't want to show a custom image if the annotation is the user's location.
+        guard !(annotation is MKUserLocation) else {
+            return nil
+        }
+        
+        if !(annotation is PoolAnnotation) {
+            return nil
+        }
+        
+        // Better to make this class property
+        let annotationIdentifier = "PoolAnnotation"
+        
+        var annotationView: MKAnnotationView?
+        
+        let poolAnnotation = annotation as! PoolAnnotation
+        
+        if let dequeuedAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier) {
+            annotationView = dequeuedAnnotationView
+            annotationView?.annotation = annotation
+        }
+        else {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+            annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
+        
+        if let annotationView = annotationView {
+            // Configure your annotation view here
+            annotationView.canShowCallout = true
+            annotationView.image = UIImage(named: poolAnnotation.imageName)
+            annotationView.tintColor = nebulaPurple
+        }
+        return annotationView
+    }
+    
     // Set up the Pool Table (Funny joke haha)
     func setupPoolTable(){
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -123,7 +165,7 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         layout.itemSize = CGSize(width: view.frame.width, height: 50)
         layout.scrollDirection = .vertical
         
-        var poolTableFrame = CGRect(x: 0, y: 100, width: view.frame.width, height: view.frame.height-100)
+        let poolTableFrame = CGRect(x: 0, y: 100, width: view.frame.width, height: view.frame.height-100)
         
         self.poolTable = UICollectionView(frame: poolTableFrame, collectionViewLayout: layout)
         self.poolTable.delegate = self
@@ -150,7 +192,7 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = self.poolTable.dequeueReusableCell(withReuseIdentifier: "poolCell",for: indexPath) as! PoolChatCell
+        //let cell = self.poolTable.dequeueReusableCell(withReuseIdentifier: "poolCell",for: indexPath) as! PoolChatCell
         self.passPoolId = self.currentPools[indexPath.row].poolId ?? ""
         self.performSegue(withIdentifier: "toPoolChat", sender: self)
     }
@@ -180,20 +222,20 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         // 3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "Create a Pool", style: .default, handler: { [weak alert] (_) in
             let textField = alert!.textFields![0] // Force unwrapping because we know it exists.
-            print("Text field: \(textField.text)")
+            print("Text field: \(textField.text ?? "Error: No Text Found")")
             annotation.title = textField.text
             PoolRoutes.createPool(name: textField.text!, coords: [annotation.coordinate.latitude, annotation.coordinate.longitude]){
                 
                 let coordinate = CLLocationCoordinate2D(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
                 
-                let circle = MKCircle(center: coordinate, radius: 10)
+                let circle = MKCircle(center: coordinate, radius: CLLocationDistance(self.defaultRadius))
                 self.mapView.addOverlay(circle)
                 self.mapView.addAnnotation(annotation)
             }
             
         }))
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { [weak alert] (_) in
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { [weak alert] (_) in alert
             
         }))
         
@@ -219,6 +261,7 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
                 self.setupPoolTable()
                 self.poolTable.reloadData()
             }else{
+                self.poolTable.reloadData()
                 self.poolTable.isHidden = false
             }
             print("selected 2")
@@ -248,5 +291,4 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     @IBAction func didUnwindFromPoolChat(_ sender: UIStoryboardSegue){
         guard sender.source is PoolChatVC else {return}
     }
-
 }

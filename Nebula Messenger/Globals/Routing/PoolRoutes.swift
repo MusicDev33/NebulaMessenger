@@ -40,7 +40,7 @@ class PoolRoutes{
     
     static func getPools(completion:@escaping ([PublicPool]) -> ()){
         let url = URL(string: getPoolsRoute)
-        var requestJson = [String:Any]()
+        let requestJson = [String:Any]()
         do {
             let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
             let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)
@@ -62,7 +62,7 @@ class PoolRoutes{
                             usersList.append(jsonObject["pools"][index]["usersConnected"][i].string!)
                         }
                         
-                        var tempPool = PublicPool(coordinates: doubleList,
+                        let tempPool = PublicPool(coordinates: doubleList,
                             poolId: jsonObject["pools"][index]["poolId"].string!,
                             name: jsonObject["pools"][index]["name"].string!,
                             creator: jsonObject["pools"][index]["creator"].string!,

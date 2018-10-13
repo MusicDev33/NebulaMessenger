@@ -26,7 +26,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBOutlet weak var featureMessageLabel: UILabel!
     @IBOutlet weak var secretButton: UIButton!
     
-    let authorizedUsers = ["MusicDev", "ben666", "justinhunter20", "testaccount"]
+    // Add names here to allow the users to access pools
+    let authorizedUsers = ["MusicDev", "ben666", "justinhunter20", "testaccount", "Mr.Rogers"]
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if addFriendsMode{
@@ -62,7 +63,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             if !(cellText?.contains("\u{2714}"))!{
                 FriendRoutes.addFriend(friend: cellText!){
                     tableView.reloadData()
-                    print("complte")
+                    print("complete")
                 }
             }
         }else{
@@ -204,16 +205,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     @IBAction func poolButtonPressed(_ sender: UIButton) {
-        if self.authorizedUsers.contains(GlobalUser.username){
-            self.performSegue(withIdentifier: "toPools", sender: self)
-        }
-        else{
-            self.featureMessageLabel.isHidden = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                self.featureMessageLabel.isHidden = true
-            }
-        }
-        
+        self.performSegue(withIdentifier: "toPools", sender: self)
     }
     
     @IBAction func editButtonTapped(_ sender: UIButton) {
@@ -252,11 +244,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             // print(parsedData)
             // print(msg)
             do {
-                let tempMsg = TerseMessage(_id: "", //Fix this
-                    sender: msg["sender"].string!,
-                    body: msg["body"].string!,
-                    dateTime: msg["dateTime"].string!,
-                    read: false)
                 if msg["convId"].string!.contains(GlobalUser.username){
                     
                 }

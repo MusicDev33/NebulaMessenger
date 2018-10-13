@@ -56,6 +56,7 @@ class MessageBubble: UICollectionViewCell{
         super.init(coder: aDecoder)
         addSubview(bubbleView)
         addSubview(messageLabel)
+        print(self.widthAnchor)
         
         bubbleViewRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8)
         bubbleViewRightAnchor?.isActive = true
@@ -66,13 +67,13 @@ class MessageBubble: UICollectionViewCell{
         bubbleView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         bubbleView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
         
-        bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: 200)
+        bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: self.frame.width*0.6)
         bubbleWidthAnchor?.isActive = true
         
         messageLabel.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 8).isActive = true
         messageLabel.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -8).isActive = true
         messageLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        messageLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        messageLabel.widthAnchor.constraint(equalToConstant: self.frame.width*0.6).isActive = true
         messageLabel.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
     }
     

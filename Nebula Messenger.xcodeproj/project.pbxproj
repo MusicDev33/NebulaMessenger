@@ -12,6 +12,7 @@
 		1F170F182163DBB3009673E2 /* ConversationRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F170F172163DBB3009673E2 /* ConversationRoutes.swift */; };
 		1F170F1A21647157009673E2 /* PoolRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F170F1921647156009673E2 /* PoolRoutes.swift */; };
 		1F170F1C216718E5009673E2 /* RetroTone.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1F170F1B216718B8009673E2 /* RetroTone.caf */; };
+		1F2CE44A216DD9C100B15C59 /* PoolAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CE449216DD9C100B15C59 /* PoolAnnotation.swift */; };
 		1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2672152227F00DC9525 /* AppDelegate.swift */; };
 		1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2692152227F00DC9525 /* LoginVC.swift */; };
 		1F68B26D2152227F00DC9525 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B26B2152227F00DC9525 /* Main.storyboard */; };
@@ -72,6 +73,7 @@
 		1F170F172163DBB3009673E2 /* ConversationRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationRoutes.swift; sourceTree = "<group>"; };
 		1F170F1921647156009673E2 /* PoolRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolRoutes.swift; sourceTree = "<group>"; };
 		1F170F1B216718B8009673E2 /* RetroTone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RetroTone.caf; sourceTree = "<group>"; };
+		1F2CE449216DD9C100B15C59 /* PoolAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolAnnotation.swift; sourceTree = "<group>"; };
 		1F68B2642152227F00DC9525 /* Nebula Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nebula Messenger.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F68B2672152227F00DC9525 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F68B2692152227F00DC9525 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 				1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */,
 				1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */,
 				1FE4F102216CA86C00E4EF72 /* PoolChatCell.swift */,
+				1F2CE449216DD9C100B15C59 /* PoolAnnotation.swift */,
 			);
 			path = "Custom Classes";
 			sourceTree = "<group>";
@@ -576,6 +579,7 @@
 				1F68B2C12154C1C400DC9525 /* MainMenuVC.swift in Sources */,
 				1F68B2B82152762A00DC9525 /* Utility.swift in Sources */,
 				1F170F162162FD1B009673E2 /* FriendRoutes.swift in Sources */,
+				1F2CE44A216DD9C100B15C59 /* PoolAnnotation.swift in Sources */,
 				1F68B2AE2152740700DC9525 /* SocketIOManager.swift in Sources */,
 				1F68B2C4215583AF00DC9525 /* RouteLogic.swift in Sources */,
 				1F68B2BD2152DD1300DC9525 /* RegisterVC.swift in Sources */,

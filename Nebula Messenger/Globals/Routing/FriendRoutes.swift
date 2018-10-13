@@ -28,8 +28,8 @@ class FriendRoutes{
             
             Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
                 switch response.result{
-                case .success(let Json):
-                    let jsonObject = JSON(Json)
+                case .success(let _):
+                    //let jsonObject = JSON(Json)
                     GlobalUser.addFriend(friend: friend)
                     print("Added friend!")
                     completion()
