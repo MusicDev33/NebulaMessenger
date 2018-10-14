@@ -230,9 +230,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kvi-eN-N4e">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kvi-eN-N4e">
                                 <rect key="frame" x="15" y="11" width="48" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="BackArrowBlack"/>
                                 <connections>
                                     <action selector="backButton:" destination="W87-mm-PUL" eventType="touchUpInside" id="dkr-uc-7W2"/>
@@ -269,7 +268,9 @@
                             <constraint firstItem="vCL-BW-PUO" firstAttribute="leading" secondItem="Agy-GE-F1D" secondAttribute="leading" constant="67" id="P3c-fb-UCD"/>
                             <constraint firstItem="Agy-GE-F1D" firstAttribute="bottom" secondItem="aaV-2o-zza" secondAttribute="bottom" constant="127" id="V0H-oS-7ns"/>
                             <constraint firstItem="vCL-BW-PUO" firstAttribute="centerX" secondItem="Agy-GE-F1D" secondAttribute="centerX" id="XlA-Sc-a7k"/>
+                            <constraint firstItem="kvi-eN-N4e" firstAttribute="leading" secondItem="Agy-GE-F1D" secondAttribute="leading" constant="15" id="j8g-1H-nku"/>
                             <constraint firstItem="vCL-BW-PUO" firstAttribute="top" secondItem="Agy-GE-F1D" secondAttribute="top" constant="54" id="nQ7-5p-k1g"/>
+                            <constraint firstItem="Agy-GE-F1D" firstAttribute="top" secondItem="kvi-eN-N4e" secondAttribute="top" constant="9" id="roo-Z5-9Vs"/>
                             <constraint firstItem="aaV-2o-zza" firstAttribute="centerX" secondItem="Agy-GE-F1D" secondAttribute="centerX" id="sDB-jQ-k5S"/>
                             <constraint firstItem="igu-5V-Q4F" firstAttribute="centerX" secondItem="Agy-GE-F1D" secondAttribute="centerX" id="wsO-Xm-eIx"/>
                         </constraints>
@@ -629,10 +630,9 @@
                                 </connections>
                             </mapView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gIq-GN-o1n">
-                                <rect key="frame" x="69.5" y="44" width="236" height="29"/>
+                                <rect key="frame" x="139" y="44" width="97" height="29"/>
                                 <segments>
                                     <segment title="Map"/>
-                                    <segment title="Past Pools"/>
                                     <segment title="Pools"/>
                                 </segments>
                                 <connections>
@@ -859,7 +859,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes"/>
                                     </textView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.93030218908629436" green="0.93030218908629436" blue="0.93030218908629436" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="2eJ-TF-GrE" firstAttribute="leading" secondItem="ZO4-Xa-qBg" secondAttribute="trailing" constant="23" id="1WU-gf-QMK"/>
                                     <constraint firstAttribute="trailing" secondItem="2eJ-TF-GrE" secondAttribute="trailing" constant="8" id="6qQ-Mo-suu"/>
@@ -872,7 +872,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="Jn5-hW-2tZ" firstAttribute="top" secondItem="Eca-Vf-h0K" secondAttribute="top" id="2S1-MQ-Sbz"/>

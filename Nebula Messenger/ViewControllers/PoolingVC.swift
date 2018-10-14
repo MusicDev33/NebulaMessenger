@@ -252,10 +252,7 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
             if (self.poolTable != nil){
                 self.poolTable.isHidden = true
             }
-            print("selected 0")
         case 1:
-            print("selected 1")
-        case 2:
             self.mapView.isHidden = true
             if (self.poolTable == nil){
                 self.setupPoolTable()
@@ -264,7 +261,6 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
                 self.poolTable.reloadData()
                 self.poolTable.isHidden = false
             }
-            print("selected 2")
         default:
             print("Something happened")
         }

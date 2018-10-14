@@ -37,6 +37,9 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     
     var didScroll = false
     
+    var bottomPadding: CGFloat!
+    var topPadding: CGFloat!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -52,6 +55,10 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             //self.scrollToBottom()
         }
         
+        let window = UIApplication.shared.keyWindow
+        topPadding = window?.safeAreaInsets.top ?? 0
+        bottomPadding = window?.safeAreaInsets.bottom ?? 0
+        
         messageTextView!.layer.borderWidth = 1
         messageTextView!.layer.borderColor = UIColor.lightGray.cgColor
         messageTextView.layer.cornerRadius = 10.0
@@ -60,13 +67,16 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         
         //Adding lines that make it look good
         //Top line
-        let lineView = UIView(frame: CGRect(x: 0, y: self.messagesCollection.frame.origin.y, width: view.frame.width, height: 1.0))
+        let lineView = UIView(frame: CGRect(x: 0, y: 0-self.messagesCollection.frame.origin.y, width: view.frame.width, height: 1.0))
         lineView.layer.borderWidth = 1.0
         lineView.layer.borderColor = UIColor.gray.cgColor
         self.view.addSubview(lineView)
         
         //Bottom Line lol
-        bottomLineView = UIView(frame: CGRect(x: 0, y: self.bottomView.frame.origin.y, width: view.frame.width, height: 1.0))
+        bottomLineView = UIView(frame: CGRect(x: 0, y: view.frame.height-self.bottomView.frame.height-bottomPadding, width: view.frame.width, height: 1.0))
+        print("Y")
+        print(self.bottomView.frame.origin.y)
+        print(self.bottomLineView.frame.origin.y)
         bottomLineView.layer.borderWidth = 1.0
         bottomLineView.layer.borderColor = UIColor.gray.cgColor
         self.view.addSubview(bottomLineView)
@@ -205,10 +215,12 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         let keyboardFrame: CGRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect)
         
         let keyboardDuration: Double = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double)
-        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: keyboardFrame.height+8, right: 0)
+        print("HEIGHT")
+        print(keyboardFrame.height)
+        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: keyboardFrame.height+8-bottomPadding, right: 0)
         
-        self.bottomViewBottomAnchor?.constant += keyboardFrame.height
-        self.bottomLineView.frame.origin.y -= keyboardFrame.height
+        self.bottomViewBottomAnchor?.constant += keyboardFrame.height - bottomPadding
+        self.bottomLineView.frame.origin.y -= keyboardFrame.height - bottomPadding
         UIView.animate(withDuration: keyboardDuration){
             self.view.layoutIfNeeded()
         }
@@ -219,7 +231,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         let keyboardDuration: Double = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double)
         self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         self.bottomViewBottomAnchor?.constant = 0
-        self.bottomLineView.frame.origin.y = self.view.frame.height - self.bottomView.frame.height
+        self.bottomLineView.frame.origin.y = view.frame.height-self.bottomView.frame.height-bottomPadding
         UIView.animate(withDuration: keyboardDuration){
             self.view.layoutIfNeeded()
         }
