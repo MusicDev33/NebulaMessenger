@@ -120,8 +120,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                                                 completionHandler(false)
                                             }
         }
-        // 7
         action.image = UIImage(named: "Trashcan")
+        //action.title = "What the hell????"
         action.backgroundColor = UIColor.red
         return action
     }
@@ -267,7 +267,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             feedbackVC.modalPresentationStyle = .overCurrentContext
             self.present(feedbackVC, animated: true, completion: nil)
         }
-        
     }
     
     
@@ -281,7 +280,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             // print(msg)
             do {
                 if msg["convId"].string!.contains(GlobalUser.username){
-                    
                 }
             } catch {
                 print(msg)

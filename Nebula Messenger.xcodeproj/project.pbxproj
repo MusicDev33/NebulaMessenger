@@ -13,6 +13,9 @@
 		1F170F1A21647157009673E2 /* PoolRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F170F1921647156009673E2 /* PoolRoutes.swift */; };
 		1F170F1C216718E5009673E2 /* RetroTone.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1F170F1B216718B8009673E2 /* RetroTone.caf */; };
 		1F2CE44A216DD9C100B15C59 /* PoolAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CE449216DD9C100B15C59 /* PoolAnnotation.swift */; };
+		1F2CE4502175D07300B15C59 /* Outgoing-Message.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2CE44E2175D07300B15C59 /* Outgoing-Message.caf */; };
+		1F2CE4512175D07300B15C59 /* Incoming-Message.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2CE44F2175D07300B15C59 /* Incoming-Message.caf */; };
+		1F2CE4532175D0C100B15C59 /* MasterAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CE4522175D0C100B15C59 /* MasterAudio.swift */; };
 		1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2672152227F00DC9525 /* AppDelegate.swift */; };
 		1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2692152227F00DC9525 /* LoginVC.swift */; };
 		1F68B26D2152227F00DC9525 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B26B2152227F00DC9525 /* Main.storyboard */; };
@@ -74,6 +77,9 @@
 		1F170F1921647156009673E2 /* PoolRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolRoutes.swift; sourceTree = "<group>"; };
 		1F170F1B216718B8009673E2 /* RetroTone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RetroTone.caf; sourceTree = "<group>"; };
 		1F2CE449216DD9C100B15C59 /* PoolAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolAnnotation.swift; sourceTree = "<group>"; };
+		1F2CE44E2175D07300B15C59 /* Outgoing-Message.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Outgoing-Message.caf"; sourceTree = "<group>"; };
+		1F2CE44F2175D07300B15C59 /* Incoming-Message.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Incoming-Message.caf"; sourceTree = "<group>"; };
+		1F2CE4522175D0C100B15C59 /* MasterAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterAudio.swift; sourceTree = "<group>"; };
 		1F68B2642152227F00DC9525 /* Nebula Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nebula Messenger.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F68B2672152227F00DC9525 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F68B2692152227F00DC9525 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -254,6 +260,8 @@
 			children = (
 				1F170F1B216718B8009673E2 /* RetroTone.caf */,
 				1F68B2B32152757300DC9525 /* RetroTone1.caf */,
+				1F2CE44F2175D07300B15C59 /* Incoming-Message.caf */,
+				1F2CE44E2175D07300B15C59 /* Outgoing-Message.caf */,
 			);
 			path = Sound;
 			sourceTree = "<group>";
@@ -295,6 +303,7 @@
 				1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */,
 				1FE4F102216CA86C00E4EF72 /* PoolChatCell.swift */,
 				1F2CE449216DD9C100B15C59 /* PoolAnnotation.swift */,
+				1F2CE4522175D0C100B15C59 /* MasterAudio.swift */,
 			);
 			path = "Custom Classes";
 			sourceTree = "<group>";
@@ -457,10 +466,12 @@
 			files = (
 				1F170F1C216718E5009673E2 /* RetroTone.caf in Resources */,
 				1F76C7DA215859C200EB6C8C /* RetroTone1.caf in Resources */,
+				1F2CE4512175D07300B15C59 /* Incoming-Message.caf in Resources */,
 				1F68B2722152228100DC9525 /* LaunchScreen.storyboard in Resources */,
 				1F68B26F2152228100DC9525 /* Assets.xcassets in Resources */,
 				1F68B26D2152227F00DC9525 /* Main.storyboard in Resources */,
 				1F68B29E2152245A00DC9525 /* GoogleService-Info.plist in Resources */,
+				1F2CE4502175D07300B15C59 /* Outgoing-Message.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -605,6 +616,7 @@
 				1F68B2A42152367A00DC9525 /* FirebaseGlobals.swift in Sources */,
 				1F68B2BB2152789B00DC9525 /* RouteUtils.swift in Sources */,
 				1FE4F105216D321A00E4EF72 /* PoolChatVC.swift in Sources */,
+				1F2CE4532175D0C100B15C59 /* MasterAudio.swift in Sources */,
 				1FE4F103216CA86C00E4EF72 /* PoolChatCell.swift in Sources */,
 				1F170F1A21647157009673E2 /* PoolRoutes.swift in Sources */,
 				1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */,
