@@ -29,6 +29,7 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     var poolTable: UICollectionView!
     
     var passPoolId = ""
+    var passPoolMessages = [TerseMessage]()
     
     var testPool = PublicPool(coordinates: [0, 0], poolId: "testpool;;;", name: "Test Pool", creator: "MusicDev", connectionLimit: 50, usersConnected: [String]())
     
@@ -194,7 +195,10 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //let cell = self.poolTable.dequeueReusableCell(withReuseIdentifier: "poolCell",for: indexPath) as! PoolChatCell
         self.passPoolId = self.currentPools[indexPath.row].poolId ?? ""
-        self.performSegue(withIdentifier: "toPoolChat", sender: self)
+        PoolRoutes.getPoolMessages(id: self.passPoolId){messagesList in
+            self.passPoolMessages = messagesList
+            self.performSegue(withIdentifier: "toPoolChat", sender: self)
+        }
     }
     
     
@@ -281,10 +285,26 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         if segue.destination is PoolChatVC{
             let vc = segue.destination as? PoolChatVC
             vc?.poolId = passPoolId
+            vc?.currentPoolMessages = self.passPoolMessages
         }
     }
     
     @IBAction func didUnwindFromPoolChat(_ sender: UIStoryboardSegue){
         guard sender.source is PoolChatVC else {return}
+    }
+    
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if(event?.subtype == UIEvent.EventSubtype.motionShake) {
+            let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Give Feedback", style: .default, handler: {action in
+                let feedbackVC = FeedbackVC()
+                feedbackVC.modalPresentationStyle = .overCurrentContext
+                self.present(feedbackVC, animated: true, completion: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }

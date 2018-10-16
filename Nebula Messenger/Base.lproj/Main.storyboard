@@ -237,42 +237,12 @@
                                     <action selector="backButton:" destination="W87-mm-PUL" eventType="touchUpInside" id="dkr-uc-7W2"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="igu-5V-Q4F">
-                                <rect key="frame" x="134" y="597" width="107" height="30"/>
-                                <state key="normal" title="Send Feedback"/>
-                                <connections>
-                                    <action selector="feedBackButtonPressed:" destination="W87-mm-PUL" eventType="touchUpInside" id="RLJ-bt-r6d"/>
-                                </connections>
-                            </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="vCL-BW-PUO">
-                                <rect key="frame" x="67" y="74" width="241" height="317"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="317" id="Psw-pg-CCL"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thanks for your feedback!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aaV-2o-zza">
-                                <rect key="frame" x="87.5" y="519" width="200" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="Agy-GE-F1D" firstAttribute="bottom" secondItem="igu-5V-Q4F" secondAttribute="bottom" constant="40" id="5sY-lp-T4g"/>
-                            <constraint firstItem="Agy-GE-F1D" firstAttribute="trailing" secondItem="vCL-BW-PUO" secondAttribute="trailing" constant="67" id="CCj-fo-otE"/>
-                            <constraint firstItem="vCL-BW-PUO" firstAttribute="leading" secondItem="Agy-GE-F1D" secondAttribute="leading" constant="67" id="P3c-fb-UCD"/>
-                            <constraint firstItem="Agy-GE-F1D" firstAttribute="bottom" secondItem="aaV-2o-zza" secondAttribute="bottom" constant="127" id="V0H-oS-7ns"/>
-                            <constraint firstItem="vCL-BW-PUO" firstAttribute="centerX" secondItem="Agy-GE-F1D" secondAttribute="centerX" id="XlA-Sc-a7k"/>
                             <constraint firstItem="kvi-eN-N4e" firstAttribute="leading" secondItem="Agy-GE-F1D" secondAttribute="leading" constant="15" id="j8g-1H-nku"/>
-                            <constraint firstItem="vCL-BW-PUO" firstAttribute="top" secondItem="Agy-GE-F1D" secondAttribute="top" constant="54" id="nQ7-5p-k1g"/>
                             <constraint firstItem="Agy-GE-F1D" firstAttribute="top" secondItem="kvi-eN-N4e" secondAttribute="top" constant="9" id="roo-Z5-9Vs"/>
-                            <constraint firstItem="aaV-2o-zza" firstAttribute="centerX" secondItem="Agy-GE-F1D" secondAttribute="centerX" id="sDB-jQ-k5S"/>
-                            <constraint firstItem="igu-5V-Q4F" firstAttribute="centerX" secondItem="Agy-GE-F1D" secondAttribute="centerX" id="wsO-Xm-eIx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Agy-GE-F1D"/>
                         <connections>
@@ -280,8 +250,6 @@
                         </connections>
                     </view>
                     <connections>
-                        <outlet property="feedbackMessageLabel" destination="aaV-2o-zza" id="R92-PE-any"/>
-                        <outlet property="feedbackTextView" destination="vCL-BW-PUO" id="jjO-Eo-GSj"/>
                         <segue destination="ywL-C1-Nnl" kind="unwind" identifier="unwindToMainMenuFromFeedback" unwindAction="didUnwindFromFeedbackView:" id="cOo-wg-uoV"/>
                     </connections>
                 </viewController>
@@ -898,6 +866,7 @@
                         <outlet property="messageTextView" destination="ZO4-Xa-qBg" id="fzo-SB-xOM"/>
                         <outlet property="messagesCollection" destination="N00-um-FBz" id="7Ge-sm-ncj"/>
                         <outlet property="sendButton" destination="2eJ-TF-GrE" id="qdz-8Y-g6s"/>
+                        <outlet property="trashButton" destination="Jn5-hW-2tZ" id="rsH-XW-k85"/>
                         <segue destination="4py-m5-PS5" kind="unwind" identifier="messengerVCToMainMenu" unwindAction="didUnwindFromMessengerVC:" id="yqj-0X-hkL"/>
                     </connections>
                 </viewController>

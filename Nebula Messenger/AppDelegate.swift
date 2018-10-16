@@ -22,13 +22,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        self.window!.tintColor = UIColor.init(red: 175/255, green: 0/255, blue: 124/255, alpha: 1)
+        self.window!.tintColor = nebulaPurple//UIColor.init(red: 175/255, green: 0/255, blue: 124/255, alpha: 1)
         setColors()
         
         FirebaseApp.configure()
         
         Messaging.messaging().delegate = self
-        // Override point for customization after application launch.
         
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)

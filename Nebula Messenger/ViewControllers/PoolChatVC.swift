@@ -71,12 +71,6 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         self.messagesCollection.keyboardDismissMode = .interactive
         
-        PoolRoutes.getPoolMessages(id: self.poolId){messagesList in
-            self.currentPoolMessages = messagesList
-            self.messagesCollection.reloadData()
-            self.messagesCollection.layoutIfNeeded()
-        }
-        
         self.setupKeyboardObservers()
 
         // Do any additional setup after loading the view.
@@ -95,14 +89,26 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         bottomLineView.layer.borderWidth = 1.0
         bottomLineView.layer.borderColor = UIColor.gray.cgColor
         self.view.addSubview(bottomLineView)
-        print(self.sendButton.frame.origin.y)
+        self.sendButton.isEnabled = false
         
         self.openSocket {
         }
+        self.scrollToBottom(animated: true)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    func scrollToBottom(animated: Bool) {
+        DispatchQueue.main.async {
+            self.messagesCollection.layoutIfNeeded()
+            let scrollToY = self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + 8
+            let cInset = self.messagesCollection.contentInset.bottom
+            
+            let contentPoint = CGPoint(x: 0, y: scrollToY + cInset)
+            self.messagesCollection.setContentOffset(contentPoint, animated: animated)
+        }
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -143,6 +149,7 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         
         self.bottomViewBottomAnchor?.constant += keyboardFrame.height
         self.bottomLineView.frame.origin.y -= keyboardFrame.height
+        self.scrollToBottom(animated: true)
         UIView.animate(withDuration: keyboardDuration){
             self.view.layoutIfNeeded()
         }
@@ -239,6 +246,7 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
                     self.currentPoolMessages.append(tempMsg)
                     self.messagesCollection.reloadData()
                     //self.scrollToBottomAnimated(animated: true)
+                    self.scrollToBottom(animated: true)
                 }
             } catch {
                 print(msg)
@@ -250,5 +258,20 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
     //MARK: Nav
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         SocketIOManager.shutOffListener()
+    }
+    
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if(event?.subtype == UIEvent.EventSubtype.motionShake) {
+            let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Give Feedback", style: .default, handler: {action in
+                let feedbackVC = FeedbackVC()
+                feedbackVC.modalPresentationStyle = .overCurrentContext
+                self.present(feedbackVC, animated: true, completion: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }

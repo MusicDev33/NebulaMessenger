@@ -25,14 +25,19 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @IBOutlet weak var featureMessageLabel: UILabel!
     @IBOutlet weak var secretButton: UIButton!
+    var searchConvMode = false
     
     // Add names here to allow the users to access pools
     let authorizedUsers = ["MusicDev", "ben666", "justinhunter20", "testaccount", "Mr.Rogers"]
     
+    var passMsgList = [TerseMessage]()
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if addFriendsMode{
             return searchResults.count
-        }else{
+        }else if searchConvMode{
+            return searchResults.count
+        } else{
             return GlobalUser.conversations.count
         }
         
@@ -58,6 +63,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentCell = tableView.cellForRow(at: indexPath) as! UITableViewCell
+        self.searchController.isActive = false
         if self.addFriendsMode{
             let cellText = currentCell.textLabel?.text!
             if !(cellText?.contains("\u{2714}"))!{
@@ -71,8 +77,13 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.passId = GlobalUser.friendsConvDict[cellText]!
             self.passInvolved = GlobalUser.conversations[indexPath.row]
             self.passFriend = cellText
-            tableView.deselectRow(at: indexPath, animated: true)
-            self.performSegue(withIdentifier: "toMessengerVC", sender: self)
+            view.endEditing(true)
+            self.searchController.searchBar.endEditing(true)
+            RouteLogic.getMessages(id: self.passId){messageList in
+                self.passMsgList = messageList
+                tableView.deselectRow(at: indexPath, animated: true)
+                self.performSegue(withIdentifier: "toMessengerVC", sender: self)
+            }
         }
     }
     
@@ -171,6 +182,21 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if(event?.subtype == UIEvent.EventSubtype.motionShake) {
+            let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Give Feedback", style: .default, handler: {action in
+                let feedbackVC = FeedbackVC()
+                feedbackVC.modalPresentationStyle = .overCurrentContext
+                self.present(feedbackVC, animated: true, completion: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
+                
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
     //Start of non-search part
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -182,14 +208,16 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         if GlobalUser.username == "MusicDev" || GlobalUser.username == "ben666"{
             self.secretButton.setTitle("Secret", for: .normal)
-        }else{
+        }else if GlobalUser.username == "hockaboo"{
             self.secretButton.setTitle("Feedback", for: .normal)
+        }else{
             let df = DateFormatter()
             df.dateFormat = "dd/MM/yyyy hh:mm:ss"
             
             // Creating the date object
             let now = df.string(from: Date())
             DiagnosticRoutes.sendInfo(info: "Logged in.", optional: now+": Login Event")
+            self.secretButton.isHidden = true
         }
     }
     
@@ -199,8 +227,13 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.convTable.reloadData()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
     //MARK: Actions
     @IBAction func profileButtonPressed(_ sender: UIButton) {
+        self.searchController.isActive = false
         self.performSegue(withIdentifier: "toMyProfileView", sender: self)
     }
     
@@ -214,6 +247,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @IBAction func addFriendsButtonPressed(_ sender: UIButton) {
         // Xtreme Hacking
+        self.searchController.isActive = false
         self.addFriendsMode = !self.addFriendsMode
         if self.addFriendsMode{
             searchController.searchBar.placeholder = "Search for your friends!"
@@ -229,7 +263,9 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         if GlobalUser.username == "MusicDev" || GlobalUser.username == "ben666"{
             self.performSegue(withIdentifier: "toSecretPage", sender: self)
         }else{
-            self.performSegue(withIdentifier: "toFeedbackVC", sender: self)
+            let feedbackVC = FeedbackVC()
+            feedbackVC.modalPresentationStyle = .overCurrentContext
+            self.present(feedbackVC, animated: true, completion: nil)
         }
         
     }
@@ -268,6 +304,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             vc?.id = self.passId
             vc?.involved = self.passInvolved
             vc?.friend = self.passFriend
+            vc?.msgList = self.passMsgList
         }
     }
     

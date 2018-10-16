@@ -75,4 +75,11 @@ class GlobalUser: NSObject {
         
     }
     
+    static func version() -> String {
+        let dictionary = Bundle.main.infoDictionary!
+        let version = dictionary["CFBundleShortVersionString"] ?? "?.?"
+        let build = dictionary["CFBundleVersion"] ?? "unknown"
+        return "\(version) build: \(build)"
+    }
+    
 }

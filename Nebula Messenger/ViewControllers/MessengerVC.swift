@@ -28,6 +28,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     @IBOutlet weak var deleteMsgLabel: UILabel!
     @IBOutlet weak var messagesCollection: UICollectionView!
     
+    @IBOutlet weak var trashButton: UIButton!
     
     @IBOutlet weak var bottomView: UIView!
     
@@ -47,13 +48,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         
         self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         self.messagesCollection.keyboardDismissMode = .interactive
-        
-        RouteLogic.getMessages(id: self.id){messageList in
-            self.msgList = messageList
-            self.messagesCollection.reloadData()
-            self.messagesCollection.layoutIfNeeded()
-            //self.scrollToBottom()
-        }
         
         let window = UIApplication.shared.keyWindow
         topPadding = window?.safeAreaInsets.top ?? 0
@@ -81,7 +75,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         bottomLineView.layer.borderColor = UIColor.gray.cgColor
         self.view.addSubview(bottomLineView)
         
-        self.deleteMsgLabel.isHidden = true
+        self.deleteMsgLabel.text = self.friend
         
         self.openSocket {
         }
@@ -89,17 +83,23 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         self.sendButton.isEnabled = false
         
         GlobalUser.currentConv = self.friend
+        self.scrollToBottom(animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.messagesCollection.layoutIfNeeded()
+        self.view.alpha = 1
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.view.alpha = 0.3
     }
     
     override func viewDidLayoutSubviews(){
         super.viewDidLayoutSubviews()
         self.messagesCollection.layoutIfNeeded()
         if !didScroll{
-            self.scrollToBottom()
+            //self.scrollToBottom(animated: false)
             didScroll = true
         }
         
@@ -107,10 +107,11 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.scrollToBottom()
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        self.view.alpha = 0.3
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -162,14 +163,14 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         print(self.messagesCollection.frame.height)
     }
     
-    func scrollToBottom() {
+    func scrollToBottom(animated: Bool) {
         DispatchQueue.main.async {
             self.messagesCollection.layoutIfNeeded()
             let scrollToY = self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + 8
+            let cInset = self.messagesCollection.contentInset.bottom
             
-            let contentPoint = CGPoint(x: 0, y: scrollToY)
-            self.messagesCollection.setContentOffset(contentPoint, animated: false)
-            //self.messagesCollection?.scrollToItem(at: IndexPath(item: self.msgList.count-1, section: 0), at: UICollectionView.ScrollPosition.bottom, animated: true)
+            let contentPoint = CGPoint(x: 0, y: scrollToY + cInset)
+            self.messagesCollection.setContentOffset(contentPoint, animated: animated)
         }
     }
     
@@ -194,7 +195,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                 self.sendButton.isEnabled = false
             }
         }
-        
         return true
     }
     
@@ -211,16 +211,14 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     }
     
     @objc func handleKeyboardWillShow(notification: NSNotification){
-        print("HHOHOHOH")
         let keyboardFrame: CGRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect)
         
         let keyboardDuration: Double = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double)
-        print("HEIGHT")
-        print(keyboardFrame.height)
         self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: keyboardFrame.height+8-bottomPadding, right: 0)
         
         self.bottomViewBottomAnchor?.constant += keyboardFrame.height - bottomPadding
         self.bottomLineView.frame.origin.y -= keyboardFrame.height - bottomPadding
+        self.scrollToBottom(animated: true)
         UIView.animate(withDuration: keyboardDuration){
             self.view.layoutIfNeeded()
         }
@@ -248,8 +246,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         
         // Creating the date object
         var now = df.string(from: Date())
-        print(now)
-        print("DATE")
         now.insert("a", at: now.index(now.startIndex, offsetBy: +11))
         now.insert("t", at: now.index(now.startIndex, offsetBy: +12))
         now.insert(" ", at: now.index(now.startIndex, offsetBy: +13))
@@ -318,9 +314,9 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         self.messagesCollection.allowsMultipleSelection = self.deleteModeOn
         //self.messagesCollection.allowsMultipleSelectionDuringEditing = self.deleteModeOn
         if self.deleteModeOn{
-            self.deleteMsgLabel.isHidden = !self.deleteModeOn
+            self.trashButton.imageView?.tintColor = nebulaFlame
         }else{
-            self.deleteMsgLabel.isHidden = true
+            self.trashButton.imageView?.tintColor = nebulaPurple
         }
         if self.deleteArray.count > 0{
             let alert = UIAlertController(title: "Do you want to delete these messages?", message: "", preferredStyle: .alert)
@@ -346,6 +342,20 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         }
     }
     
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if(event?.subtype == UIEvent.EventSubtype.motionShake) {
+            let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Give Feedback", style: .default, handler: {action in
+                let feedbackVC = FeedbackVC()
+                feedbackVC.modalPresentationStyle = .overCurrentContext
+                self.present(feedbackVC, animated: true, completion: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
     //MARK: Sockets
     func openSocket(completion: () -> Void) {
         SocketIOManager.socket.on("message") { ( data, ack) -> Void in
@@ -364,6 +374,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                 if msg["convId"].string! == self.involved{
                     self.msgList.append(tempMsg)
                     self.messagesCollection.reloadData()
+                    self.scrollToBottom(animated: true)
                     //self.scrollToBottomAnimated(animated: true)
                 }
             } catch {
