@@ -35,6 +35,13 @@ class GlobalUser: NSObject {
     // Names to usernames dict - Name:Username
     static var namesToUsernames = [String:String]()
     
+    //Ugh, more dictionaries, someone clean this up please....
+    //Both start with the Ben, Tim, Dan thing
+    //My mom would murder me if she found out my code looked like this
+    static var convLastRead = [String:String]()
+    static var convLastMsg = [String:String]()
+    
+    
     // Conv Name then Boolean: Ben: true
     // This will be for muting conversations in the future
     static var notificationDict = [String: Bool]()

@@ -23,6 +23,14 @@ class MessageBubble: UICollectionViewCell{
         return tv
     }()
     
+    let dateView: UILabel = {
+        var label = UILabel()
+        label.text = ""
+        label.isHidden = true
+        
+        return label
+    }()
+    
     let messageLabel: UILabel = {
         var label = UILabel()
         label.text = ""
@@ -67,13 +75,13 @@ class MessageBubble: UICollectionViewCell{
         bubbleView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         bubbleView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
         
-        bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: self.frame.width*0.6)
+        bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: self.frame.width*0.7)
         bubbleWidthAnchor?.isActive = true
         
         messageLabel.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 8).isActive = true
         messageLabel.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -8).isActive = true
         messageLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        messageLabel.widthAnchor.constraint(equalToConstant: self.frame.width*0.6).isActive = true
+        messageLabel.widthAnchor.constraint(equalToConstant: self.frame.width*0.7).isActive = true
         messageLabel.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
     }
     

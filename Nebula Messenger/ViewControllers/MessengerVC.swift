@@ -84,6 +84,10 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         
         GlobalUser.currentConv = self.friend
         self.scrollToBottom(animated: true)
+        
+        ConversationRoutes.updateLastRead(id: self.id, msgId: msgList[msgList.count-1]._id ?? "NA"){
+
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -148,7 +152,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     }
     
     func findSize(text: String, label: UILabel) -> CGRect{
-        let constraintRect = CGSize(width: 0.66 * view.frame.width,
+        let constraintRect = CGSize(width: 0.8 * view.frame.width,
                                     height: .greatestFiniteMagnitude)
         let returnRect = text.boundingRect(with: constraintRect,
                                            options: .usesLineFragmentOrigin,
@@ -299,7 +303,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                 case .failure(let Json):
                     let jsonObject = JSON(Json)
                     print(jsonObject)
-                    print("failed")
+                    print("Failed to send message.")
                 }
             })
         }catch{

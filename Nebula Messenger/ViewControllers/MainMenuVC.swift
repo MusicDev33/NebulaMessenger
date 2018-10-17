@@ -58,7 +58,11 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }else if self.searchConvMode{
             cell.textLabel?.text = self.searchResults[indexPath.row]
         } else{
-            cell.textLabel?.text = GlobalUser.convNames[indexPath.row]
+            var convName = GlobalUser.convNames[indexPath.row]
+            if GlobalUser.convLastMsg[convName] == GlobalUser.convLastRead[convName]{
+                convName += " READ"
+            }
+            cell.textLabel?.text = convName
         }
         return cell
     }
@@ -161,7 +165,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         if searchText == "" {
             self.searchResults = GlobalUser.convNames
             self.convTable.reloadData()
-        }else if searchText.count > 3{
+        }else if searchText.count > 0{
             let searchString = searchController.searchBar.text
             if self.searchConvMode{
                 self.searchResults = [String]()
@@ -192,7 +196,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         if searchString == "" {
             self.convTable.reloadData()
-        }else if searchString!.count > 3{
+        }else if searchString!.count > 0{
             RouteLogic.searchFriends(characters: searchString!){friends in
                 self.searchResults = friends
             }

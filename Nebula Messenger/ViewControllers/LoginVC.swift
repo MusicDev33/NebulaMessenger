@@ -57,14 +57,21 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             let password = UserDefaults.standard.string(forKey: "password") ?? ""
             RouteLogic.sendLogin(username: username, password: password){success in
                 if success.success!{
-                    RouteLogic.getConversations {
+                    RouteLogic.getFriendsAndConversations {
+                        print(GlobalUser.conversations)
                         Messaging.messaging().subscribe(toTopic: GlobalUser.username) { error in
                             print("Subscribed to " + GlobalUser.username)
                         }
                         self.usernameTextField.text = ""
                         self.passwordTextField.text = ""
+                        
+                        self.spinnyThing.isHidden = true
+                        self.loginButtonOutlet.isHidden = false
+                        self.goToRegisterButton.isHidden = false
+                        
                         self.performSegue(withIdentifier: "toMainMenuVC", sender: self)
                     }
+                    
                 }else{
                     self.serverMessageLabel.text = success.message
                     self.showServerMessage()
@@ -130,11 +137,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 //                    }
 //                    self.usernameTextField.text = ""
 //                    self.passwordTextField.text = ""
-//                    
+//
 //                    self.spinnyThing.isHidden = true
 //                    self.loginButtonOutlet.isHidden = false
 //                    self.goToRegisterButton.isHidden = false
-//                    
+//
 //                    self.performSegue(withIdentifier: "toMainMenuVC", sender: self)
 //                }
             }else{

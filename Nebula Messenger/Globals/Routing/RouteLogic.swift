@@ -115,9 +115,11 @@ class RouteLogic {
                         let name = jsonObject["friends"][index]["name"].string ?? "N/A: Name not found"
                         let username = jsonObject["friends"][index]["username"].string ?? "N/A: Username not found"
                         GlobalUser.realNames.append(name)
+                        print(name)
                         GlobalUser.namesToUsernames[name] = username
                         index += 1
                     }
+                    print(GlobalUser.realNames)
                     
                     for i in 0..<jsonObject["convs"].count{
                         let currentConvId = jsonObject["convs"][i]["involved"].stringValue
@@ -126,6 +128,9 @@ class RouteLogic {
                         GlobalUser.involvedDict[friend] = currentConvId
                         GlobalUser.friendsConvDict[friend] = jsonObject["convs"][i]["id"].stringValue
                         GlobalUser.convNames.append(friend)
+                        GlobalUser.convLastMsg[friend] = jsonObject["convs"][i]["lastMessage"].string ?? ""
+                        GlobalUser.convLastRead[friend] = jsonObject["convs"][i]["lastMsgRead"][GlobalUser.username].string ?? ""
+                        
                     }
                     completion()
                 case .failure(_):
