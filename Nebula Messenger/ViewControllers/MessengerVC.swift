@@ -89,6 +89,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     override func viewWillAppear(_ animated: Bool) {
         self.messagesCollection.layoutIfNeeded()
         self.view.alpha = 1
+        self.messageTextView.text = UserDefaults.standard.string(forKey: self.id) ?? ""
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -195,6 +196,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                 self.sendButton.isEnabled = false
             }
         }
+        UserDefaults.standard.set(textView.text, forKey: self.id)
         return true
     }
     
@@ -289,7 +291,10 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                     SocketIOManager.sendMessage(message: [dec])
                     if jsonObject["id"].exists(){
                         self.id = jsonObject["id"].string!
+                        UserDefaults.standard.set("", forKey: self.id)
                         GlobalUser.addToConvNames(convName: self.friend, id: self.id, involved: self.involved)
+                    }else{
+                        UserDefaults.standard.set("", forKey: self.id)
                     }
                 case .failure(let Json):
                     let jsonObject = JSON(Json)
@@ -372,6 +377,11 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                                            dateTime: msg["dateTime"].string!,
                                            read: false)
                 if msg["convId"].string! == self.involved{
+                    if msg["sender"].string! == GlobalUser.username{
+                        
+                    }else{
+                        playIncomingMessage()
+                    }
                     self.msgList.append(tempMsg)
                     self.messagesCollection.reloadData()
                     self.scrollToBottom(animated: true)

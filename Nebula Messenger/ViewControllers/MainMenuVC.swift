@@ -55,7 +55,9 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 
             }
             cell.textLabel?.text = cellText
-        }else{
+        }else if self.searchConvMode{
+            cell.textLabel?.text = self.searchResults[indexPath.row]
+        } else{
             cell.textLabel?.text = GlobalUser.convNames[indexPath.row]
         }
         return cell
@@ -137,12 +139,17 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.convTable.tableHeaderView = searchController.searchBar
     }
     
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.searchConvMode = true
+        self.searchResults = GlobalUser.convNames
+    }
+    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        //self.shouldShowResults = true
         self.convTable.reloadData()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.searchConvMode = false
         self.convTable.reloadData()
     }
     
@@ -152,16 +159,30 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     // We're just going to pretend like I understand what these functions do
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText == "" {
+            self.searchResults = GlobalUser.convNames
             self.convTable.reloadData()
         }else if searchText.count > 3{
             let searchString = searchController.searchBar.text
-            
-            RouteLogic.searchFriends(characters: searchString!){friends in
-                self.searchResults = friends
+            if self.searchConvMode{
+                self.searchResults = [String]()
+                for i in GlobalUser.convNames{
+                    if i.lowercased().contains(searchText.lowercased()){
+                        self.searchResults.append(i)
+                    }
+                }
+            }else if self.addFriendsMode{
+                RouteLogic.searchFriends(characters: searchString!){friends in
+                    self.searchResults = friends
+                }
+                self.convTable.reloadData()
             }
-            self.convTable.reloadData()
+            
         }else{
-            self.searchResults = []
+            if self.searchConvMode{
+                self.searchResults = GlobalUser.convNames
+            }else{
+                self.searchResults = []
+            }
             self.convTable.reloadData()
         }
     }
@@ -203,9 +224,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         // Do any additional setup after loading the view.
         self.secretButton.isHidden = false
         SocketIOManager.establishConnection()
-        RouteLogic.getFriendsAndConversations {
-            self.configureSearchController()
-        }
+        self.configureSearchController()
         if GlobalUser.username == "MusicDev" || GlobalUser.username == "ben666"{
             self.secretButton.setTitle("Secret", for: .normal)
         }else if GlobalUser.username == "hockaboo"{

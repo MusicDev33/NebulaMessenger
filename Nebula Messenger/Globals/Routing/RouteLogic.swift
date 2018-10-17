@@ -110,7 +110,23 @@ class RouteLogic {
                     let jsonObject = JSON(Json)
                     print("GETTING")
                     print(jsonObject)
+                    var index = 0
+                    for _ in jsonObject["friends"]{
+                        let name = jsonObject["friends"][index]["name"].string ?? "N/A: Name not found"
+                        let username = jsonObject["friends"][index]["username"].string ?? "N/A: Username not found"
+                        GlobalUser.realNames.append(name)
+                        GlobalUser.namesToUsernames[name] = username
+                        index += 1
+                    }
                     
+                    for i in 0..<jsonObject["convs"].count{
+                        let currentConvId = jsonObject["convs"][i]["involved"].stringValue
+                        let friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: currentConvId)
+                        GlobalUser.conversations.append(currentConvId)
+                        GlobalUser.involvedDict[friend] = currentConvId
+                        GlobalUser.friendsConvDict[friend] = jsonObject["convs"][i]["id"].stringValue
+                        GlobalUser.convNames.append(friend)
+                    }
                     completion()
                 case .failure(_):
                     print("Not working!")

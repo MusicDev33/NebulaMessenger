@@ -29,6 +29,12 @@ class GlobalUser: NSObject {
     // Only Conv Names: Ben, Tim, Dan
     static var convNames = [String]()
     
+    // People's real names
+    static var realNames = [String]()
+    
+    // Names to usernames dict - Name:Username
+    static var namesToUsernames = [String:String]()
+    
     // Conv Name then Boolean: Ben: true
     // This will be for muting conversations in the future
     static var notificationDict = [String: Bool]()
