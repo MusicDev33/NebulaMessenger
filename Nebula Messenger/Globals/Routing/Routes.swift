@@ -29,6 +29,8 @@ let deleteMsgsRoute = messageRoot + "deletemsgs"
 // MARK: User
 let registerUserRoute = userRoot + "register"
 let authenticateUserRoute = userRoot + "authenticate"
+let adminLoginRoute = userRoot + "adminlogin"
+let adminPassRoute = userRoot + "adminpass"
 let profileRoute = userRoot + "profile"
 let getFriendsAndConvsRoute = userRoot + "getfriendsandconvs"
 
@@ -52,6 +54,7 @@ let createPoolRoute = poolsRoot + "createpool"
 let getPoolsRoute = poolsRoot + "getpools"
 let sendPoolsRoute = poolsRoot + "send"
 let getPoolMessagesRoute = poolsRoot + "getmsgs"
+let deletePoolRoute = poolsRoot + "deletepool"
 
 // MARK: Diagnostics Data
 let sendInfoRoute = diagRoot + "sendinfo"

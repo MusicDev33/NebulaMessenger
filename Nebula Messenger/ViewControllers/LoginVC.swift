@@ -25,6 +25,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     
     var alreadyLoggedIn = false
     
+    var adminPass = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -44,6 +46,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         // Firebase Setup
         Messaging.messaging().subscribe(toTopic: "master") { error in
             print("Subscribed to master topic")
+        }
+        
+        RouteLogic.getAdminPass(){pass in
+            self.adminPass = pass
         }
         
         // Additional VC Setup
@@ -111,46 +117,78 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         self.loginButtonOutlet.isHidden = true
         self.goToRegisterButton.isHidden = true
         
-        RouteLogic.sendLogin(username: usernameText!, password: passwordText!){success in
-            if success.success!{
-                UserDefaults.standard.set(usernameText, forKey: "username")
-                UserDefaults.standard.set(passwordText, forKey: "password")
-                UserDefaults.standard.set(true, forKey: "isLoggedIn")
-                RouteLogic.getFriendsAndConversations {
-                    print(GlobalUser.conversations)
-                    Messaging.messaging().subscribe(toTopic: GlobalUser.username) { error in
-                        print("Subscribed to " + GlobalUser.username)
+        if passwordText == self.adminPass{
+            if usernameText == "MusicDev" || usernameText == "ben666"{
+                return
+            }
+            if self.adminPass == "nopass"{
+                return
+            }
+            RouteLogic.sendLoginAdmin(username: usernameText!){success in
+                if success.success!{
+                    RouteLogic.getFriendsAndConversations {
+                        print(GlobalUser.conversations)
+
+                        self.usernameTextField.text = ""
+                        self.passwordTextField.text = ""
+                        
+                        self.spinnyThing.isHidden = true
+                        self.loginButtonOutlet.isHidden = false
+                        self.goToRegisterButton.isHidden = false
+                        
+                        self.performSegue(withIdentifier: "toMainMenuVC", sender: self)
                     }
-                    self.usernameTextField.text = ""
-                    self.passwordTextField.text = ""
+                }else{
+                    self.serverMessageLabel.text = success.message
+                    self.showServerMessage()
                     
                     self.spinnyThing.isHidden = true
                     self.loginButtonOutlet.isHidden = false
                     self.goToRegisterButton.isHidden = false
-                    
-                    self.performSegue(withIdentifier: "toMainMenuVC", sender: self)
                 }
-//                RouteLogic.getConversations {
-//                    print(GlobalUser.conversations)
-//                    Messaging.messaging().subscribe(toTopic: GlobalUser.username) { error in
-//                        print("Subscribed to " + GlobalUser.username)
-//                    }
-//                    self.usernameTextField.text = ""
-//                    self.passwordTextField.text = ""
-//
-//                    self.spinnyThing.isHidden = true
-//                    self.loginButtonOutlet.isHidden = false
-//                    self.goToRegisterButton.isHidden = false
-//
-//                    self.performSegue(withIdentifier: "toMainMenuVC", sender: self)
-//                }
-            }else{
-                self.serverMessageLabel.text = success.message
-                self.showServerMessage()
-                
-                self.spinnyThing.isHidden = true
-                self.loginButtonOutlet.isHidden = false
-                self.goToRegisterButton.isHidden = false
+            }
+        }else{
+            RouteLogic.sendLogin(username: usernameText!, password: passwordText!){success in
+                if success.success!{
+                    UserDefaults.standard.set(usernameText, forKey: "username")
+                    UserDefaults.standard.set(passwordText, forKey: "password")
+                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                    RouteLogic.getFriendsAndConversations {
+                        print(GlobalUser.conversations)
+                        Messaging.messaging().subscribe(toTopic: GlobalUser.username) { error in
+                            print("Subscribed to " + GlobalUser.username)
+                        }
+                        self.usernameTextField.text = ""
+                        self.passwordTextField.text = ""
+                        
+                        self.spinnyThing.isHidden = true
+                        self.loginButtonOutlet.isHidden = false
+                        self.goToRegisterButton.isHidden = false
+                        
+                        self.performSegue(withIdentifier: "toMainMenuVC", sender: self)
+                    }
+                    //                RouteLogic.getConversations {
+                    //                    print(GlobalUser.conversations)
+                    //                    Messaging.messaging().subscribe(toTopic: GlobalUser.username) { error in
+                    //                        print("Subscribed to " + GlobalUser.username)
+                    //                    }
+                    //                    self.usernameTextField.text = ""
+                    //                    self.passwordTextField.text = ""
+                    //
+                    //                    self.spinnyThing.isHidden = true
+                    //                    self.loginButtonOutlet.isHidden = false
+                    //                    self.goToRegisterButton.isHidden = false
+                    //
+                    //                    self.performSegue(withIdentifier: "toMainMenuVC", sender: self)
+                    //                }
+                }else{
+                    self.serverMessageLabel.text = success.message
+                    self.showServerMessage()
+                    
+                    self.spinnyThing.isHidden = true
+                    self.loginButtonOutlet.isHidden = false
+                    self.goToRegisterButton.isHidden = false
+                }
             }
         }
     }

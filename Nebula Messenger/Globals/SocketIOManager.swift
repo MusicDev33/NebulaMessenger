@@ -32,7 +32,7 @@ class SocketIOManager: NSObject {
         print("SOCKETIO")
         print(message)
         self.socket.emit("add-message", with: message)
-        self.socket.emit("add-message", message)
+        //self.socket.emit("add-message", message)
     }
     
     static func newSendMessage(message: [Any], users: [String]){

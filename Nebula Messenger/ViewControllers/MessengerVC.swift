@@ -77,23 +77,36 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         
         self.deleteMsgLabel.text = self.friend
         
-        self.openSocket {
-        }
-        
         self.sendButton.isEnabled = false
         
         GlobalUser.currentConv = self.friend
         self.scrollToBottom(animated: true)
-        
-        ConversationRoutes.updateLastRead(id: self.id, msgId: msgList[msgList.count-1]._id ?? "NA"){
-
+        if msgList.count > 0{
+            ConversationRoutes.updateLastRead(id: self.id, msgId: msgList[msgList.count-1]._id ?? "NA"){
+            }
         }
+        
+        GlobalUser.unreadList = GlobalUser.unreadList.filter {$0 != self.id}
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.openSocket {
+        }
         self.messagesCollection.layoutIfNeeded()
         self.view.alpha = 1
         self.messageTextView.text = UserDefaults.standard.string(forKey: self.id) ?? ""
+        NotificationCenter.default.addObserver(self, selector: #selector(self.closeActivityController), name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.openactivity), name: UIApplication.didBecomeActiveNotification, object: nil)
+
+    }
+    
+    @objc func closeActivityController()  {
+        view.endEditing(true)
+    }
+    
+    @objc func openactivity()  {
+        
+        //view should reload the data.
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -380,7 +393,10 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                                            body: msg["body"].string!,
                                            dateTime: msg["dateTime"].string!,
                                            read: false)
-                if msg["convId"].string! == self.involved{
+                print(tempMsg)
+                print(self.involved)
+                if Utility.alphabetSort(preConvId: msg["convId"].string!) == Utility.alphabetSort(preConvId: self.involved){
+                    print("Something hapened!")
                     if msg["sender"].string! == GlobalUser.username{
                         
                     }else{
@@ -389,7 +405,12 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                     self.msgList.append(tempMsg)
                     self.messagesCollection.reloadData()
                     self.scrollToBottom(animated: true)
+                    ConversationRoutes.updateLastRead(id: self.id, msgId: ""){
+                        
+                    }
                     //self.scrollToBottomAnimated(animated: true)
+                }else{
+                    print("Something went wrong")
                 }
             } catch {
                 print(msg)
@@ -400,7 +421,9 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     
     //MARK: Nav
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        SocketIOManager.socket.off("message")
         if segue.destination is MainMenuVC{
+            let vc = segue.destination as? MessengerVC
             SocketIOManager.shutOffListener()
         }
     }

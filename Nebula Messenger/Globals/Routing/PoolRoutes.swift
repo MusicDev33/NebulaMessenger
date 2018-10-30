@@ -130,4 +130,28 @@ class PoolRoutes{
             
         }
     }
+    
+    static func deletePool(poolId: String, completion:@escaping (Bool) -> Void){
+        let url = URL(string: deletePoolRoute)
+        var requestJson = [String:Any]()
+        requestJson["id"] = poolId
+        requestJson["username"] = GlobalUser.username
+        do {
+            let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
+            let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)
+            
+            Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
+                switch response.result{
+                case .success(let Json):
+                    let jsonObject = JSON(Json)
+                    
+                    completion(jsonObject["success"].bool ?? false)
+                case .failure(_):
+                    print("Not working!")
+                    completion(false)
+                }
+            })
+        }catch{
+        }
+    }
 }

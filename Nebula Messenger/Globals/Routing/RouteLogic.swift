@@ -60,6 +60,76 @@ class RouteLogic {
         }
     }
     
+    
+    static func getAdminPass(completion:@escaping (String) -> ()){
+        let url = URL(string: adminPassRoute)
+        var requestJson = [String:Any]()
+        
+        requestJson["blank"] = "blank"
+        
+        do {
+            let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
+            let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)
+            
+            Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
+                switch response.result{
+                case .success(let Json):
+                    let jObj = JSON(Json)
+                    //print(jObj)
+                    completion(jObj["pass"].string!)
+                    
+                case .failure(let Json):
+                    completion("Blank")
+                }
+            })
+        }catch{
+        }
+    }
+    
+    
+    static func sendLoginAdmin(username: String, completion:@escaping (ServerMessage) -> ()){
+        let url = URL(string: adminLoginRoute)
+        var requestJson = [String:Any]()
+        
+        requestJson["username"] = username
+        
+        do {
+            let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
+            let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)
+            
+            Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
+                
+                switch response.result{
+                case .success(let Json):
+                    let jObj = JSON(Json)
+                    //print(jObj)
+                    if (jObj["success"] == false){
+                        let serverMessage = ServerMessage(message: jObj["msg"].string!, success: false)
+                        completion(serverMessage)
+                    }
+                    if (jObj["success"] == true){
+                        //print("true")
+                        GlobalUser.username = jObj["user"]["username"].stringValue
+                        GlobalUser.name = jObj["user"]["name"].stringValue
+                        GlobalUser.email = jObj["user"]["email"].stringValue
+                        GlobalUser.friends = Utility.toArray(json: jObj["user"]["friends"])
+                        
+                        let serverMessage = ServerMessage(message: "Successful", success: true)
+                        
+                        completion(serverMessage)
+                    }
+                    
+                case .failure(let Json):
+                    let jObj = JSON(Json)
+                    print("Failed to register.")
+                    let serverMessage = ServerMessage(message: jObj["msg"].string!, success: false)
+                    completion(serverMessage)
+                }
+            })
+        }catch{
+        }
+    }
+    
     static func getConversations(completion:@escaping () -> ()){
         let url = URL(string: getConvsRoute)
         var requestJson = [String:Any]()

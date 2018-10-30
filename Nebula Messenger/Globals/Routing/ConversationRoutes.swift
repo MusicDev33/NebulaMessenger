@@ -37,7 +37,7 @@ class ConversationRoutes{
         }
     }
     
-    static func updateLastRead(id: String, msgId: String, completion:@escaping () -> ()){
+    static func updateLastRead(id: String, msgId: String, completion:@escaping () -> Void){
         let url = URL(string: updateLastReadRoute)
         var requestJson = [String:Any]()
         requestJson["id"] = id

@@ -58,9 +58,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }else if self.searchConvMode{
             cell.textLabel?.text = self.searchResults[indexPath.row]
         } else{
-            var convName = GlobalUser.convNames[indexPath.row]
-            if GlobalUser.convLastMsg[convName] == GlobalUser.convLastRead[convName]{
-                convName += " READ"
+            let convName = GlobalUser.convNames[indexPath.row]
+            if GlobalUser.unreadList.contains(GlobalUser.friendsConvDict[convName]!){
+                cell.textLabel?.textColor = nebulaBlue
+                cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
             }
             cell.textLabel?.text = convName
         }
@@ -79,7 +80,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 }
             }
         }else{
-            let cellText = (currentCell.textLabel?.text!)!
+            var cellText = (currentCell.textLabel?.text!)!
+            if cellText.contains(" READ"){
+                cellText = String(cellText.dropLast(5))
+            }
             self.passId = GlobalUser.friendsConvDict[cellText]!
             self.passInvolved = GlobalUser.conversations[indexPath.row]
             self.passFriend = cellText
@@ -103,6 +107,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func contextualDelete(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+        
         // 1
         //var email = data[indexPath.row]
         // 2
@@ -226,6 +231,15 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        for i in GlobalUser.convNames{
+            if GlobalUser.convLastMsg[i] == GlobalUser.convLastRead[i]{
+            }else{
+                //cell.backgroundColor = nebulaBlue
+                if let unreadId = GlobalUser.friendsConvDict[i]{
+                    GlobalUser.unreadList.append(unreadId)
+                }
+            }
+        }
         self.secretButton.isHidden = false
         SocketIOManager.establishConnection()
         self.configureSearchController()
@@ -246,12 +260,16 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        self.openSocket {
+            
+        }
         GlobalUser.currentConv = ""
         self.convTable.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        self.convTable.reloadData()
     }
     
     //MARK: Actions
@@ -304,6 +322,9 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             do {
                 if msg["convId"].string!.contains(GlobalUser.username){
                 }
+                GlobalUser.unreadList.append(msg["id"].string!)
+                print(GlobalUser.unreadList)
+                self.convTable.reloadData()
             } catch {
                 print(msg)
                 print("Error JSON: \(error)")
@@ -316,7 +337,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-        
+        SocketIOManager.socket.off("message")
         if segue.destination is MessengerVC{
             let vc = segue.destination as? MessengerVC
             if self.passInvolved.components(separatedBy:":").count-1 > 1{

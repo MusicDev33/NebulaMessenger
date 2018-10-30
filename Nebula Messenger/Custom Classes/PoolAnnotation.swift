@@ -11,4 +11,6 @@ import MapKit
 
 class PoolAnnotation: MKPointAnnotation{
     var imageName: String!
+    var circle: MKCircle!
+    var id: String!
 }

@@ -40,6 +40,7 @@ class GlobalUser: NSObject {
     //My mom would murder me if she found out my code looked like this
     static var convLastRead = [String:String]()
     static var convLastMsg = [String:String]()
+    static var unreadList = [String]()
     
     
     // Conv Name then Boolean: Ben: true

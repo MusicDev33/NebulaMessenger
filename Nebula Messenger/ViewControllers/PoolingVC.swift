@@ -65,10 +65,12 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
                 let annotation = PoolAnnotation()
                 let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
                 annotation.coordinate = coordinate
-                let circle = MKCircle(center: coordinate, radius: CLLocationDistance(self.defaultRadius))
-                self.mapView.addOverlay(circle)
+                annotation.circle = MKCircle(center: coordinate, radius: CLLocationDistance(self.defaultRadius))
+                self.mapView.addOverlay(annotation.circle)
                 annotation.title = pool.name
+                annotation.subtitle = pool.creator
                 annotation.imageName = "CloudCircle"
+                annotation.id = pool.poolId
                 self.mapView.addAnnotation(annotation)
             }
         }
@@ -85,9 +87,9 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        guard let circelOverLay = overlay as? MKCircle else {return MKOverlayRenderer()}
+        guard let circleOverLay = overlay as? MKCircle else {return MKOverlayRenderer()}
         
-        let circleRenderer = MKCircleRenderer(circle: circelOverLay)
+        let circleRenderer = MKCircleRenderer(circle: circleOverLay)
         circleRenderer.strokeColor = .red
         circleRenderer.fillColor = .red
         circleRenderer.alpha = 0.3
@@ -147,7 +149,7 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         }
         else {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-            annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            //annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         }
         
         if let annotationView = annotationView {
@@ -155,8 +157,36 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
             annotationView.canShowCallout = true
             annotationView.image = UIImage(named: poolAnnotation.imageName)
             annotationView.tintColor = nebulaPurple
+            if annotationView.annotation?.subtitle == "testaccount"{
+                let customButton = UIButton(type: .contactAdd)
+                customButton.setImage(UIImage(named: "Trashcan"), for: .normal)
+                annotationView.leftCalloutAccessoryView = customButton
+            }
+            return annotationView
+        }else{
+            return annotationView
         }
-        return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
+                 calloutAccessoryControlTapped control: UIControl) {
+        
+        if control == view.leftCalloutAccessoryView {
+            if !(view.annotation is PoolAnnotation) {
+                
+            }else{
+                guard let poolAnnotation = view.annotation as? PoolAnnotation else {
+                    return
+                }
+                PoolRoutes.deletePool(poolId: poolAnnotation.id){completed in
+                    if completed{
+                        self.mapView.removeAnnotation(view.annotation!)
+                        self.mapView.removeOverlay(poolAnnotation.circle)
+                    }
+                }
+            }
+        }
+        
     }
     
     // Set up the Pool Table (Funny joke haha)
