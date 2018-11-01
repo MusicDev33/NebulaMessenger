@@ -330,15 +330,13 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             print("Socket Beginning - Main Menu")
             // print(parsedData)
             // print(msg)
-            do {
-                if msg["convId"].string!.contains(GlobalUser.username){
-                }
+            guard let msgConvId = msg["convId"].string else{
+                return
+            }
+            
+            if msgConvId.contains(GlobalUser.username){
                 GlobalUser.unreadList.append(msg["id"].string!)
-                print(GlobalUser.unreadList)
                 self.convTable.reloadData()
-            } catch {
-                print(msg)
-                print("Error JSON: \(error)")
             }
         }
     }
