@@ -394,8 +394,13 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                                            read: false)
                 print(tempMsg)
                 print(self.involved)
-                if Utility.alphabetSort(preConvId: msg["convId"].string!) == Utility.alphabetSort(preConvId: self.involved){
-                    print("Something hapened!")
+                
+                guard let msgConvId = msg["convId"].string else{
+                    return
+                }
+                
+                if Utility.alphabetSort(preConvId: msgConvId) == Utility.alphabetSort(preConvId: self.involved){
+                    print("Something happened!")
                     if msg["sender"].string! == GlobalUser.username{
                         
                     }else{
