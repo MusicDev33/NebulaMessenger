@@ -21,7 +21,7 @@ let diagRoot = "http://159.89.152.215:3000/diagnostics/"
 // MARK: Messages
 
 let sendRoute = messageRoot + "send"
-let getMsgRoute = messageRoot + "getmsgswithid"
+let getMsgRoute = messageRoot + "getmsgswithidtoken"
 let deleteMsgRoute = messageRoot + "deletemsg"
 let getOneMsgRoute = messageRoot + "getonemsg"
 let deleteMsgsRoute = messageRoot + "deletemsgs"
@@ -32,7 +32,8 @@ let authenticateUserRoute = userRoot + "authenticate"
 let adminLoginRoute = userRoot + "adminlogin"
 let adminPassRoute = userRoot + "adminpass"
 let profileRoute = userRoot + "profile"
-let getFriendsAndConvsRoute = userRoot + "getfriendsandconvs"
+let getFriendsAndConvsRoute = userRoot + "getfriendsandconvstoken"
+let getCurrentiOSRoute = userRoot + "getcurrentios"
 
 // MARK: Friends
 let getFriendsRoute = friendsRoot + "getfriends"

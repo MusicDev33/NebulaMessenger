@@ -29,6 +29,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     // Add names here to allow the users to access pools
     let authorizedUsers = ["MusicDev", "ben666", "justinhunter20", "testaccount", "Mr.Rogers"]
+    let adminUsers = ["MusicDev", "ben666", "wesperrett"]
     
     var passMsgList = [TerseMessage]()
     
@@ -240,10 +241,20 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 }
             }
         }
+        
+        let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
+        let buildNumber = Bundle.main.infoDictionary!["CFBundleVersion"] as? String
+        
+        // appVersion and buildNumber both exist for sure
+        RouteLogic.getIfCurrent(version: appVersion!, build: Int(buildNumber!)!){message in
+            self.featureMessageLabel.text = message
+            self.featureMessageLabel.isHidden = false
+        }
+        
         self.secretButton.isHidden = false
         SocketIOManager.establishConnection()
         self.configureSearchController()
-        if GlobalUser.username == "MusicDev" || GlobalUser.username == "ben666"{
+        if self.adminUsers.contains(GlobalUser.username) {
             self.secretButton.setTitle("Secret", for: .normal)
         }else if GlobalUser.username == "hockaboo"{
             self.secretButton.setTitle("Feedback", for: .normal)
@@ -301,7 +312,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @IBAction func secretButtonPressed(_ sender: UIButton) {
         // Just in case!!!
-        if GlobalUser.username == "MusicDev" || GlobalUser.username == "ben666"{
+        if self.adminUsers.contains(GlobalUser.username){
             self.performSegue(withIdentifier: "toSecretPage", sender: self)
         }else{
             let feedbackVC = FeedbackVC()

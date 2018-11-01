@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -199,7 +199,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8qq-C2-X7r">
-                                <rect key="frame" x="16" y="20" width="48" height="48"/>
+                                <rect key="frame" x="16" y="20" width="96" height="96"/>
                                 <state key="normal" image="BackArrowBlack"/>
                                 <connections>
                                     <action selector="backButtonPressed:" destination="odD-nb-Exo" eventType="touchUpInside" id="gNS-0T-cg3"/>
@@ -231,7 +231,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kvi-eN-N4e">
-                                <rect key="frame" x="15" y="11" width="48" height="48"/>
+                                <rect key="frame" x="15" y="11" width="96" height="96"/>
                                 <state key="normal" image="BackArrowBlack"/>
                                 <connections>
                                     <action selector="backButton:" destination="W87-mm-PUL" eventType="touchUpInside" id="dkr-uc-7W2"/>
@@ -272,7 +272,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3gE-AP-8qb" userLabel="ExitButton">
-                                <rect key="frame" x="16" y="20" width="48" height="48"/>
+                                <rect key="frame" x="16" y="20" width="96" height="96"/>
                                 <state key="normal" image="BlackX"/>
                                 <connections>
                                     <action selector="xButtonPressed:" destination="21g-eZ-JKn" eventType="touchUpInside" id="m5p-nU-MJy"/>
@@ -357,14 +357,14 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ex-ac-enl">
-                                <rect key="frame" x="16" y="31" width="48" height="48"/>
+                                <rect key="frame" x="16" y="-17" width="96" height="96"/>
                                 <state key="normal" image="ProfileBlack"/>
                                 <connections>
                                     <action selector="profileButtonPressed:" destination="Dct-AK-1Jl" eventType="touchUpInside" id="93X-zC-6Da"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nxg-TI-p1h">
-                                <rect key="frame" x="312" y="31" width="48" height="48"/>
+                                <rect key="frame" x="264" y="-17" width="96" height="96"/>
                                 <state key="normal" image="GroupAddBlack"/>
                                 <connections>
                                     <action selector="addFriendsButtonPressed:" destination="Dct-AK-1Jl" eventType="touchUpInside" id="Z0p-kf-UcW"/>
@@ -386,7 +386,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QWM-ZZ-kxX" userLabel="EditButton">
-                                        <rect key="frame" x="319" y="29" width="48" height="48"/>
+                                        <rect key="frame" x="271" y="-19" width="96" height="96"/>
                                         <state key="normal" image="EditIconBlack"/>
                                         <connections>
                                             <action selector="editButtonTapped:" destination="Dct-AK-1Jl" eventType="touchUpInside" id="hKP-2M-dyQ"/>
@@ -410,7 +410,7 @@
                                 </constraints>
                             </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pooling isn't available yet!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1D-NU-OIy">
-                                <rect key="frame" x="122.5" y="30.5" width="130" height="49"/>
+                                <rect key="frame" x="122.5" y="6.5" width="130" height="49"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="130" id="611-Ov-HO2"/>
                                     <constraint firstAttribute="height" constant="49" id="Sdg-Ov-c1P"/>
@@ -477,7 +477,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rEU-e2-X3L" userLabel="Back Button">
-                                <rect key="frame" x="15" y="11" width="48" height="48"/>
+                                <rect key="frame" x="15" y="11" width="96" height="96"/>
                                 <state key="normal" image="BackArrowBlack"/>
                                 <connections>
                                     <action selector="backButtonPressed:" destination="D5I-AV-VyX" eventType="touchUpInside" id="hjt-Jk-tjP"/>
@@ -608,7 +608,7 @@
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zJp-SO-C9R" userLabel="BackButton">
-                                <rect key="frame" x="14" y="34" width="48" height="48"/>
+                                <rect key="frame" x="14" y="10" width="96" height="96"/>
                                 <state key="normal" image="BackArrowBlack"/>
                                 <connections>
                                     <action selector="backButtonPressed:" destination="4wp-jj-STV" eventType="touchUpInside" id="uwQ-bq-dod"/>
@@ -697,14 +697,14 @@
                                 <rect key="frame" x="0.0" y="583" width="375" height="84"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0yb-JP-Hv1">
-                                        <rect key="frame" x="313" y="18" width="48" height="48"/>
+                                        <rect key="frame" x="265" y="-6" width="96" height="96"/>
                                         <state key="normal" image="SendBlack"/>
                                         <connections>
                                             <action selector="sendButtonPressed:" destination="eHO-1Q-Jhe" eventType="touchUpInside" id="AId-su-uBt"/>
                                         </connections>
                                     </button>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="e1m-cc-Uxa">
-                                        <rect key="frame" x="8" y="28" width="279" height="28"/>
+                                        <rect key="frame" x="8" y="28" width="231" height="28"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -723,7 +723,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qjs-8l-qWm" userLabel="Back Button">
-                                <rect key="frame" x="15" y="11" width="48" height="48"/>
+                                <rect key="frame" x="15" y="11" width="96" height="96"/>
                                 <state key="normal" image="BackArrowBlack"/>
                                 <connections>
                                     <action selector="backButtonPressed:" destination="eHO-1Q-Jhe" eventType="touchUpInside" id="Jyh-Qc-F3B"/>
@@ -767,14 +767,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gpa-hf-7h7" userLabel="BackButton">
-                                <rect key="frame" x="16" y="20" width="48" height="48"/>
+                                <rect key="frame" x="16" y="20" width="96" height="96"/>
                                 <state key="normal" image="BackArrowBlack"/>
                                 <connections>
                                     <action selector="backButton:" destination="eE2-x0-ebg" eventType="touchUpInside" id="qXS-n3-gPx"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jn5-hW-2tZ" userLabel="Trashcan">
-                                <rect key="frame" x="313" y="20" width="48" height="48"/>
+                                <rect key="frame" x="265" y="20" width="96" height="96"/>
                                 <state key="normal" image="Trashcan"/>
                                 <connections>
                                     <action selector="tappedOnTrashButton:" destination="eE2-x0-ebg" eventType="touchUpInside" id="6fe-Kk-pty"/>
@@ -814,14 +814,14 @@
                                 <rect key="frame" x="0.0" y="583" width="375" height="84"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2eJ-TF-GrE" userLabel="Send">
-                                        <rect key="frame" x="319" y="18" width="48" height="48"/>
+                                        <rect key="frame" x="271" y="-6" width="96" height="96"/>
                                         <state key="normal" image="SendBlack"/>
                                         <connections>
                                             <action selector="sendMessage:" destination="eE2-x0-ebg" eventType="touchUpInside" id="gsp-NG-0KC"/>
                                         </connections>
                                     </button>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZO4-Xa-qBg">
-                                        <rect key="frame" x="8" y="28" width="288" height="28"/>
+                                        <rect key="frame" x="8" y="28" width="240" height="28"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes"/>
@@ -877,14 +877,14 @@
         </scene>
     </scenes>
     <resources>
-        <image name="BackArrowBlack" width="48" height="48"/>
-        <image name="BlackX" width="48" height="48"/>
-        <image name="EditIconBlack" width="48" height="48"/>
-        <image name="GroupAddBlack" width="48" height="48"/>
-        <image name="Logo" width="512" height="512"/>
-        <image name="ProfileBlack" width="48" height="48"/>
-        <image name="SendBlack" width="48" height="48"/>
-        <image name="Trashcan" width="48" height="48"/>
+        <image name="BackArrowBlack" width="96" height="96"/>
+        <image name="BlackX" width="96" height="96"/>
+        <image name="EditIconBlack" width="96" height="96"/>
+        <image name="GroupAddBlack" width="96" height="96"/>
+        <image name="Logo" width="384" height="384"/>
+        <image name="ProfileBlack" width="96" height="96"/>
+        <image name="SendBlack" width="96" height="96"/>
+        <image name="Trashcan" width="96" height="96"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="yme-gr-eOF"/>

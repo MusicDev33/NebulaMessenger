@@ -96,6 +96,20 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         self.scrollToBottom(animated: true)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.closeVC), name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.openVC), name: UIApplication.didBecomeActiveNotification, object: nil)
+        
+    }
+    
+    @objc func closeVC()  {
+        view.endEditing(true)
+    }
+    
+    @objc func openVC()  {
+        self.messagesCollection.reloadData()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
     }

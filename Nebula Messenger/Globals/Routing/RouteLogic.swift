@@ -39,6 +39,7 @@ class RouteLogic {
                         GlobalUser.name = jObj["user"]["name"].stringValue
                         GlobalUser.email = jObj["user"]["email"].stringValue
                         GlobalUser.friends = Utility.toArray(json: jObj["user"]["friends"])
+                        GlobalUser.token = jObj["token"].stringValue
                         
                         UserDefaults.standard.set(username, forKey: "username")
                         UserDefaults.standard.set(password, forKey: "password")
@@ -170,6 +171,7 @@ class RouteLogic {
         let url = URL(string: getFriendsAndConvsRoute)
         var requestJson = [String:Any]()
         requestJson["username"] = GlobalUser.username
+        requestJson["token"] = GlobalUser.token
         do {
             let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
             let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)
@@ -237,10 +239,38 @@ class RouteLogic {
         }
     }
     
+    static func getIfCurrent(version: String, build: Int, completion:@escaping (String) ->()){
+        let url = URL(string: getCurrentiOSRoute)
+        var requestJson = [String:Any]()
+        requestJson["version"] = version
+        requestJson["build"] = build
+        do {
+            let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
+            let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)
+            
+            Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
+                switch response.result{
+                case .success(let Json):
+                    let jsonObject = JSON(Json)
+                    if jsonObject["success"] == false{
+                        completion(jsonObject["msg"].stringValue)
+                    }else{
+                        completion("")
+                    }
+                case .failure(_):
+                    print("Not working!")
+                    completion("")
+                }
+            })
+        }catch{
+        }
+    }
+    
     static func getMessages(id: String, completion: @escaping ([TerseMessage]) -> Void){
         let url = URL(string: getMsgRoute)
         var requestJson = [String:Any]()
         requestJson["id"] = id
+        requestJson["token"] = GlobalUser.token
         
         var passMsgList = [TerseMessage]()
         

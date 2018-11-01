@@ -95,18 +95,17 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         self.messagesCollection.layoutIfNeeded()
         self.view.alpha = 1
         self.messageTextView.text = UserDefaults.standard.string(forKey: self.id) ?? ""
-        NotificationCenter.default.addObserver(self, selector: #selector(self.closeActivityController), name: UIApplication.willResignActiveNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.openactivity), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.closeVC), name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.openVC), name: UIApplication.didBecomeActiveNotification, object: nil)
 
     }
     
-    @objc func closeActivityController()  {
+    @objc func closeVC()  {
         view.endEditing(true)
     }
     
-    @objc func openactivity()  {
-        
-        //view should reload the data.
+    @objc func openVC()  {
+        self.messagesCollection.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

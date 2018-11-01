@@ -157,7 +157,7 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
             annotationView.canShowCallout = true
             annotationView.image = UIImage(named: poolAnnotation.imageName)
             annotationView.tintColor = nebulaPurple
-            if annotationView.annotation?.subtitle == "testaccount"{
+            if annotationView.annotation?.subtitle == GlobalUser.username{
                 let customButton = UIButton(type: .contactAdd)
                 customButton.setImage(UIImage(named: "Trashcan"), for: .normal)
                 annotationView.leftCalloutAccessoryView = customButton

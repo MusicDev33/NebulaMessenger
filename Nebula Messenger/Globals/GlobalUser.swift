@@ -12,6 +12,7 @@ class GlobalUser: NSObject {
     static var showNotification = true
     
     static var username = ""
+    static var token = ""
     
     static var name = ""
     static var email = ""
