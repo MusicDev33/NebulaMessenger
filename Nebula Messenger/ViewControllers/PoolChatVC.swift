@@ -256,7 +256,12 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
                     body: msg["body"].string!,
                     dateTime: msg["dateTime"].string!,
                     read: false)
-                if msg["id"].string! == self.poolId{
+                
+                guard let msgId = msg["id"].string else{
+                    return
+                }
+                
+                if msgId == self.poolId{
                     self.currentPoolMessages.append(tempMsg)
                     self.messagesCollection.reloadData()
                     //self.scrollToBottomAnimated(animated: true)
