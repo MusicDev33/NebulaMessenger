@@ -14,6 +14,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     
     var selectedFriendsList = [String]()
+    var passMsgList = [TerseMessage]()
     
     var passId = ""
     var passInvolved = ""
@@ -62,8 +63,20 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     @IBAction func continueButtonPressed(_ sender: UIButton) {
-        self.passInvolved = Utility.createConvId(names: self.selectedFriendsList)
-        self.performSegue(withIdentifier: "toMessengerVCFromCreate", sender: self)
+        if self.selectedFriendsList.count > 1{
+            
+        }else{
+            if GlobalUser.convNames.contains(self.selectedFriendsList[0]){
+                let friend = self.selectedFriendsList[0]
+                let quickId = GlobalUser.friendsConvDict[friend]!
+                RouteLogic.getMessages(id: quickId){messageList in
+                    self.passMsgList = messageList
+                    self.performSegue(withIdentifier: "toMessengerVCFromCreate", sender: self)
+                }
+            }else{
+                self.performSegue(withIdentifier: "toMessengerVCFromCreate", sender: self)
+            }
+        }
     }
     
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
@@ -111,6 +124,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                 if GlobalUser.convNames.contains(self.selectedFriendsList[0]){
                     vc?.involved = GlobalUser.involvedDict[self.passFriend]!
                     vc?.id = GlobalUser.friendsConvDict[self.passFriend]!
+                    vc?.msgList = self.passMsgList
                 }else{
                     var passList = self.selectedFriendsList
                     passList.append(GlobalUser.username)

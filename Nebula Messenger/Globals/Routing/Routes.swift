@@ -49,6 +49,7 @@ let addConvRoute = conversationsRoot + "addconv"
 let updateConvRoute = conversationsRoot + "updateconv"
 let deleteConvRoute = conversationsRoot + "deleteconv"
 let updateLastReadRoute = conversationsRoot + "updatelastread"
+let changeGroupMembersRoute = conversationsRoot + "changegroupmembers"
 
 // MARK: Pools
 let createPoolRoute = poolsRoot + "createpool"
