@@ -60,7 +60,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             cell.textLabel?.text = self.searchResults[indexPath.row]
         } else{
             let convName = GlobalUser.convNames[indexPath.row]
-            if GlobalUser.unreadList.contains(GlobalUser.friendsConvDict[convName]!){
+            if GlobalUser.unreadList.contains(GlobalUser.masterDict[convName]!.id!){
                 cell.textLabel?.textColor = nebulaBlue
                 cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
             }
@@ -85,7 +85,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             if cellText.contains(" READ"){
                 cellText = String(cellText.dropLast(5))
             }
-            self.passId = GlobalUser.friendsConvDict[cellText]!
+            self.passId = GlobalUser.masterDict[cellText]!.id!
             self.passInvolved = GlobalUser.conversations[indexPath.row]
             self.passFriend = cellText
             view.endEditing(true)
@@ -118,7 +118,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                                             if true {
                                                 // 4
                                                 //self.data[indexPath.row] = email
-                                                let tempId = GlobalUser.friendsConvDict[GlobalUser.convNames[indexPath.row]]
+                                                let tempId = GlobalUser.masterDict[GlobalUser.convNames[indexPath.row]]!.id
                                                 ConversationRoutes.deleteConversation(id: tempId!, convName: GlobalUser.convNames[indexPath.row]){
                                                     self.convTable.reloadData()
                                                     print(GlobalUser.convNames)
@@ -233,12 +233,11 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         for i in GlobalUser.convNames{
-            if GlobalUser.convLastMsg[i] == GlobalUser.convLastRead[i]{
+            if GlobalUser.convLastMsg[i] == GlobalUser.masterDict[i]?.lastRead{
             }else{
                 //cell.backgroundColor = nebulaBlue
-                if let unreadId = GlobalUser.friendsConvDict[i]{
-                    GlobalUser.unreadList.append(unreadId)
-                }
+                let unreadId = GlobalUser.masterDict[i]!.id!
+                GlobalUser.unreadList.append(unreadId)
             }
         }
         

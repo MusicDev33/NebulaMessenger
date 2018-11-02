@@ -68,8 +68,8 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         }else{
             if GlobalUser.convNames.contains(self.selectedFriendsList[0]){
                 let friend = self.selectedFriendsList[0]
-                let quickId = GlobalUser.friendsConvDict[friend]!
-                RouteLogic.getMessages(id: quickId){messageList in
+                let quickId = GlobalUser.masterDict[friend]!.id
+                RouteLogic.getMessages(id: quickId!){messageList in
                     self.passMsgList = messageList
                     self.performSegue(withIdentifier: "toMessengerVCFromCreate", sender: self)
                 }
@@ -112,7 +112,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                 vc?.friend = self.passFriend
                 if GlobalUser.convNames.contains(friend){
                     vc?.involved = GlobalUser.involvedDict[self.passFriend]!
-                    vc?.id = GlobalUser.friendsConvDict[self.passFriend]!
+                    vc?.id = GlobalUser.masterDict[self.passFriend]!.id!
                 }else{
                     vc?.involved = tempConvId
                     vc?.friend = friend
@@ -123,7 +123,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                 self.passFriend = self.selectedFriendsList[0]
                 if GlobalUser.convNames.contains(self.selectedFriendsList[0]){
                     vc?.involved = GlobalUser.involvedDict[self.passFriend]!
-                    vc?.id = GlobalUser.friendsConvDict[self.passFriend]!
+                    vc?.id = GlobalUser.masterDict[self.passFriend]!.id!
                     vc?.msgList = self.passMsgList
                 }else{
                     var passList = self.selectedFriendsList

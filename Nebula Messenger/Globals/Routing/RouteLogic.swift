@@ -149,12 +149,10 @@ class RouteLogic {
                         let friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: currentConvId)
                         GlobalUser.conversations.append(currentConvId)
                         GlobalUser.involvedDict[friend] = currentConvId
-                        GlobalUser.friendsConvDict[friend] = jsonObject["conv"][i]["id"].stringValue
                         GlobalUser.convNames.append(friend)
                     }
                     print("GLOBALS!!!!!!!")
                     print(GlobalUser.conversations)
-                    print(GlobalUser.friendsConvDict)
                     print(GlobalUser.convNames)
                     
                     completion()
@@ -180,8 +178,6 @@ class RouteLogic {
                 switch response.result{
                 case .success(let Json):
                     let jsonObject = JSON(Json)
-                    print("GETTING")
-                    print(jsonObject)
                     var index = 0
                     for _ in jsonObject["friends"]{
                         let name = jsonObject["friends"][index]["name"].string ?? "N/A: Name not found"
@@ -191,18 +187,19 @@ class RouteLogic {
                         GlobalUser.namesToUsernames[name] = username
                         index += 1
                     }
-                    print(GlobalUser.realNames)
                     
                     for i in 0..<jsonObject["convs"].count{
                         let currentConvId = jsonObject["convs"][i]["involved"].stringValue
                         let friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: currentConvId)
+                        
+                        let lastRead = jsonObject["convs"][i]["lastMsgRead"][GlobalUser.username].string ?? ""
+                        
+                        let lastMessage = jsonObject["convs"][i]["lastMessage"].string ?? ""
+                        let conversation = Conversation(involved: currentConvId, name: friend, id: jsonObject["convs"][i]["id"].stringValue, lastRead: lastRead, lastMessage: lastMessage)
+                        GlobalUser.masterDict[friend] = conversation
                         GlobalUser.conversations.append(currentConvId)
                         GlobalUser.involvedDict[friend] = currentConvId
-                        GlobalUser.friendsConvDict[friend] = jsonObject["convs"][i]["id"].stringValue
                         GlobalUser.convNames.append(friend)
-                        GlobalUser.convLastMsg[friend] = jsonObject["convs"][i]["lastMessage"].string ?? ""
-                        GlobalUser.convLastRead[friend] = jsonObject["convs"][i]["lastMsgRead"][GlobalUser.username].string ?? ""
-                        
                     }
                     completion()
                 case .failure(_):

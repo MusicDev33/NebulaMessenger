@@ -84,3 +84,11 @@ struct ServerMessage {
     let message: String?
     let success: Bool?
 }
+
+struct Conversation {
+    let involved: String
+    let name: String
+    let id: String?
+    let lastRead: String
+    let lastMessage: String
+}
