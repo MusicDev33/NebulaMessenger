@@ -64,7 +64,6 @@ class MessageBubble: UICollectionViewCell{
         super.init(coder: aDecoder)
         addSubview(bubbleView)
         addSubview(messageLabel)
-        print(self.widthAnchor)
         
         bubbleViewRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8)
         bubbleViewRightAnchor?.isActive = true

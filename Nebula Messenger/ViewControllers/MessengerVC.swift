@@ -23,6 +23,8 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     var deleteArray = [String]()
     var bottomLineView = UIView()
     
+    var keyboardIsUp = false
+    
     //@IBOutlet weak var messagesTable: UITableView!
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var deleteMsgLabel: UILabel!
@@ -232,25 +234,31 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         let keyboardFrame: CGRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect)
         
         let keyboardDuration: Double = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double)
-        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: keyboardFrame.height+8-bottomPadding, right: 0)
-        
-        self.bottomViewBottomAnchor?.constant += keyboardFrame.height - bottomPadding
-        self.bottomLineView.frame.origin.y -= keyboardFrame.height - bottomPadding
-        self.scrollToBottom(animated: true)
-        UIView.animate(withDuration: keyboardDuration){
-            self.view.layoutIfNeeded()
+        if !self.keyboardIsUp{
+            self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: keyboardFrame.height+8-bottomPadding, right: 0)
+            self.bottomViewBottomAnchor?.constant += keyboardFrame.height - bottomPadding
+            self.bottomLineView.frame.origin.y -= keyboardFrame.height - bottomPadding
+            self.scrollToBottom(animated: true)
+            UIView.animate(withDuration: keyboardDuration){
+                self.view.layoutIfNeeded()
+            }
         }
+        self.keyboardIsUp = true
     }
     
     
     @objc func handleKeyboardWillHide(notification: NSNotification){
         let keyboardDuration: Double = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double)
-        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        self.bottomViewBottomAnchor?.constant = 0
-        self.bottomLineView.frame.origin.y = view.frame.height-self.bottomView.frame.height-bottomPadding
-        UIView.animate(withDuration: keyboardDuration){
-            self.view.layoutIfNeeded()
+        
+        if self.keyboardIsUp{
+            self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+            self.bottomViewBottomAnchor?.constant = 0
+            self.bottomLineView.frame.origin.y = view.frame.height-self.bottomView.frame.height-bottomPadding
+            UIView.animate(withDuration: keyboardDuration){
+                self.view.layoutIfNeeded()
+            }
         }
+        self.keyboardIsUp = false
     }
     
     
