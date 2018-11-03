@@ -16,6 +16,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     var id = ""
     var involved = ""
     var friend = ""
+    var isGroupChat = false
     
     var skipNotif = false
     
@@ -43,8 +44,28 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     var bottomPadding: CGFloat!
     var topPadding: CGFloat!
     
+    var addToGroupButton = UIButton()
+    
+    
+    //Creating UI Elements
+    func createAddToGroupButton(){
+        self.addToGroupButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        self.addToGroupButton.center = self.view.center
+        self.addToGroupButton.frame.origin.y = 50
+        if let image = UIImage(named: "AddFriendBlack") {
+            self.addToGroupButton.setImage(image, for: .normal)
+        }
+        self.view.addSubview(self.addToGroupButton)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(self.isGroupChat)
+        
+        if self.isGroupChat{
+            self.createAddToGroupButton()
+        }
+        
         // Do any additional setup after loading the view.
         self.messageTextView.delegate = self
         
@@ -357,7 +378,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             let alert = UIAlertController(title: "Do you want to delete these messages?", message: "", preferredStyle: .alert)
             
             alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: {action in
-                RouteLogic.deleteMessages(msgsArray: self.deleteArray){
+                MessageRoutes.deleteMessages(msgsArray: self.deleteArray){
                     for id in self.deleteArray{
                         self.msgList = self.msgList.filter { $0._id != id }
                     }

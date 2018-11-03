@@ -37,11 +37,12 @@
 		1F68B2BD2152DD1300DC9525 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2BC2152DD1300DC9525 /* RegisterVC.swift */; };
 		1F68B2BF2154A64D00DC9525 /* MessengerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2BE2154A64D00DC9525 /* MessengerVC.swift */; };
 		1F68B2C12154C1C400DC9525 /* MainMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2C02154C1C400DC9525 /* MainMenuVC.swift */; };
-		1F68B2C4215583AF00DC9525 /* RouteLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2C3215583AF00DC9525 /* RouteLogic.swift */; };
 		1F76C7DA215859C200EB6C8C /* RetroTone1.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B2B32152757300DC9525 /* RetroTone1.caf */; };
 		1F76C7DC215899B500EB6C8C /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DB215899B500EB6C8C /* MyProfileVC.swift */; };
 		1F76C7DE2158A09E00EB6C8C /* PoolingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */; };
 		1F76C7E02158A95500EB6C8C /* CreateMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DF2158A95500EB6C8C /* CreateMessageVC.swift */; };
+		1FA20BC7218D6E83007317B5 /* UserRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BC6218D6E83007317B5 /* UserRoutes.swift */; };
+		1FA20BC9218D6FCD007317B5 /* MessageRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BC8218D6FCD007317B5 /* MessageRoutes.swift */; };
 		1FE4F0F721685E4F00E4EF72 /* SecretVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
@@ -110,10 +111,11 @@
 		1F68B2BC2152DD1300DC9525 /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		1F68B2BE2154A64D00DC9525 /* MessengerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerVC.swift; sourceTree = "<group>"; };
 		1F68B2C02154C1C400DC9525 /* MainMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuVC.swift; sourceTree = "<group>"; };
-		1F68B2C3215583AF00DC9525 /* RouteLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteLogic.swift; sourceTree = "<group>"; };
 		1F76C7DB215899B500EB6C8C /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
 		1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolingVC.swift; sourceTree = "<group>"; };
 		1F76C7DF2158A95500EB6C8C /* CreateMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMessageVC.swift; sourceTree = "<group>"; };
+		1FA20BC6218D6E83007317B5 /* UserRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRoutes.swift; sourceTree = "<group>"; };
+		1FA20BC8218D6FCD007317B5 /* MessageRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRoutes.swift; sourceTree = "<group>"; };
 		1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretVC.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
@@ -287,11 +289,12 @@
 			children = (
 				1F68B2B12152751700DC9525 /* Routes.swift */,
 				1F68B2BA2152789B00DC9525 /* RouteUtils.swift */,
-				1F68B2C3215583AF00DC9525 /* RouteLogic.swift */,
 				1F170F152162FD1B009673E2 /* FriendRoutes.swift */,
 				1F170F172163DBB3009673E2 /* ConversationRoutes.swift */,
 				1F170F1921647156009673E2 /* PoolRoutes.swift */,
 				1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */,
+				1FA20BC6218D6E83007317B5 /* UserRoutes.swift */,
+				1FA20BC8218D6FCD007317B5 /* MessageRoutes.swift */,
 			);
 			path = Routing;
 			sourceTree = "<group>";
@@ -605,13 +608,14 @@
 				1F68B2A02152258400DC9525 /* SwiftyJSON.swift in Sources */,
 				1F68B2B22152751700DC9525 /* Routes.swift in Sources */,
 				1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */,
+				1FA20BC7218D6E83007317B5 /* UserRoutes.swift in Sources */,
+				1FA20BC9218D6FCD007317B5 /* MessageRoutes.swift in Sources */,
 				1F68B2BF2154A64D00DC9525 /* MessengerVC.swift in Sources */,
 				1F68B2C12154C1C400DC9525 /* MainMenuVC.swift in Sources */,
 				1F68B2B82152762A00DC9525 /* Utility.swift in Sources */,
 				1F170F162162FD1B009673E2 /* FriendRoutes.swift in Sources */,
 				1F2CE44A216DD9C100B15C59 /* PoolAnnotation.swift in Sources */,
 				1F68B2AE2152740700DC9525 /* SocketIOManager.swift in Sources */,
-				1F68B2C4215583AF00DC9525 /* RouteLogic.swift in Sources */,
 				1F68B2BD2152DD1300DC9525 /* RegisterVC.swift in Sources */,
 				1F68B2A42152367A00DC9525 /* FirebaseGlobals.swift in Sources */,
 				1F68B2BB2152789B00DC9525 /* RouteUtils.swift in Sources */,

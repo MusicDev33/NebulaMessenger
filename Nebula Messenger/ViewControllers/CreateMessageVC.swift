@@ -69,7 +69,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             if GlobalUser.convNames.contains(self.selectedFriendsList[0]){
                 let friend = self.selectedFriendsList[0]
                 let quickId = GlobalUser.masterDict[friend]!.id
-                RouteLogic.getMessages(id: quickId!){messageList in
+                MessageRoutes.getMessages(id: quickId!){messageList in
                     self.passMsgList = messageList
                     self.performSegue(withIdentifier: "toMessengerVCFromCreate", sender: self)
                 }

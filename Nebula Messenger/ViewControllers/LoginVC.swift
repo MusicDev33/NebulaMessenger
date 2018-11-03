@@ -48,7 +48,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             print("Subscribed to master topic")
         }
         
-        RouteLogic.getAdminPass(){pass in
+        UserRoutes.getAdminPass(){pass in
             self.adminPass = pass
         }
         
@@ -61,9 +61,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         if alreadyLoggedIn{
             let username = UserDefaults.standard.string(forKey: "username") ?? ""
             let password = UserDefaults.standard.string(forKey: "password") ?? ""
-            RouteLogic.sendLogin(username: username, password: password){success in
+            UserRoutes.sendLogin(username: username, password: password){success in
                 if success.success!{
-                    RouteLogic.getFriendsAndConversations {
+                    UserRoutes.getFriendsAndConversations {
                         print(GlobalUser.conversations)
                         Messaging.messaging().subscribe(toTopic: GlobalUser.username) { error in
                             print("Subscribed to " + GlobalUser.username)
@@ -124,9 +124,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             if self.adminPass == "nopass"{
                 return
             }
-            RouteLogic.sendLoginAdmin(username: usernameText!){success in
+            UserRoutes.sendLoginAdmin(username: usernameText!){success in
                 if success.success!{
-                    RouteLogic.getFriendsAndConversations {
+                    UserRoutes.getFriendsAndConversations {
                         print(GlobalUser.conversations)
 
                         self.usernameTextField.text = ""
@@ -148,12 +148,12 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 }
             }
         }else{
-            RouteLogic.sendLogin(username: usernameText!, password: passwordText!){success in
+            UserRoutes.sendLogin(username: usernameText!, password: passwordText!){success in
                 if success.success!{
                     UserDefaults.standard.set(usernameText, forKey: "username")
                     UserDefaults.standard.set(passwordText, forKey: "password")
                     UserDefaults.standard.set(true, forKey: "isLoggedIn")
-                    RouteLogic.getFriendsAndConversations {
+                    UserRoutes.getFriendsAndConversations {
                         print(GlobalUser.conversations)
                         Messaging.messaging().subscribe(toTopic: GlobalUser.username) { error in
                             print("Subscribed to " + GlobalUser.username)

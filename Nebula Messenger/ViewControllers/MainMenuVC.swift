@@ -13,6 +13,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var passInvolved = ""
     var passFriend = ""
     
+    var isGroupChat = false
+    
     var addFriendsMode = false
     
     var searchController: UISearchController!
@@ -90,7 +92,14 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.passFriend = cellText
             view.endEditing(true)
             self.searchController.searchBar.endEditing(true)
-            RouteLogic.getMessages(id: self.passId){messageList in
+            
+            let userCount = self.passInvolved.components(separatedBy:":").count
+            if userCount-1>1{
+                print("Is Group Chat")
+                self.isGroupChat = true
+            }
+            
+            MessageRoutes.getMessages(id: self.passId){messageList in
                 self.passMsgList = messageList
                 tableView.deselectRow(at: indexPath, animated: true)
                 self.performSegue(withIdentifier: "toMessengerVC", sender: self)
@@ -181,7 +190,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                     }
                 }
             }else if self.addFriendsMode{
-                RouteLogic.searchFriends(characters: searchString!){friends in
+                FriendRoutes.searchFriends(characters: searchString!){friends in
                     self.searchResults = friends
                 }
                 self.convTable.reloadData()
@@ -203,7 +212,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         if searchString == "" {
             self.convTable.reloadData()
         }else if searchString!.count > 0{
-            RouteLogic.searchFriends(characters: searchString!){friends in
+            FriendRoutes.searchFriends(characters: searchString!){friends in
                 self.searchResults = friends
             }
             self.convTable.reloadData()
@@ -245,7 +254,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         let buildNumber = Bundle.main.infoDictionary!["CFBundleVersion"] as? String
         
         // appVersion and buildNumber both exist for sure
-        RouteLogic.getIfCurrent(version: appVersion!, build: Int(buildNumber!)!){message in
+        UserRoutes.getIfCurrent(version: appVersion!, build: Int(buildNumber!)!){message in
             self.featureMessageLabel.text = message
             self.featureMessageLabel.isHidden = false
         }
@@ -355,6 +364,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             vc?.involved = self.passInvolved
             vc?.friend = self.passFriend
             vc?.msgList = self.passMsgList
+            vc?.isGroupChat = self.isGroupChat
         }
     }
     
