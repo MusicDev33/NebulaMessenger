@@ -305,10 +305,16 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                     self.messagesCollection.reloadData()
                     self.messageTextView.text = ""
                     SocketIOManager.sendMessage(message: [dec])
-                    if jsonObject["id"].exists(){
-                        self.id = jsonObject["id"].string!
+                    
+                    if jsonObject["conv"].exists(){
+                        self.id = jsonObject["conv"]["id"].string!
+                        let lastMessage = jsonObject["conv"]["lastMessage"].string!
+                        let lastRead = jsonObject["conv"]["lastMsgRead"][GlobalUser.username].string!
+                        let involved = jsonObject["conv"]["involved"].string!
+                        
+                        // What is this even for...?
                         UserDefaults.standard.set("", forKey: self.id)
-                        GlobalUser.addToConvNames(convName: self.friend, id: self.id, involved: self.involved)
+                        GlobalUser.addConversation(involved: involved, id: self.id, lastRead: lastRead, lastMessage: lastMessage)
                     }else{
                         UserDefaults.standard.set("", forKey: self.id)
                     }
@@ -381,10 +387,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     func openSocket(completion: () -> Void) {
         SocketIOManager.socket.on("message") { ( data, ack) -> Void in
             guard let parsedData = data[0] as? String else { return }
-            print("DATA")
-            print(parsedData)
             let msg = JSON.init(parseJSON: parsedData)
-            print(msg)
             do {
                 
                 let tempMsg = TerseMessage(_id: "", //Fix this

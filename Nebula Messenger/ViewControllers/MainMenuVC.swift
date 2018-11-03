@@ -233,7 +233,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         for i in GlobalUser.convNames{
-            if GlobalUser.convLastMsg[i] == GlobalUser.masterDict[i]?.lastRead{
+            if GlobalUser.masterDict[i]?.lastMessage == GlobalUser.masterDict[i]?.lastRead{
             }else{
                 //cell.backgroundColor = nebulaBlue
                 let unreadId = GlobalUser.masterDict[i]!.id!

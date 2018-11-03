@@ -18,7 +18,7 @@ class GlobalUser: NSObject {
     static var email = ""
     static var friends = [String]()
     
-    //Master Dictionary, hopefully this will be the only way to retrive conversations
+    //Master Dictionary, hopefully this will be the only way to retrieve conversations
     //without the use of a massive amount of dictionaries
     //This will store everything in (Ben, Tim, Dan: Conversation object) format
     static var masterDict = [String:Conversation]()
@@ -38,11 +38,6 @@ class GlobalUser: NSObject {
     // Names to usernames dict - Name:Username
     static var namesToUsernames = [String:String]()
     
-    //Ugh, more dictionaries, someone clean this up please....
-    //Both start with the Ben, Tim, Dan thing
-    //My mom would murder me if she found out my code looked like this
-    //static var convLastRead = [String:String]()
-    static var convLastMsg = [String:String]()
     static var unreadList = [String]()
     
     
@@ -59,10 +54,20 @@ class GlobalUser: NSObject {
             self.convNames.append(convName)
             self.conversations.append(involved)
             self.involvedDict[convName] = involved
-            //self.friendsConvDict[convName] = id
         }else{
             print("Can't add conv")
         }
+    }
+    
+    static func addConversation(involved: String, id: String, lastRead: String, lastMessage: String){
+        let friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: involved)
+        
+        let conversation = Conversation(involved: involved, name: friend, id: id, lastRead: lastRead, lastMessage: lastMessage)
+        
+        GlobalUser.masterDict[friend] = conversation
+        GlobalUser.conversations.append(involved)
+        GlobalUser.involvedDict[friend] = involved
+        GlobalUser.convNames.append(friend)
     }
     
     static func removeFromConvNames(convName: String){
@@ -70,7 +75,6 @@ class GlobalUser: NSObject {
             self.convNames = self.convNames.filter { $0 != convName }
             self.conversations = self.conversations.filter { $0 != self.involvedDict[convName] }
             self.involvedDict[convName] = nil
-            //self.friendsConvDict[convName] = nil
         }
     }
     
@@ -88,8 +92,6 @@ class GlobalUser: NSObject {
         self.conversations = []
         self.convNames = []
         self.involvedDict = [String:String]()
-        //self.friendsConvDict = [String:String]()
-        
     }
     
     static func version() -> String {
