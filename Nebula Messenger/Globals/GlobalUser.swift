@@ -49,16 +49,6 @@ class GlobalUser: NSObject {
     
     
     // MARK: Methods
-    static func addToConvNames(convName: String, id: String, involved: String){
-        if !self.convNames.contains(convName){
-            self.convNames.append(convName)
-            self.conversations.append(involved)
-            self.involvedDict[convName] = involved
-        }else{
-            print("Can't add conv")
-        }
-    }
-    
     static func addConversation(involved: String, id: String, lastRead: String, lastMessage: String){
         let friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: involved)
         
@@ -72,6 +62,7 @@ class GlobalUser: NSObject {
     
     static func removeFromConvNames(convName: String){
         if self.convNames.contains(convName){
+            self.masterDict[convName] = nil
             self.convNames = self.convNames.filter { $0 != convName }
             self.conversations = self.conversations.filter { $0 != self.involvedDict[convName] }
             self.involvedDict[convName] = nil
@@ -92,6 +83,7 @@ class GlobalUser: NSObject {
         self.conversations = []
         self.convNames = []
         self.involvedDict = [String:String]()
+        self.masterDict = [String:Conversation]()
     }
     
     static func version() -> String {
