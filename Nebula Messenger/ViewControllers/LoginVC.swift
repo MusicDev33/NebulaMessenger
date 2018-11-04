@@ -167,20 +167,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         
                         self.performSegue(withIdentifier: "toMainMenuVC", sender: self)
                     }
-                    //                RouteLogic.getConversations {
-                    //                    print(GlobalUser.conversations)
-                    //                    Messaging.messaging().subscribe(toTopic: GlobalUser.username) { error in
-                    //                        print("Subscribed to " + GlobalUser.username)
-                    //                    }
-                    //                    self.usernameTextField.text = ""
-                    //                    self.passwordTextField.text = ""
-                    //
-                    //                    self.spinnyThing.isHidden = true
-                    //                    self.loginButtonOutlet.isHidden = false
-                    //                    self.goToRegisterButton.isHidden = false
-                    //
-                    //                    self.performSegue(withIdentifier: "toMainMenuVC", sender: self)
-                    //                }
                 }else{
                     self.serverMessageLabel.text = success.message
                     self.showServerMessage()

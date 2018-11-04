@@ -64,7 +64,41 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     @IBAction func continueButtonPressed(_ sender: UIButton) {
         if self.selectedFriendsList.count > 1{
+            /*
+            vc?.skipNotif = true
+            var passList = self.selectedFriendsList
+            passList.append(GlobalUser.username)
+            let tempConvId = Utility.createConvId(names: passList)
+            let friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: tempConvId)
             
+            self.passFriend = friend
+            vc?.friend = self.passFriend
+            if GlobalUser.convNames.contains(friend){
+                vc?.involved = GlobalUser.involvedDict[self.passFriend]!
+                vc?.id = GlobalUser.friendsConvDict[self.passFriend]!
+            }else{
+                vc?.involved = tempConvId
+                vc?.friend = friend
+            }*/
+            var quickInvolved = Utility.createGroupConvId(names: self.selectedFriendsList)
+            quickInvolved = Utility.alphabetSort(preConvId: quickInvolved)
+            let quickConvName = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: quickInvolved)
+            
+            print(quickInvolved)
+            print(quickConvName)
+            self.passFriend = quickConvName
+            self.passInvolved = quickInvolved
+            if GlobalUser.convNames.contains(quickConvName){
+                print("YAAAA")
+                let quickId = GlobalUser.masterDict[quickConvName]!.id
+                print(quickId)
+                MessageRoutes.getMessages(id: quickId!){messageList in
+                    self.passMsgList = messageList
+                    self.performSegue(withIdentifier: "toMessengerVCFromCreate", sender: self)
+                }
+            }else{
+                self.performSegue(withIdentifier: "toMessengerVCFromCreate", sender: self)
+            }
         }else{
             if GlobalUser.convNames.contains(self.selectedFriendsList[0]){
                 let friend = self.selectedFriendsList[0]
@@ -103,19 +137,14 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             vc?.id = ""
             if self.selectedFriendsList.count > 1{
                 vc?.skipNotif = true
-                var passList = self.selectedFriendsList
-                passList.append(GlobalUser.username)
-                let tempConvId = Utility.createConvId(names: passList)
-                let friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: tempConvId)
-                
-                self.passFriend = friend
                 vc?.friend = self.passFriend
-                if GlobalUser.convNames.contains(friend){
+                
+                if GlobalUser.convNames.contains(self.passFriend){
                     vc?.involved = GlobalUser.involvedDict[self.passFriend]!
                     vc?.id = GlobalUser.masterDict[self.passFriend]!.id!
+                    vc?.msgList = self.passMsgList
                 }else{
-                    vc?.involved = tempConvId
-                    vc?.friend = friend
+                    vc?.involved = self.passInvolved
                 }
                 
             }else{

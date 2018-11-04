@@ -97,11 +97,11 @@ class ConversationRoutes{
         }
     }
     
-    static func changeGroupMembers(id: String, involved: String, completion:@escaping () -> Void){
+    static func changeGroupMembers(id: String, newInvolved: String, oldInvolved: String, completion:@escaping () -> Void){
         let url = URL(string: changeGroupMembersRoute)
         var requestJson = [String:Any]()
         requestJson["id"] = id
-        requestJson["involved"] = involved
+        requestJson["involved"] = newInvolved
         requestJson["token"] = GlobalUser.token
         do {
             let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
@@ -113,7 +113,7 @@ class ConversationRoutes{
                     let jsonObject = JSON(Json)
                     print("DELETING")
                     print(jsonObject)
-                    
+                    GlobalUser.globalChangeGroupMembers(oldInvolved: oldInvolved, newInvolved: newInvolved)
                     completion()
                 case .failure(_):
                     print("Couldn't update last read!")

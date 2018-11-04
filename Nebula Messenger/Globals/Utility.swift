@@ -74,6 +74,24 @@ class Utility {
         return convId
     }
     
+    static func createGroupConvId(names: [String]) -> String{
+        var convId = ""
+        var userList = names
+        userList.append(GlobalUser.username)
+        userList.sort()
+        var index = 0
+        for item in userList {
+            convId += item
+            if index + 1 >= userList.count{
+                convId += ";"
+            }else{
+                convId += ":"
+                index += 1
+            }
+        }
+        return convId
+    }
+    
     // Pass in the convId and this will take care of the rest (returning array of people in convId)
     static func getFriendsFromConvId(user: String, convId: String) -> String{
         var userArray = [String]()
@@ -96,6 +114,29 @@ class Utility {
         userArray = userArray.sorted {$0.localizedStandardCompare($1) == .orderedAscending}
         let joint = ", "
         return userArray.joined(separator: joint)
+    }
+    
+    // Pass in the convId and this will take care of the rest (returning array of people in convId)
+    static func getFriendsFromConvIdAsArray(user: String, convId: String) -> [String]{
+        var userArray = [String]()
+        var currentUser = ""
+        
+        for char in convId{
+            if (char == ":"){
+                userArray.append(currentUser)
+                currentUser = ""
+            }
+            else if (char == ";"){
+                userArray.append(currentUser)
+                currentUser = ""
+            }else{
+                currentUser += String(char)
+            }
+        }
+        
+        userArray = userArray.filter { $0 != user }
+        userArray = userArray.sorted {$0.localizedStandardCompare($1) == .orderedAscending}
+        return userArray
     }
     
     // This converts the date to the same format JS uses

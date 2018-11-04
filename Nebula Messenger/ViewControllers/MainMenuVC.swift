@@ -62,6 +62,11 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             cell.textLabel?.text = self.searchResults[indexPath.row]
         } else{
             let convName = GlobalUser.convNames[indexPath.row]
+            print("TPO")
+            print(convName)
+            print(GlobalUser.masterDict[convName])
+            
+            print(GlobalUser.masterDict[convName]!.id!)
             if GlobalUser.unreadList.contains(GlobalUser.masterDict[convName]!.id!){
                 cell.textLabel?.textColor = nebulaBlue
                 cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
@@ -82,7 +87,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                     print("complete")
                 }
             }
-        }else{
+        } else{
             var cellText = (currentCell.textLabel?.text!)!
             if cellText.contains(" READ"){
                 cellText = String(cellText.dropLast(5))

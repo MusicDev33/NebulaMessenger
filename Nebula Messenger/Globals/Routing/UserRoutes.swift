@@ -153,7 +153,8 @@ class UserRoutes{
                     }
                     
                     for i in 0..<jsonObject["convs"].count{
-                        let currentConvId = jsonObject["convs"][i]["involved"].stringValue
+                        var currentConvId = jsonObject["convs"][i]["involved"].stringValue
+                        currentConvId = Utility.alphabetSort(preConvId: currentConvId)
                         let friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: currentConvId)
                         
                         let lastRead = jsonObject["convs"][i]["lastMsgRead"][GlobalUser.username].string ?? ""

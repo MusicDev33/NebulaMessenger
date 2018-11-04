@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate {
     
     var msgList = [TerseMessage]()
     
@@ -39,13 +39,20 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     
     @IBOutlet weak var sendButton: UIButton!
     
+    var maxChars = 22
+    
     var didScroll = false
     
     var bottomPadding: CGFloat!
     var topPadding: CGFloat!
     
     var addToGroupButton = UIButton()
+    var exitGroupButton = UIButton()
+    var confirmAddButton = UIButton()
     
+    var possibleMembers = [String]()
+    var possibleMembersTable: UITableView!
+    var selectedFriend = ""
     
     //Creating UI Elements
     func createAddToGroupButton(){
@@ -55,15 +62,160 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         if let image = UIImage(named: "AddFriendBlack") {
             self.addToGroupButton.setImage(image, for: .normal)
         }
+        self.addToGroupButton.addTarget(self, action: #selector(addToGroupButtonPressed), for: .touchUpInside)
         self.view.addSubview(self.addToGroupButton)
+    }
+    
+    // Creates the button that exits the new group view
+    func createExitGroupButton(){
+        self.exitGroupButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        self.exitGroupButton.center = self.view.center
+        self.exitGroupButton.frame.origin.y = self.addToGroupButton.frame.origin.y
+        if let image = UIImage(named: "BlackX") {
+            self.exitGroupButton.setImage(image, for: .normal)
+        }
+        self.exitGroupButton.addTarget(self, action: #selector(exitGroupButtonPressed), for: .touchUpInside)
+        self.exitGroupButton.alpha = 0
+    }
+    
+    // Creates the button confirms addition of friend to group
+    func createConfirmAddButton(){
+        self.confirmAddButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        self.confirmAddButton.center = self.view.center
+        self.confirmAddButton.frame.origin.y = self.addToGroupButton.frame.origin.y
+        if let image = UIImage(named: "PlusSignBlack") {
+            self.confirmAddButton.setImage(image, for: .normal)
+        }
+        self.confirmAddButton.addTarget(self, action: #selector(confirmAddButtonPressed), for: .touchUpInside)
+        self.confirmAddButton.alpha = 0
+    }
+    
+    func createTableView(){
+        let displayWidth: CGFloat = self.view.frame.width
+        let displayHeight: CGFloat = self.view.frame.height
+        let barHeight: CGFloat = 100
+        
+        self.possibleMembersTable = UITableView(frame: CGRect(x: 0, y: self.view.frame.height, width: displayWidth, height: displayHeight - barHeight))
+        self.possibleMembersTable.register(UITableViewCell.self, forCellReuseIdentifier: "friendCell")
+        self.possibleMembersTable.dataSource = self
+        self.possibleMembersTable.delegate = self
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.possibleMembers.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath as IndexPath)
+        cell.textLabel!.text = "\(self.possibleMembers[indexPath.row])"
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cellText = self.possibleMembers[indexPath.row]
+        self.selectedFriend = cellText
+        if self.selectedFriend != ""{
+            self.confirmAddButton.isEnabled = true
+        }else{
+            print(self.selectedFriend)
+        }
+    }
+    
+    @objc func addToGroupButtonPressed(){
+        self.possibleMembersTable.reloadData()
+        self.view.addSubview(self.possibleMembersTable)
+        self.view.addSubview(self.exitGroupButton)
+        self.view.addSubview(self.confirmAddButton)
+        UIView.animate(withDuration: 0.4, animations: {
+            self.possibleMembersTable.frame.origin.y = 100
+            self.exitGroupButton.alpha = 1.0
+            self.exitGroupButton.frame.origin.x += 50
+            self.confirmAddButton.alpha = 1.0
+            self.confirmAddButton.frame.origin.x -= 50
+            
+            //Rotate buttons
+            self.confirmAddButton.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
+            self.exitGroupButton.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
+        })
+        self.addToGroupButton.isEnabled = false
+        self.confirmAddButton.isEnabled = false
+        
+        self.view.endEditing(true)
+    }
+    
+    @objc func exitGroupButtonPressed(){
+        UIView.animate(withDuration: 0.4, animations: { () -> Void in
+            self.possibleMembersTable.frame.origin.y = self.view.frame.height
+            self.exitGroupButton.alpha = 0
+            self.exitGroupButton.frame.origin.x -= 50
+            self.confirmAddButton.alpha = 0
+            self.confirmAddButton.frame.origin.x += 50
+            
+            //Rotate buttons
+            self.confirmAddButton.transform = CGAffineTransform.identity
+            self.exitGroupButton.transform = CGAffineTransform.identity
+        }, completion: {finished in
+            self.confirmAddButton.removeFromSuperview()
+            self.exitGroupButton.removeFromSuperview()
+            self.possibleMembersTable.removeFromSuperview()
+        })
+        self.addToGroupButton.isEnabled = true
+    }
+    
+    @objc func confirmAddButtonPressed(){
+        // This is basically just taking off the semicolon and adding a user then re-adding it
+        // String manipulation in Swift sucks...that or I'm just dumb
+        var newInvolved = self.involved
+        newInvolved.remove(at: newInvolved.index(before: newInvolved.endIndex))
+        newInvolved += ":"
+        newInvolved += self.selectedFriend
+        newInvolved += ";"
+        newInvolved = Utility.alphabetSort(preConvId: newInvolved)
+        
+        ConversationRoutes.changeGroupMembers(id: id, newInvolved: newInvolved, oldInvolved: involved){
+            UIView.animate(withDuration: 0.4, animations: { () -> Void in
+                self.possibleMembersTable.frame.origin.y = self.view.frame.height
+                self.exitGroupButton.alpha = 0
+                self.exitGroupButton.frame.origin.x -= 50
+                self.confirmAddButton.alpha = 0
+                self.confirmAddButton.frame.origin.x += 50
+                
+                //Rotate buttons
+                self.confirmAddButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+                self.exitGroupButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+            }, completion: {finished in
+                self.exitGroupButton.removeFromSuperview()
+                self.possibleMembersTable.removeFromSuperview()
+                self.confirmAddButton.removeFromSuperview()
+            })
+            self.addToGroupButton.isEnabled = true
+            
+            self.friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: newInvolved)
+            if self.friend.count > self.maxChars{
+                self.friend.removeLast(self.friend.count-self.maxChars)
+                self.friend += "..."
+            }
+            self.deleteMsgLabel.text = self.friend
+            self.involved = newInvolved
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print(self.isGroupChat)
+        let currentlyInvolved = Utility.getFriendsFromConvIdAsArray(user: GlobalUser.username, convId: self.involved)
+        self.possibleMembers = GlobalUser.friends.filter {!currentlyInvolved.contains($0)}
         
         if self.isGroupChat{
             self.createAddToGroupButton()
+            self.createExitGroupButton()
+            self.createConfirmAddButton()
+            self.createTableView()
+        }
+        
+        if self.friend.count > maxChars{
+            self.friend.removeLast(self.friend.count-maxChars)
+            self.friend += "..."
         }
         
         // Do any additional setup after loading the view.
@@ -336,6 +488,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                     SocketIOManager.sendMessage(message: [dec])
                     
                     if jsonObject["conv"].exists(){
+                        print("JJSFJDJFZDHJZGHCKGHZKG")
                         self.id = jsonObject["conv"]["id"].string!
                         let lastMessage = jsonObject["conv"]["lastMessage"].string!
                         let lastRead = jsonObject["conv"]["lastMsgRead"][GlobalUser.username].string!

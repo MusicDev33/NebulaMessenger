@@ -49,6 +49,24 @@ class GlobalUser: NSObject {
     
     
     // MARK: Methods
+    static func globalChangeGroupMembers(oldInvolved: String, newInvolved: String){
+        let oldConvName = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: oldInvolved)
+        let newConvName = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: newInvolved)
+        
+        GlobalUser.masterDict[oldConvName]?.involved = newInvolved
+        GlobalUser.masterDict[newConvName] = GlobalUser.masterDict[oldConvName]
+        GlobalUser.masterDict[oldConvName] = nil
+        
+        GlobalUser.conversations = GlobalUser.conversations.filter { $0 != oldInvolved }
+        GlobalUser.conversations.append(newInvolved)
+        
+        GlobalUser.involvedDict[oldConvName] = nil
+        GlobalUser.involvedDict[newConvName] = newInvolved
+        
+        GlobalUser.convNames = GlobalUser.convNames.filter { $0 != oldConvName }
+        GlobalUser.convNames.append(newConvName)
+    }
+    
     static func addConversation(involved: String, id: String, lastRead: String, lastMessage: String){
         let friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: involved)
         

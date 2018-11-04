@@ -86,9 +86,9 @@ struct ServerMessage {
 }
 
 struct Conversation {
-    let involved: String
-    let name: String
+    var involved: String
+    var name: String
     let id: String?
-    let lastRead: String
-    let lastMessage: String
+    var lastRead: String
+    var lastMessage: String
 }
