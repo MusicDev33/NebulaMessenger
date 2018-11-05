@@ -54,6 +54,9 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     var possibleMembersTable: UITableView!
     var selectedFriend = ""
     
+    //Pulsating Layer
+    var pulsatingLayer: CAShapeLayer!
+    
     //Creating UI Elements
     func createAddToGroupButton(){
         self.addToGroupButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
@@ -64,6 +67,53 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         }
         self.addToGroupButton.addTarget(self, action: #selector(addToGroupButtonPressed), for: .touchUpInside)
         self.view.addSubview(self.addToGroupButton)
+        
+        pulsatingLayer = CAShapeLayer()
+        
+        // Here we add half of addToGroupButton's width to the circle's center to get it to center on the button
+        let point = CGPoint(x: view.center.x, y: self.addToGroupButton.frame.origin.y+20)
+        let circlePath = UIBezierPath(arcCenter: .zero, radius: CGFloat(20), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
+        
+        let bgColor = nebulaPurple.withAlphaComponent(0.0)
+        pulsatingLayer.path = circlePath.cgPath
+        pulsatingLayer.strokeColor = UIColor.clear.cgColor
+        pulsatingLayer.lineWidth = 10
+        pulsatingLayer.fillColor = bgColor.cgColor
+        pulsatingLayer.lineCap = CAShapeLayerLineCap.round
+        pulsatingLayer.position = point
+        //pulsatingLayer.frame.origin.x = self.view.center.x
+        //pulsatingLayer.frame.origin.y = addToGroupButton.frame.origin.y
+        
+        self.view.layer.addSublayer(pulsatingLayer)
+        //animateLayer()
+    }
+    
+    func animateLayer(){
+        CATransaction.begin()
+        CATransaction.setCompletionBlock({
+            self.pulsatingLayer.fillColor = UIColor.clear.cgColor
+            self.pulsatingLayer.isHidden = true
+            self.pulsatingLayer.removeAllAnimations()
+        })
+        let bgColor = nebulaPurple.withAlphaComponent(0.3)
+        self.pulsatingLayer.fillColor = bgColor.cgColor
+        self.pulsatingLayer.isHidden = false
+        
+        let animation = CABasicAnimation(keyPath: "transform.scale.xy")
+        animation.toValue = 2
+        animation.duration = 0.4
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+        animation.isRemovedOnCompletion = false
+        
+        let alphaAnim = CABasicAnimation(keyPath: "opacity")
+        alphaAnim.toValue = 0.0
+        alphaAnim.duration = 0.4
+        alphaAnim.fillMode = CAMediaTimingFillMode.forwards
+        alphaAnim.isRemovedOnCompletion = false
+        
+        pulsatingLayer.add(alphaAnim, forKey: "alphaChange")
+        pulsatingLayer.add(animation, forKey: "pulsing")
+        CATransaction.commit()
     }
     
     // Creates the button that exits the new group view
@@ -122,6 +172,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     }
     
     @objc func addToGroupButtonPressed(){
+        self.animateLayer()
         self.possibleMembersTable.reloadData()
         self.view.addSubview(self.possibleMembersTable)
         self.view.addSubview(self.exitGroupButton)
@@ -372,8 +423,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             textView.resignFirstResponder()
             return false
         }
-        print(textView.text)
-        print(":"+text+":")
         if text == ""{
             if textView.text.count-1 > 0{
                 self.sendButton.isEnabled = true
@@ -387,7 +436,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                 self.sendButton.isEnabled = false
             }
         }
-        UserDefaults.standard.set(textView.text, forKey: self.id)
+        UserDefaults.standard.set(textView.text+text, forKey: self.id)
         return true
     }
     
@@ -606,11 +655,49 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                 print("Error JSON: \(error)")
             }
         }
+        
+        SocketIOManager.socket.on("typing") { ( data, ack) -> Void in
+            guard let parsedData = data[0] as? String else { return }
+            let msg = JSON.init(parseJSON: parsedData)
+            print(msg)
+            do {
+                
+                let tempMsg = TerseMessage(_id: "Chatting", //Fix this
+                    sender: msg["friend"].string!,
+                    body: "",
+                    dateTime: "",
+                    read: false)
+                print(tempMsg)
+                print(self.involved)
+                
+                guard let msgConvId = msg["convId"].string else{
+                    return
+                }
+                
+                if Utility.alphabetSort(preConvId: msgConvId) == Utility.alphabetSort(preConvId: self.involved){
+                    print("Something happened!")
+                    
+                    //self.msgList.append(tempMsg)
+                    //self.messagesCollection.reloadData()
+                    //self.scrollToBottom(animated: true)
+                    //ConversationRoutes.updateLastRead(id: self.id, msgId: ""){
+                        
+                    //}
+                    //self.scrollToBottomAnimated(animated: true)
+                }else{
+                    print("Something went wrong")
+                }
+            } catch {
+                print(msg)
+                print("Error JSON: \(error)")
+            }
+        }
     }
     
     //MARK: Nav
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         SocketIOManager.socket.off("message")
+        SocketIOManager.socket.off("typing")
         if segue.destination is MainMenuVC{
             let vc = segue.destination as? MessengerVC
             SocketIOManager.shutOffListener()

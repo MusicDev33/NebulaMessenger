@@ -32,13 +32,10 @@ class SocketIOManager: NSObject {
         print("SOCKETIO")
         print(message)
         self.socket.emit("add-message", with: message)
-        //self.socket.emit("add-message", message)
     }
     
-    static func newSendMessage(message: [Any], users: [String]){
-        //self.socket.emit("add-message", message, users)
-        print("HI!!!!!!!!!!!!")
-        self.socket.emit("add-message", with: [message, users])
+    static func sendTyping(){
+        self.socket.emit("currently-typing", with: [GlobalUser.username])
     }
     
     func createNewSocket() -> SocketIOClient{
