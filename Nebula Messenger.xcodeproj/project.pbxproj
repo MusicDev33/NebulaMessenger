@@ -274,11 +274,11 @@
 		1F68B2B9215276AE00DC9525 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1FA20BCD21901D4F007317B5 /* Messenger Module */,
 				1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */,
 				1F68B2BC2152DD1300DC9525 /* RegisterVC.swift */,
 				1F68B2692152227F00DC9525 /* LoginVC.swift */,
 				1F68B2C02154C1C400DC9525 /* MainMenuVC.swift */,
-				1F68B2BE2154A64D00DC9525 /* MessengerVC.swift */,
 				1F76C7DB215899B500EB6C8C /* MyProfileVC.swift */,
 				1F76C7DF2158A95500EB6C8C /* CreateMessageVC.swift */,
 				1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */,
@@ -308,6 +308,14 @@
 				1FA20BCB218D728C007317B5 /* GroupChatAddVC.swift */,
 			);
 			path = ProgVCs;
+			sourceTree = "<group>";
+		};
+		1FA20BCD21901D4F007317B5 /* Messenger Module */ = {
+			isa = PBXGroup;
+			children = (
+				1F68B2BE2154A64D00DC9525 /* MessengerVC.swift */,
+			);
+			path = "Messenger Module";
 			sourceTree = "<group>";
 		};
 		1FE4F0F821687CF400E4EF72 /* Custom Classes */ = {

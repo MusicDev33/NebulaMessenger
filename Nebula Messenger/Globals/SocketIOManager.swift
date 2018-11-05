@@ -34,8 +34,32 @@ class SocketIOManager: NSObject {
         self.socket.emit("add-message", with: message)
     }
     
-    static func sendTyping(){
-        self.socket.emit("currently-typing", with: [GlobalUser.username])
+    static func sendTyping(id: String){
+        var sendObj = [String:Any]()
+        sendObj["friend"] = GlobalUser.username
+        sendObj["id"] = id
+        var dec: String?
+        do {
+            let data = try JSONSerialization.data(withJSONObject: sendObj, options:.prettyPrinted)
+            dec = String(data: data, encoding: .utf8)
+        }catch{
+            
+        }
+        self.socket.emit("currently-typing", with: [dec])
+    }
+    
+    static func sendNotTyping(id: String){
+        var sendObj = [String:Any]()
+        sendObj["friend"] = GlobalUser.username
+        sendObj["id"] = id
+        var dec: String?
+        do {
+            let data = try JSONSerialization.data(withJSONObject: sendObj, options:.prettyPrinted)
+            dec = String(data: data, encoding: .utf8)
+        }catch{
+            
+        }
+        self.socket.emit("done-typing", with: [dec])
     }
     
     func createNewSocket() -> SocketIOClient{

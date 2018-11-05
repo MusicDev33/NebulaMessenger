@@ -57,6 +57,8 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     //Pulsating Layer
     var pulsatingLayer: CAShapeLayer!
     
+    var timer: Timer?
+    
     //Creating UI Elements
     func createAddToGroupButton(){
         self.addToGroupButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
@@ -336,6 +338,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     
     override func viewWillDisappear(_ animated: Bool) {
         self.view.alpha = 0.3
+        SocketIOManager.sendNotTyping(id: self.id)
     }
     
     override func viewDidLayoutSubviews(){
@@ -437,7 +440,14 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             }
         }
         UserDefaults.standard.set(textView.text+text, forKey: self.id)
+        self.timer?.invalidate()
+        self.timer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(typingTimerComplete), userInfo: nil, repeats: true)
+        SocketIOManager.sendTyping(id: self.id)
         return true
+    }
+    
+    @objc func typingTimerComplete(){
+        SocketIOManager.sendNotTyping(id: self.id)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -620,29 +630,39 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             guard let parsedData = data[0] as? String else { return }
             let msg = JSON.init(parseJSON: parsedData)
             do {
-                
-                let tempMsg = TerseMessage(_id: "", //Fix this
-                                           sender: msg["sender"].string!,
-                                           body: msg["body"].string!,
-                                           dateTime: msg["dateTime"].string!,
-                                           read: false)
-                print(tempMsg)
                 print(self.involved)
                 
-                guard let msgConvId = msg["convId"].string else{
+                guard let conversationsId = msg["id"].string else{
                     return
                 }
                 
-                if Utility.alphabetSort(preConvId: msgConvId) == Utility.alphabetSort(preConvId: self.involved){
+                let tempMsg = TerseMessage(_id: "", //Fix this
+                    sender: msg["sender"].string!,
+                    body: msg["body"].string!,
+                    dateTime: msg["dateTime"].string!,
+                    read: false)
+                print(tempMsg)
+                
+                if conversationsId == self.id{
                     print("Something happened!")
                     if msg["sender"].string! == GlobalUser.username{
                         
                     }else{
                         playIncomingMessage()
                     }
-                    self.msgList.append(tempMsg)
-                    self.messagesCollection.reloadData()
-                    self.scrollToBottom(animated: true)
+                    
+                    let lastIndex = self.msgList.count-1
+                    
+                    if self.msgList[lastIndex]._id == "Chatting"{
+                        self.msgList[lastIndex] = tempMsg
+                        self.messagesCollection.reloadData()
+                        self.scrollToBottom(animated: true)
+                    }else{
+                        self.msgList.append(tempMsg)
+                        self.messagesCollection.reloadData()
+                        self.scrollToBottom(animated: true)
+                    }
+                    
                     ConversationRoutes.updateLastRead(id: self.id, msgId: ""){
                         
                     }
@@ -659,31 +679,47 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         SocketIOManager.socket.on("typing") { ( data, ack) -> Void in
             guard let parsedData = data[0] as? String else { return }
             let msg = JSON.init(parseJSON: parsedData)
-            print(msg)
             do {
-                
-                let tempMsg = TerseMessage(_id: "Chatting", //Fix this
+                let tempMsg = TerseMessage(_id: "Chatting",
                     sender: msg["friend"].string!,
-                    body: "",
+                    body: ". . .",
                     dateTime: "",
                     read: false)
-                print(tempMsg)
-                print(self.involved)
                 
-                guard let msgConvId = msg["convId"].string else{
+                guard let conversationsId = msg["id"].string else{
                     return
                 }
                 
-                if Utility.alphabetSort(preConvId: msgConvId) == Utility.alphabetSort(preConvId: self.involved){
-                    print("Something happened!")
-                    
-                    //self.msgList.append(tempMsg)
-                    //self.messagesCollection.reloadData()
-                    //self.scrollToBottom(animated: true)
-                    //ConversationRoutes.updateLastRead(id: self.id, msgId: ""){
-                        
-                    //}
-                    //self.scrollToBottomAnimated(animated: true)
+                if conversationsId == self.id{
+                    let isTypingBubbles = self.msgList.filter { $0._id == "Chatting" }
+                    if isTypingBubbles.count == 0 && tempMsg.sender != GlobalUser.username{
+                        self.msgList.append(tempMsg)
+                        self.messagesCollection.reloadData()
+                        self.scrollToBottom(animated: true)
+                    }
+                }else{
+                    print("Something went wrong")
+                }
+            } catch {
+                print("Error JSON: \(error)")
+            }
+        }
+        
+        SocketIOManager.socket.on("nottyping") { ( data, ack) -> Void in
+            guard let parsedData = data[0] as? String else { return }
+            let msg = JSON.init(parseJSON: parsedData)
+            do {
+                guard let conversationsId = msg["id"].string else{
+                    return
+                }
+                
+                if conversationsId == self.id{
+                    let isTypingBubbles = self.msgList.filter { $0._id == "Chatting" }
+                    if isTypingBubbles.count > 0 && msg["friend"].string! != GlobalUser.username{
+                        self.msgList = self.msgList.filter { $0._id != "Chatting" }
+                        self.messagesCollection.reloadData()
+                        self.scrollToBottom(animated: true)
+                    }
                 }else{
                     print("Something went wrong")
                 }
@@ -698,6 +734,8 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         SocketIOManager.socket.off("message")
         SocketIOManager.socket.off("typing")
+        SocketIOManager.socket.off("nottyping")
+        
         if segue.destination is MainMenuVC{
             let vc = segue.destination as? MessengerVC
             SocketIOManager.shutOffListener()
