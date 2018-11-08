@@ -51,14 +51,35 @@ class MessageBubble: UICollectionViewCell{
         return view
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
     var bubbleWidthAnchor: NSLayoutConstraint?
     var bubbleHeightAnchor: NSLayoutConstraint?
     var bubbleViewRightAnchor: NSLayoutConstraint?
     var bubbleViewLeftAnchor: NSLayoutConstraint?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        addSubview(bubbleView)
+        addSubview(messageLabel)
+        
+        bubbleViewRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8)
+        bubbleViewRightAnchor?.isActive = true
+        
+        bubbleViewLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8)
+        bubbleViewLeftAnchor?.isActive = false
+        
+        bubbleView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        bubbleView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        
+        bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: self.frame.width*0.7)
+        bubbleWidthAnchor?.isActive = true
+        
+        messageLabel.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 8).isActive = true
+        messageLabel.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -8).isActive = true
+        messageLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        messageLabel.widthAnchor.constraint(equalToConstant: self.frame.width*0.7).isActive = true
+        messageLabel.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

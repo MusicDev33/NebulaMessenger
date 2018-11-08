@@ -44,6 +44,8 @@
 		1FA20BC7218D6E83007317B5 /* UserRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BC6218D6E83007317B5 /* UserRoutes.swift */; };
 		1FA20BC9218D6FCD007317B5 /* MessageRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BC8218D6FCD007317B5 /* MessageRoutes.swift */; };
 		1FA20BCC218D728C007317B5 /* GroupChatAddVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BCB218D728C007317B5 /* GroupChatAddVC.swift */; };
+		1FA20BCF21902336007317B5 /* MessengerBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BCE21902336007317B5 /* MessengerBuilder.swift */; };
+		1FA20BD721915671007317B5 /* MessengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BD621915671007317B5 /* MessengerView.swift */; };
 		1FE4F0F721685E4F00E4EF72 /* SecretVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
@@ -118,6 +120,8 @@
 		1FA20BC6218D6E83007317B5 /* UserRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRoutes.swift; sourceTree = "<group>"; };
 		1FA20BC8218D6FCD007317B5 /* MessageRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRoutes.swift; sourceTree = "<group>"; };
 		1FA20BCB218D728C007317B5 /* GroupChatAddVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatAddVC.swift; sourceTree = "<group>"; };
+		1FA20BCE21902336007317B5 /* MessengerBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerBuilder.swift; sourceTree = "<group>"; };
+		1FA20BD621915671007317B5 /* MessengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerView.swift; sourceTree = "<group>"; };
 		1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretVC.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
@@ -314,6 +318,8 @@
 			isa = PBXGroup;
 			children = (
 				1F68B2BE2154A64D00DC9525 /* MessengerVC.swift */,
+				1FA20BCE21902336007317B5 /* MessengerBuilder.swift */,
+				1FA20BD621915671007317B5 /* MessengerView.swift */,
 			);
 			path = "Messenger Module";
 			sourceTree = "<group>";
@@ -624,6 +630,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FE4F0F721685E4F00E4EF72 /* SecretVC.swift in Sources */,
+				1FA20BCF21902336007317B5 /* MessengerBuilder.swift in Sources */,
 				1F68B2A02152258400DC9525 /* SwiftyJSON.swift in Sources */,
 				1F68B2B22152751700DC9525 /* Routes.swift in Sources */,
 				1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */,
@@ -646,6 +653,7 @@
 				1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */,
 				1F76C7DE2158A09E00EB6C8C /* PoolingVC.swift in Sources */,
 				1FE4F101216B139200E4EF72 /* FeedbackVC.swift in Sources */,
+				1FA20BD721915671007317B5 /* MessengerView.swift in Sources */,
 				1F68B2B6215275CB00DC9525 /* PublicStructs.swift in Sources */,
 				1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */,
 				1F170F182163DBB3009673E2 /* ConversationRoutes.swift in Sources */,

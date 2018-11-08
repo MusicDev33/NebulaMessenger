@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate {
+class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
     
     var msgList = [TerseMessage]()
     
@@ -26,19 +26,11 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     
     var keyboardIsUp = false
     
-    //@IBOutlet weak var messagesTable: UITableView!
-    @IBOutlet weak var messageTextView: UITextView!
-    @IBOutlet weak var deleteMsgLabel: UILabel!
-    @IBOutlet weak var messagesCollection: UICollectionView!
-    
-    @IBOutlet weak var trashButton: UIButton!
-    
-    @IBOutlet weak var bottomView: UIView!
-    
-    @IBOutlet weak var bottomViewBottomAnchor: NSLayoutConstraint!
-    
-    @IBOutlet weak var sendButton: UIButton!
-    
+    var messagesCollection: UICollectionView! { didSet {
+        messagesCollection.dataSource = self
+        messagesCollection.delegate = self
+        }
+    }
     var maxChars = 22
     
     var didScroll = false
@@ -59,35 +51,22 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     
     var timer: Timer?
     
+    let messengerBuilder = MessengerBuilder()
+    
     //Creating UI Elements
     func createAddToGroupButton(){
-        self.addToGroupButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        self.addToGroupButton.center = self.view.center
-        self.addToGroupButton.frame.origin.y = 50
-        if let image = UIImage(named: "AddFriendBlack") {
-            self.addToGroupButton.setImage(image, for: .normal)
-        }
+        self.addToGroupButton = messengerBuilder.createAddToGroupButton(view: self.view)
         self.addToGroupButton.addTarget(self, action: #selector(addToGroupButtonPressed), for: .touchUpInside)
         self.view.addSubview(self.addToGroupButton)
         
-        pulsatingLayer = CAShapeLayer()
-        
-        // Here we add half of addToGroupButton's width to the circle's center to get it to center on the button
-        let point = CGPoint(x: view.center.x, y: self.addToGroupButton.frame.origin.y+20)
-        let circlePath = UIBezierPath(arcCenter: .zero, radius: CGFloat(20), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
-        
-        let bgColor = nebulaPurple.withAlphaComponent(0.0)
-        pulsatingLayer.path = circlePath.cgPath
-        pulsatingLayer.strokeColor = UIColor.clear.cgColor
-        pulsatingLayer.lineWidth = 10
-        pulsatingLayer.fillColor = bgColor.cgColor
-        pulsatingLayer.lineCap = CAShapeLayerLineCap.round
-        pulsatingLayer.position = point
-        //pulsatingLayer.frame.origin.x = self.view.center.x
-        //pulsatingLayer.frame.origin.y = addToGroupButton.frame.origin.y
-        
+        pulsatingLayer = messengerBuilder.createPulsatingLayer(button: self.addToGroupButton, view: self.view)
         self.view.layer.addSublayer(pulsatingLayer)
-        //animateLayer()
+        
+        self.exitGroupButton = messengerBuilder.createExitGroupButton(view: self.view, button: self.addToGroupButton)
+        self.exitGroupButton.addTarget(self, action: #selector(exitGroupButtonPressed), for: .touchUpInside)
+        
+        self.confirmAddButton = messengerBuilder.createConfirmAddButton(view: self.view, button: self.addToGroupButton)
+        self.confirmAddButton.addTarget(self, action: #selector(confirmAddButtonPressed), for: .touchUpInside)
     }
     
     func animateLayer(){
@@ -118,30 +97,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         CATransaction.commit()
     }
     
-    // Creates the button that exits the new group view
-    func createExitGroupButton(){
-        self.exitGroupButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        self.exitGroupButton.center = self.view.center
-        self.exitGroupButton.frame.origin.y = self.addToGroupButton.frame.origin.y
-        if let image = UIImage(named: "BlackX") {
-            self.exitGroupButton.setImage(image, for: .normal)
-        }
-        self.exitGroupButton.addTarget(self, action: #selector(exitGroupButtonPressed), for: .touchUpInside)
-        self.exitGroupButton.alpha = 0
-    }
-    
-    // Creates the button confirms addition of friend to group
-    func createConfirmAddButton(){
-        self.confirmAddButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        self.confirmAddButton.center = self.view.center
-        self.confirmAddButton.frame.origin.y = self.addToGroupButton.frame.origin.y
-        if let image = UIImage(named: "PlusSignBlack") {
-            self.confirmAddButton.setImage(image, for: .normal)
-        }
-        self.confirmAddButton.addTarget(self, action: #selector(confirmAddButtonPressed), for: .touchUpInside)
-        self.confirmAddButton.alpha = 0
-    }
-    
+    // Might build this in other file later
     func createTableView(){
         let displayWidth: CGFloat = self.view.frame.width
         let displayHeight: CGFloat = self.view.frame.height
@@ -174,25 +130,11 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     }
     
     @objc func addToGroupButtonPressed(){
-        self.animateLayer()
         self.possibleMembersTable.reloadData()
         self.view.addSubview(self.possibleMembersTable)
-        self.view.addSubview(self.exitGroupButton)
-        self.view.addSubview(self.confirmAddButton)
         UIView.animate(withDuration: 0.4, animations: {
             self.possibleMembersTable.frame.origin.y = 100
-            self.exitGroupButton.alpha = 1.0
-            self.exitGroupButton.frame.origin.x += 50
-            self.confirmAddButton.alpha = 1.0
-            self.confirmAddButton.frame.origin.x -= 50
-            
-            //Rotate buttons
-            self.confirmAddButton.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
-            self.exitGroupButton.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
         })
-        self.addToGroupButton.isEnabled = false
-        self.confirmAddButton.isEnabled = false
-        
         self.view.endEditing(true)
     }
     
@@ -248,64 +190,154 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                 self.friend.removeLast(self.friend.count-self.maxChars)
                 self.friend += "..."
             }
-            self.deleteMsgLabel.text = self.friend
             self.involved = newInvolved
         }
     }
     
+    @objc func doubleTapOnCircle(_ sender: UITapGestureRecognizer){
+        newView.tappedGrabCircle()
+    }
+    
+    var collectionMoved = false
+    @objc func draggedCircle(_ sender:UIPanGestureRecognizer){
+        switch sender.state {
+        case .began:
+            print("hi")
+        case .changed:
+            let translation = sender.translation(in: self.view)
+            if !self.keyboardIsUp{
+                newView.draggedCircle(x: translation.x, y: translation.y)
+                sender.setTranslation(CGPoint.zero, in: self.view)
+            }
+            if !collectionMoved{
+                self.messagesCollectionBottomConstraint?.constant = 0
+                //self.collectionBottomAnchor?.constant = 100
+                let quickFrame = self.messagesCollection.frame
+                self.messagesCollection.frame = CGRect(x: quickFrame.origin.x, y: quickFrame.origin.y, width: quickFrame.width, height: quickFrame.height+100)
+                UIView.animate(withDuration: 0.5){
+                    self.view.layoutIfNeeded()
+                }
+                print("moved")
+                self.collectionMoved = true
+            }
+        default:
+            break
+        }
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
+    }
+    
+    @objc func resetButton(){
+        newView.resetBottomBar()
+        self.messagesCollectionBottomConstraint?.constant = -self.newView.bottomBar.frame.height
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: {_ in
+            self.scrollToBottom(animated: true)
+        })
+    }
+    
+    @objc func downButtonPressed(){
+        view.endEditing(true)
+    }
+    
+    @objc func groupFunctionButtonPressed(){
+        newView.groupFunctionPressed()
+    }
+    
+    var newView: MessengerView!
+    var messagesCollectionBottomConstraint: NSLayoutConstraint?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(self.isGroupChat)
-        let currentlyInvolved = Utility.getFriendsFromConvIdAsArray(user: GlobalUser.username, convId: self.involved)
-        self.possibleMembers = GlobalUser.friends.filter {!currentlyInvolved.contains($0)}
-        
-        if self.isGroupChat{
-            self.createAddToGroupButton()
-            self.createExitGroupButton()
-            self.createConfirmAddButton()
-            self.createTableView()
-        }
-        
+        self.view.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 1)
         if self.friend.count > maxChars{
             self.friend.removeLast(self.friend.count-maxChars)
             self.friend += "..."
         }
         
-        // Do any additional setup after loading the view.
-        self.messageTextView.delegate = self
         
-        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        //Making a collectionview
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: 375, height: 50)
+        layout.scrollDirection = .vertical
+        
+        messagesCollection = UICollectionView(frame: CGRect(x: 0, y: 100, width: self.view.frame.width, height: 500), collectionViewLayout: layout)
+        messagesCollection.register(MessageBubble.self, forCellWithReuseIdentifier: "messageBubble")
+        
+        messagesCollection.translatesAutoresizingMaskIntoConstraints = false
+        messagesCollection.backgroundColor = UIColor.white
+        messagesCollection.isScrollEnabled = true
+        messagesCollection.isUserInteractionEnabled = true
+        messagesCollection.alwaysBounceVertical = true
+        
+        newView = MessengerView(frame: self.view.frame, view: self.view)
+        newView.involvedLabel.text = self.friend
+        newView.involvedCenterAnchor?.isActive = true
+        
+        self.view.addSubview(newView)
+        //newView.addSubview(self.messageCollectionView)
+        //newView.sendSubviewToBack(self.messageCollectionView)
+        self.newView.addSubview(self.messagesCollection)
+        newView.sendSubviewToBack(self.messagesCollection)
+        
+        messagesCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: newView.navBar.frame.height-20).isActive = true
+        messagesCollectionBottomConstraint = messagesCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -newView.bottomBar.frame.height)
+        messagesCollectionBottomConstraint?.isActive = true
+        messagesCollection.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        messagesCollection.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        messagesCollection.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        messagesCollection.heightAnchor.constraint(equalToConstant: 400).isActive = true
+        
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapOnCircle(_:)))
+        tapGesture.numberOfTapsRequired = 2
+        //newView.bottomBar.isUserInteractionEnabled = true
+        newView.grabCircle.addGestureRecognizer(tapGesture)
+        
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.draggedCircle(_:)))
+        panGesture.delegate = self
+        newView.grabCircle.isUserInteractionEnabled = true
+        newView.grabCircle.addGestureRecognizer(panGesture)
+        
+        newView.bottomBarActionButton.addTarget(self, action: #selector(resetButton), for: .touchUpInside)
+        newView.backButton.addTarget(self, action: #selector(goBack(sender:)), for: .touchUpInside)
+        newView.closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
+        newView.downButton.addTarget(self, action: #selector(downButtonPressed), for: .touchUpInside)
+        newView.sendButton.addTarget(self, action: #selector(sendWrapper(sender:)), for: .touchUpInside)
+        //newView.groupFunctionButton.addTarget(self, action: #selector(addToGroupButtonPressed), for: .touchUpInside)
+        
+        print(self.isGroupChat)
+        let currentlyInvolved = Utility.getFriendsFromConvIdAsArray(user: GlobalUser.username, convId: self.involved)
+        self.possibleMembers = GlobalUser.friends.filter {!currentlyInvolved.contains($0)}
+        
+        if self.isGroupChat{
+            self.createTableView()
+            newView.buildGroupChatFeatures()
+            newView.groupFunctionButton.addTarget(self, action: #selector(groupFunctionButtonPressed), for: .touchUpInside)
+        }
+        
+        // Do any additional setup after loading the view.
+        newView.messageField.delegate = self
+        if newView.messageField.text.count == 0{
+            newView.sendButton.isEnabled = false
+        }
+        
+        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 12, right: 0)
         self.messagesCollection.keyboardDismissMode = .interactive
         
         let window = UIApplication.shared.keyWindow
         topPadding = window?.safeAreaInsets.top ?? 0
         bottomPadding = window?.safeAreaInsets.bottom ?? 0
         
-        messageTextView!.layer.borderWidth = 1
-        messageTextView!.layer.borderColor = UIColor.lightGray.cgColor
-        messageTextView.layer.cornerRadius = 10.0
-        
         self.setupKeyboardObservers()
         
         //Adding lines that make it look good
         //Top line
-        let lineView = UIView(frame: CGRect(x: 0, y: 0-self.messagesCollection.frame.origin.y, width: view.frame.width, height: 1.0))
-        lineView.layer.borderWidth = 1.0
-        lineView.layer.borderColor = UIColor.gray.cgColor
-        self.view.addSubview(lineView)
-        
-        //Bottom Line lol
-        bottomLineView = UIView(frame: CGRect(x: 0, y: view.frame.height-self.bottomView.frame.height-bottomPadding, width: view.frame.width, height: 1.0))
-        print("Y")
-        print(self.bottomView.frame.origin.y)
-        print(self.bottomLineView.frame.origin.y)
-        bottomLineView.layer.borderWidth = 1.0
-        bottomLineView.layer.borderColor = UIColor.gray.cgColor
-        self.view.addSubview(bottomLineView)
-        
-        self.deleteMsgLabel.text = self.friend
-        
-        self.sendButton.isEnabled = false
         
         GlobalUser.currentConv = self.friend
         self.scrollToBottom(animated: true)
@@ -313,7 +345,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             ConversationRoutes.updateLastRead(id: self.id, msgId: msgList[msgList.count-1]._id ?? "NA"){
             }
         }
-        
         GlobalUser.unreadList = GlobalUser.unreadList.filter {$0 != self.id}
     }
     
@@ -322,18 +353,10 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         }
         self.messagesCollection.layoutIfNeeded()
         self.view.alpha = 1
-        self.messageTextView.text = UserDefaults.standard.string(forKey: self.id) ?? ""
+        newView.messageField.text = UserDefaults.standard.string(forKey: self.id) ?? ""
         NotificationCenter.default.addObserver(self, selector: #selector(self.closeVC), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.openVC), name: UIApplication.didBecomeActiveNotification, object: nil)
 
-    }
-    
-    @objc func closeVC()  {
-        view.endEditing(true)
-    }
-    
-    @objc func openVC()  {
-        self.messagesCollection.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -348,12 +371,9 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             //self.scrollToBottom(animated: false)
             didScroll = true
         }
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -361,7 +381,16 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         NotificationCenter.default.removeObserver(self)
     }
     
+    @objc func closeVC()  {
+        view.endEditing(true)
+    }
+    
+    @objc func openVC()  {
+        self.messagesCollection.reloadData()
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("FUNCTION WAS CAlLED")
         return self.msgList.count
     }
     
@@ -381,7 +410,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true
         }
-        
         return cell
     }
     
@@ -404,15 +432,12 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.view.endEditing(true)
-        print(self.messagesCollection.contentOffset)
-        print(self.messagesCollection.contentSize.height)
-        print(self.messagesCollection.frame.height)
     }
     
     func scrollToBottom(animated: Bool) {
         DispatchQueue.main.async {
             self.messagesCollection.layoutIfNeeded()
-            let scrollToY = self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + 8
+            let scrollToY = self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + 12
             let cInset = self.messagesCollection.contentInset.bottom
             
             let contentPoint = CGPoint(x: 0, y: scrollToY + cInset)
@@ -422,28 +447,33 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     
     //MARK: UITextViewDelegate
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if(text == "\n") {
-            textView.resignFirstResponder()
-            return false
-        }
         if text == ""{
             if textView.text.count-1 > 0{
-                self.sendButton.isEnabled = true
+                newView.sendButton.isEnabled = true
             }else{
-                self.sendButton.isEnabled = false
+                newView.sendButton.isEnabled = false
             }
         }else{
             if textView.text.count+1 > 0{
-                self.sendButton.isEnabled = true
+                newView.sendButton.isEnabled = true
             }else{
-                self.sendButton.isEnabled = false
+                newView.sendButton.isEnabled = false
             }
         }
-        UserDefaults.standard.set(textView.text+text, forKey: self.id)
+        
         self.timer?.invalidate()
         self.timer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(typingTimerComplete), userInfo: nil, repeats: true)
         SocketIOManager.sendTyping(id: self.id)
         return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if textView.text.count == 0{
+            newView.sendButton.isEnabled = false
+        }else{
+            newView.sendButton.isEnabled = true
+        }
+        UserDefaults.standard.set(textView.text, forKey: self.id)
     }
     
     @objc func typingTimerComplete(){
@@ -463,17 +493,20 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     }
     
     @objc func handleKeyboardWillShow(notification: NSNotification){
-        let keyboardFrame: CGRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect)
+        guard let info = notification.userInfo,
+            let keyboardFrameValue = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        
+        let keyboardFrame = keyboardFrameValue.cgRectValue
+        let keyboardSize = keyboardFrame.size
         
         let keyboardDuration: Double = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double)
         if !self.keyboardIsUp{
-            self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: keyboardFrame.height+8-bottomPadding, right: 0)
-            self.bottomViewBottomAnchor?.constant += keyboardFrame.height - bottomPadding
-            self.bottomLineView.frame.origin.y -= keyboardFrame.height - bottomPadding
+            self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: keyboardSize.height+12-bottomPadding, right: 0)
             self.scrollToBottom(animated: true)
             UIView.animate(withDuration: keyboardDuration){
                 self.view.layoutIfNeeded()
             }
+            newView.moveWithKeyboard(yValue: keyboardSize.height, duration: keyboardDuration)
         }
         self.keyboardIsUp = true
     }
@@ -483,14 +516,17 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         let keyboardDuration: Double = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double)
         
         if self.keyboardIsUp{
-            self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-            self.bottomViewBottomAnchor?.constant = 0
-            self.bottomLineView.frame.origin.y = view.frame.height-self.bottomView.frame.height-bottomPadding
+            self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 12, right: 0)
             UIView.animate(withDuration: keyboardDuration){
                 self.view.layoutIfNeeded()
             }
+            newView.resetBottomBar()
         }
         self.keyboardIsUp = false
+    }
+    
+    @objc func sendWrapper(sender: UIButton){
+        self.sendMessage(sender)
     }
     
     
@@ -513,7 +549,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             requestJson["groupChat"] = "HELLO" // Set groupChat to something random, it doesn't matter
         }
         requestJson["sender"] = GlobalUser.username
-        requestJson["body"] = self.messageTextView.text
+        requestJson["body"] = self.newView.messageField.text
         requestJson["convId"] = self.involved
         //requestJson["read"] = false
         requestJson["dateTime"] = now
@@ -522,7 +558,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         
         print(requestJson)
         
-        self.sendButton.isEnabled = false
+        self.newView.sendButton.isEnabled = false
         
         do {
             let data = try JSONSerialization.data(withJSONObject: requestJson, options:.prettyPrinted)
@@ -543,17 +579,16 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                     let jsonObject = JSON(Json)
                     //let jsonObject = JSON(Json)
                     self.messagesCollection.reloadData()
-                    self.messageTextView.text = ""
+                    self.newView.messageField.text = ""
                     SocketIOManager.sendMessage(message: [dec])
                     
                     if jsonObject["conv"].exists(){
-                        print("JJSFJDJFZDHJZGHCKGHZKG")
                         self.id = jsonObject["conv"]["id"].string!
                         let lastMessage = jsonObject["conv"]["lastMessage"].string!
                         let lastRead = jsonObject["conv"]["lastMsgRead"][GlobalUser.username].string!
                         let involved = jsonObject["conv"]["involved"].string!
                         
-                        // What is this even for...?
+                        // Sets the saved message draft to nothing for this conversation
                         UserDefaults.standard.set("", forKey: self.id)
                         GlobalUser.addConversation(involved: involved, id: self.id, lastRead: lastRead, lastMessage: lastMessage)
                     }else{
@@ -576,15 +611,35 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         self.performSegue(withIdentifier: "messengerVCToMainMenu", sender: self)
     }
     
+    @objc func goBack(sender: UIButton){
+        GlobalUser.currentConv = ""
+        self.view.endEditing(true)
+        self.performSegue(withIdentifier: "messengerVCToMainMenu", sender: self)
+    }
+    
+    @objc func closeButtonPressed(){
+        if !keyboardIsUp{
+            newView.closeButtonTapped()
+            self.messagesCollectionBottomConstraint?.constant = 0
+            UIView.animate(withDuration: 0.3, animations: {
+                
+            }, completion:{_ in
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.view.layoutIfNeeded()
+                })
+            })
+        }
+    }
+    
     @IBAction func tappedOnTrashButton(_ sender: UIButton) {
         self.deleteModeOn = !self.deleteModeOn
         self.messagesCollection.allowsSelection = self.deleteModeOn
         self.messagesCollection.allowsMultipleSelection = self.deleteModeOn
         //self.messagesCollection.allowsMultipleSelectionDuringEditing = self.deleteModeOn
         if self.deleteModeOn{
-            self.trashButton.imageView?.tintColor = nebulaFlame
+            //self.trashButton.imageView?.tintColor = nebulaFlame
         }else{
-            self.trashButton.imageView?.tintColor = nebulaPurple
+            //self.trashButton.imageView?.tintColor = nebulaPurple
         }
         if self.deleteArray.count > 0{
             let alert = UIAlertController(title: "Do you want to delete these messages?", message: "", preferredStyle: .alert)
@@ -597,13 +652,13 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                     
                     self.deleteArray = [String]()
                     self.messagesCollection.reloadData()
-                    self.deleteMsgLabel.isHidden = !self.deleteModeOn
+                    //self.deleteMsgLabel.isHidden = !self.deleteModeOn
                 }
             }))
             alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: {action in
                 self.messagesCollection.reloadData()
                 self.deleteArray = [String]()
-                self.deleteMsgLabel.isHidden = !self.deleteModeOn
+                //self.deleteMsgLabel.isHidden = !self.deleteModeOn
             }))
             
             self.present(alert, animated: true)
@@ -655,10 +710,28 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                     
                     if self.msgList[lastIndex]._id == "Chatting"{
                         self.msgList[lastIndex] = tempMsg
+                        /*
+                        let lastSectionIndex = self.messagesCollection!.numberOfSections - 1
+                        // Then grab the number of rows in the last section
+                        let lastRowIndex = self.messagesCollection!.numberOfItems(inSection: lastSectionIndex) - 1
+                        // Now just construct the index path
+                        let pathToLastRow = NSIndexPath(row: lastRowIndex+1, section: lastSectionIndex)
+                        let pathToRow2 = NSIndexPath(row: lastRowIndex+1, section: lastSectionIndex)
+                        self.messagesCollection.insertItems(at: [pathToLastRow as IndexPath])
+                        self.messagesCollection.reloadItems(at: [pathToRow2 as IndexPath])*/
                         self.messagesCollection.reloadData()
                         self.scrollToBottom(animated: true)
                     }else{
                         self.msgList.append(tempMsg)
+                        /*
+                        let lastSectionIndex = self.messagesCollection!.numberOfSections - 1
+                        // Then grab the number of rows in the last section
+                        let lastRowIndex = self.messagesCollection!.numberOfItems(inSection: lastSectionIndex) - 1
+                        // Now just construct the index path
+                        let pathToLastRow = NSIndexPath(row: lastRowIndex+1, section: lastSectionIndex)
+                        let pathToRow2 = NSIndexPath(row: lastRowIndex+1, section: lastSectionIndex)
+                        self.messagesCollection.insertItems(at: [pathToLastRow as IndexPath])
+                        self.messagesCollection.reloadItems(at: [pathToRow2 as IndexPath])*/
                         self.messagesCollection.reloadData()
                         self.scrollToBottom(animated: true)
                     }
@@ -694,6 +767,13 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                     let isTypingBubbles = self.msgList.filter { $0._id == "Chatting" }
                     if isTypingBubbles.count == 0 && tempMsg.sender != GlobalUser.username{
                         self.msgList.append(tempMsg)
+                        /*
+                        let lastSectionIndex = self.messagesCollection!.numberOfSections - 1
+                        // Then grab the number of rows in the last section
+                        let lastRowIndex = self.messagesCollection!.numberOfItems(inSection: lastSectionIndex) - 1
+                        // Now just construct the index path
+                        let pathToLastRow = NSIndexPath(row: lastRowIndex, section: lastSectionIndex)
+                        self.messagesCollection.reloadItems(at: [pathToLastRow as IndexPath])*/
                         self.messagesCollection.reloadData()
                         self.scrollToBottom(animated: true)
                     }
@@ -717,6 +797,13 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                     let isTypingBubbles = self.msgList.filter { $0._id == "Chatting" }
                     if isTypingBubbles.count > 0 && msg["friend"].string! != GlobalUser.username{
                         self.msgList = self.msgList.filter { $0._id != "Chatting" }
+                        /*
+                        let lastSectionIndex = self.messagesCollection!.numberOfSections - 1
+                        // Then grab the number of rows in the last section
+                        let lastRowIndex = self.messagesCollection!.numberOfItems(inSection: lastSectionIndex) - 1
+                        // Now just construct the index path
+                        let pathToLastRow = NSIndexPath(row: lastRowIndex, section: lastSectionIndex)
+                        self.messagesCollection.reloadItems(at: [pathToLastRow as IndexPath])*/
                         self.messagesCollection.reloadData()
                         self.scrollToBottom(animated: true)
                     }

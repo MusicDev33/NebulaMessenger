@@ -46,6 +46,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         application.registerForRemoteNotifications()
         application.applicationIconBadgeNumber = 0
+        /*
+        let firstScreen = LoginVC()
+        let navController = UINavigationController(rootViewController: firstScreen)
+         
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = navController
+        window?.makeKeyAndVisible()*/
         
         return true
     }

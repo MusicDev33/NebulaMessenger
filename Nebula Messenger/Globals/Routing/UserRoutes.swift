@@ -16,6 +16,7 @@ class UserRoutes{
         
         requestJson["username"] = username
         requestJson["password"] = password
+        requestJson["newToken"] = FirebaseGlobals.globalDeviceToken
         
         do {
             let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])

@@ -10,6 +10,31 @@ import Foundation
 import Alamofire
 
 class MessageRoutes{
+    static func sendMessage(msgsArray: [String], completion:@escaping () -> ()){
+        let url = URL(string: deleteMsgsRoute)
+        var requestJson = [String:Any]()
+        requestJson["idList"] = msgsArray
+        do {
+            let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
+            let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)
+            
+            Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
+                switch response.result{
+                case .success(let Json):
+                    let jsonObject = JSON(Json)
+                    print("GETTING")
+                    print(jsonObject)
+                    
+                    completion()
+                case .failure(_):
+                    print("Not working!")
+                    completion()
+                }
+            })
+        }catch{
+        }
+    }
+    
     static func getMessages(id: String, completion: @escaping ([TerseMessage]) -> Void){
         let url = URL(string: getMsgRoute)
         var requestJson = [String:Any]()
