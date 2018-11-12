@@ -78,7 +78,7 @@ class MessengerView: UIView {
     let pulsatingLayer: CAShapeLayer = {
         var layer = CAShapeLayer()
         // Here we add half of the button's width to the circle's center to get it to center on the button
-        let point = CGPoint(x: UIScreen.main.bounds.size.width/2, y: 25+(UIScreen.main.bounds.size.height/16))
+        let point = CGPoint(x: UIScreen.main.bounds.size.width/2, y: 25+(UIScreen.main.bounds.size.height/20))
         let circlePath = UIBezierPath(arcCenter: .zero, radius: CGFloat(20), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
         
         let bgColor = nebulaPurple.withAlphaComponent(0.0)
@@ -217,8 +217,12 @@ class MessengerView: UIView {
         addSubview(backButton)
         addSubview(trashButton)
         addSubview(involvedLabel)
-        self.layer.addSublayer(pulsatingLayer)
+        //self.layer.addSublayer(pulsatingLayer)
         addSubview(bottomBarActionButton)
+        bottomBarActionButton.layer.addSublayer(pulsatingLayer)
+        pulsatingLayer.frame = bottomBarActionButton.bounds
+        pulsatingLayer.frame.origin.x += (buttonHeight-10)/2
+        pulsatingLayer.frame.origin.y += (buttonHeight-10)/2
         
         addSubview(bottomBar)
         addSubview(grabCircleBackground)
@@ -265,12 +269,11 @@ class MessengerView: UIView {
     func buildConstraintsForNavBar(){
         navBar.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         navBar.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        navBar.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.125).isActive = true
+        navBar.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.1).isActive = true
         navBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
         
         topLine.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         topLine.centerYAnchor.constraint(equalToSystemSpacingBelow: navBar.bottomAnchor, multiplier: 1).isActive = true
-        //topLine.centerYAnchor.constraint(equalToSystemSpacingBelow: navBar.centerYAnchor, multiplier: 2)
         topLine.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
         topLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
@@ -278,7 +281,7 @@ class MessengerView: UIView {
         backButton.widthAnchor.constraint(equalToConstant: buttonHeight).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
         backButton.centerXAnchor.constraint(equalTo: leftAnchor, constant: 30).isActive = true
-        backButton.centerYAnchor.constraint(equalTo: navBar.centerYAnchor, constant: UIApplication.shared.statusBarFrame.height/2).isActive = true
+        backButton.centerYAnchor.constraint(equalTo: navBar.centerYAnchor, constant: 0).isActive = true
         
         trashButton.widthAnchor.constraint(equalToConstant: buttonHeight).isActive = true
         trashButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true

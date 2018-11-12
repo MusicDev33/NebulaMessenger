@@ -279,18 +279,16 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         newView.involvedCenterAnchor?.isActive = true
         
         self.view.addSubview(newView)
-        //newView.addSubview(self.messageCollectionView)
-        //newView.sendSubviewToBack(self.messageCollectionView)
         self.newView.addSubview(self.messagesCollection)
         newView.sendSubviewToBack(self.messagesCollection)
         
-        messagesCollection.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: newView.navBar.frame.height-20).isActive = true
+        messagesCollection.topAnchor.constraint(equalTo: newView.navBar.bottomAnchor, constant: 0).isActive = true
         messagesCollectionBottomConstraint = messagesCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -newView.bottomBar.frame.height)
         messagesCollectionBottomConstraint?.isActive = true
         messagesCollection.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        messagesCollection.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        //messagesCollection.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         messagesCollection.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        messagesCollection.heightAnchor.constraint(equalToConstant: 400).isActive = true
+        //messagesCollection.heightAnchor.constraint(equalToConstant: 400).isActive = true
         
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapOnCircle(_:)))
