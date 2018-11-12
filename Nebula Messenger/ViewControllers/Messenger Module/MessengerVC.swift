@@ -260,7 +260,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         //Making a collectionview
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: 375, height: 50)
         layout.estimatedItemSize = CGSize(width: 375, height: 50)
         layout.scrollDirection = .vertical
@@ -308,7 +308,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         newView.sendButton.addTarget(self, action: #selector(sendWrapper(sender:)), for: .touchUpInside)
         //newView.groupFunctionButton.addTarget(self, action: #selector(addToGroupButtonPressed), for: .touchUpInside)
         
-        print(self.isGroupChat)
         let currentlyInvolved = Utility.getFriendsFromConvIdAsArray(user: GlobalUser.username, convId: self.involved)
         self.possibleMembers = GlobalUser.friends.filter {!currentlyInvolved.contains($0)}
         
@@ -332,9 +331,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         bottomPadding = window?.safeAreaInsets.bottom ?? 0
         
         self.setupKeyboardObservers()
-        
-        //Adding lines that make it look good
-        //Top line
         
         GlobalUser.currentConv = self.friend
         self.scrollToBottom(animated: true)
@@ -399,12 +395,10 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         cell.bubbleWidthAnchor?.constant = findSize(text: text!, label: cell.textView).width + 32
         
         if self.msgList[indexPath.row].sender == GlobalUser.username{
-            print("User sent")
             cell.bubbleView.backgroundColor = userTextColor
             cell.bubbleViewRightAnchor?.isActive = true
             cell.bubbleViewLeftAnchor?.isActive = false
         }else{
-            print("Other sent")
             cell.bubbleView.backgroundColor = otherTextColor
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true

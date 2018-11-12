@@ -19,8 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     let gcmMessageIDKey = "gcm.message_id"
     var restrictRotation:UIInterfaceOrientationMask = .portrait
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        //TEMPORARY - REMOVE LATER
+        UserDefaults.standard.setValue(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
+        
+        
         // Override point for customization after application launch.
         self.window!.tintColor = nebulaPurple//UIColor.init(red: 175/255, green: 0/255, blue: 124/255, alpha: 1)
         setColors()

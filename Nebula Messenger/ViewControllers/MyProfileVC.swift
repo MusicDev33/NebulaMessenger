@@ -12,8 +12,12 @@ import FirebaseMessaging
 
 class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    // I honestly have no idea why this says textview...
     @IBOutlet weak var yourTextView: UICollectionView!
     @IBOutlet weak var otherTextView: UICollectionView!
+    
+    var selectedUserColor: IndexPath!
+    var selectedOtherColor: IndexPath!
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return colorsList.count
@@ -22,16 +26,6 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "colorCell", for: indexPath) as! ColorCell
         cell.colorImg.backgroundColor = globalColors[indexPath.row]
-        if collectionView == self.yourTextView{
-            if globalColors[indexPath.row] == userTextColor{
-                cell.selectedImg.backgroundColor = UIColor.white
-            }
-        }else{
-            if globalColors[indexPath.row] == otherTextColor{
-                cell.selectedImg.backgroundColor = UIColor.white
-            }
-        }
-        
         
         return cell
     }
@@ -42,14 +36,17 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                 cell.selectedImg.backgroundColor = UIColor.clear
             }
         })
+        
         if let cell = collectionView.cellForItem(at: indexPath) as? ColorCell{
             cell.selectedImg.backgroundColor = UIColor.white
             if collectionView == self.yourTextView{
                 UserDefaults.standard.set(colorsList[indexPath.row], forKey: "userTextColor")
                 userTextColor = colorsDict[colorsList[indexPath.row]] ?? nebulaPurple
+                selectedUserColor = indexPath
             }else{
                 UserDefaults.standard.set(colorsList[indexPath.row], forKey: "otherTextColor")
                 otherTextColor = colorsDict[colorsList[indexPath.row]] ?? nebulaBlue
+                selectedOtherColor = indexPath
             }
         }
     }
@@ -57,8 +54,19 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let userColorIndex = globalColors.firstIndex(of: userTextColor)
+        let otherColorIndex = globalColors.firstIndex(of: otherTextColor)
+        
+        self.yourTextView.selectItem(at: IndexPath(row: userColorIndex ?? 0, section: 0), animated: true, scrollPosition: UICollectionView.ScrollPosition(rawValue: 0))
+        
+        self.collectionView(self.yourTextView, didSelectItemAt: IndexPath(row: userColorIndex ?? 0, section: 0))
+        
+        self.otherTextView.selectItem(at: IndexPath(row: otherColorIndex ?? 0, section: 0), animated: true, scrollPosition: UICollectionView.ScrollPosition(rawValue: 0))
+        self.collectionView(self.otherTextView, didSelectItemAt: IndexPath(row: otherColorIndex ?? 0, section: 0))
     }
     
     @IBAction func logoutButtonPressed(_ sender: UIButton) {
@@ -75,24 +83,15 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: {action in
             
         }))
-        
         self.present(alert, animated: true)
-        
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
         self.performSegue(withIdentifier: "toMainMenuFromProfile", sender: self)
     }
     
-    /*
+    
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if(event?.subtype == UIEvent.EventSubtype.motionShake) {

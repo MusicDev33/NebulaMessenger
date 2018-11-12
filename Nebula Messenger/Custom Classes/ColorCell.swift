@@ -32,11 +32,23 @@ class ColorCell: UICollectionViewCell{
     
     func setAsColor(){
         selectedImg.backgroundColor = UIColor.white
-        print("Selected")
     }
     
     func unsetAsColor(){
         selectedImg.backgroundColor = UIColor.clear
+    }
+    
+    override var isSelected: Bool{
+        didSet{
+            if self.isSelected
+            {
+                self.setAsColor()
+            }
+            else
+            {
+                self.unsetAsColor()
+            }
+        }
     }
     
     override init(frame: CGRect) {

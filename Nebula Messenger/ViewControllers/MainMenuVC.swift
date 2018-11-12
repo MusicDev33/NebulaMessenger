@@ -62,11 +62,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             cell.textLabel?.text = self.searchResults[indexPath.row]
         } else{
             let convName = GlobalUser.convNames[indexPath.row]
-            print("TPO")
-            print(convName)
-            print(GlobalUser.masterDict[convName])
             
-            print(GlobalUser.masterDict[convName]!.id!)
             if GlobalUser.unreadList.contains(GlobalUser.masterDict[convName]!.id!){
                 cell.textLabel?.textColor = nebulaBlue
                 cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
@@ -99,8 +95,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.searchController.searchBar.endEditing(true)
             
             let userCount = self.passInvolved.components(separatedBy:":").count
+            print("Important")
+            print(self.passInvolved)
             if userCount-1>1{
-                print("Is Group Chat")
+                print("Group chat enabled")
                 self.isGroupChat = true
             }
             
@@ -370,6 +368,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             vc?.friend = self.passFriend
             vc?.msgList = self.passMsgList
             vc?.isGroupChat = self.isGroupChat
+            self.isGroupChat = false
         }
     }
     
