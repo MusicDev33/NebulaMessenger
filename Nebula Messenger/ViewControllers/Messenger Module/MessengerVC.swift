@@ -51,24 +51,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     
     var timer: Timer?
     
-    let messengerBuilder = MessengerBuilder()
-    
-    //Creating UI Elements
-    func createAddToGroupButton(){
-        self.addToGroupButton = messengerBuilder.createAddToGroupButton(view: self.view)
-        self.addToGroupButton.addTarget(self, action: #selector(addToGroupButtonPressed), for: .touchUpInside)
-        self.view.addSubview(self.addToGroupButton)
-        
-        pulsatingLayer = messengerBuilder.createPulsatingLayer(button: self.addToGroupButton, view: self.view)
-        self.view.layer.addSublayer(pulsatingLayer)
-        
-        self.exitGroupButton = messengerBuilder.createExitGroupButton(view: self.view, button: self.addToGroupButton)
-        self.exitGroupButton.addTarget(self, action: #selector(exitGroupButtonPressed), for: .touchUpInside)
-        
-        self.confirmAddButton = messengerBuilder.createConfirmAddButton(view: self.view, button: self.addToGroupButton)
-        self.confirmAddButton.addTarget(self, action: #selector(confirmAddButtonPressed), for: .touchUpInside)
-    }
-    
     func animateLayer(){
         CATransaction.begin()
         CATransaction.setCompletionBlock({
@@ -198,6 +180,21 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         newView.tappedGrabCircle()
     }
     
+    @objc func closeButtonPressed(){
+        if !keyboardIsUp{
+            newView.closeButtonTapped()
+            self.messagesCollectionBottomConstraint?.constant -= 3
+            UIView.animate(withDuration: 0.2, animations: {
+                self.view.layoutIfNeeded()
+            }, completion:{_ in
+                self.messagesCollectionBottomConstraint?.constant = 0
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.view.layoutIfNeeded()
+                })
+            })
+        }
+    }
+    
     var collectionMoved = false
     @objc func draggedCircle(_ sender:UIPanGestureRecognizer){
         switch sender.state {
@@ -213,8 +210,8 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                 self.messagesCollectionBottomConstraint?.constant = 0
                 //self.collectionBottomAnchor?.constant = 100
                 let quickFrame = self.messagesCollection.frame
-                self.messagesCollection.frame = CGRect(x: quickFrame.origin.x, y: quickFrame.origin.y, width: quickFrame.width, height: quickFrame.height+100)
-                UIView.animate(withDuration: 0.5){
+                UIView.animate(withDuration: 0.3){
+                    self.messagesCollection.frame = CGRect(x: quickFrame.origin.x, y: quickFrame.origin.y, width: quickFrame.width, height: quickFrame.height+100)
                     self.view.layoutIfNeeded()
                 }
                 print("moved")
@@ -230,6 +227,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     }
     
     @objc func resetButton(){
+        collectionMoved = false
         newView.resetBottomBar()
         self.messagesCollectionBottomConstraint?.constant = -self.newView.bottomBar.frame.height
         UIView.animate(withDuration: 0.3, animations: {
@@ -264,6 +262,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: 375, height: 50)
+        layout.estimatedItemSize = CGSize(width: 375, height: 50)
         layout.scrollDirection = .vertical
         
         messagesCollection = UICollectionView(frame: CGRect(x: 0, y: 100, width: self.view.frame.width, height: 500), collectionViewLayout: layout)
@@ -390,7 +389,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("FUNCTION WAS CAlLED")
         return self.msgList.count
     }
     
@@ -398,14 +396,17 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messageBubble", for: indexPath) as! MessageBubble
         let text = self.msgList[indexPath.row].body
         
-        cell.messageLabel.text = text
-        cell.bubbleWidthAnchor?.constant = findSize(text: text!, label: cell.messageLabel).width + 20
+        cell.textView.text = text
+        
+        cell.bubbleWidthAnchor?.constant = findSize(text: text!, label: cell.textView).width + 32
         
         if self.msgList[indexPath.row].sender == GlobalUser.username{
+            print("User sent")
             cell.bubbleView.backgroundColor = userTextColor
             cell.bubbleViewRightAnchor?.isActive = true
             cell.bubbleViewLeftAnchor?.isActive = false
         }else{
+            print("Other sent")
             cell.bubbleView.backgroundColor = otherTextColor
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true
@@ -416,18 +417,15 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messageBubble", for: indexPath) as! MessageBubble
         var height: CGFloat = 80
-        height = findSize(text: self.msgList[indexPath.row].body!, label: cell.messageLabel).height + 30
+        height = findSize(text: self.msgList[indexPath.row].body!, label: cell.textView).height + 20
         return CGSize(width: view.frame.width, height: height)
     }
     
-    func findSize(text: String, label: UILabel) -> CGRect{
-        let constraintRect = CGSize(width: 0.8 * view.frame.width,
-                                    height: .greatestFiniteMagnitude)
-        let returnRect = text.boundingRect(with: constraintRect,
-                                           options: .usesLineFragmentOrigin,
-                                           attributes: [.font: label.font],
-                                           context: nil)
-        return returnRect
+    func findSize(text: String, label: UITextView) -> CGRect{
+        let constraintRect = CGSize(width: 200,
+                                    height: 1000)
+        
+        return NSString(string: text).boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: label.font], context: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -615,20 +613,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         GlobalUser.currentConv = ""
         self.view.endEditing(true)
         self.performSegue(withIdentifier: "messengerVCToMainMenu", sender: self)
-    }
-    
-    @objc func closeButtonPressed(){
-        if !keyboardIsUp{
-            newView.closeButtonTapped()
-            self.messagesCollectionBottomConstraint?.constant = 0
-            UIView.animate(withDuration: 0.3, animations: {
-                
-            }, completion:{_ in
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.view.layoutIfNeeded()
-                })
-            })
-        }
     }
     
     @IBAction func tappedOnTrashButton(_ sender: UIButton) {

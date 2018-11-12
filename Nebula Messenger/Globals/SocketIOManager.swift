@@ -48,6 +48,20 @@ class SocketIOManager: NSObject {
         self.socket.emit("currently-typing", with: [dec])
     }
     
+    static func setServerVersion(version: String, build: String){
+        var sendObj = [String:Any]()
+        sendObj["version"] = version
+        sendObj["build"] = build
+        var dec: String?
+        do {
+            let data = try JSONSerialization.data(withJSONObject: sendObj, options:.prettyPrinted)
+            dec = String(data: data, encoding: .utf8)
+        }catch{
+            
+        }
+        self.socket.emit("set-version", with: [dec])
+    }
+    
     static func sendNotTyping(id: String){
         var sendObj = [String:Any]()
         sendObj["friend"] = GlobalUser.username

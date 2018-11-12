@@ -14,8 +14,8 @@ class MessageBubble: UICollectionViewCell{
     let textView: UITextView = {
         var tv = UITextView()
         tv.text = ""
-        tv.font = UIFont.systemFont(ofSize: 19)
-        tv.textColor = UIColor.black
+        tv.font = UIFont.systemFont(ofSize: 16)
+        tv.textColor = UIColor.white
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = UIColor.clear
         tv.isUserInteractionEnabled = false
@@ -60,7 +60,7 @@ class MessageBubble: UICollectionViewCell{
         super.init(frame: frame)
         
         addSubview(bubbleView)
-        addSubview(messageLabel)
+        addSubview(textView)
         
         bubbleViewRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8)
         bubbleViewRightAnchor?.isActive = true
@@ -71,14 +71,13 @@ class MessageBubble: UICollectionViewCell{
         bubbleView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         bubbleView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
         
-        bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: self.frame.width*0.7)
+        bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: self.frame.width*0.66)
         bubbleWidthAnchor?.isActive = true
         
-        messageLabel.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 8).isActive = true
-        messageLabel.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -8).isActive = true
-        messageLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        messageLabel.widthAnchor.constraint(equalToConstant: self.frame.width*0.7).isActive = true
-        messageLabel.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        textView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 8).isActive = true
+        textView.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -8).isActive = true
+        textView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        textView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

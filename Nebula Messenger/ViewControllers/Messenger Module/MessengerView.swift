@@ -388,6 +388,7 @@ class MessengerView: UIView {
                 self.bottomBar.layer.cornerRadius = 16
                 self.bottomBar.alpha = 0.7
                 self.messageField.alpha = 0.3
+                self.bottomBarActionButton.alpha = 1
                 self.layoutIfNeeded()
             })
         }
