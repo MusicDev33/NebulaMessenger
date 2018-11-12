@@ -602,11 +602,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         
     }
     
-    @IBAction func backButton(_ sender: UIButton) {
-        GlobalUser.currentConv = ""
-        self.performSegue(withIdentifier: "messengerVCToMainMenu", sender: self)
-    }
-    
     @objc func goBack(sender: UIButton){
         GlobalUser.currentConv = ""
         self.view.endEditing(true)
