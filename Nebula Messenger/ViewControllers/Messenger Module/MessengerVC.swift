@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import CoreData
 
 class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
     
@@ -568,9 +569,18 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                 case .success(let Json):
                     let jsonObject = JSON(Json)
                     //let jsonObject = JSON(Json)
-                    self.messagesCollection.reloadData()
-                    self.newView.messageField.text = ""
                     SocketIOManager.sendMessage(message: [dec])
+                    
+                    let tempMsg = TerseMessage(_id: "", //Fix this
+                        sender: GlobalUser.username,
+                        body: self.newView.messageField.text,
+                        dateTime: now,
+                        read: false)
+                    
+                    self.msgList.append(tempMsg)
+                    self.messagesCollection.reloadData()
+                    self.scrollToBottom(animated: true)
+                    self.newView.messageField.text = ""
                     
                     if jsonObject["conv"].exists(){
                         self.id = jsonObject["conv"]["id"].string!
@@ -647,6 +657,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
             }))
             self.present(alert, animated: true, completion: nil)
+            
         }
     }
     
@@ -667,6 +678,10 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                     body: msg["body"].string!,
                     dateTime: msg["dateTime"].string!,
                     read: false)
+                if tempMsg.sender == GlobalUser.username{
+                    return
+                }
+                
                 print(tempMsg)
                 
                 if conversationsId == self.id{
@@ -693,7 +708,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                         self.messagesCollection.reloadData()
                         self.scrollToBottom(animated: true)
                     }else{
-                        self.msgList.append(tempMsg)
                         /*
                         let lastSectionIndex = self.messagesCollection!.numberOfSections - 1
                         // Then grab the number of rows in the last section
@@ -703,12 +717,31 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                         let pathToRow2 = NSIndexPath(row: lastRowIndex+1, section: lastSectionIndex)
                         self.messagesCollection.insertItems(at: [pathToLastRow as IndexPath])
                         self.messagesCollection.reloadItems(at: [pathToRow2 as IndexPath])*/
-                        self.messagesCollection.reloadData()
-                        self.scrollToBottom(animated: true)
-                    }
-                    
-                    ConversationRoutes.updateLastRead(id: self.id, msgId: ""){
                         
+                        //self.messagesCollection.reloadData()
+                        
+                        //self.messagesCollection.reloadData()
+                        
+                        let lastRow = self.msgList.count - 1
+                        let lastIndex = IndexPath(item: lastRow, section: 0)
+                        let newLastIndex = IndexPath(item: lastRow+1, section: 0)
+                        
+                        self.messagesCollection.performBatchUpdates({
+                            print("Last Indices")
+                            print(lastRow)
+                            print(self.messagesCollection.numberOfItems(inSection: 0))
+                            let indexPath = IndexPath(row: self.msgList.count, section: 0)
+                            self.msgList.append(tempMsg)
+                            self.messagesCollection.insertItems(at: [indexPath])
+                        }, completion: {done in
+                            
+                            let lastItem = self.messagesCollection.numberOfItems(inSection: 0) - 1
+                            let lastIndex = IndexPath(item: lastItem, section: 0)
+                            self.messagesCollection.scrollToItem(at: lastIndex, at: .bottom, animated: true)
+                        })
+                        
+                    }
+                    ConversationRoutes.updateLastRead(id: self.id, msgId: ""){
                     }
                     //self.scrollToBottomAnimated(animated: true)
                 }else{
