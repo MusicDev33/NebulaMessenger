@@ -16,7 +16,6 @@ class MessengerView: UIView {
         view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         view.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 1)
         view.translatesAutoresizingMaskIntoConstraints = false
-        //view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         
         return view

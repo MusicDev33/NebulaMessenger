@@ -76,6 +76,40 @@ class FriendRoutes{
         }
     }
     
+    static func requestFriend(friend: String, completion: @escaping () -> ()){
+        var requestJson = [String: Any]()
+        let url = URL(string: requestFriendRoute)
+        requestJson["username"] = GlobalUser.username
+        requestJson["friend"] = friend
+        requestJson["token"] = GlobalUser.token
+        
+        do {
+            let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
+            
+            var request = URLRequest(url: url!)
+            request.httpMethod = "POST"
+            request.httpBody = data
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("application/json", forHTTPHeaderField: "Accept")
+            
+            Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
+                switch response.result{
+                case .success(let Json):
+                    let jsonObject = JSON(Json)
+                    print(jsonObject)
+                    completion()
+                case .failure(let Json):
+                    let jsonObject = JSON(Json)
+                    print(jsonObject)
+                    print("failed")
+                    completion()
+                }
+            })
+        }catch{
+            
+        }
+    }
+    
     static func removeFriend(friend: String, completion: @escaping () -> Void){
         var requestJson = [String: Any]()
         let url = URL(string: removeFriendRoute)

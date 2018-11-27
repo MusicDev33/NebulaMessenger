@@ -10,6 +10,102 @@ import UIKit
 import Alamofire
 import CoreData
 
+// Simple solution for detecting emojis in a string
+// Thanks, StackOverflow
+extension UnicodeScalar {
+    var isEmoji: Bool {
+        switch value {
+        case 0x1F600...0x1F64F, // Emoticons
+        0x1F300...0x1F5FF, // Misc Symbols and Pictographs
+        0x1F680...0x1F6FF, // Transport and Map
+        0x1F1E6...0x1F1FF, // Regional country flags
+        0x2600...0x26FF,   // Misc symbols
+        0x2700...0x27BF,   // Dingbats
+        0xFE00...0xFE0F,   // Variation Selectors
+        0x1F900...0x1F9FF,  // Supplemental Symbols and Pictographs
+        127000...127600, // Various asian characters
+        65024...65039, // Variation selector
+        9100...9300, // Misc items
+        8400...8447: // Combining Diacritical Marks for Symbols
+            return true
+            
+        default: return false
+        }
+    }
+    
+    var isZeroWidthJoiner: Bool {
+        return value == 8205
+    }
+}
+
+extension String {
+    var glyphCount: Int {
+        
+        let richText = NSAttributedString(string: self)
+        let line = CTLineCreateWithAttributedString(richText)
+        return CTLineGetGlyphCount(line)
+    }
+    
+    var isSingleEmoji: Bool {
+        return glyphCount == 1 && containsEmoji
+    }
+    
+    var containsEmoji: Bool {
+        return unicodeScalars.contains { $0.isEmoji }
+    }
+    
+    var containsOnlyEmoji: Bool {
+        return !isEmpty
+            && !unicodeScalars.contains(where: {
+                !$0.isEmoji
+                    && !$0.isZeroWidthJoiner
+            })
+    }
+    
+    var emojiString: String {
+        return emojiScalars.map { String($0) }.reduce("", +)
+    }
+    
+    var emojis: [String] {
+        var scalars: [[UnicodeScalar]] = []
+        var currentScalarSet: [UnicodeScalar] = []
+        var previousScalar: UnicodeScalar?
+        
+        for scalar in emojiScalars {
+            if let prev = previousScalar, !prev.isZeroWidthJoiner && !scalar.isZeroWidthJoiner {
+                
+                scalars.append(currentScalarSet)
+                currentScalarSet = []
+            }
+            currentScalarSet.append(scalar)
+            
+            previousScalar = scalar
+        }
+        
+        scalars.append(currentScalarSet)
+        
+        return scalars.map { $0.map{ String($0) } .reduce("", +) }
+    }
+    
+    fileprivate var emojiScalars: [UnicodeScalar] {
+        var chars: [UnicodeScalar] = []
+        var previous: UnicodeScalar?
+        for cur in unicodeScalars {
+            
+            if let previous = previous, previous.isZeroWidthJoiner && cur.isEmoji {
+                chars.append(previous)
+                chars.append(cur)
+                
+            } else if cur.isEmoji {
+                chars.append(cur)
+            }
+            
+            previous = cur
+        }
+        return chars
+    }
+}
+
 class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
     
     var msgList = [TerseMessage]()
@@ -325,7 +421,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         }
         
         self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 12, right: 0)
-        self.messagesCollection.keyboardDismissMode = .interactive
+        self.messagesCollection.keyboardDismissMode = .onDrag
         
         let window = UIApplication.shared.keyWindow
         topPadding = window?.safeAreaInsets.top ?? 0
@@ -391,16 +487,27 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messageBubble", for: indexPath) as! MessageBubble
         let text = self.msgList[indexPath.row].body
         
+        var onlyEmoji = false
+        
         cell.textView.text = text
+        
+        if (text?.containsOnlyEmoji)! && (text?.count)! <= 3{
+            cell.textView.font = UIFont.systemFont(ofSize: 48)
+            print(cell.textView.text)
+            cell.bubbleView.backgroundColor = UIColor.clear
+            onlyEmoji = true
+        }else{
+            cell.textView.font = UIFont.systemFont(ofSize: 16)
+        }
         
         cell.bubbleWidthAnchor?.constant = findSize(text: text!, label: cell.textView).width + 32
         
         if self.msgList[indexPath.row].sender == GlobalUser.username{
-            cell.bubbleView.backgroundColor = userTextColor
+            cell.bubbleView.backgroundColor = onlyEmoji ? UIColor.clear : userTextColor
             cell.bubbleViewRightAnchor?.isActive = true
             cell.bubbleViewLeftAnchor?.isActive = false
         }else{
-            cell.bubbleView.backgroundColor = otherTextColor
+            cell.bubbleView.backgroundColor = onlyEmoji ? UIColor.clear : otherTextColor
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true
         }
@@ -409,7 +516,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messageBubble", for: indexPath) as! MessageBubble
-        var height: CGFloat = 80
+        var height: CGFloat = 160
         height = findSize(text: self.msgList[indexPath.row].body!, label: cell.textView).height + 20
         return CGSize(width: view.frame.width, height: height)
     }
@@ -417,8 +524,15 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     func findSize(text: String, label: UITextView) -> CGRect{
         let constraintRect = CGSize(width: 200,
                                     height: 1000)
+        var defaultFontSize = CGFloat(16)
+        if text.containsOnlyEmoji && text.count <= 3{
+            print(text)
+            defaultFontSize = CGFloat(48)
+        }else{
+            defaultFontSize = CGFloat(16)
+        }
         
-        return NSString(string: text).boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: label.font], context: nil)
+        return NSString(string: text).boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: UIFont.systemFont(ofSize: defaultFontSize)], context: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -539,8 +653,12 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             print("No Notifs")
             requestJson["groupChat"] = "HELLO" // Set groupChat to something random, it doesn't matter
         }
+        
+        let body = self.newView.messageField.text
+        
         requestJson["sender"] = GlobalUser.username
-        requestJson["body"] = self.newView.messageField.text
+        requestJson["body"] = body
+        
         requestJson["convId"] = self.involved
         //requestJson["read"] = false
         requestJson["dateTime"] = now

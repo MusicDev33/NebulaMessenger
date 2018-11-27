@@ -34,6 +34,7 @@ let adminPassRoute = userRoot + "adminpass"
 let profileRoute = userRoot + "profile"
 let getFriendsAndConvsRoute = userRoot + "getfriendsandconvstoken"
 let getCurrentiOSRoute = userRoot + "getcurrentios"
+let getQuotesRoute = userRoot + "getquotes"
 
 // MARK: Friends
 let getFriendsRoute = friendsRoot + "getfriends"
@@ -41,6 +42,7 @@ let addFriendRoute = friendsRoot + "addfriend"
 let testAddFriendRoute = friendsRoot + "testaddfriend"
 let searchFriendsRoute = friendsRoot + "searchfriends"
 let removeFriendRoute = friendsRoot + "removefriend"
+let requestFriendRoute = friendsRoot + "sendrequest"
 
 // MARK: Conversations
 let getConvsRoute = conversationsRoot + "getconvs"

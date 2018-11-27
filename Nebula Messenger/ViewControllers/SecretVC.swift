@@ -14,6 +14,8 @@ class SecretVC: UIViewController, UITextFieldDelegate {
     var versionField: UITextField!
     var sendVersionButton: UIButton!
     
+    var testButton: UIButton!
+    
     // MARK: Actions
     @IBAction func backButtonPressed(_ sender: UIButton) {
         self.performSegue(withIdentifier: "toMainMenuFromSecretView", sender: self)
@@ -46,9 +48,18 @@ class SecretVC: UIViewController, UITextFieldDelegate {
         sendVersionButton.showsTouchWhenHighlighted = true
         sendVersionButton.addTarget(self, action: #selector(sendVersionButtonPressed), for: .touchUpInside)
         
+        testButton = UIButton(frame: CGRect(x: 20, y: 220, width: 130, height: 20))
+        testButton.setTitle("Test Route", for: .normal)
+        testButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        testButton.backgroundColor = nebulaPurple
+        testButton.layer.cornerRadius = 8
+        testButton.showsTouchWhenHighlighted = true
+        testButton.addTarget(self, action: #selector(testOutRoute), for: .touchUpInside)
+        
         self.view.addSubview(buildField)
         self.view.addSubview(versionField)
         self.view.addSubview(sendVersionButton)
+        self.view.addSubview(testButton)
         
     }
     
@@ -62,6 +73,12 @@ class SecretVC: UIViewController, UITextFieldDelegate {
             SocketIOManager.setServerVersion(version: self.versionField.text!, build: self.buildField.text!)
             self.versionField.text = ""
             self.buildField.text = ""
+        }
+    }
+    
+    @objc func testOutRoute(){
+        FriendRoutes.requestFriend(friend: "AppleTim") {
+            
         }
     }
 }
