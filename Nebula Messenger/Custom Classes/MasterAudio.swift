@@ -12,12 +12,12 @@ import AVFoundation
 
 var player: AVAudioPlayer?
 
+// K this doesn't work on my phone, but it works in the simulator....WHY??????
 func playIncomingMessage() {
     guard let url = Bundle.main.url(forResource: "Incoming-Message", withExtension: "caf") else { print("NOPE"); return }
     
     do {
         print("sound played")
-        print("KFHADKFHKDFHKDAFHKSHF")
         //try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.soloAmbient, mode: AVAudioSession.Mode.default, options: AVAudioSession.CategoryOptions.defaultToSpeaker)
         
         try AVAudioSession.sharedInstance().setActive(true)

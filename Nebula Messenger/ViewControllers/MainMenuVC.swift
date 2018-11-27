@@ -310,6 +310,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @IBAction func addFriendsButtonPressed(_ sender: UIButton) {
         // Xtreme Hacking
+        /*
         self.searchController.isActive = false
         self.addFriendsMode = !self.addFriendsMode
         if self.addFriendsMode{
@@ -318,7 +319,9 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             searchController.searchBar.placeholder = "Search for conversations here"
         }
         self.searchResults = []
-        self.convTable.reloadData()
+        self.convTable.reloadData()*/
+        
+        
     }
     
     @IBAction func secretButtonPressed(_ sender: UIButton) {
