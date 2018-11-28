@@ -320,7 +320,9 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         self.searchResults = []
         self.convTable.reloadData()*/
-        
+        let addFriendVC = AddFriendVC()
+        addFriendVC.modalPresentationStyle = .overCurrentContext
+        self.present(addFriendVC, animated: true, completion: nil)
         
     }
     

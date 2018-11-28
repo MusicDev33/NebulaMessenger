@@ -17,6 +17,7 @@ class GlobalUser: NSObject {
     static var name = ""
     static var email = ""
     static var friends = [String]()
+    static var requestedFriends = [String]()
     
     //Master Dictionary, hopefully this will be the only way to retrieve conversations
     //without the use of a massive amount of dictionaries

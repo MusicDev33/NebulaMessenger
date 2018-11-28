@@ -77,7 +77,7 @@ class SecretVC: UIViewController, UITextFieldDelegate {
     }
     
     @objc func testOutRoute(){
-        FriendRoutes.requestFriend(friend: "AppleTim") {
+        FriendRoutes.removeFriend(friend: "testaccount") {
             
         }
     }

@@ -38,6 +38,7 @@ class UserRoutes{
                         GlobalUser.name = jObj["user"]["name"].stringValue
                         GlobalUser.email = jObj["user"]["email"].stringValue
                         GlobalUser.friends = Utility.toArray(json: jObj["user"]["friends"])
+                        GlobalUser.requestedFriends = Utility.toArray(json: jObj["user"]["requestedFriends"])
                         GlobalUser.token = jObj["token"].stringValue
                         
                         UserDefaults.standard.set(username, forKey: "username")
@@ -198,6 +199,38 @@ class UserRoutes{
                 case .failure(_):
                     print("Not working!")
                     completion("")
+                }
+            })
+        }catch{
+        }
+    }
+    
+    static func getUserFromUsername(username: String, completion:@escaping ([String]) -> ()){
+        let url = URL(string: getUserRoute)
+        var requestJson = [String:Any]()
+        requestJson["username"] = username
+        requestJson["token"] = GlobalUser.token
+        do {
+            let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
+            let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)
+            
+            Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
+                switch response.result{
+                case .success(let Json):
+                    let jsonObject = JSON(Json)
+                    print(jsonObject)
+                    var returnList = [String]()
+                    returnList.append(jsonObject["user"]["name"].stringValue)
+                    returnList.append(jsonObject["user"]["username"].stringValue)
+                    returnList.append("success")
+                    completion(returnList)
+                case .failure(_):
+                    print("Not working!")
+                    var returnList = [String]()
+                    returnList.append("Name Unknown")
+                    returnList.append("Error: No Username")
+                    returnList.append("failure")
+                    completion(returnList)
                 }
             })
         }catch{

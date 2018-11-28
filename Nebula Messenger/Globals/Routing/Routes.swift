@@ -35,6 +35,7 @@ let profileRoute = userRoot + "profile"
 let getFriendsAndConvsRoute = userRoot + "getfriendsandconvstoken"
 let getCurrentiOSRoute = userRoot + "getcurrentios"
 let getQuotesRoute = userRoot + "getquotes"
+let getUserRoute = userRoot + "getuser"
 
 // MARK: Friends
 let getFriendsRoute = friendsRoot + "getfriends"

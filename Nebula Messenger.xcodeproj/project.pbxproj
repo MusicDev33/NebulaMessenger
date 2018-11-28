@@ -42,6 +42,8 @@
 		1F76C7DE2158A09E00EB6C8C /* PoolingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */; };
 		1F76C7E02158A95500EB6C8C /* CreateMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DF2158A95500EB6C8C /* CreateMessageVC.swift */; };
 		1F7E94BE2199BBAF00AA5715 /* PoolChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7E94BD2199BBAF00AA5715 /* PoolChatView.swift */; };
+		1F7F763421AD10BA008D3BB1 /* AddFriendVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7F763321AD10BA008D3BB1 /* AddFriendVC.swift */; };
+		1F7F763621AD38F5008D3BB1 /* RequestedFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7F763521AD38F5008D3BB1 /* RequestedFriendsVC.swift */; };
 		1FA20BC7218D6E83007317B5 /* UserRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BC6218D6E83007317B5 /* UserRoutes.swift */; };
 		1FA20BC9218D6FCD007317B5 /* MessageRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BC8218D6FCD007317B5 /* MessageRoutes.swift */; };
 		1FA20BCC218D728C007317B5 /* GroupChatAddVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BCB218D728C007317B5 /* GroupChatAddVC.swift */; };
@@ -118,6 +120,8 @@
 		1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolingVC.swift; sourceTree = "<group>"; };
 		1F76C7DF2158A95500EB6C8C /* CreateMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMessageVC.swift; sourceTree = "<group>"; };
 		1F7E94BD2199BBAF00AA5715 /* PoolChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolChatView.swift; sourceTree = "<group>"; };
+		1F7F763321AD10BA008D3BB1 /* AddFriendVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendVC.swift; sourceTree = "<group>"; };
+		1F7F763521AD38F5008D3BB1 /* RequestedFriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedFriendsVC.swift; sourceTree = "<group>"; };
 		1FA20BC6218D6E83007317B5 /* UserRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRoutes.swift; sourceTree = "<group>"; };
 		1FA20BC8218D6FCD007317B5 /* MessageRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRoutes.swift; sourceTree = "<group>"; };
 		1FA20BCB218D728C007317B5 /* GroupChatAddVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatAddVC.swift; sourceTree = "<group>"; };
@@ -319,6 +323,8 @@
 			isa = PBXGroup;
 			children = (
 				1FA20BCB218D728C007317B5 /* GroupChatAddVC.swift */,
+				1F7F763321AD10BA008D3BB1 /* AddFriendVC.swift */,
+				1F7F763521AD38F5008D3BB1 /* RequestedFriendsVC.swift */,
 			);
 			path = ProgVCs;
 			sourceTree = "<group>";
@@ -642,11 +648,13 @@
 				1F68B2A02152258400DC9525 /* SwiftyJSON.swift in Sources */,
 				1F68B2B22152751700DC9525 /* Routes.swift in Sources */,
 				1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */,
+				1F7F763621AD38F5008D3BB1 /* RequestedFriendsVC.swift in Sources */,
 				1FA20BC7218D6E83007317B5 /* UserRoutes.swift in Sources */,
 				1FA20BC9218D6FCD007317B5 /* MessageRoutes.swift in Sources */,
 				1F68B2BF2154A64D00DC9525 /* MessengerVC.swift in Sources */,
 				1FA20BCC218D728C007317B5 /* GroupChatAddVC.swift in Sources */,
 				1F68B2C12154C1C400DC9525 /* MainMenuVC.swift in Sources */,
+				1F7F763421AD10BA008D3BB1 /* AddFriendVC.swift in Sources */,
 				1F68B2B82152762A00DC9525 /* Utility.swift in Sources */,
 				1F170F162162FD1B009673E2 /* FriendRoutes.swift in Sources */,
 				1F2CE44A216DD9C100B15C59 /* PoolAnnotation.swift in Sources */,

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-let borderColorOne = UIColor(red: 199/255, green: 210/255, blue: 229/255, alpha: 1)//199, 210, 229
+let borderColorOne = UIColor(red: 199/255, green: 210/255, blue: 229/255, alpha: 1)
 
 let nebulaPurple = UIColor(red: 198/255, green: 65/255, blue: 168/255, alpha: 1)
 let nebulaBlue = UIColor(red: 2/255, green: 148/255, blue: 227/255, alpha: 1)
@@ -18,12 +18,13 @@ let nebulaSky = UIColor(red: 17/255, green: 214/255, blue: 214/255, alpha: 1)
 let nebulaFlame = UIColor(red: 206/255, green: 65/255, blue: 14/255, alpha: 1)
 let nebulaYellow = UIColor(red: 216/255, green: 216/255, blue: 17/255, alpha: 1)
 let nebulaBurn = UIColor(red: 206/255, green: 143/255, blue: 16/255, alpha: 1)
+let nebulaPink = UIColor(red: 1, green: 209/255, blue: 220/255, alpha: 1)
 
 var userTextColor = nebulaPurple
 var otherTextColor = nebulaBlue
 
-let globalColors = [nebulaPurple, nebulaBlue, nebulaGreen, nebulaSky, nebulaFlame, nebulaYellow, nebulaBurn]
-let colorsList = ["nebulaPurple", "nebulaBlue", "nebulaGreen", "nebulaSky", "nebulaFlame", "nebulaYellow", "nebulaBurn"]
+let globalColors = [nebulaPurple, nebulaBlue, nebulaGreen, nebulaSky, nebulaFlame, nebulaYellow, nebulaBurn, nebulaPink]
+let colorsList = ["nebulaPurple", "nebulaBlue", "nebulaGreen", "nebulaSky", "nebulaFlame", "nebulaYellow", "nebulaBurn", "nebulaPink"]
 var colorsDict = [String:UIColor]()
 
 func setColors(){
