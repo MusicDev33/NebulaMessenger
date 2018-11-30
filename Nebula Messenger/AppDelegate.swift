@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 import CoreData
 import UserNotifications
 import Firebase
@@ -212,8 +213,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // [START refresh_token]
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        FirebaseGlobals.globalDeviceToken = fcmToken
+        //FirebaseGlobals.globalDeviceToken = fcmToken
         print("Firebase registration token: \(fcmToken)")
+        //print(FirebaseGlobals.globalDeviceToken)
         
         let dataDict:[String: String] = ["token": fcmToken]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)

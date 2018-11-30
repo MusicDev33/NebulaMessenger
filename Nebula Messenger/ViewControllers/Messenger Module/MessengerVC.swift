@@ -502,14 +502,22 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         
         cell.bubbleWidthAnchor?.constant = findSize(text: text!, label: cell.textView).width + 32
         
+        cell.textView.textColor = UIColor.white
+        
         if self.msgList[indexPath.row].sender == GlobalUser.username{
             cell.bubbleView.backgroundColor = onlyEmoji ? UIColor.clear : userTextColor
             cell.bubbleViewRightAnchor?.isActive = true
             cell.bubbleViewLeftAnchor?.isActive = false
+            if cell.bubbleView.backgroundColor == nebulaPink{
+                cell.textView.textColor = UIColor.black
+            }
         }else{
             cell.bubbleView.backgroundColor = onlyEmoji ? UIColor.clear : otherTextColor
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true
+            if cell.bubbleView.backgroundColor == nebulaPink{
+                cell.textView.textColor = UIColor.black
+            }
         }
         return cell
     }

@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import FirebaseMessaging
+import FirebaseInstanceID
 import KeychainAccess
 
 class LoginVC: UIViewController, UITextFieldDelegate {
@@ -61,6 +62,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         if alreadyLoggedIn{
             let username = UserDefaults.standard.string(forKey: "username") ?? ""
             let password = UserDefaults.standard.string(forKey: "password") ?? ""
+            
             UserRoutes.sendLogin(username: username, password: password){success in
                 if success.success!{
                     UserRoutes.getFriendsAndConversations {

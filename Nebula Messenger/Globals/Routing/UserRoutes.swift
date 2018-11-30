@@ -8,6 +8,8 @@
 
 import Foundation
 import Alamofire
+import FirebaseMessaging
+import FirebaseInstanceID
 
 class UserRoutes{
     static func sendLogin(username: String, password: String, completion:@escaping (ServerMessage) -> ()){
@@ -17,6 +19,7 @@ class UserRoutes{
         requestJson["username"] = username
         requestJson["password"] = password
         requestJson["newToken"] = FirebaseGlobals.globalDeviceToken
+        print(requestJson)
         
         do {
             let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
@@ -199,6 +202,32 @@ class UserRoutes{
                 case .failure(_):
                     print("Not working!")
                     completion("")
+                }
+            })
+        }catch{
+        }
+    }
+    
+    static func refreshToken(completion:@escaping () -> ()){
+        let url = URL(string: refreshTokenRoute)
+        var requestJson = [String:Any]()
+        
+        requestJson["username"] = GlobalUser.username
+        requestJson["newToken"] = FirebaseGlobals.globalDeviceToken
+        
+        do {
+            let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
+            let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)
+            
+            Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
+                switch response.result{
+                case .success(let Json):
+                    let jObj = JSON(Json)
+                    //print(jObj)
+                    completion()
+                    
+                case .failure(let Json):
+                    completion()
                 }
             })
         }catch{

@@ -31,17 +31,6 @@ class MessageBubble: UICollectionViewCell{
         return label
     }()
     
-    let messageLabel: UILabel = {
-        var label = UILabel()
-        label.text = ""
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = UIColor.white
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        return label
-    }()
-    
     let bubbleView: UIView = {
         var view = UIView()
         view.backgroundColor = nebulaPurple
@@ -83,7 +72,7 @@ class MessageBubble: UICollectionViewCell{
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         addSubview(bubbleView)
-        addSubview(messageLabel)
+        addSubview(textView)
         
         bubbleViewRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8)
         bubbleViewRightAnchor?.isActive = true
@@ -97,11 +86,10 @@ class MessageBubble: UICollectionViewCell{
         bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: self.frame.width*0.7)
         bubbleWidthAnchor?.isActive = true
         
-        messageLabel.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 8).isActive = true
-        messageLabel.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -8).isActive = true
-        messageLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        messageLabel.widthAnchor.constraint(equalToConstant: self.frame.width*0.7).isActive = true
-        messageLabel.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        textView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 8).isActive = true
+        textView.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -8).isActive = true
+        textView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        textView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
     }
     
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseInstanceID
 
 class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate {
     var passId = ""
@@ -278,6 +279,18 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             DiagnosticRoutes.sendInfo(info: "Logged in.", optional: now+": Login Event")
             self.secretButton.isHidden = true
         }
+        
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                print("Error fetching remote instange ID: \(error)")
+            } else if let result = result {
+                print("Remote instance ID token: \(result.token)")
+                FirebaseGlobals.globalDeviceToken = result.token
+                UserRoutes.refreshToken {
+                    print("Refreshed Token.")
+                }
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -287,6 +300,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         GlobalUser.currentConv = ""
         self.convTable.reloadData()
+        print("FB Token:")
+        print(FirebaseGlobals.globalDeviceToken)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
