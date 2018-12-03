@@ -703,9 +703,29 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
                         dateTime: now,
                         read: false)
                     
-                    self.msgList.append(tempMsg)
-                    self.messagesCollection.reloadData()
-                    self.scrollToBottom(animated: true)
+                    
+                    let lastRow = self.msgList.count - 1
+                    let lastIndex = IndexPath(item: lastRow, section: 0)
+                    let newLastIndex = IndexPath(item: lastRow+1, section: 0)
+                    
+                    self.messagesCollection.performBatchUpdates({
+                        print("Last Indices")
+                        print(lastRow)
+                        print(self.messagesCollection.numberOfItems(inSection: 0))
+                        let indexPath = IndexPath(row: self.msgList.count, section: 0)
+                        self.msgList.append(tempMsg)
+                        self.messagesCollection.insertItems(at: [indexPath])
+                    }, completion: {done in
+                        
+                        let lastItem = self.messagesCollection.numberOfItems(inSection: 0) - 1
+                        let lastIndex = IndexPath(item: lastItem, section: 0)
+                        self.messagesCollection.scrollToItem(at: lastIndex, at: .bottom, animated: true)
+                    })
+                    
+                    
+                    //self.msgList.append(tempMsg)
+                    //self.messagesCollection.reloadData()
+                    //self.scrollToBottom(animated: true)
                     self.newView.messageField.text = ""
                     
                     if jsonObject["conv"].exists(){

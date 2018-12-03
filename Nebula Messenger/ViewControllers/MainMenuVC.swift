@@ -31,8 +31,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var searchConvMode = false
     
     // Add names here to allow the users to access pools
-    let authorizedUsers = ["MusicDev", "ben666", "justinhunter20", "testaccount", "Mr.Rogers"]
-    let adminUsers = ["MusicDev", "ben666", "wesperrett"]
+    let authorizedUsers = ["MusicDev", "ben666", "justinhunter20", "testaccount", "Mr.Rogers", "Ashton"]
+    let adminUsers = ["MusicDev", "ben666", "wesperrett", "Ashton"]
     
     var passMsgList = [TerseMessage]()
     

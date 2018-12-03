@@ -48,6 +48,8 @@
 		1FA20BC9218D6FCD007317B5 /* MessageRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BC8218D6FCD007317B5 /* MessageRoutes.swift */; };
 		1FA20BCC218D728C007317B5 /* GroupChatAddVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BCB218D728C007317B5 /* GroupChatAddVC.swift */; };
 		1FA20BD721915671007317B5 /* MessengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BD621915671007317B5 /* MessengerView.swift */; };
+		1FAF4D0521B10E8100843C89 /* BluetoothVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF4D0421B10E8100843C89 /* BluetoothVC.swift */; };
+		1FAF4D0821B4FF6100843C89 /* AlertBP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF4D0721B4FF6100843C89 /* AlertBP.swift */; };
 		1FE4F0F721685E4F00E4EF72 /* SecretVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
@@ -126,6 +128,8 @@
 		1FA20BC8218D6FCD007317B5 /* MessageRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRoutes.swift; sourceTree = "<group>"; };
 		1FA20BCB218D728C007317B5 /* GroupChatAddVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatAddVC.swift; sourceTree = "<group>"; };
 		1FA20BD621915671007317B5 /* MessengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerView.swift; sourceTree = "<group>"; };
+		1FAF4D0421B10E8100843C89 /* BluetoothVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothVC.swift; sourceTree = "<group>"; };
+		1FAF4D0721B4FF6100843C89 /* AlertBP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBP.swift; sourceTree = "<group>"; };
 		1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretVC.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
@@ -198,6 +202,7 @@
 		1F68B2662152227F00DC9525 /* Nebula Messenger */ = {
 			isa = PBXGroup;
 			children = (
+				1FAF4D0621B4FF4C00843C89 /* Alerts */,
 				1F68B295215222D000DC9525 /* Nebula Messenger.entitlements */,
 				1F68B2672152227F00DC9525 /* AppDelegate.swift */,
 				1FE4F0F821687CF400E4EF72 /* Custom Classes */,
@@ -338,6 +343,14 @@
 			path = "Messenger Module";
 			sourceTree = "<group>";
 		};
+		1FAF4D0621B4FF4C00843C89 /* Alerts */ = {
+			isa = PBXGroup;
+			children = (
+				1FAF4D0721B4FF6100843C89 /* AlertBP.swift */,
+			);
+			path = Alerts;
+			sourceTree = "<group>";
+		};
 		1FE4F0F821687CF400E4EF72 /* Custom Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -354,6 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				1FE4F100216B139200E4EF72 /* FeedbackVC.swift */,
+				1FAF4D0421B10E8100843C89 /* BluetoothVC.swift */,
 			);
 			path = TestingViewControllers;
 			sourceTree = "<group>";
@@ -674,9 +688,11 @@
 				1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */,
 				1F170F182163DBB3009673E2 /* ConversationRoutes.swift in Sources */,
 				1F76C7DC215899B500EB6C8C /* MyProfileVC.swift in Sources */,
+				1FAF4D0521B10E8100843C89 /* BluetoothVC.swift in Sources */,
 				1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */,
 				1F68B2B02152749700DC9525 /* GlobalUser.swift in Sources */,
 				1F76C7E02158A95500EB6C8C /* CreateMessageVC.swift in Sources */,
+				1FAF4D0821B4FF6100843C89 /* AlertBP.swift in Sources */,
 				1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

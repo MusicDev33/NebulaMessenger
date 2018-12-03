@@ -67,12 +67,18 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
     }
     
     @objc func handleTap(sender: UITapGestureRecognizer? = nil) {
-        view.endEditing(true)
+        if textField.isFirstResponder{
+            view.endEditing(true)
+        }else{
+            self.dismiss(animated: true){
+                
+            }
+        }
     }
     
     @objc func handleSwipe(sender: UISwipeGestureRecognizer? = nil) {
         if textField.isFirstResponder{
-            
+            view.endEditing(true)
         }else{
             self.dismiss(animated: true){
                 

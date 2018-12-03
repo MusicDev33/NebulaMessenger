@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreBluetooth
 
 class SecretVC: UIViewController, UITextFieldDelegate {
     
@@ -14,7 +15,13 @@ class SecretVC: UIViewController, UITextFieldDelegate {
     var versionField: UITextField!
     var sendVersionButton: UIButton!
     
+    var btButton: UIButton!
+    
     var testButton: UIButton!
+    
+    // Bluetooth Stuff
+    //var centralManager: CBCentralManager!
+
     
     // MARK: Actions
     @IBAction func backButtonPressed(_ sender: UIButton) {
@@ -56,11 +63,22 @@ class SecretVC: UIViewController, UITextFieldDelegate {
         testButton.showsTouchWhenHighlighted = true
         testButton.addTarget(self, action: #selector(testOutRoute), for: .touchUpInside)
         
+        btButton = UIButton(frame: CGRect(x: 20, y: 260, width: 130, height: 20))
+        btButton.setTitle("Bluetooth", for: .normal)
+        btButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        btButton.backgroundColor = nebulaBlue
+        btButton.layer.cornerRadius = 8
+        btButton.showsTouchWhenHighlighted = true
+        btButton.addTarget(self, action: #selector(toBluetooth), for: .touchUpInside)
+        
         self.view.addSubview(buildField)
         self.view.addSubview(versionField)
         self.view.addSubview(sendVersionButton)
         self.view.addSubview(testButton)
+        self.view.addSubview(btButton)
         
+        //Bluetooth
+        //centralManager = CBCentralManager(delegate: self, queue: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -81,4 +99,38 @@ class SecretVC: UIViewController, UITextFieldDelegate {
             
         }
     }
+    
+    @objc func toBluetooth(){
+        let btVC = BluetoothVC()
+        btVC.modalPresentationStyle = .overCurrentContext
+        self.present(btVC, animated: true, completion: nil)
+    }
+    /*
+    //Bluetooth
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        switch central.state {
+        case .unknown:
+            print("central.state is .unknown")
+        case .resetting:
+            print("central.state is .resetting")
+        case .unsupported:
+            print("central.state is .unsupported")
+        case .unauthorized:
+            print("central.state is .unauthorized")
+        case .poweredOff:
+            print("central.state is .poweredOff")
+        case .poweredOn:
+            print("central.state is .poweredOn")
+            centralManager.scanForPeripherals(withServices: nil)
+        }
+    }
+    
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral,
+                        advertisementData: [String: Any], rssi RSSI: NSNumber) {
+        print(peripheral)
+        print("HI")
+    }*/
 }
+
+
+
