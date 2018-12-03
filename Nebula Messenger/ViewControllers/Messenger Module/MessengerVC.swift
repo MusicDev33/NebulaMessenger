@@ -10,103 +10,7 @@ import UIKit
 import Alamofire
 import CoreData
 
-// Simple solution for detecting emojis in a string
-// Thanks, StackOverflow
-extension UnicodeScalar {
-    var isEmoji: Bool {
-        switch value {
-        case 0x1F600...0x1F64F, // Emoticons
-        0x1F300...0x1F5FF, // Misc Symbols and Pictographs
-        0x1F680...0x1F6FF, // Transport and Map
-        0x1F1E6...0x1F1FF, // Regional country flags
-        0x2600...0x26FF,   // Misc symbols
-        0x2700...0x27BF,   // Dingbats
-        0xFE00...0xFE0F,   // Variation Selectors
-        0x1F900...0x1F9FF,  // Supplemental Symbols and Pictographs
-        127000...127600, // Various asian characters
-        65024...65039, // Variation selector
-        9100...9300, // Misc items
-        8400...8447: // Combining Diacritical Marks for Symbols
-            return true
-            
-        default: return false
-        }
-    }
-    
-    var isZeroWidthJoiner: Bool {
-        return value == 8205
-    }
-}
-
-extension String {
-    var glyphCount: Int {
-        
-        let richText = NSAttributedString(string: self)
-        let line = CTLineCreateWithAttributedString(richText)
-        return CTLineGetGlyphCount(line)
-    }
-    
-    var isSingleEmoji: Bool {
-        return glyphCount == 1 && containsEmoji
-    }
-    
-    var containsEmoji: Bool {
-        return unicodeScalars.contains { $0.isEmoji }
-    }
-    
-    var containsOnlyEmoji: Bool {
-        return !isEmpty
-            && !unicodeScalars.contains(where: {
-                !$0.isEmoji
-                    && !$0.isZeroWidthJoiner
-            })
-    }
-    
-    var emojiString: String {
-        return emojiScalars.map { String($0) }.reduce("", +)
-    }
-    
-    var emojis: [String] {
-        var scalars: [[UnicodeScalar]] = []
-        var currentScalarSet: [UnicodeScalar] = []
-        var previousScalar: UnicodeScalar?
-        
-        for scalar in emojiScalars {
-            if let prev = previousScalar, !prev.isZeroWidthJoiner && !scalar.isZeroWidthJoiner {
-                
-                scalars.append(currentScalarSet)
-                currentScalarSet = []
-            }
-            currentScalarSet.append(scalar)
-            
-            previousScalar = scalar
-        }
-        
-        scalars.append(currentScalarSet)
-        
-        return scalars.map { $0.map{ String($0) } .reduce("", +) }
-    }
-    
-    fileprivate var emojiScalars: [UnicodeScalar] {
-        var chars: [UnicodeScalar] = []
-        var previous: UnicodeScalar?
-        for cur in unicodeScalars {
-            
-            if let previous = previous, previous.isZeroWidthJoiner && cur.isEmoji {
-                chars.append(previous)
-                chars.append(cur)
-                
-            } else if cur.isEmoji {
-                chars.append(cur)
-            }
-            
-            previous = cur
-        }
-        return chars
-    }
-}
-
-class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
+class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
     
     var msgList = [TerseMessage]()
     
@@ -135,46 +39,12 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     var bottomPadding: CGFloat!
     var topPadding: CGFloat!
     
-    var addToGroupButton = UIButton()
-    var exitGroupButton = UIButton()
-    var confirmAddButton = UIButton()
-    
     var possibleMembers = [String]()
     var possibleMembersTable: UITableView!
     var selectedFriend = ""
     
-    //Pulsating Layer
-    var pulsatingLayer: CAShapeLayer!
     
     var timer: Timer?
-    
-    func animateLayer(){
-        CATransaction.begin()
-        CATransaction.setCompletionBlock({
-            self.pulsatingLayer.fillColor = UIColor.clear.cgColor
-            self.pulsatingLayer.isHidden = true
-            self.pulsatingLayer.removeAllAnimations()
-        })
-        let bgColor = nebulaPurple.withAlphaComponent(0.3)
-        self.pulsatingLayer.fillColor = bgColor.cgColor
-        self.pulsatingLayer.isHidden = false
-        
-        let animation = CABasicAnimation(keyPath: "transform.scale.xy")
-        animation.toValue = 2
-        animation.duration = 0.4
-        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
-        animation.isRemovedOnCompletion = false
-        
-        let alphaAnim = CABasicAnimation(keyPath: "opacity")
-        alphaAnim.toValue = 0.0
-        alphaAnim.duration = 0.4
-        alphaAnim.fillMode = CAMediaTimingFillMode.forwards
-        alphaAnim.isRemovedOnCompletion = false
-        
-        pulsatingLayer.add(alphaAnim, forKey: "alphaChange")
-        pulsatingLayer.add(animation, forKey: "pulsing")
-        CATransaction.commit()
-    }
     
     // Might build this in other file later
     func createTableView(){
@@ -202,40 +72,13 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         let cellText = self.possibleMembers[indexPath.row]
         self.selectedFriend = cellText
         if self.selectedFriend != ""{
-            self.confirmAddButton.isEnabled = true
+            //self.confirmAddButton.isEnabled = true
         }else{
             print(self.selectedFriend)
         }
     }
     
-    @objc func addToGroupButtonPressed(){
-        self.possibleMembersTable.reloadData()
-        self.view.addSubview(self.possibleMembersTable)
-        UIView.animate(withDuration: 0.4, animations: {
-            self.possibleMembersTable.frame.origin.y = 100
-        })
-        self.view.endEditing(true)
-    }
-    
-    @objc func exitGroupButtonPressed(){
-        UIView.animate(withDuration: 0.4, animations: { () -> Void in
-            self.possibleMembersTable.frame.origin.y = self.view.frame.height
-            self.exitGroupButton.alpha = 0
-            self.exitGroupButton.frame.origin.x -= 50
-            self.confirmAddButton.alpha = 0
-            self.confirmAddButton.frame.origin.x += 50
-            
-            //Rotate buttons
-            self.confirmAddButton.transform = CGAffineTransform.identity
-            self.exitGroupButton.transform = CGAffineTransform.identity
-        }, completion: {finished in
-            self.confirmAddButton.removeFromSuperview()
-            self.exitGroupButton.removeFromSuperview()
-            self.possibleMembersTable.removeFromSuperview()
-        })
-        self.addToGroupButton.isEnabled = true
-    }
-    
+    /*
     @objc func confirmAddButtonPressed(){
         // This is basically just taking off the semicolon and adding a user then re-adding it
         // String manipulation in Swift sucks...that or I'm just dumb
@@ -271,7 +114,7 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             }
             self.involved = newInvolved
         }
-    }
+    }*/
     
     @objc func doubleTapOnCircle(_ sender: UITapGestureRecognizer){
         newView.tappedGrabCircle()
@@ -340,6 +183,16 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
     
     @objc func groupFunctionButtonPressed(){
         newView.groupFunctionPressed()
+    }
+    
+    @objc func goBack(sender: UIButton){
+        GlobalUser.currentConv = ""
+        self.view.endEditing(true)
+        self.performSegue(withIdentifier: "messengerVCToMainMenu", sender: self)
+    }
+    
+    @objc func sendWrapper(sender: UIButton){
+        self.sendMessage(sender)
     }
     
     var newView: MessengerView!
@@ -558,45 +411,8 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         }
     }
     
-    //MARK: UITextViewDelegate
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == ""{
-            if textView.text.count-1 > 0{
-                newView.sendButton.isEnabled = true
-            }else{
-                newView.sendButton.isEnabled = false
-            }
-        }else{
-            if textView.text.count+1 > 0{
-                newView.sendButton.isEnabled = true
-            }else{
-                newView.sendButton.isEnabled = false
-            }
-        }
-        
-        self.timer?.invalidate()
-        self.timer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(typingTimerComplete), userInfo: nil, repeats: true)
-        SocketIOManager.sendTyping(id: self.id)
-        return true
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        if textView.text.count == 0{
-            newView.sendButton.isEnabled = false
-        }else{
-            newView.sendButton.isEnabled = true
-        }
-        UserDefaults.standard.set(textView.text, forKey: self.id)
-    }
-    
     @objc func typingTimerComplete(){
         SocketIOManager.sendNotTyping(id: self.id)
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
     }
     
     func setupKeyboardObservers(){
@@ -637,11 +453,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         }
         self.keyboardIsUp = false
     }
-    
-    @objc func sendWrapper(sender: UIButton){
-        self.sendMessage(sender)
-    }
-    
     
     //MARK: Actions
     @IBAction func sendMessage(_ sender: UIButton) {
@@ -749,47 +560,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
         }catch{
             print("Caught")
         }
-        
-    }
-    
-    @objc func goBack(sender: UIButton){
-        GlobalUser.currentConv = ""
-        self.view.endEditing(true)
-        self.performSegue(withIdentifier: "messengerVCToMainMenu", sender: self)
-    }
-    
-    @IBAction func tappedOnTrashButton(_ sender: UIButton) {
-        self.deleteModeOn = !self.deleteModeOn
-        self.messagesCollection.allowsSelection = self.deleteModeOn
-        self.messagesCollection.allowsMultipleSelection = self.deleteModeOn
-        //self.messagesCollection.allowsMultipleSelectionDuringEditing = self.deleteModeOn
-        if self.deleteModeOn{
-            //self.trashButton.imageView?.tintColor = nebulaFlame
-        }else{
-            //self.trashButton.imageView?.tintColor = nebulaPurple
-        }
-        if self.deleteArray.count > 0{
-            let alert = UIAlertController(title: "Do you want to delete these messages?", message: "", preferredStyle: .alert)
-            
-            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: {action in
-                MessageRoutes.deleteMessages(msgsArray: self.deleteArray){
-                    for id in self.deleteArray{
-                        self.msgList = self.msgList.filter { $0._id != id }
-                    }
-                    
-                    self.deleteArray = [String]()
-                    self.messagesCollection.reloadData()
-                    //self.deleteMsgLabel.isHidden = !self.deleteModeOn
-                }
-            }))
-            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: {action in
-                self.messagesCollection.reloadData()
-                self.deleteArray = [String]()
-                //self.deleteMsgLabel.isHidden = !self.deleteModeOn
-            }))
-            
-            self.present(alert, animated: true)
-        }
     }
     
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
@@ -803,7 +573,6 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
             }))
             self.present(alert, animated: true, completion: nil)
-            
         }
     }
     
@@ -977,5 +746,140 @@ class MessengerVC: UIViewController, UITextViewDelegate, UICollectionViewDelegat
             let vc = segue.destination as? MessengerVC
             SocketIOManager.shutOffListener()
         }
+    }
+}
+
+extension MessengerVC: UITextViewDelegate{
+    //MARK: UITextViewDelegate
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == ""{
+            if textView.text.count-1 > 0{
+                newView.sendButton.isEnabled = true
+            }else{
+                newView.sendButton.isEnabled = false
+            }
+        }else{
+            if textView.text.count+1 > 0{
+                newView.sendButton.isEnabled = true
+            }else{
+                newView.sendButton.isEnabled = false
+            }
+        }
+        
+        self.timer?.invalidate()
+        self.timer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(typingTimerComplete), userInfo: nil, repeats: true)
+        SocketIOManager.sendTyping(id: self.id)
+        return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if textView.text.count == 0{
+            newView.sendButton.isEnabled = false
+        }else{
+            newView.sendButton.isEnabled = true
+        }
+        UserDefaults.standard.set(textView.text, forKey: self.id)
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+    }
+}
+
+// Simple solution for detecting emojis in a string
+// Thanks, StackOverflow
+extension UnicodeScalar {
+    var isEmoji: Bool {
+        switch value {
+        case 0x1F600...0x1F64F, // Emoticons
+        0x1F300...0x1F5FF, // Misc Symbols and Pictographs
+        0x1F680...0x1F6FF, // Transport and Map
+        0x1F1E6...0x1F1FF, // Regional country flags
+        0x2600...0x26FF,   // Misc symbols
+        0x2700...0x27BF,   // Dingbats
+        0xFE00...0xFE0F,   // Variation Selectors
+        0x1F900...0x1F9FF,  // Supplemental Symbols and Pictographs
+        127000...127600, // Various asian characters
+        65024...65039, // Variation selector
+        9100...9300, // Misc items
+        8400...8447: // Combining Diacritical Marks for Symbols
+            return true
+            
+        default: return false
+        }
+    }
+    
+    var isZeroWidthJoiner: Bool {
+        return value == 8205
+    }
+}
+
+extension String {
+    var glyphCount: Int {
+        
+        let richText = NSAttributedString(string: self)
+        let line = CTLineCreateWithAttributedString(richText)
+        return CTLineGetGlyphCount(line)
+    }
+    
+    var isSingleEmoji: Bool {
+        return glyphCount == 1 && containsEmoji
+    }
+    
+    var containsEmoji: Bool {
+        return unicodeScalars.contains { $0.isEmoji }
+    }
+    
+    var containsOnlyEmoji: Bool {
+        return !isEmpty
+            && !unicodeScalars.contains(where: {
+                !$0.isEmoji
+                    && !$0.isZeroWidthJoiner
+            })
+    }
+    
+    var emojiString: String {
+        return emojiScalars.map { String($0) }.reduce("", +)
+    }
+    
+    var emojis: [String] {
+        var scalars: [[UnicodeScalar]] = []
+        var currentScalarSet: [UnicodeScalar] = []
+        var previousScalar: UnicodeScalar?
+        
+        for scalar in emojiScalars {
+            if let prev = previousScalar, !prev.isZeroWidthJoiner && !scalar.isZeroWidthJoiner {
+                
+                scalars.append(currentScalarSet)
+                currentScalarSet = []
+            }
+            currentScalarSet.append(scalar)
+            
+            previousScalar = scalar
+        }
+        
+        scalars.append(currentScalarSet)
+        
+        return scalars.map { $0.map{ String($0) } .reduce("", +) }
+    }
+    
+    fileprivate var emojiScalars: [UnicodeScalar] {
+        var chars: [UnicodeScalar] = []
+        var previous: UnicodeScalar?
+        for cur in unicodeScalars {
+            
+            if let previous = previous, previous.isZeroWidthJoiner && cur.isEmoji {
+                chars.append(previous)
+                chars.append(cur)
+                
+            } else if cur.isEmoji {
+                chars.append(cur)
+            }
+            
+            previous = cur
+        }
+        return chars
     }
 }
