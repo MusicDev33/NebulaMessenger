@@ -122,9 +122,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func contextualDelete(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         
-        // 1
-        //var email = data[indexPath.row]
-        // 2
         let action = UIContextualAction(style: .destructive,
                                         title: "Delete") { (contextAction: UIContextualAction, sourceView: UIView, completionHandler: (Bool) -> Void) in
                                             // 3
@@ -393,33 +390,26 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     // Unwinding
-    /*
-     The more of these I add, the more I get the feeling I'm doing something wrong/dumb...
-     I bet I could probably collapse these into one or two functions,
-     I'll do some research and find out.
-    */
-    @IBAction func didUnwindFromMessengerVC(_ sender: UIStoryboardSegue){
-        guard sender.source is MessengerVC else {return}
+    // Now the switch statement looks ugly...
+    // This is probably about as good as it gets, I suppose
+    @IBAction func didUnwindToMainMenu(_ sender: UIStoryboardSegue){
+        /*
+        switch sender.source {
+            
+        case is MessengerVC:
+            print("MessengerVC")
+        case is PoolingVC:
+            print("PoolingVC")
+        case is CreateMessageVC:
+            print("CreateMessageVC")
+        case is MyProfileVC:
+            print("MyProfileVC")
+        case is SecretVC:
+            print("SecretVC")
+        case is FeedbackVC:
+            print("FeedbackVC")
+        default:
+            print("NOTHING LOL")
+        }*/
     }
-    
-    @IBAction func didUnwindFromPools(_ sender: UIStoryboardSegue){
-        guard sender.source is PoolingVC else {return}
-    }
-    
-    @IBAction func didUnwindFromCreateMessage(_ sender: UIStoryboardSegue){
-        guard sender.source is CreateMessageVC else {return}
-    }
-    
-    @IBAction func didUnwindFromProfileView(_ sender: UIStoryboardSegue){
-        guard sender.source is MyProfileVC else {return}
-    }
-    
-    @IBAction func didUnwindFromSecretView(_ sender: UIStoryboardSegue){
-        guard sender.source is SecretVC else {return}
-    }
-    
-    @IBAction func didUnwindFromFeedbackView(_ sender: UIStoryboardSegue){
-        guard sender.source is FeedbackVC else {return}
-    }
-
 }
