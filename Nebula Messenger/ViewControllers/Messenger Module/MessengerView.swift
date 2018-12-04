@@ -349,10 +349,13 @@ class MessengerView: UIView {
         grabCircleBackground.widthAnchor.constraint(equalToConstant: 20).isActive = true
         grabCircleBackground.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        messageFieldHeightAnchor = messageField.heightAnchor.constraint(equalToConstant: 40)
-        if messageField.numberOfLines() < 3 {
+        if messageField.numberOfLines() > 2 {
+            let additionConstant = (messageField.font?.lineHeight)! * CGFloat(integerLiteral: 2)
+            messageFieldHeightAnchor = messageField.heightAnchor.constraint(equalToConstant: additionConstant+5)
+            messageField.setContentOffset(.zero, animated: true)
+        }else{
             let additionConstant = (messageField.font?.lineHeight)! * CGFloat(integerLiteral: messageField.numberOfLines())
-            messageFieldHeightAnchor?.constant = additionConstant + 5
+            messageFieldHeightAnchor = messageField.heightAnchor.constraint(equalToConstant: additionConstant+5)
             messageField.setContentOffset(.zero, animated: true)
         }
         

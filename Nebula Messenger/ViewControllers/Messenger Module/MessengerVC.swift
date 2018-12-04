@@ -299,6 +299,9 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         newView.messageField.text = UserDefaults.standard.string(forKey: self.id) ?? ""
         NotificationCenter.default.addObserver(self, selector: #selector(self.closeVC), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.openVC), name: UIApplication.didBecomeActiveNotification, object: nil)
+        newView.resizeTextView()
+        let bottom = NSMakeRange(newView.messageField.text.count - 1, 1)
+        newView.messageField.scrollRangeToVisible(bottom)
 
     }
     
