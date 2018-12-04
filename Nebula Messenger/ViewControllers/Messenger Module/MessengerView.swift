@@ -138,18 +138,14 @@ class MessengerView: UIView {
         let textView = UITextView()
         textView.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.layer.cornerRadius = 15
+        textView.layer.cornerRadius = 13
         textView.layer.masksToBounds = true
         textView.font = UIFont.systemFont(ofSize: 17)
         textView.backgroundColor = .white
         textView.layer.borderWidth = 1
         textView.layer.borderColor = UIColor.lightGray.cgColor
-        textView.textContainerInset = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
+        textView.textContainerInset = UIEdgeInsets(top: 3, left: 4, bottom: 0, right: 4)
         textView.setContentOffset(.zero, animated: true)
-        
-        var topCorrect = (textView.bounds.size.height - textView.contentSize.height * textView.zoomScale) / 2
-        topCorrect = topCorrect < 0.0 ? 0.0 : topCorrect
-        textView.contentInset.top = topCorrect
         
         return textView
     }()
@@ -354,6 +350,12 @@ class MessengerView: UIView {
         grabCircleBackground.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         messageFieldHeightAnchor = messageField.heightAnchor.constraint(equalToConstant: 40)
+        if messageField.numberOfLines() < 3 {
+            let additionConstant = (messageField.font?.lineHeight)! * CGFloat(integerLiteral: messageField.numberOfLines())
+            messageFieldHeightAnchor?.constant = additionConstant + 5
+            messageField.setContentOffset(.zero, animated: true)
+        }
+        
         messageFieldHeightAnchor?.isActive = true
         messageField.widthAnchor.constraint(equalTo: bottomBar.widthAnchor, multiplier: 0.9).isActive = true
         messageField.centerXAnchor.constraint(equalTo: bottomBar.centerXAnchor).isActive = true
@@ -532,9 +534,10 @@ class MessengerView: UIView {
     }
     
     func resizeTextView(){
-        if messageField.numberOfLines() < 6 {
+        if messageField.numberOfLines() < 3 {
             let additionConstant = (messageField.font?.lineHeight)! * CGFloat(integerLiteral: messageField.numberOfLines())
             messageFieldHeightAnchor?.constant = additionConstant + 5
+            messageField.setContentOffset(.zero, animated: true)
         }
     }
     
