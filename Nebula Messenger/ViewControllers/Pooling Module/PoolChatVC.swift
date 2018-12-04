@@ -38,15 +38,36 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         
         cell.textView.text = text
         cell.bubbleWidthAnchor?.constant = findSize(text: text!, label: cell.textView).width + 32
+        cell.senderLabel.text = ""
+        
+        cell.textView.textColor = UIColor.white
+        
+        cell.senderHeightAnchor?.constant = 0
         
         if self.currentPoolMessages[indexPath.row].sender == GlobalUser.username{
+            cell.senderHeightAnchor?.constant = 0
             cell.bubbleView.backgroundColor = userTextColor
             cell.bubbleViewRightAnchor?.isActive = true
             cell.bubbleViewLeftAnchor?.isActive = false
+            if cell.bubbleView.backgroundColor == nebulaPink{
+                cell.textView.textColor = UIColor.black
+            }
+            
         }else{
+            cell.senderHeightAnchor?.constant = 20
             cell.bubbleView.backgroundColor = otherTextColor
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true
+            if cell.bubbleView.backgroundColor == nebulaPink{
+                cell.textView.textColor = UIColor.black
+            }
+            
+            if indexPath.row > 0 && self.currentPoolMessages[indexPath.row-1].sender != self.currentPoolMessages[indexPath.row].sender{
+                cell.senderLabel.text = self.currentPoolMessages[indexPath.row].sender
+            }
+            
+            cell.senderLeftAnchor?.isActive = true
+            cell.senderRightAnchor?.isActive = false
         }
         return cell
     }

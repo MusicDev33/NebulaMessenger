@@ -346,6 +346,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         var onlyEmoji = false
         
         cell.textView.text = text
+        cell.senderLabel.text = ""
         
         if (text?.containsOnlyEmoji)! && (text?.count)! <= 3{
             cell.textView.font = UIFont.systemFont(ofSize: 48)
@@ -360,6 +361,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         
         cell.textView.textColor = UIColor.white
         
+        
         if self.msgList[indexPath.row].sender == GlobalUser.username{
             cell.bubbleView.backgroundColor = onlyEmoji ? UIColor.clear : userTextColor
             cell.bubbleViewRightAnchor?.isActive = true
@@ -367,13 +369,20 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             if cell.bubbleView.backgroundColor == nebulaPink{
                 cell.textView.textColor = UIColor.black
             }
+            cell.senderHideBottomAnchor?.isActive = true
+            cell.senderAboveBottomAnchor?.isActive = false
         }else{
+            cell.senderLabel.text = self.msgList[indexPath.row].sender
             cell.bubbleView.backgroundColor = onlyEmoji ? UIColor.clear : otherTextColor
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true
             if cell.bubbleView.backgroundColor == nebulaPink{
                 cell.textView.textColor = UIColor.black
             }
+            cell.senderLeftAnchor?.isActive = true
+            cell.senderRightAnchor?.isActive = false
+            cell.senderHideBottomAnchor?.isActive = false
+            cell.senderAboveBottomAnchor?.isActive = true
         }
         return cell
     }
