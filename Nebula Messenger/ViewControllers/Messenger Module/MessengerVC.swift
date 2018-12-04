@@ -752,6 +752,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
 extension MessengerVC: UITextViewDelegate{
     //MARK: UITextViewDelegate
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        newView.resizeTextView()
         if text == ""{
             if textView.text.count-1 > 0{
                 newView.sendButton.isEnabled = true

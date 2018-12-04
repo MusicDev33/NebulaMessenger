@@ -10,6 +10,7 @@ import UIKit
 
 class MessengerView: UIView {
     let screenSizeX = UIScreen.main.bounds.size.width
+    let textViewMaxLines: CGFloat = 6
     
     let navBar: UIView = {
         var view = UIView()
@@ -300,6 +301,8 @@ class MessengerView: UIView {
         bottomBarActionButton.topAnchor.constraint(equalTo: involvedLabel.bottomAnchor, constant: 0).isActive = true
     }
     
+    var messageFieldHeightAnchor: NSLayoutConstraint?
+    
     func buildConstraintsForBottomBar(){
         let buttonHeight = CGFloat(40)
         
@@ -350,7 +353,8 @@ class MessengerView: UIView {
         grabCircleBackground.widthAnchor.constraint(equalToConstant: 20).isActive = true
         grabCircleBackground.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        messageField.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        messageFieldHeightAnchor = messageField.heightAnchor.constraint(equalToConstant: 40)
+        messageFieldHeightAnchor?.isActive = true
         messageField.widthAnchor.constraint(equalTo: bottomBar.widthAnchor, multiplier: 0.9).isActive = true
         messageField.centerXAnchor.constraint(equalTo: bottomBar.centerXAnchor).isActive = true
         messageField.bottomAnchor.constraint(equalTo: bottomBar.bottomAnchor, constant: -10).isActive = true
@@ -527,6 +531,13 @@ class MessengerView: UIView {
         })
     }
     
+    func resizeTextView(){
+        if messageField.numberOfLines() < 6 {
+            let additionConstant = (messageField.font?.lineHeight)! * CGFloat(integerLiteral: messageField.numberOfLines())
+            messageFieldHeightAnchor?.constant = additionConstant + 5
+        }
+    }
+    
     // Group Actions
     var groupFunctionOpen = false
     func groupFunctionPressed(){
@@ -581,4 +592,14 @@ class MessengerView: UIView {
         pulsatingLayer.add(animation, forKey: "pulsing")
         CATransaction.commit()
     }
+}
+
+extension UITextView{
+    func numberOfLines() -> Int{
+        if let fontUnwrapped = self.font{
+            return Int(self.contentSize.height / fontUnwrapped.lineHeight)
+        }
+        return 0
+    }
+    
 }
