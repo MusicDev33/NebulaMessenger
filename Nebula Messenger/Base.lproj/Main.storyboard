@@ -407,7 +407,7 @@
                         <outlet property="featureMessageLabel" destination="x1D-NU-OIy" id="2LO-bg-AO2"/>
                         <outlet property="poolButton" destination="vdT-KG-OF3" id="BJS-9q-AOE"/>
                         <outlet property="secretButton" destination="5dN-Jt-BIB" id="4VM-09-l7g"/>
-                        <segue destination="eE2-x0-ebg" kind="presentation" identifier="toMessengerVC" id="yme-gr-eOF"/>
+                        <segue destination="eE2-x0-ebg" kind="presentation" identifier="toMessengerVC" modalTransitionStyle="coverVertical" id="yme-gr-eOF"/>
                         <segue destination="D5I-AV-VyX" kind="presentation" identifier="toMyProfileView" id="MYK-A4-raN"/>
                         <segue destination="4wp-jj-STV" kind="presentation" identifier="toPools" modalTransitionStyle="flipHorizontal" id="lUE-Kz-Wye"/>
                         <segue destination="21g-eZ-JKn" kind="presentation" identifier="toCreateMessageVC" id="iiV-af-e32"/>

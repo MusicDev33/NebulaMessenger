@@ -95,10 +95,10 @@ class MessageBubble: UICollectionViewCell{
         senderAboveBottomAnchor = senderLabel.bottomAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 0)
         senderAboveBottomAnchor?.isActive = true
         
-        senderRightAnchor = senderLabel.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -4)
+        senderRightAnchor = senderLabel.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -6)
         senderRightAnchor?.isActive = true
         
-        senderLeftAnchor = senderLabel.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 4)
+        senderLeftAnchor = senderLabel.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 6)
         senderLeftAnchor?.isActive = false
     }
     
@@ -106,5 +106,4 @@ class MessageBubble: UICollectionViewCell{
         super.init(coder: aDecoder)
         
     }
-    
 }

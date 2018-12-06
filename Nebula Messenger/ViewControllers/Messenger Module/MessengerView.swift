@@ -15,7 +15,7 @@ class MessengerView: UIView {
     let navBar: UIView = {
         var view = UIView()
         view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        view.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 1)
+        view.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 0.2)//239
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.masksToBounds = true
         
@@ -265,7 +265,7 @@ class MessengerView: UIView {
     func buildConstraintsForNavBar(){
         navBar.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         navBar.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        navBar.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.1).isActive = true
+        navBar.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.07).isActive = true
         navBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
         
         topLine.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
@@ -314,7 +314,6 @@ class MessengerView: UIView {
         bottomBarWidthAnchor?.isActive = true
         bottomBarHeightAnchor = bottomBar.heightAnchor.constraint(equalToConstant: 100)
         bottomBarHeightAnchor?.isActive = true
-        //bottomBarHeightAnchor?.constant = 100-bottomBar.frame.height
         
         closeButton.heightAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
         closeButton.widthAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
@@ -458,7 +457,7 @@ class MessengerView: UIView {
             self.grabCircle.backgroundColor = nebulaPurple
             self.bottomBar.layer.cornerRadius = 0
             self.bottomBarActionButton.alpha = 0
-            self.bottomBar.alpha = 1
+            self.bottomBar.alpha = 0.2
             self.sendButton.alpha = 1
             self.grabCircle.alpha = 1
             self.closeButton.alpha = 1

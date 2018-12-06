@@ -229,6 +229,8 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         newView.involvedCenterAnchor?.isActive = true
         
         self.view.addSubview(newView)
+        print(newView.bottomBar.alpha)
+        print("THIS")
         self.newView.addSubview(self.messagesCollection)
         newView.sendSubviewToBack(self.messagesCollection)
         
@@ -283,7 +285,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         self.setupKeyboardObservers()
         
         GlobalUser.currentConv = self.friend
-        self.scrollToBottom(animated: true)
+        self.scrollToBottom(animated: false)
         if msgList.count > 0{
             ConversationRoutes.updateLastRead(id: self.id, msgId: msgList[msgList.count-1]._id ?? "NA"){
             }
@@ -372,13 +374,18 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             cell.senderHideBottomAnchor?.isActive = true
             cell.senderAboveBottomAnchor?.isActive = false
         }else{
-            cell.senderLabel.text = self.msgList[indexPath.row].sender
             cell.bubbleView.backgroundColor = onlyEmoji ? UIColor.clear : otherTextColor
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true
             if cell.bubbleView.backgroundColor == nebulaPink{
                 cell.textView.textColor = UIColor.black
             }
+            if isGroupChat{
+                if indexPath.row > 0 && self.msgList[indexPath.row-1].sender != self.msgList[indexPath.row].sender{
+                    cell.senderLabel.text = self.msgList[indexPath.row].sender
+                }
+            }
+            
             cell.senderLeftAnchor?.isActive = true
             cell.senderRightAnchor?.isActive = false
             cell.senderHideBottomAnchor?.isActive = false
