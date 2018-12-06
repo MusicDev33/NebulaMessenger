@@ -548,13 +548,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="hybrid" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fM7-qs-HlJ">
-                                <rect key="frame" x="0.0" y="111" width="375" height="556"/>
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="sjI-1J-ocd" appends="YES" id="Fm9-WE-ved"/>
-                                </connections>
-                            </mapView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gIq-GN-o1n">
                                 <rect key="frame" x="139" y="44" width="97" height="29"/>
                                 <segments>
@@ -577,11 +570,6 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="gIq-GN-o1n" firstAttribute="top" secondItem="vx6-CI-N4D" secondAttribute="top" constant="24" id="AAy-jg-Cta"/>
-                            <constraint firstItem="fM7-qs-HlJ" firstAttribute="leading" secondItem="vx6-CI-N4D" secondAttribute="leading" id="H5A-c0-Ka0"/>
-                            <constraint firstItem="vx6-CI-N4D" firstAttribute="trailing" secondItem="fM7-qs-HlJ" secondAttribute="trailing" id="J8w-S9-cdL"/>
-                            <constraint firstItem="fM7-qs-HlJ" firstAttribute="top" secondItem="vx6-CI-N4D" secondAttribute="top" constant="91" id="SQm-85-dy0"/>
-                            <constraint firstItem="vx6-CI-N4D" firstAttribute="bottom" secondItem="fM7-qs-HlJ" secondAttribute="bottom" id="gM3-tp-TjD"/>
-                            <constraint firstItem="fM7-qs-HlJ" firstAttribute="centerX" secondItem="vx6-CI-N4D" secondAttribute="centerX" id="inj-pR-7wD"/>
                             <constraint firstItem="zJp-SO-C9R" firstAttribute="centerY" secondItem="gIq-GN-o1n" secondAttribute="centerY" id="pSK-Fq-hyE"/>
                             <constraint firstItem="zJp-SO-C9R" firstAttribute="leading" secondItem="vx6-CI-N4D" secondAttribute="leading" constant="14" id="rDn-E3-peC"/>
                             <constraint firstItem="gIq-GN-o1n" firstAttribute="centerX" secondItem="vx6-CI-N4D" secondAttribute="centerX" id="xdy-1m-eT5"/>
@@ -593,7 +581,6 @@
                         </connections>
                     </view>
                     <connections>
-                        <outlet property="mapView" destination="fM7-qs-HlJ" id="Pis-BM-jV8"/>
                         <outlet property="segmentedTabs" destination="gIq-GN-o1n" id="YBL-Qy-1Np"/>
                         <segue destination="dNo-h7-e0J" kind="unwind" identifier="unwindToMainMenuFromPools" unwindAction="didUnwindToMainMenu:" id="x9f-5l-vjq"/>
                         <segue destination="eHO-1Q-Jhe" kind="presentation" identifier="toPoolChat" id="qNb-dl-l8g"/>

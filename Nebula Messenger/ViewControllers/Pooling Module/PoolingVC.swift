@@ -14,7 +14,7 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     
     let locationManager = CLLocationManager()
     
-    @IBOutlet weak var mapView: MKMapView!
+    var mapView: MKMapView!
     let regionRadius: CLLocationDistance = 250
     let defaultRadius = 50
     var shouldCenter = true
@@ -31,10 +31,17 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     var passPoolId = ""
     var passPoolMessages = [TerseMessage]()
     
+    var topView: PoolingView!
+    
     var testPool = PublicPool(coordinates: [0, 0], poolId: "testpool;;;", name: "Test Pool", creator: "MusicDev", connectionLimit: 50, usersConnected: [String]())
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        topView = PoolingView(frame: self.view.frame)
+        self.view.addSubview(topView)
+        
+        mapView = topView.mapView
         
         // Ask for Authorisation from the User.
         self.locationManager.requestAlwaysAuthorization()

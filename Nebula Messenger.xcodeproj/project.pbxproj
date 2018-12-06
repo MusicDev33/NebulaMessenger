@@ -44,6 +44,7 @@
 		1F7E94BE2199BBAF00AA5715 /* PoolChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7E94BD2199BBAF00AA5715 /* PoolChatView.swift */; };
 		1F7F763421AD10BA008D3BB1 /* AddFriendVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7F763321AD10BA008D3BB1 /* AddFriendVC.swift */; };
 		1F7F763621AD38F5008D3BB1 /* RequestedFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7F763521AD38F5008D3BB1 /* RequestedFriendsVC.swift */; };
+		1F8A3A8C21B924F5008E42DB /* PoolingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A3A8B21B924F5008E42DB /* PoolingView.swift */; };
 		1FA20BC7218D6E83007317B5 /* UserRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BC6218D6E83007317B5 /* UserRoutes.swift */; };
 		1FA20BC9218D6FCD007317B5 /* MessageRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BC8218D6FCD007317B5 /* MessageRoutes.swift */; };
 		1FA20BCC218D728C007317B5 /* GroupChatAddVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BCB218D728C007317B5 /* GroupChatAddVC.swift */; };
@@ -124,6 +125,7 @@
 		1F7E94BD2199BBAF00AA5715 /* PoolChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolChatView.swift; sourceTree = "<group>"; };
 		1F7F763321AD10BA008D3BB1 /* AddFriendVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendVC.swift; sourceTree = "<group>"; };
 		1F7F763521AD38F5008D3BB1 /* RequestedFriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedFriendsVC.swift; sourceTree = "<group>"; };
+		1F8A3A8B21B924F5008E42DB /* PoolingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolingView.swift; sourceTree = "<group>"; };
 		1FA20BC6218D6E83007317B5 /* UserRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRoutes.swift; sourceTree = "<group>"; };
 		1FA20BC8218D6FCD007317B5 /* MessageRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRoutes.swift; sourceTree = "<group>"; };
 		1FA20BCB218D728C007317B5 /* GroupChatAddVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatAddVC.swift; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 				1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */,
 				1FE4F104216D321A00E4EF72 /* PoolChatVC.swift */,
 				1F7E94BD2199BBAF00AA5715 /* PoolChatView.swift */,
+				1F8A3A8B21B924F5008E42DB /* PoolingView.swift */,
 			);
 			path = "Pooling Module";
 			sourceTree = "<group>";
@@ -680,6 +683,7 @@
 				1F2CE4532175D0C100B15C59 /* MasterAudio.swift in Sources */,
 				1FE4F103216CA86C00E4EF72 /* PoolChatCell.swift in Sources */,
 				1F170F1A21647157009673E2 /* PoolRoutes.swift in Sources */,
+				1F8A3A8C21B924F5008E42DB /* PoolingView.swift in Sources */,
 				1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */,
 				1F76C7DE2158A09E00EB6C8C /* PoolingVC.swift in Sources */,
 				1FE4F101216B139200E4EF72 /* FeedbackVC.swift in Sources */,
