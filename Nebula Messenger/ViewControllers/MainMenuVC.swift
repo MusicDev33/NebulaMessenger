@@ -223,21 +223,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     
-    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        if(event?.subtype == UIEvent.EventSubtype.motionShake) {
-            let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Give Feedback", style: .default, handler: {action in
-                let feedbackVC = FeedbackVC()
-                feedbackVC.modalPresentationStyle = .overCurrentContext
-                self.present(feedbackVC, animated: true, completion: nil)
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
-                
-            }))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
     //Start of non-search part
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -321,17 +306,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     @IBAction func addFriendsButtonPressed(_ sender: UIButton) {
-        // Xtreme Hacking
-        /*
-        self.searchController.isActive = false
-        self.addFriendsMode = !self.addFriendsMode
-        if self.addFriendsMode{
-            searchController.searchBar.placeholder = "Search for your friends!"
-        }else{
-            searchController.searchBar.placeholder = "Search for conversations here"
-        }
-        self.searchResults = []
-        self.convTable.reloadData()*/
         let addFriendVC = AddFriendVC()
         addFriendVC.modalPresentationStyle = .overCurrentContext
         self.present(addFriendVC, animated: true, completion: nil)
@@ -386,6 +360,28 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             vc?.msgList = self.passMsgList
             vc?.isGroupChat = self.isGroupChat
             self.isGroupChat = false
+        }
+    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if(event?.subtype == UIEvent.EventSubtype.motionShake) {
+            let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Give Feedback", style: .default, handler: {action in
+                let feedbackVC = FeedbackVC()
+                feedbackVC.modalPresentationStyle = .overCurrentContext
+                self.present(feedbackVC, animated: true, completion: nil)
+            }))
+            
+            if self.adminUsers.contains(GlobalUser.username){
+                alert.addAction(UIAlertAction(title: "Secret Page", style: .default, handler: {action in
+                    self.performSegue(withIdentifier: "toSecretPage", sender: self)
+                }))
+            }
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
+                
+            }))
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
