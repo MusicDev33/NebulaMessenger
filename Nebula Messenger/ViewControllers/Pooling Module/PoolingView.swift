@@ -42,6 +42,7 @@ class PoolingView: UIView {
         }
         button.tintColor = UIColor.white
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.contentEdgeInsets = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
         
         return button
     }()
