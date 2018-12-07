@@ -9,8 +9,12 @@
 import Foundation
 import UIKit
 
+// UI Colors
 let borderColorOne = UIColor(red: 199/255, green: 210/255, blue: 229/255, alpha: 1)
 
+let panelColorOne = UIColor(red: 235/255, green: 235/255, blue: 240/255, alpha: 1)
+
+// Main Colors
 let nebulaPurple = UIColor(red: 198/255, green: 65/255, blue: 168/255, alpha: 1)
 let nebulaBlue = UIColor(red: 2/255, green: 148/255, blue: 227/255, alpha: 1)
 let nebulaGreen = UIColor(red: 59/255, green: 219/255, blue: 167/255, alpha: 1)

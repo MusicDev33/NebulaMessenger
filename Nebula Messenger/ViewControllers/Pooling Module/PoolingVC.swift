@@ -41,9 +41,17 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         topView = PoolingView(frame: self.view.frame)
         self.view.addSubview(topView)
         
+        // Add button targets
         mapView = topView.mapView
+        topView.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         
-        // Ask for Authorisation from the User.
+        //Add gestures to topView
+        let backButtonPanRec = UIPanGestureRecognizer(target: self, action: #selector(self.draggedCircle(_:)))
+        backButtonPanRec.delegate = self
+        
+        topView.backButton.addGestureRecognizer(backButtonPanRec)
+        
+        // Ask for authorization from the user.
         self.locationManager.requestAlwaysAuthorization()
         
         currentPools.append(self.testPool)
@@ -64,6 +72,10 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         panRec = UIPanGestureRecognizer(target: self, action: #selector(draggedMap(gesture:)))
         panRec.delegate = self
         self.mapView.addGestureRecognizer(panRec)
+        
+        var mapLongPressRec = UILongPressGestureRecognizer(target: self, action: #selector(longPressedOnMap(_:)))
+        mapLongPressRec.delegate = self
+        self.mapView.addGestureRecognizer(mapLongPressRec)
 
         // Do any additional setup after loading the view.
         PoolRoutes.getPools(){pools in
@@ -80,12 +92,30 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
                 annotation.id = pool.poolId
                 self.mapView.addAnnotation(annotation)
             }
+            self.setupPoolTable()
         }
     }
     
     @objc func draggedMap(gesture: UIPanGestureRecognizer){
         if (gesture.state == UIGestureRecognizer.State.ended){
             self.shouldCenter = false
+        }
+    }
+    
+    @objc func draggedCircle(_ sender: UIPanGestureRecognizer){
+        switch sender.state {
+        case .began:
+            print("hi")
+            topView.backButton.isEnabled = false
+        case .changed:
+            let translation = sender.translation(in: self.view)
+            topView.draggedCircle(x: translation.x, y: translation.y)
+            sender.setTranslation(CGPoint.zero, in: self.view)
+        case .ended:
+            topView.backButton.isEnabled = true
+            
+        default:
+            break
         }
     }
     
@@ -131,11 +161,15 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
                 }
             }
         }
+        if poolTable != nil {
+            poolTable.reloadData()
+        }
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        // Don't want to show a custom image if the annotation is the user's location.
-        guard !(annotation is MKUserLocation) else {
+        
+        if let userLocation = annotation as? MKUserLocation {
+            userLocation.title = ""
             return nil
         }
         
@@ -193,17 +227,18 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
                 }
             }
         }
-        
     }
     
     // Set up the Pool Table (Funny joke haha)
+    // I guess it's actually a collectionview, not a tableview
+    // Oh well
     func setupPoolTable(){
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
-        layout.itemSize = CGSize(width: view.frame.width, height: 50)
+        layout.sectionInset = UIEdgeInsets(top: 8, left: 0, bottom: 4, right: 0)
+        layout.itemSize = CGSize(width: view.frame.width-20, height: 50)
         layout.scrollDirection = .vertical
         
-        let poolTableFrame = CGRect(x: 0, y: 100, width: view.frame.width, height: view.frame.height-100)
+        let poolTableFrame = CGRect(x: 0, y: 0, width: 0, height: 0)
         
         self.poolTable = UICollectionView(frame: poolTableFrame, collectionViewLayout: layout)
         self.poolTable.delegate = self
@@ -211,10 +246,17 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         self.poolTable.isUserInteractionEnabled = true
         self.poolTable.allowsSelection = true
         self.poolTable.alwaysBounceVertical = true
+        self.poolTable.translatesAutoresizingMaskIntoConstraints = false
         poolTable.register(PoolChatCell.self, forCellWithReuseIdentifier: "poolCell")
-        poolTable.backgroundColor = UIColor.white
+        poolTable.backgroundColor = panelColorOne
+        poolTable.layer.cornerRadius = 16
         self.view.addSubview(poolTable)
-        self.view.bringSubviewToFront(poolTable)
+        
+        poolTable.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        poolTable.topAnchor.constraint(equalTo: topView.mapView.bottomAnchor, constant: -40).isActive = true
+        poolTable.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.50).isActive = true
+        poolTable.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        
     }
     
     
@@ -240,11 +282,11 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     
     
     // MARK: Actions
-    @IBAction func backButtonPressed(_ sender: UIButton) {
+    @objc func backButtonPressed() {
         self.performSegue(withIdentifier: "unwindToMainMenuFromPools", sender: self)
     }
     
-    @IBAction func longPressedOnMap(_ sender: UILongPressGestureRecognizer) {
+    @objc func longPressedOnMap(_ sender: UILongPressGestureRecognizer) {
         let location = sender.location(in: self.mapView)
         let coordinate = mapView.convert(location,toCoordinateFrom: mapView)
         
@@ -285,35 +327,6 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     }
     
     //Set up pool view table
-    
-    @IBAction func pressedOnSegment(_ sender: UISegmentedControl) {
-        switch segmentedTabs.selectedSegmentIndex{
-        case 0:
-            self.mapView.isHidden = false
-            if (self.poolTable != nil){
-                self.poolTable.isHidden = true
-            }
-        case 1:
-            self.mapView.isHidden = true
-            if (self.poolTable == nil){
-                self.setupPoolTable()
-                self.poolTable.reloadData()
-            }else{
-                self.poolTable.reloadData()
-                self.poolTable.isHidden = false
-            }
-        default:
-            print("Something happened")
-        }
-    }
-    
-    @IBAction func tappedOnScreen(_ sender: UITapGestureRecognizer) {
-    }
-    
-    @IBAction func swipedRight(_ sender: UISwipeGestureRecognizer) {
-        self.performSegue(withIdentifier: "unwindToMainMenuFromPools", sender: self)
-    }
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.

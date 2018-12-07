@@ -474,7 +474,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     //MARK: Actions
-    @IBAction func sendMessage(_ sender: UIButton) {
+    func sendMessage(_ sender: UIButton) {
         let url = URL(string: sendRoute)
         
         var requestJson = [String:Any]()

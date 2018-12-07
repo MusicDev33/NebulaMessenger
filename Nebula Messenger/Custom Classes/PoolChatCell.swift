@@ -43,7 +43,7 @@ class PoolChatCell: UICollectionViewCell{
         
         poolNameLabel.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         poolNameLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        poolNameLabel.rightAnchor.constraint(equalTo: bgView.rightAnchor, constant: 4).isActive = true
+        poolNameLabel.rightAnchor.constraint(equalTo: bgView.rightAnchor, constant: 8).isActive = true
         poolNameLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         
     }
