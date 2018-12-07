@@ -22,6 +22,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var convTable: UITableView!
     
     var profileButton: UIButton!
+    var settingsButton: UIButton!
     
     var bottomBarView: UIView!
     var addFriendsButton: UIButton!
@@ -113,8 +114,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         if profileButtonHeightAnchor?.constant ?? 0 < CGFloat(20){
             profileButton.setTitle("", for: .normal)
+            settingsButton.setTitle("", for: .normal)
         }else{
             profileButton.setTitle("Profile", for: .normal)
+            settingsButton.setTitle("Settings", for: .normal)
         }
         
     }
@@ -221,6 +224,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.createProfileButton()
+        self.createSettingsButton()
         self.createConvTable()
         
         self.view.bringSubviewToFront(profileButton)
@@ -300,7 +304,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     override func viewSafeAreaInsetsDidChange() {
         // ... your layout code here
-        convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.view.safeAreaLayoutGuide.layoutFrame.height - 100)
+        convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.view.safeAreaLayoutGuide.layoutFrame.height - 65)
         convTableHeightAnchor?.isActive = true
     }
     
@@ -430,11 +434,12 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         convTable.topAnchor.constraint(equalTo: self.profileButton.bottomAnchor, constant: 2).isActive = true
         convTable.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1).isActive = true
         convTable.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.view.safeAreaLayoutGuide.layoutFrame.height - 100)
+        convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.view.safeAreaLayoutGuide.layoutFrame.height - 65)
         convTableHeightAnchor?.isActive = true
     }
     
     var profileButtonHeightAnchor: NSLayoutConstraint?
+    var settingsButtonHeightAnchor: NSLayoutConstraint?
     
     func createProfileButton(){
         profileButton = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -450,29 +455,52 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         self.view.addSubview(profileButton)
         
-        profileButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -10).isActive = true
+        profileButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.47).isActive = true
         profileButtonHeightAnchor = profileButton.heightAnchor.constraint(equalToConstant: 40)
         profileButtonHeightAnchor?.isActive = true
         
-        profileButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+        profileButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
         profileButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+    }
+    
+    func createSettingsButton(){
+        settingsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        
+        settingsButton.translatesAutoresizingMaskIntoConstraints = false
+        settingsButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        settingsButton.backgroundColor = nebulaPurple
+        settingsButton.setTitleColor(UIColor.lightGray, for: .highlighted)
+        settingsButton.setTitleColor(UIColor.lightGray, for: .disabled)
+        settingsButton.layer.cornerRadius = 10
+        settingsButton.setTitle("Settings", for: .normal)
+        settingsButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
+        
+        self.view.addSubview(settingsButton)
+        
+        settingsButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.47).isActive = true
+        settingsButtonHeightAnchor = settingsButton.heightAnchor.constraint(equalTo: profileButton.heightAnchor)
+        settingsButtonHeightAnchor?.isActive = true
+        
+        settingsButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 5).isActive = true
+        settingsButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
     }
     
     var bottomBarHeightAnchor: NSLayoutConstraint?
     
     func createBottomBar(){
         bottomBarView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        bottomBarView.backgroundColor = panelColorOne
+        bottomBarView.backgroundColor = panelColorTwo
         bottomBarView.translatesAutoresizingMaskIntoConstraints = false
         bottomBarView.layer.borderWidth = 1
         bottomBarView.layer.borderColor = UIColor.lightGray.cgColor
+        bottomBarView.alpha = 0.8
         
         self.view.addSubview(bottomBarView)
         
         bottomBarView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         bottomBarView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         bottomBarView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        bottomBarHeightAnchor = bottomBarView.heightAnchor.constraint(equalToConstant: 100)
+        bottomBarHeightAnchor = bottomBarView.heightAnchor.constraint(equalToConstant: 65)
         bottomBarHeightAnchor?.isActive = true
     }
     
@@ -491,7 +519,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         addFriendsButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         addFriendsButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
-        addFriendsButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -8).isActive = true
+        addFriendsButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
     }
     
     // Lol what a name
@@ -505,27 +533,27 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         self.view.addSubview(createMessageButton)
         
-        createMessageButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        createMessageButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        createMessageButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        createMessageButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         createMessageButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20).isActive = true
-        createMessageButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
+        createMessageButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -12).isActive = true
     }
     
     func createNebulaButton(){
         nebulaButton = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         nebulaButton.translatesAutoresizingMaskIntoConstraints = false
-        if let image = UIImage(named: "Logo") {
+        if let image = UIImage(named: "Pool") {
             nebulaButton.setImage(image, for: .normal)
         }
         nebulaButton.addTarget(self, action: #selector(nebulaButtonPressed), for: .touchUpInside)
         
         self.view.addSubview(nebulaButton)
         
-        nebulaButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        nebulaButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        nebulaButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        nebulaButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         nebulaButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-        nebulaButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -5).isActive = true
+        nebulaButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -3).isActive = true
     }
 }
