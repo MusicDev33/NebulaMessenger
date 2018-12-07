@@ -101,10 +101,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print(scrollView.contentOffset.y)
         
-        if -(scrollView.contentOffset.y*2) + 40 > 40{
-            profileButtonHeightAnchor?.constant = 40
+        if -(scrollView.contentOffset.y*2) + 30 > 30{
+            profileButtonHeightAnchor?.constant = 30
         }else{
-            profileButtonHeightAnchor?.constant = -(scrollView.contentOffset.y*2) + 40
+            profileButtonHeightAnchor?.constant = -(scrollView.contentOffset.y*2) + 30
         }
         
         //convTable.contentOffset.y = 0
@@ -228,7 +228,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.createConvTable()
         
         self.view.bringSubviewToFront(profileButton)
-        self.view.backgroundColor = panelColorOne
+        self.view.backgroundColor = panelColorTwo
         
         for i in GlobalUser.convNames{
             if GlobalUser.masterDict[i]?.lastMessage == GlobalUser.masterDict[i]?.lastRead{
@@ -304,7 +304,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     override func viewSafeAreaInsetsDidChange() {
         // ... your layout code here
-        convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.view.safeAreaLayoutGuide.layoutFrame.height - 65)
+        convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.view.safeAreaLayoutGuide.layoutFrame.height - 60)
         convTableHeightAnchor?.isActive = true
     }
     
@@ -434,7 +434,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         convTable.topAnchor.constraint(equalTo: self.profileButton.bottomAnchor, constant: 2).isActive = true
         convTable.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1).isActive = true
         convTable.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.view.safeAreaLayoutGuide.layoutFrame.height - 65)
+        convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.view.safeAreaLayoutGuide.layoutFrame.height - 60)
         convTableHeightAnchor?.isActive = true
     }
     
@@ -456,7 +456,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.view.addSubview(profileButton)
         
         profileButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.47).isActive = true
-        profileButtonHeightAnchor = profileButton.heightAnchor.constraint(equalToConstant: 40)
+        profileButtonHeightAnchor = profileButton.heightAnchor.constraint(equalToConstant: 30)
         profileButtonHeightAnchor?.isActive = true
         
         profileButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
@@ -493,14 +493,14 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         bottomBarView.translatesAutoresizingMaskIntoConstraints = false
         bottomBarView.layer.borderWidth = 1
         bottomBarView.layer.borderColor = UIColor.lightGray.cgColor
-        bottomBarView.alpha = 0.8
+        bottomBarView.alpha = 0.95
         
         self.view.addSubview(bottomBarView)
         
         bottomBarView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         bottomBarView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         bottomBarView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        bottomBarHeightAnchor = bottomBarView.heightAnchor.constraint(equalToConstant: 65)
+        bottomBarHeightAnchor = bottomBarView.heightAnchor.constraint(equalToConstant: 60)
         bottomBarHeightAnchor?.isActive = true
     }
     
@@ -554,6 +554,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         nebulaButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         nebulaButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-        nebulaButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -3).isActive = true
+        nebulaButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
     }
 }
