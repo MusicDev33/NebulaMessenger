@@ -9,37 +9,34 @@
 import UIKit
 import FirebaseInstanceID
 
-class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate {
+class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate, UIGestureRecognizerDelegate {
     var passId = ""
     var passInvolved = ""
     var passFriend = ""
     
     var isGroupChat = false
     
-    var addFriendsMode = false
-    
     var searchController: UISearchController!
     var searchResults = [String]()
     
-    @IBOutlet weak var convTable: UITableView!
-    @IBOutlet weak var poolButton: UIButton!
+    var convTable: UITableView!
     
-    @IBOutlet weak var addFriendsButton: UIButton!
+    var profileButton: UIButton!
     
-    @IBOutlet weak var featureMessageLabel: UILabel!
-    @IBOutlet weak var secretButton: UIButton!
+    var bottomBarView: UIView!
+    var addFriendsButton: UIButton!
+    var createMessageButton: UIButton!
+    var nebulaButton: UIButton!
+    
     var searchConvMode = false
     
     // Add names here to allow the users to access pools
-    let authorizedUsers = ["MusicDev", "ben666", "justinhunter20", "testaccount", "Mr.Rogers", "Ashton"]
     let adminUsers = ["MusicDev", "ben666", "wesperrett", "Ashton"]
     
     var passMsgList = [TerseMessage]()
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if addFriendsMode{
-            return searchResults.count
-        }else if searchConvMode{
+        if searchConvMode{
             return searchResults.count
         } else{
             return GlobalUser.conversations.count
@@ -49,17 +46,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "conversationCell")
-        if self.addFriendsMode{
-            var cellText = self.searchResults[indexPath.row]
-            if GlobalUser.friends.contains(cellText){
-                cellText += "\u{2714}"
-            }else if cellText == GlobalUser.username{
-                cellText += " (You)\u{2714}"
-            }else{
-                
-            }
-            cell.textLabel?.text = cellText
-        }else if self.searchConvMode{
+        if self.searchConvMode{
             cell.textLabel?.text = self.searchResults[indexPath.row]
         } else{
             let convName = GlobalUser.convNames[indexPath.row]
@@ -76,38 +63,28 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentCell = tableView.cellForRow(at: indexPath) as! UITableViewCell
         self.searchController.isActive = false
-        if self.addFriendsMode{
-            let cellText = currentCell.textLabel?.text!
-            if !(cellText?.contains("\u{2714}"))!{
-                FriendRoutes.addFriend(friend: cellText!){
-                    tableView.reloadData()
-                    print("complete")
-                }
-            }
-        } else{
-            var cellText = (currentCell.textLabel?.text!)!
-            if cellText.contains(" READ"){
-                cellText = String(cellText.dropLast(5))
-            }
-            self.passId = GlobalUser.masterDict[cellText]!.id!
-            self.passInvolved = GlobalUser.conversations[indexPath.row]
-            self.passFriend = cellText
-            view.endEditing(true)
-            self.searchController.searchBar.endEditing(true)
-            
-            let userCount = self.passInvolved.components(separatedBy:":").count
-            print("Important")
-            print(self.passInvolved)
-            if userCount-1>1{
-                print("Group chat enabled")
-                self.isGroupChat = true
-            }
-            
-            MessageRoutes.getMessages(id: self.passId){messageList in
-                self.passMsgList = messageList
-                tableView.deselectRow(at: indexPath, animated: true)
-                self.performSegue(withIdentifier: "toMessengerVC", sender: self)
-            }
+        var cellText = (currentCell.textLabel?.text!)!
+        if cellText.contains(" READ"){
+            cellText = String(cellText.dropLast(5))
+        }
+        self.passId = GlobalUser.masterDict[cellText]!.id!
+        self.passInvolved = GlobalUser.conversations[indexPath.row]
+        self.passFriend = cellText
+        view.endEditing(true)
+        self.searchController.searchBar.endEditing(true)
+        
+        let userCount = self.passInvolved.components(separatedBy:":").count
+        print("Important")
+        print(self.passInvolved)
+        if userCount-1>1{
+            print("Group chat enabled")
+            self.isGroupChat = true
+        }
+        
+        MessageRoutes.getMessages(id: self.passId){messageList in
+            self.passMsgList = messageList
+            tableView.deselectRow(at: indexPath, animated: true)
+            self.performSegue(withIdentifier: "toMessengerVC", sender: self)
         }
     }
     
@@ -118,6 +95,28 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
  
         let swipeConfig = UISwipeActionsConfiguration(actions: [deleteAction])
         return swipeConfig
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(scrollView.contentOffset.y)
+        
+        if -(scrollView.contentOffset.y*2) + 40 > 40{
+            profileButtonHeightAnchor?.constant = 40
+        }else{
+            profileButtonHeightAnchor?.constant = -(scrollView.contentOffset.y*2) + 40
+        }
+        
+        //convTable.contentOffset.y = 0
+        
+        print("CONSTANT")
+        print(convTableHeightAnchor?.constant)
+        
+        if profileButtonHeightAnchor?.constant ?? 0 < CGFloat(20){
+            profileButton.setTitle("", for: .normal)
+        }else{
+            profileButton.setTitle("Profile", for: .normal)
+        }
+        
     }
     
     func contextualDelete(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
@@ -190,13 +189,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                         self.searchResults.append(i)
                     }
                 }
-            }else if self.addFriendsMode{
-                FriendRoutes.searchFriends(characters: searchString!){friends in
-                    self.searchResults = friends
-                }
-                self.convTable.reloadData()
             }
-            
         }else{
             if self.searchConvMode{
                 self.searchResults = GlobalUser.convNames
@@ -227,6 +220,12 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.createProfileButton()
+        self.createConvTable()
+        
+        self.view.bringSubviewToFront(profileButton)
+        self.view.backgroundColor = panelColorOne
+        
         for i in GlobalUser.convNames{
             if GlobalUser.masterDict[i]?.lastMessage == GlobalUser.masterDict[i]?.lastRead{
             }else{
@@ -241,25 +240,26 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         // appVersion and buildNumber both exist for sure
         UserRoutes.getIfCurrent(version: appVersion!, build: Int(buildNumber!)!){message in
-            self.featureMessageLabel.text = message
-            self.featureMessageLabel.isHidden = false
+            if message == ""{
+                
+            }else{
+                if GlobalUser.username != "MusicDev"{
+                    Alert.basicAlert(on: self, with: "App is outdated!", message: message)
+                }
+            }
         }
         
-        self.secretButton.isHidden = false
         SocketIOManager.establishConnection()
         self.configureSearchController()
         if self.adminUsers.contains(GlobalUser.username) {
-            self.secretButton.setTitle("Secret", for: .normal)
-        }else if GlobalUser.username == "hockaboo"{
-            self.secretButton.setTitle("Feedback", for: .normal)
+            
         }else{
             let df = DateFormatter()
             df.dateFormat = "dd/MM/yyyy hh:mm:ss"
             
             // Creating the date object
             let now = df.string(from: Date())
-            DiagnosticRoutes.sendInfo(info: "Logged in.", optional: now+": Login Event")
-            self.secretButton.isHidden = true
+            DiagnosticRoutes.sendInfo(info: "Logged in.", optional: now)
         }
         
         InstanceID.instanceID().instanceID { (result, error) in
@@ -273,6 +273,13 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 }
             }
         }
+        self.createBottomBar()
+        self.createNebulaButton()
+        self.createAddFriendsButton()
+        self.createCreateMessageButton()
+    }
+    
+    override func viewDidLayoutSubviews() {
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -282,8 +289,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         GlobalUser.currentConv = ""
         self.convTable.reloadData()
-        print("FB Token:")
-        print(FirebaseGlobals.globalDeviceToken)
+        //print("FB Token:")
+        //print(FirebaseGlobals.globalDeviceToken)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -291,38 +298,32 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.convTable.reloadData()
     }
     
+    override func viewSafeAreaInsetsDidChange() {
+        // ... your layout code here
+        convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.view.safeAreaLayoutGuide.layoutFrame.height - 100)
+        convTableHeightAnchor?.isActive = true
+    }
+    
     //MARK: Actions
-    @IBAction func profileButtonPressed(_ sender: UIButton) {
+    @objc func profileButtonPressed(){
         self.searchController.isActive = false
         self.performSegue(withIdentifier: "toMyProfileView", sender: self)
     }
     
-    @IBAction func poolButtonPressed(_ sender: UIButton) {
+    @objc func nebulaButtonPressed(){
         self.performSegue(withIdentifier: "toPools", sender: self)
     }
     
-    @IBAction func editButtonTapped(_ sender: UIButton) {
+    @objc func createMessageButtonTapped() {
         self.performSegue(withIdentifier: "toCreateMessageVC", sender: self)
     }
     
-    @IBAction func addFriendsButtonPressed(_ sender: UIButton) {
+    @objc func addFriendsButtonPressed() {
         let addFriendVC = AddFriendVC()
         addFriendVC.modalPresentationStyle = .overCurrentContext
         self.present(addFriendVC, animated: true, completion: nil)
         
     }
-    
-    @IBAction func secretButtonPressed(_ sender: UIButton) {
-        // Just in case!!!
-        if self.adminUsers.contains(GlobalUser.username){
-            self.performSegue(withIdentifier: "toSecretPage", sender: self)
-        }else{
-            let feedbackVC = FeedbackVC()
-            feedbackVC.modalPresentationStyle = .overCurrentContext
-            self.present(feedbackVC, animated: true, completion: nil)
-        }
-    }
-    
     
     //MARK: Sockets
     func openSocket(completion: () -> Void) {
@@ -407,5 +408,124 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         default:
             print("NOTHING LOL")
         }*/
+    }
+    
+    // MARK: UI Creation
+    // This will be moved into another file soon
+    var convTableHeightAnchor: NSLayoutConstraint?
+    
+    func createConvTable(){
+        convTable = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        convTable.register(UITableViewCell.self, forCellReuseIdentifier: "conversationCell")
+        convTable.dataSource = self
+        convTable.delegate = self
+        convTable.translatesAutoresizingMaskIntoConstraints = false
+        convTable.isScrollEnabled = true
+        
+        self.view.addSubview(convTable)
+        
+        var combinedInsets = self.view.safeAreaInsets.bottom + self.view.safeAreaInsets.top
+        print(combinedInsets)
+        
+        convTable.topAnchor.constraint(equalTo: self.profileButton.bottomAnchor, constant: 2).isActive = true
+        convTable.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1).isActive = true
+        convTable.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.view.safeAreaLayoutGuide.layoutFrame.height - 100)
+        convTableHeightAnchor?.isActive = true
+    }
+    
+    var profileButtonHeightAnchor: NSLayoutConstraint?
+    
+    func createProfileButton(){
+        profileButton = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        
+        profileButton.translatesAutoresizingMaskIntoConstraints = false
+        profileButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        profileButton.backgroundColor = nebulaBlue
+        profileButton.setTitleColor(UIColor.lightGray, for: .highlighted)
+        profileButton.setTitleColor(UIColor.lightGray, for: .disabled)
+        profileButton.layer.cornerRadius = 10
+        profileButton.setTitle("Profile", for: .normal)
+        profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
+        
+        self.view.addSubview(profileButton)
+        
+        profileButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -10).isActive = true
+        profileButtonHeightAnchor = profileButton.heightAnchor.constraint(equalToConstant: 40)
+        profileButtonHeightAnchor?.isActive = true
+        
+        profileButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+        profileButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+    }
+    
+    var bottomBarHeightAnchor: NSLayoutConstraint?
+    
+    func createBottomBar(){
+        bottomBarView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        bottomBarView.backgroundColor = panelColorOne
+        bottomBarView.translatesAutoresizingMaskIntoConstraints = false
+        bottomBarView.layer.borderWidth = 1
+        bottomBarView.layer.borderColor = UIColor.lightGray.cgColor
+        
+        self.view.addSubview(bottomBarView)
+        
+        bottomBarView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        bottomBarView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        bottomBarView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        bottomBarHeightAnchor = bottomBarView.heightAnchor.constraint(equalToConstant: 100)
+        bottomBarHeightAnchor?.isActive = true
+    }
+    
+    
+    func createAddFriendsButton(){
+        addFriendsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        addFriendsButton.translatesAutoresizingMaskIntoConstraints = false
+        if let image = UIImage(named: "GroupAddBlack") {
+            addFriendsButton.setImage(image, for: .normal)
+        }
+        addFriendsButton.addTarget(self, action: #selector(addFriendsButtonPressed), for: .touchUpInside)
+        
+        self.view.addSubview(addFriendsButton)
+        
+        addFriendsButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        addFriendsButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        addFriendsButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
+        addFriendsButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -8).isActive = true
+    }
+    
+    // Lol what a name
+    func createCreateMessageButton(){
+        createMessageButton = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        createMessageButton.translatesAutoresizingMaskIntoConstraints = false
+        if let image = UIImage(named: "EditIconBlack") {
+            createMessageButton.setImage(image, for: .normal)
+        }
+        createMessageButton.addTarget(self, action: #selector(createMessageButtonTapped), for: .touchUpInside)
+        
+        self.view.addSubview(createMessageButton)
+        
+        createMessageButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        createMessageButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        
+        createMessageButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20).isActive = true
+        createMessageButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
+    }
+    
+    func createNebulaButton(){
+        nebulaButton = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        nebulaButton.translatesAutoresizingMaskIntoConstraints = false
+        if let image = UIImage(named: "Logo") {
+            nebulaButton.setImage(image, for: .normal)
+        }
+        nebulaButton.addTarget(self, action: #selector(nebulaButtonPressed), for: .touchUpInside)
+        
+        self.view.addSubview(nebulaButton)
+        
+        nebulaButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        nebulaButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        
+        nebulaButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+        nebulaButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -5).isActive = true
     }
 }

@@ -297,116 +297,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="84F-qO-hTl">
-                                <rect key="frame" x="0.0" y="102" width="375" height="462"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="conversationCell" id="8e1-Dm-TBp">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8e1-Dm-TBp" id="2Xh-xr-ENI">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="Dct-AK-1Jl" id="Uhw-TI-CkT"/>
-                                    <outlet property="delegate" destination="Dct-AK-1Jl" id="h75-Tw-mSo"/>
-                                </connections>
-                            </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ex-ac-enl">
-                                <rect key="frame" x="16" y="-17" width="96" height="96"/>
-                                <state key="normal" image="ProfileBlack"/>
-                                <connections>
-                                    <action selector="profileButtonPressed:" destination="Dct-AK-1Jl" eventType="touchUpInside" id="93X-zC-6Da"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nxg-TI-p1h">
-                                <rect key="frame" x="264" y="-17" width="96" height="96"/>
-                                <state key="normal" image="GroupAddBlack"/>
-                                <connections>
-                                    <action selector="addFriendsButtonPressed:" destination="Dct-AK-1Jl" eventType="touchUpInside" id="Z0p-kf-UcW"/>
-                                </connections>
-                            </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wuL-kE-CKZ" userLabel="BottomView">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wuL-kE-CKZ" userLabel="BottomView">
                                 <rect key="frame" x="0.0" y="561" width="375" height="106"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdT-KG-OF3">
-                                        <rect key="frame" x="147.5" y="13" width="80" height="80"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="vdT-KG-OF3" secondAttribute="height" multiplier="1:1" id="CSI-I6-Zzh"/>
-                                            <constraint firstAttribute="height" constant="80" id="UJr-pX-wXW"/>
-                                            <constraint firstAttribute="width" constant="80" id="fNH-Vm-LVZ"/>
-                                        </constraints>
-                                        <state key="normal" image="Logo"/>
-                                        <connections>
-                                            <action selector="poolButtonPressed:" destination="Dct-AK-1Jl" eventType="touchUpInside" id="fjr-Yt-JYo"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QWM-ZZ-kxX" userLabel="EditButton">
-                                        <rect key="frame" x="271" y="-19" width="96" height="96"/>
-                                        <state key="normal" image="EditIconBlack"/>
-                                        <connections>
-                                            <action selector="editButtonTapped:" destination="Dct-AK-1Jl" eventType="touchUpInside" id="hKP-2M-dyQ"/>
-                                        </connections>
-                                    </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5dN-Jt-BIB">
-                                        <rect key="frame" x="8" y="38" width="45" height="30"/>
-                                        <state key="normal" title="Secret"/>
-                                        <connections>
-                                            <action selector="secretButtonPressed:" destination="Dct-AK-1Jl" eventType="touchUpInside" id="Il1-vO-2nt"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
                                 <color key="backgroundColor" red="0.9774746192893401" green="0.9774746192893401" blue="0.9774746192893401" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="QWM-ZZ-kxX" secondAttribute="trailing" constant="8" id="6Qj-p0-oN1"/>
-                                    <constraint firstItem="5dN-Jt-BIB" firstAttribute="top" secondItem="vdT-KG-OF3" secondAttribute="bottom" constant="-55" id="9Ym-67-B9X"/>
-                                    <constraint firstItem="vdT-KG-OF3" firstAttribute="centerY" secondItem="wuL-kE-CKZ" secondAttribute="centerY" id="QjI-84-w4O"/>
-                                    <constraint firstItem="vdT-KG-OF3" firstAttribute="centerX" secondItem="wuL-kE-CKZ" secondAttribute="centerX" id="g3w-ob-Z3R"/>
-                                    <constraint firstAttribute="bottom" secondItem="QWM-ZZ-kxX" secondAttribute="bottom" constant="29" id="la9-LY-Iaf"/>
-                                </constraints>
                             </view>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pooling isn't available yet!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1D-NU-OIy">
-                                <rect key="frame" x="122.5" y="6.5" width="130" height="49"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="130" id="611-Ov-HO2"/>
-                                    <constraint firstAttribute="height" constant="49" id="Sdg-Ov-c1P"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="wuL-kE-CKZ" firstAttribute="centerX" secondItem="IkH-iS-Txi" secondAttribute="centerX" id="49T-Kh-0HF"/>
-                            <constraint firstItem="84F-qO-hTl" firstAttribute="top" secondItem="nxg-TI-p1h" secondAttribute="bottom" constant="23" id="70j-XL-nFV"/>
-                            <constraint firstItem="84F-qO-hTl" firstAttribute="top" secondItem="8ex-ac-enl" secondAttribute="bottom" constant="23" id="8yc-MV-WHE"/>
-                            <constraint firstItem="IkH-iS-Txi" firstAttribute="trailing" secondItem="nxg-TI-p1h" secondAttribute="trailing" constant="15" id="At9-16-Ag6"/>
-                            <constraint firstItem="IkH-iS-Txi" firstAttribute="bottom" secondItem="84F-qO-hTl" secondAttribute="bottom" constant="103" id="HqZ-QS-gyV"/>
-                            <constraint firstItem="5dN-Jt-BIB" firstAttribute="leading" secondItem="IkH-iS-Txi" secondAttribute="leading" constant="8" id="Mcd-Ix-t4J"/>
-                            <constraint firstItem="8ex-ac-enl" firstAttribute="leading" secondItem="IkH-iS-Txi" secondAttribute="leading" constant="16" id="Rf2-yG-plE"/>
-                            <constraint firstItem="wuL-kE-CKZ" firstAttribute="top" secondItem="84F-qO-hTl" secondAttribute="bottom" constant="-3" id="SZg-Ch-dKx"/>
                             <constraint firstItem="wuL-kE-CKZ" firstAttribute="leading" secondItem="IkH-iS-Txi" secondAttribute="leading" id="ShB-dc-erL"/>
-                            <constraint firstItem="84F-qO-hTl" firstAttribute="centerX" secondItem="IkH-iS-Txi" secondAttribute="centerX" id="bRC-Ex-DhV"/>
                             <constraint firstItem="IkH-iS-Txi" firstAttribute="bottom" secondItem="wuL-kE-CKZ" secondAttribute="bottom" id="dXL-o6-gX6"/>
-                            <constraint firstItem="84F-qO-hTl" firstAttribute="top" secondItem="IkH-iS-Txi" secondAttribute="top" constant="82" id="n3U-wq-mmX"/>
                             <constraint firstItem="IkH-iS-Txi" firstAttribute="trailing" secondItem="wuL-kE-CKZ" secondAttribute="trailing" id="qGP-cA-cLa"/>
-                            <constraint firstItem="x1D-NU-OIy" firstAttribute="centerX" secondItem="IkH-iS-Txi" secondAttribute="centerX" id="qkd-YR-CKC"/>
-                            <constraint firstItem="x1D-NU-OIy" firstAttribute="centerY" secondItem="8ex-ac-enl" secondAttribute="centerY" id="sdh-QP-oBM"/>
-                            <constraint firstItem="IkH-iS-Txi" firstAttribute="trailing" secondItem="84F-qO-hTl" secondAttribute="trailing" id="tZd-lA-VE1"/>
-                            <constraint firstItem="84F-qO-hTl" firstAttribute="leading" secondItem="IkH-iS-Txi" secondAttribute="leading" id="wfV-0T-umu"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="IkH-iS-Txi"/>
                     </view>
                     <connections>
-                        <outlet property="addFriendsButton" destination="nxg-TI-p1h" id="RU8-6l-653"/>
-                        <outlet property="convTable" destination="84F-qO-hTl" id="6aJ-NP-yMr"/>
-                        <outlet property="featureMessageLabel" destination="x1D-NU-OIy" id="2LO-bg-AO2"/>
-                        <outlet property="poolButton" destination="vdT-KG-OF3" id="BJS-9q-AOE"/>
-                        <outlet property="secretButton" destination="5dN-Jt-BIB" id="4VM-09-l7g"/>
                         <segue destination="eE2-x0-ebg" kind="presentation" identifier="toMessengerVC" modalTransitionStyle="coverVertical" id="yme-gr-eOF"/>
                         <segue destination="D5I-AV-VyX" kind="presentation" identifier="toMyProfileView" id="MYK-A4-raN"/>
                         <segue destination="4wp-jj-STV" kind="presentation" identifier="toPools" modalTransitionStyle="flipHorizontal" id="lUE-Kz-Wye"/>
@@ -604,10 +509,6 @@
     <resources>
         <image name="BackArrowBlack" width="96" height="96"/>
         <image name="BlackX" width="96" height="96"/>
-        <image name="EditIconBlack" width="96" height="96"/>
-        <image name="GroupAddBlack" width="96" height="96"/>
-        <image name="Logo" width="384" height="384"/>
-        <image name="ProfileBlack" width="96" height="96"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="yme-gr-eOF"/>

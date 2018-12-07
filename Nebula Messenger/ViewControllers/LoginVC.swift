@@ -66,7 +66,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             UserRoutes.sendLogin(username: username, password: password){success in
                 if success.success!{
                     UserRoutes.getFriendsAndConversations {
-                        print(GlobalUser.conversations)
                         Messaging.messaging().subscribe(toTopic: GlobalUser.username) { error in
                             print("Subscribed to " + GlobalUser.username)
                         }
@@ -157,8 +156,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                     UserDefaults.standard.set(true, forKey: "isLoggedIn")
                     UserRoutes.getFriendsAndConversations {
                         print(GlobalUser.conversations)
-                        Messaging.messaging().subscribe(toTopic: GlobalUser.username) { error in
-                            print("Subscribed to " + GlobalUser.username)
+                        
+                        Messaging.messaging().subscribe(toTopic: usernameText!) { error in
+                            print("Subscribed to " + usernameText!)
                         }
                         self.usernameTextField.text = ""
                         self.passwordTextField.text = ""
