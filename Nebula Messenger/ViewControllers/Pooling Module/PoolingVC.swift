@@ -253,7 +253,7 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         self.view.addSubview(poolTable)
         
         poolTable.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        poolTable.topAnchor.constraint(equalTo: topView.mapView.bottomAnchor, constant: -40).isActive = true
+        poolTable.topAnchor.constraint(equalTo: topView.mapView.bottomAnchor, constant: -20).isActive = true
         poolTable.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.50).isActive = true
         poolTable.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         

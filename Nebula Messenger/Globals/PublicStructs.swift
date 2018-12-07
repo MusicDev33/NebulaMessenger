@@ -12,7 +12,7 @@ import UIKit
 // UI Colors
 let borderColorOne = UIColor(red: 199/255, green: 210/255, blue: 229/255, alpha: 1)
 
-let panelColorOne = UIColor(red: 235/255, green: 235/255, blue: 240/255, alpha: 1)
+let panelColorOne = UIColor(red: 220/255, green: 220/255, blue: 225/255, alpha: 1)
 
 // Main Colors
 let nebulaPurple = UIColor(red: 198/255, green: 65/255, blue: 168/255, alpha: 1)

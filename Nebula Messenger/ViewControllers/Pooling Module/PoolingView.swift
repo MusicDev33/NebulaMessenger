@@ -11,6 +11,7 @@ import MapKit
 
 class PoolingView: UIView {
     let buttonHeight = CGFloat(30)
+    let buttonBGHeight = CGFloat(40)
     
     var mapView: MKMapView = {
         let map = MKMapView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -67,11 +68,11 @@ class PoolingView: UIView {
         mapView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         mapView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         mapView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        mapViewHeightAnchor = mapView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.85)
+        mapViewHeightAnchor = mapView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor, multiplier: 0.85)
         mapViewHeightAnchor?.isActive = true
         
-        backButtonBackground.widthAnchor.constraint(equalToConstant: buttonHeight+10).isActive = true
-        backButtonBackground.heightAnchor.constraint(equalToConstant: buttonHeight+10).isActive = true
+        backButtonBackground.widthAnchor.constraint(equalToConstant: buttonBGHeight).isActive = true
+        backButtonBackground.heightAnchor.constraint(equalToConstant: buttonBGHeight).isActive = true
         
         bButtonBgX = backButtonBackground.centerXAnchor.constraint(equalTo: leftAnchor, constant: 30)
         bButtonBgX?.isActive = true
@@ -89,6 +90,13 @@ class PoolingView: UIView {
     
     func draggedCircle(x: CGFloat, y: CGFloat){
         bButtonBgX?.constant += x
-        bButtonBgY?.constant += y
+        
+        let insetsTotal = self.safeAreaInsets.top
+        
+        if (bButtonBgY?.constant)! + y + (buttonBGHeight/2) + insetsTotal + 20 > self.safeAreaLayoutGuide.layoutFrame.size.height * 0.85{
+            
+        }else{
+            bButtonBgY?.constant += y
+        }
     }
 }
