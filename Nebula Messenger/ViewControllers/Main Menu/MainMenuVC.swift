@@ -492,7 +492,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         bottomBarView.backgroundColor = panelColorTwo
         bottomBarView.translatesAutoresizingMaskIntoConstraints = false
         bottomBarView.layer.borderWidth = 1
-        bottomBarView.layer.borderColor = UIColor.lightGray.cgColor
+        bottomBarView.layer.borderColor = panelColorOne.cgColor
         bottomBarView.alpha = 0.95
         
         self.view.addSubview(bottomBarView)

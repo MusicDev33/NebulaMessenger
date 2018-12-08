@@ -11,7 +11,7 @@ import Alamofire
 
 class PoolRoutes{
     
-    static func createPool(name: String, coords: [Double], completion:@escaping () -> ()){
+    static func createPool(name: String, coords: [Double], completion:@escaping (PublicPool) -> ()){
         let url = URL(string: createPoolRoute)
         var requestJson = [String:Any]()
         requestJson["coordinates"] = [coords[0], coords[1]]
@@ -28,10 +28,27 @@ class PoolRoutes{
                     let jsonObject = JSON(Json)
                     print("DELETING")
                     print(jsonObject)
-                    completion()
+                    
+                    var doubleList = [Double]()
+                    doubleList.append(jsonObject["pool"]["coordinates"][0].doubleValue)
+                    doubleList.append(jsonObject["pool"]["coordinates"][1].doubleValue)
+                    
+                    var usersList = [String]()
+                    let count = jsonObject["pool"]["usersConnected"].count
+                    for i in stride(from: 0, to: count, by: 1) {
+                        usersList.append(jsonObject["pool"]["usersConnected"][i].string!)
+                    }
+                    
+                    let tempPool = PublicPool(coordinates: doubleList,
+                                              poolId: jsonObject["pool"]["poolId"].string!,
+                                              name: jsonObject["pool"]["name"].string!,
+                                              creator: jsonObject["pool"]["creator"].string!,
+                                              connectionLimit: jsonObject["pool"]["connectionLimit"].int!,
+                                              usersConnected: usersList)
+                    
+                    completion(tempPool)
                 case .failure(_):
                     print("Not working!")
-                    completion()
                 }
             })
         }catch{

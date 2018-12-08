@@ -68,8 +68,8 @@ class PoolingView: UIView {
     func layoutMapView(){
         mapView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         mapView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        mapView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        mapViewHeightAnchor = mapView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor, multiplier: 0.85)
+        mapView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
+        mapViewHeightAnchor = mapView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor, multiplier: 1)
         mapViewHeightAnchor?.isActive = true
         
         backButtonBackground.widthAnchor.constraint(equalToConstant: buttonBGHeight).isActive = true

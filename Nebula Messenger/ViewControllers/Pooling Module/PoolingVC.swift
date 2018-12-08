@@ -96,6 +96,17 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.poolTablePopup()
+        if UserDefaults.standard.string(forKey: "poolsIntroduced") != nil{
+            
+        }else{
+            Alert.basicAlert(on: self, with: "Nebula Pooling System", message: "Hold anywhere on the screen to create a pool. Once created, anyone within that GPS radius can chat into that pool")
+            UserDefaults.standard.set("yes", forKey: "poolsIntroduced")
+        }
+    }
+    
     @objc func draggedMap(gesture: UIPanGestureRecognizer){
         if (gesture.state == UIGestureRecognizer.State.ended){
             self.shouldCenter = false
@@ -223,6 +234,18 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
                     if completed{
                         self.mapView.removeAnnotation(view.annotation!)
                         self.mapView.removeOverlay(poolAnnotation.circle)
+                        if let index = self.poolsInArea.index(where: { $0.poolId == poolAnnotation.id }) {
+                            
+                            // removing item
+                            self.poolsInArea.remove(at: index)
+                        }
+                        
+                        if let index = self.currentPools.index(where: { $0.poolId == poolAnnotation.id }) {
+                            
+                            // removing item
+                            self.currentPools.remove(at: index)
+                        }
+                        self.poolTable.reloadData()
                     }
                 }
             }
@@ -232,9 +255,12 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     // Set up the Pool Table (Funny joke haha)
     // I guess it's actually a collectionview, not a tableview
     // Oh well
+    
+    var poolTableTopAnchor: NSLayoutConstraint?
+    
     func setupPoolTable(){
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 8, left: 0, bottom: 4, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 8, left: 0, bottom: 28, right: 0)
         layout.itemSize = CGSize(width: view.frame.width-20, height: 50)
         layout.scrollDirection = .vertical
         
@@ -253,10 +279,29 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         self.view.addSubview(poolTable)
         
         poolTable.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        poolTable.topAnchor.constraint(equalTo: topView.mapView.bottomAnchor, constant: -20).isActive = true
-        poolTable.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.50).isActive = true
+        poolTableTopAnchor = poolTable.topAnchor.constraint(equalTo: topView.mapView.bottomAnchor, constant: 100)
+        poolTableTopAnchor?.isActive = true
+        poolTable.heightAnchor.constraint(equalToConstant: 150).isActive = true
         poolTable.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        
+    }
+    
+    func poolTablePopup(){
+        poolTableTopAnchor?.constant = -150
+        UIView.animate(withDuration: 0.2, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: { completion in
+            self.view.layoutIfNeeded()
+            self.poolTableTopAnchor?.constant = -125
+            UIView.animate(withDuration: 0.15, animations: {
+                self.view.layoutIfNeeded()
+            }, completion: {_ in
+                self.view.layoutIfNeeded()
+                self.poolTableTopAnchor?.constant = -130
+                UIView.animate(withDuration: 0.05, animations: {
+                    self.view.layoutIfNeeded()
+                })
+            })
+        })
     }
     
     
@@ -307,12 +352,24 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
             let textField = alert!.textFields![0] // Force unwrapping because we know it exists.
             print("Text field: \(textField.text ?? "Error: No Text Found")")
             annotation.title = textField.text
-            PoolRoutes.createPool(name: textField.text!, coords: [annotation.coordinate.latitude, annotation.coordinate.longitude]){
+            PoolRoutes.createPool(name: textField.text!, coords: [annotation.coordinate.latitude, annotation.coordinate.longitude]){pool in
                 
-                let coordinate = CLLocationCoordinate2D(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
+                //let circle = MKCircle(center: coordinate, radius: CLLocationDistance(self.defaultRadius))
+                //self.mapView.addOverlay(circle)
+                //self.mapView.addAnnotation(annotation)
                 
-                let circle = MKCircle(center: coordinate, radius: CLLocationDistance(self.defaultRadius))
-                self.mapView.addOverlay(circle)
+                print("POOLTHING")
+                print(pool)
+                self.poolsInArea.append(pool)
+                let annotation = PoolAnnotation()
+                let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
+                annotation.coordinate = coordinate
+                annotation.circle = MKCircle(center: coordinate, radius: CLLocationDistance(self.defaultRadius))
+                self.mapView.addOverlay(annotation.circle)
+                annotation.title = pool.name
+                annotation.subtitle = pool.creator
+                annotation.imageName = "CloudCircle"
+                annotation.id = pool.poolId
                 self.mapView.addAnnotation(annotation)
             }
             
