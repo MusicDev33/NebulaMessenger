@@ -10,38 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--SecretVC-->
-        <scene sceneID="dkT-3X-3P9">
-            <objects>
-                <viewController id="nq3-BS-GYs" customClass="SecretVC" customModule="Nebula_Messenger" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="npB-2X-vaj">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q4b-oJ-aDU">
-                                <rect key="frame" x="16" y="20" width="96" height="96"/>
-                                <state key="normal" image="BackArrowBlack"/>
-                                <connections>
-                                    <action selector="backButtonPressed:" destination="nq3-BS-GYs" eventType="touchUpInside" id="WmY-Re-Cai"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="Q4b-oJ-aDU" firstAttribute="top" secondItem="u4R-r0-PDR" secondAttribute="top" id="Gdv-3G-naf"/>
-                            <constraint firstItem="Q4b-oJ-aDU" firstAttribute="leading" secondItem="u4R-r0-PDR" secondAttribute="leading" constant="16" id="XwV-6f-rjQ"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="u4R-r0-PDR"/>
-                    </view>
-                    <connections>
-                        <segue destination="ULJ-7n-cen" kind="unwind" identifier="toMainMenuFromSecretView" unwindAction="didUnwindToMainMenu:" id="8HO-94-xSU"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cAw-fu-rxk" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="ULJ-7n-cen" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="1129" y="-672"/>
-        </scene>
         <!--Create MessageVC-->
         <scene sceneID="6fb-Ta-ePI">
             <objects>
@@ -136,7 +104,6 @@
                         <segue destination="570-TN-nis" kind="presentation" identifier="toMyProfileView" id="Vgc-oV-EE8"/>
                         <segue destination="vN5-AL-fi4" kind="presentation" identifier="toPools" modalTransitionStyle="flipHorizontal" id="sJP-PW-qer"/>
                         <segue destination="rmG-t5-B3m" kind="presentation" identifier="toCreateMessageVC" id="rdi-Wh-Mde"/>
-                        <segue destination="nq3-BS-GYs" kind="presentation" identifier="toSecretPage" id="3eq-V5-iX2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gLP-Xw-Q6s" userLabel="First Responder" sceneMemberID="firstResponder"/>
