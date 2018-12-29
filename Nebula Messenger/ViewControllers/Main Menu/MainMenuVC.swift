@@ -377,12 +377,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 self.present(feedbackVC, animated: true, completion: nil)
             }))
             
-            if self.adminUsers.contains(GlobalUser.username){
-                alert.addAction(UIAlertAction(title: "Secret Page", style: .default, handler: {action in
-                    self.performSegue(withIdentifier: "toSecretPage", sender: self)
-                }))
-            }
-            
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
                 
             }))

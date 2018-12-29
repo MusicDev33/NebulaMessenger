@@ -51,7 +51,6 @@
 		1FA20BD721915671007317B5 /* MessengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BD621915671007317B5 /* MessengerView.swift */; };
 		1FAF4D0521B10E8100843C89 /* BluetoothVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF4D0421B10E8100843C89 /* BluetoothVC.swift */; };
 		1FAF4D0821B4FF6100843C89 /* AlertBP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF4D0721B4FF6100843C89 /* AlertBP.swift */; };
-		1FE4F0F721685E4F00E4EF72 /* SecretVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
 		1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */; };
@@ -132,7 +131,6 @@
 		1FA20BD621915671007317B5 /* MessengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerView.swift; sourceTree = "<group>"; };
 		1FAF4D0421B10E8100843C89 /* BluetoothVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothVC.swift; sourceTree = "<group>"; };
 		1FAF4D0721B4FF6100843C89 /* AlertBP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBP.swift; sourceTree = "<group>"; };
-		1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretVC.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
 		1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
@@ -291,7 +289,6 @@
 			children = (
 				1F8A3A8D21BA24AA008E42DB /* Main Menu */,
 				1FA20BCD21901D4F007317B5 /* Messenger Module */,
-				1FE4F0F621685E4F00E4EF72 /* SecretVC.swift */,
 				1F68B2BC2152DD1300DC9525 /* RegisterVC.swift */,
 				1F68B2692152227F00DC9525 /* LoginVC.swift */,
 				1F76C7DB215899B500EB6C8C /* MyProfileVC.swift */,
@@ -668,7 +665,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FE4F0F721685E4F00E4EF72 /* SecretVC.swift in Sources */,
 				1F7E94BE2199BBAF00AA5715 /* PoolChatView.swift in Sources */,
 				1F68B2A02152258400DC9525 /* SwiftyJSON.swift in Sources */,
 				1F68B2B22152751700DC9525 /* Routes.swift in Sources */,
