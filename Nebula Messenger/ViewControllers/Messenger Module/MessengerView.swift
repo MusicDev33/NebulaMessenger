@@ -457,7 +457,7 @@ class MessengerView: UIView {
             self.grabCircle.backgroundColor = nebulaPurple
             self.bottomBar.layer.cornerRadius = 0
             self.bottomBarActionButton.alpha = 0
-            self.bottomBar.alpha = 0.2
+            self.bottomBar.alpha = 1
             self.sendButton.alpha = 1
             self.grabCircle.alpha = 1
             self.closeButton.alpha = 1

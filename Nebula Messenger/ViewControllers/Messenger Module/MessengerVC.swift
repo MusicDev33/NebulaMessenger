@@ -454,7 +454,11 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             UIView.animate(withDuration: keyboardDuration){
                 self.view.layoutIfNeeded()
             }
-            newView.moveWithKeyboard(yValue: keyboardSize.height, duration: keyboardDuration)
+            
+            let safeAreaBottomInset = self.view.safeAreaInsets.bottom
+            print("SAFE")
+            print(safeAreaBottomInset)
+            newView.moveWithKeyboard(yValue: keyboardSize.height - safeAreaBottomInset, duration: keyboardDuration)
         }
         self.keyboardIsUp = true
     }
