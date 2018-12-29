@@ -35,6 +35,9 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     
     var testPool = PublicPool(coordinates: [0, 0], poolId: "testpool;;;", name: "Test Pool", creator: "MusicDev", connectionLimit: 50, usersConnected: [String]())
     
+    var exitSign: UIImageView!
+    var exitSignBg: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -258,6 +261,12 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     
     var poolTableTopAnchor: NSLayoutConstraint?
     
+    var exitSignWidthAnchor:NSLayoutConstraint?
+    var exitSignHeightAnchor: NSLayoutConstraint?
+    
+    var exitBgWidthAnchor: NSLayoutConstraint?
+    var exitBgHeightAnchor: NSLayoutConstraint?
+    
     func setupPoolTable(){
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 8, left: 0, bottom: 28, right: 0)
@@ -278,11 +287,37 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         poolTable.layer.cornerRadius = 16
         self.view.addSubview(poolTable)
         
+        exitSign = UIImageView(image: UIImage(named: "BlackX"))
+        exitSignBg = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        exitSignBg.layer.cornerRadius = 0
+        exitSignBg.backgroundColor = panelColorTwo
+        exitSign.translatesAutoresizingMaskIntoConstraints = false
+        exitSignBg.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(exitSignBg)
+        self.view.addSubview(exitSign)
+        
         poolTable.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         poolTableTopAnchor = poolTable.topAnchor.constraint(equalTo: topView.mapView.bottomAnchor, constant: 100)
         poolTableTopAnchor?.isActive = true
         poolTable.heightAnchor.constraint(equalToConstant: 150).isActive = true
         poolTable.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        
+        exitSignWidthAnchor = exitSign.widthAnchor.constraint(equalToConstant: 0)
+        exitSignWidthAnchor?.isActive = true
+        exitSignHeightAnchor = exitSign.heightAnchor.constraint(equalToConstant: 0)
+        exitSignHeightAnchor?.isActive = true
+        
+        self.exitSign.rightAnchor.constraint(equalTo: self.poolTable.rightAnchor, constant: -8).isActive = true
+        self.exitSign.topAnchor.constraint(equalTo: self.poolTable.topAnchor, constant: 8).isActive = true
+        
+        exitBgWidthAnchor = exitSignBg.widthAnchor.constraint(equalToConstant: 0)
+        exitBgWidthAnchor?.isActive = true
+        exitBgHeightAnchor = exitSignBg.heightAnchor.constraint(equalToConstant: 0)
+        exitBgHeightAnchor?.isActive = true
+        
+        exitSignBg.centerXAnchor.constraint(equalTo: exitSign.centerXAnchor).isActive = true
+        exitSignBg.centerYAnchor.constraint(equalTo: exitSign.centerYAnchor).isActive = true
+        
     }
     
     func poolTablePopup(){
@@ -322,6 +357,17 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         PoolRoutes.getPoolMessages(id: self.passPoolId){messagesList in
             self.passPoolMessages = messagesList
             self.performSegue(withIdentifier: "toPoolChat", sender: self)
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y >= CGFloat(-40) && scrollView.contentOffset.y <= 0{
+            exitSignWidthAnchor?.constant = -1 * scrollView.contentOffset.y
+            exitSignHeightAnchor?.constant = -1 * scrollView.contentOffset.y
+            
+            exitBgWidthAnchor?.constant = -1 * scrollView.contentOffset.y
+            exitBgHeightAnchor?.constant = -1 * scrollView.contentOffset.y
+            
         }
     }
     

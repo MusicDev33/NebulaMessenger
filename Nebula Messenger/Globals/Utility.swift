@@ -15,8 +15,6 @@ class Utility {
         print(json)
         var tempList = [String]()
         for (_, val) in json{
-            print("Array!!!!!!!!")
-            print(val)
             if let object = val.string {
                 tempList.append(object)
             }
