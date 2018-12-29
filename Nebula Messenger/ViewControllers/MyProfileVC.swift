@@ -78,7 +78,7 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             UserDefaults.standard.set("", forKey: "username")
             UserDefaults.standard.set("", forKey: "password")
             UserDefaults.standard.set(false, forKey: "isLoggedIn")
-            self.performSegue(withIdentifier: "toLoginFromProfileView", sender: self)
+            self.performSegue(withIdentifier: "toLoginFromMainSB", sender: self)
         }))
         alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: {action in
             

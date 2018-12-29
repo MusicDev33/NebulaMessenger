@@ -38,6 +38,8 @@ class UserRoutes{
                     if (jObj["success"] == true){
                         //print("true")
                         GlobalUser.username = jObj["user"]["username"].stringValue
+                        print("HEY")
+                        print(GlobalUser.username)
                         GlobalUser.name = jObj["user"]["name"].stringValue
                         GlobalUser.email = jObj["user"]["email"].stringValue
                         GlobalUser.friends = Utility.toArray(json: jObj["user"]["friends"])
@@ -114,6 +116,8 @@ class UserRoutes{
                     if (jObj["success"] == true){
                         //print("true")
                         GlobalUser.username = jObj["user"]["username"].stringValue
+                        print("HEY")
+                        print(GlobalUser.username)
                         GlobalUser.name = jObj["user"]["name"].stringValue
                         GlobalUser.email = jObj["user"]["email"].stringValue
                         GlobalUser.friends = Utility.toArray(json: jObj["user"]["friends"])

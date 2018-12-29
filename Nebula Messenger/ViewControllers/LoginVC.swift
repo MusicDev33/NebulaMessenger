@@ -76,7 +76,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         self.loginButtonOutlet.isHidden = false
                         self.goToRegisterButton.isHidden = false
                         
-                        self.performSegue(withIdentifier: "toMainMenuVC", sender: self)
+                        self.performSegue(withIdentifier: "toAppSB", sender: self)
                     }
                     
                 }else{
@@ -137,7 +137,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         self.loginButtonOutlet.isHidden = false
                         self.goToRegisterButton.isHidden = false
                         
-                        self.performSegue(withIdentifier: "toMainMenuVC", sender: self)
+                        self.performSegue(withIdentifier: "toAppSB", sender: self)
                     }
                 }else{
                     self.serverMessageLabel.text = success.message
@@ -151,12 +151,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         }else{
             UserRoutes.sendLogin(username: usernameText!, password: passwordText!){success in
                 if success.success!{
+                    print(usernameText)
                     UserDefaults.standard.set(usernameText, forKey: "username")
                     UserDefaults.standard.set(passwordText, forKey: "password")
                     UserDefaults.standard.set(true, forKey: "isLoggedIn")
                     UserRoutes.getFriendsAndConversations {
-                        print(GlobalUser.conversations)
-                        
                         Messaging.messaging().subscribe(toTopic: usernameText!) { error in
                             print("Subscribed to " + usernameText!)
                         }
@@ -167,7 +166,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         self.loginButtonOutlet.isHidden = false
                         self.goToRegisterButton.isHidden = false
                         
-                        self.performSegue(withIdentifier: "toMainMenuVC", sender: self)
+                        self.performSegue(withIdentifier: "toAppSB", sender: self)
                     }
                 }else{
                     self.serverMessageLabel.text = success.message

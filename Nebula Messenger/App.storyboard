@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4HH-lX-Qm4">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--SecretVC-->
+        <scene sceneID="dkT-3X-3P9">
+            <objects>
+                <viewController id="nq3-BS-GYs" customClass="SecretVC" customModule="Nebula_Messenger" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="npB-2X-vaj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q4b-oJ-aDU">
+                                <rect key="frame" x="16" y="20" width="96" height="96"/>
+                                <state key="normal" image="BackArrowBlack"/>
+                                <connections>
+                                    <action selector="backButtonPressed:" destination="nq3-BS-GYs" eventType="touchUpInside" id="WmY-Re-Cai"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Q4b-oJ-aDU" firstAttribute="top" secondItem="u4R-r0-PDR" secondAttribute="top" id="Gdv-3G-naf"/>
+                            <constraint firstItem="Q4b-oJ-aDU" firstAttribute="leading" secondItem="u4R-r0-PDR" secondAttribute="leading" constant="16" id="XwV-6f-rjQ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="u4R-r0-PDR"/>
+                    </view>
+                    <connections>
+                        <segue destination="ULJ-7n-cen" kind="unwind" identifier="toMainMenuFromSecretView" unwindAction="didUnwindToMainMenu:" id="8HO-94-xSU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cAw-fu-rxk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="ULJ-7n-cen" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1129" y="-672"/>
+        </scene>
+        <!--Create MessageVC-->
+        <scene sceneID="6fb-Ta-ePI">
+            <objects>
+                <viewController id="rmG-t5-B3m" customClass="CreateMessageVC" customModule="Nebula_Messenger" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="581-ik-m2x">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LaC-jB-gvU" userLabel="ExitButton">
+                                <rect key="frame" x="16" y="20" width="96" height="96"/>
+                                <state key="normal" image="BlackX"/>
+                                <connections>
+                                    <action selector="xButtonPressed:" destination="rmG-t5-B3m" eventType="touchUpInside" id="atl-Mt-VL6"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tqq-3V-FCn">
+                                <rect key="frame" x="0.0" y="94" width="375" height="518"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="mainCell" id="HUw-aW-Iz3">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HUw-aW-Iz3" id="fn9-fM-VMd">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="rmG-t5-B3m" id="wTf-jV-4Ff"/>
+                                    <outlet property="delegate" destination="rmG-t5-B3m" id="ALh-wz-dBR"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tid-F4-RjA">
+                                <rect key="frame" x="279" y="26" width="80" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Continue"/>
+                                <connections>
+                                    <action selector="continueButtonPressed:" destination="rmG-t5-B3m" eventType="touchUpInside" id="X6B-ef-yzg"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="LaC-jB-gvU" firstAttribute="top" secondItem="xjY-2i-uk4" secondAttribute="top" id="3zk-16-sa5"/>
+                            <constraint firstItem="xjY-2i-uk4" firstAttribute="trailing" secondItem="tqq-3V-FCn" secondAttribute="trailing" id="FcD-dG-1eV"/>
+                            <constraint firstItem="Tid-F4-RjA" firstAttribute="top" secondItem="xjY-2i-uk4" secondAttribute="top" constant="6" id="HiE-yT-rLn"/>
+                            <constraint firstItem="xjY-2i-uk4" firstAttribute="bottom" secondItem="tqq-3V-FCn" secondAttribute="bottom" constant="55" id="Urh-PU-h4X"/>
+                            <constraint firstItem="xjY-2i-uk4" firstAttribute="trailing" secondItem="Tid-F4-RjA" secondAttribute="trailing" constant="16" id="eEg-NY-Ypc"/>
+                            <constraint firstItem="tqq-3V-FCn" firstAttribute="leading" secondItem="xjY-2i-uk4" secondAttribute="leading" id="ePF-MT-SbR"/>
+                            <constraint firstItem="tqq-3V-FCn" firstAttribute="top" secondItem="xjY-2i-uk4" secondAttribute="top" constant="74" id="gDW-Zw-gLu"/>
+                            <constraint firstItem="LaC-jB-gvU" firstAttribute="leading" secondItem="xjY-2i-uk4" secondAttribute="leading" constant="16" id="jUx-6r-0zy"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="xjY-2i-uk4"/>
+                    </view>
+                    <connections>
+                        <outlet property="continueButton" destination="Tid-F4-RjA" id="3kY-0t-CvC"/>
+                        <outlet property="mainTable" destination="tqq-3V-FCn" id="zSP-AJ-fgI"/>
+                        <segue destination="ex6-mi-mhv" kind="unwind" identifier="toMainMenuFromCreateMessage" unwindAction="didUnwindToMainMenu:" id="y13-Aa-eg2"/>
+                        <segue destination="5bA-Vq-T3B" kind="presentation" identifier="toMessengerVCFromCreate" id="QZM-P9-7XR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cfp-Zu-Nqt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="ex6-mi-mhv" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="328.80000000000001" y="-672.41379310344837"/>
+        </scene>
+        <!--Main MenuVC-->
+        <scene sceneID="cAA-bw-knd">
+            <objects>
+                <viewController storyboardIdentifier="MainMenuVC" id="60c-N5-mJj" customClass="MainMenuVC" customModule="Nebula_Messenger" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ipE-Ke-IsV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b6m-2P-gek" userLabel="BottomView">
+                                <rect key="frame" x="0.0" y="561" width="375" height="106"/>
+                                <color key="backgroundColor" red="0.97747461930000001" green="0.97747461930000001" blue="0.97747461930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="b6m-2P-gek" firstAttribute="leading" secondItem="DLX-vH-sMH" secondAttribute="leading" id="oAo-DB-v0N"/>
+                            <constraint firstItem="DLX-vH-sMH" firstAttribute="bottom" secondItem="b6m-2P-gek" secondAttribute="bottom" id="qSJ-m2-f1i"/>
+                            <constraint firstItem="b6m-2P-gek" firstAttribute="centerX" secondItem="DLX-vH-sMH" secondAttribute="centerX" id="vFV-S4-J75"/>
+                            <constraint firstItem="DLX-vH-sMH" firstAttribute="trailing" secondItem="b6m-2P-gek" secondAttribute="trailing" id="z7o-dr-rbL"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="DLX-vH-sMH"/>
+                    </view>
+                    <connections>
+                        <segue destination="5bA-Vq-T3B" kind="presentation" identifier="toMessengerVC" modalTransitionStyle="coverVertical" id="sfY-Y0-IdR"/>
+                        <segue destination="570-TN-nis" kind="presentation" identifier="toMyProfileView" id="Vgc-oV-EE8"/>
+                        <segue destination="vN5-AL-fi4" kind="presentation" identifier="toPools" modalTransitionStyle="flipHorizontal" id="sJP-PW-qer"/>
+                        <segue destination="rmG-t5-B3m" kind="presentation" identifier="toCreateMessageVC" id="rdi-Wh-Mde"/>
+                        <segue destination="nq3-BS-GYs" kind="presentation" identifier="toSecretPage" id="3eq-V5-iX2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gLP-Xw-Q6s" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="984.79999999999995" y="124.58770614692655"/>
+        </scene>
+        <!--LoginVC-->
+        <scene sceneID="r4l-0m-9Q0">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="LoginVC" id="wik-QA-5qc" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vnn-JM-Rfm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="481" y="1340"/>
+        </scene>
+        <!--My ProfileVC-->
+        <scene sceneID="X6B-bZ-sgN">
+            <objects>
+                <viewController id="570-TN-nis" customClass="MyProfileVC" customModule="Nebula_Messenger" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KUA-uD-E6H">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="46T-J0-yV2">
+                                <rect key="frame" x="147.5" y="313.5" width="80" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="Log Out"/>
+                                <connections>
+                                    <action selector="logoutButtonPressed:" destination="570-TN-nis" eventType="touchUpInside" id="iAa-8C-4Ml"/>
+                                    <segue destination="wik-QA-5qc" kind="show" identifier="toLoginFromMainSB" id="Hz9-J6-T7z"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="03m-Gf-ban" userLabel="Back Button">
+                                <rect key="frame" x="15" y="11" width="96" height="96"/>
+                                <state key="normal" image="BackArrowBlack"/>
+                                <connections>
+                                    <action selector="backButtonPressed:" destination="570-TN-nis" eventType="touchUpInside" id="JMz-Rf-Wbw"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Text Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LFm-4H-94a">
+                                <rect key="frame" x="129" y="89" width="117" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Other Text Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TqV-cX-uAR">
+                                <rect key="frame" x="124.5" y="402.5" width="126" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Mhl-5F-0ej">
+                                <rect key="frame" x="67" y="141" width="240" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="fJq-z1-sH6"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8NN-0v-CBw">
+                                    <size key="itemSize" width="50" height="51"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="colorCell" id="kle-Lu-gDZ" customClass="ColorCell" customModule="Nebula_Messenger" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="-0.5" width="50" height="51"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="51"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="570-TN-nis" id="8hg-7N-u92"/>
+                                    <outlet property="delegate" destination="570-TN-nis" id="fX4-U9-LWq"/>
+                                </connections>
+                            </collectionView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mrL-AD-Fqz">
+                                <rect key="frame" x="68" y="462" width="239" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="RFi-gW-Uys"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="byW-rH-EGG">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="colorCell" id="H8G-cI-UUw" customClass="ColorCell" customModule="Nebula_Messenger" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="570-TN-nis" id="ET9-a8-NRI"/>
+                                    <outlet property="delegate" destination="570-TN-nis" id="nqX-9z-LR5"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="mrL-AD-Fqz" firstAttribute="centerX" secondItem="i4U-bZ-64n" secondAttribute="centerX" id="6HD-k6-xed"/>
+                            <constraint firstItem="i4U-bZ-64n" firstAttribute="bottom" secondItem="TqV-cX-uAR" secondAttribute="bottom" constant="244" id="8mR-4L-yoz"/>
+                            <constraint firstItem="46T-J0-yV2" firstAttribute="centerX" secondItem="KUA-uD-E6H" secondAttribute="centerX" id="CNH-LG-WrM"/>
+                            <constraint firstItem="i4U-bZ-64n" firstAttribute="top" secondItem="03m-Gf-ban" secondAttribute="top" constant="9" id="Egg-he-5j3"/>
+                            <constraint firstItem="LFm-4H-94a" firstAttribute="centerX" secondItem="i4U-bZ-64n" secondAttribute="centerX" id="FzH-NA-thU"/>
+                            <constraint firstItem="i4U-bZ-64n" firstAttribute="trailing" secondItem="mrL-AD-Fqz" secondAttribute="trailing" constant="68" id="G5x-XE-TiO"/>
+                            <constraint firstItem="LFm-4H-94a" firstAttribute="top" secondItem="i4U-bZ-64n" secondAttribute="top" constant="69" id="Jit-uc-aon"/>
+                            <constraint firstItem="TqV-cX-uAR" firstAttribute="centerX" secondItem="i4U-bZ-64n" secondAttribute="centerX" id="UKB-ad-JrB"/>
+                            <constraint firstItem="Mhl-5F-0ej" firstAttribute="leading" secondItem="i4U-bZ-64n" secondAttribute="leading" constant="67" id="aLc-aj-iBx"/>
+                            <constraint firstItem="i4U-bZ-64n" firstAttribute="bottom" secondItem="mrL-AD-Fqz" secondAttribute="bottom" constant="155" id="cR6-H4-UTf"/>
+                            <constraint firstItem="mrL-AD-Fqz" firstAttribute="leading" secondItem="i4U-bZ-64n" secondAttribute="leading" constant="68" id="gfB-5E-GMc"/>
+                            <constraint firstItem="Mhl-5F-0ej" firstAttribute="top" secondItem="i4U-bZ-64n" secondAttribute="top" constant="121" id="l6g-WN-2PU"/>
+                            <constraint firstItem="46T-J0-yV2" firstAttribute="centerY" secondItem="KUA-uD-E6H" secondAttribute="centerY" id="mDF-ya-GMW"/>
+                            <constraint firstItem="03m-Gf-ban" firstAttribute="leading" secondItem="i4U-bZ-64n" secondAttribute="leading" constant="15" id="nbB-Y8-unS"/>
+                            <constraint firstItem="i4U-bZ-64n" firstAttribute="trailing" secondItem="Mhl-5F-0ej" secondAttribute="trailing" constant="68" id="rVe-zd-o27"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="i4U-bZ-64n"/>
+                    </view>
+                    <connections>
+                        <outlet property="otherTextView" destination="mrL-AD-Fqz" id="TDw-Sm-U1x"/>
+                        <outlet property="yourTextView" destination="Mhl-5F-0ej" id="DrE-tu-Yph"/>
+                        <segue destination="7Yg-vI-etP" kind="unwind" identifier="toMainMenuFromProfile" unwindAction="didUnwindToMainMenu:" id="QR5-XC-cqj"/>
+                        <segue destination="7Yg-vI-etP" kind="unwind" identifier="toLoginFromProfileView" unwindAction="didUnwindFromProfileViewToLogin:" id="uxH-YP-ffI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DtG-fU-fAo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="7Yg-vI-etP" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="480.80000000000001" y="913.49325337331345"/>
+        </scene>
+        <!--PoolingVC-->
+        <scene sceneID="IAm-Pr-WrB">
+            <objects>
+                <viewController id="vN5-AL-fi4" customClass="PoolingVC" customModule="Nebula_Messenger" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="USp-fo-dCy">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
+                        <viewLayoutGuide key="safeArea" id="SeM-zF-S4v"/>
+                    </view>
+                    <connections>
+                        <segue destination="ksG-ce-ESd" kind="unwind" identifier="unwindToMainMenuFromPools" unwindAction="didUnwindToMainMenu:" id="AoY-PD-HKM"/>
+                        <segue destination="NHo-2v-azX" kind="presentation" identifier="toPoolChat" id="btG-Rq-6Fc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ra4-QW-rDZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="ksG-ce-ESd" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1464.8" y="914.392803598201"/>
+        </scene>
+        <!--Pool ChatVC-->
+        <scene sceneID="YFw-Kn-kKV">
+            <objects>
+                <viewController id="NHo-2v-azX" customClass="PoolChatVC" customModule="Nebula_Messenger" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JQV-yB-Yfh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="wFx-f2-OGK"/>
+                    </view>
+                    <connections>
+                        <segue destination="heT-mg-Edf" kind="unwind" identifier="backToPoolingView" unwindAction="didUnwindFromPoolChat:" id="YMp-oE-ott"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lMX-lm-qF7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="heT-mg-Edf" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="2332" y="912.5937031484259"/>
+        </scene>
+        <!--MessengerVC-->
+        <scene sceneID="b3L-zQ-gMP">
+            <objects>
+                <viewController id="5bA-Vq-T3B" customClass="MessengerVC" customModule="Nebula_Messenger" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gKg-6H-szO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
+                        <viewLayoutGuide key="safeArea" id="yuS-vS-Byy"/>
+                    </view>
+                    <connections>
+                        <segue destination="Da0-gj-8JP" kind="unwind" identifier="messengerVCToMainMenu" unwindAction="didUnwindToMainMenu:" id="8Qd-Ly-s0d"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ym2-ff-6jU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Da0-gj-8JP" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1912.8" y="124.58770614692655"/>
+        </scene>
+        <!--Fake LaunchVC-->
+        <scene sceneID="ip6-Rz-Dpa">
+            <objects>
+                <viewController storyboardIdentifier="fakeLaunch" id="4HH-lX-Qm4" customClass="FakeLaunchVC" customModule="Nebula_Messenger" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4Cz-IZ-feq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="fBJ-eg-5XK">
+                                <rect key="frame" x="97.5" y="243.5" width="180" height="180"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="180" id="h2j-Wr-H58"/>
+                                    <constraint firstAttribute="width" constant="180" id="iqy-ZY-kwO"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z9F-38-E5c">
+                                <rect key="frame" x="166" y="448" width="0.0" height="0.0"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="fBJ-eg-5XK" firstAttribute="centerX" secondItem="4Cz-IZ-feq" secondAttribute="centerX" id="0mn-1s-4fA"/>
+                            <constraint firstItem="fBJ-eg-5XK" firstAttribute="centerY" secondItem="4Cz-IZ-feq" secondAttribute="centerY" id="AcD-1y-5MQ"/>
+                            <constraint firstItem="fBJ-eg-5XK" firstAttribute="centerX" secondItem="4Cz-IZ-feq" secondAttribute="centerX" id="Bws-yK-81b"/>
+                            <constraint firstItem="fBJ-eg-5XK" firstAttribute="centerY" secondItem="4Cz-IZ-feq" secondAttribute="centerY" id="kpm-vc-xZ9"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="EHp-wh-ZcF"/>
+                    </view>
+                    <connections>
+                        <segue destination="60c-N5-mJj" kind="presentation" identifier="launchToMain" modalTransitionStyle="crossDissolve" id="XEf-I0-XDu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iWm-fV-rER" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1" y="125"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="BackArrowBlack" width="96" height="96"/>
+        <image name="BlackX" width="96" height="96"/>
+        <image name="Logo" width="384" height="384"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="sfY-Y0-IdR"/>
+    </inferredMetricsTieBreakers>
+</document>

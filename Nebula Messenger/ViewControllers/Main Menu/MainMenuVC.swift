@@ -505,6 +505,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         if let image = UIImage(named: "GroupAddBlack") {
             addFriendsButton.setImage(image, for: .normal)
         }
+        addFriendsButton.tintColor = nebulaPurple
         addFriendsButton.addTarget(self, action: #selector(addFriendsButtonPressed), for: .touchUpInside)
         
         self.view.addSubview(addFriendsButton)
@@ -523,6 +524,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         if let image = UIImage(named: "EditIconBlack") {
             createMessageButton.setImage(image, for: .normal)
         }
+        createMessageButton.tintColor = nebulaPurple
         createMessageButton.addTarget(self, action: #selector(createMessageButtonTapped), for: .touchUpInside)
         
         self.view.addSubview(createMessageButton)

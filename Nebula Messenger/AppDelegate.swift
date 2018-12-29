@@ -71,6 +71,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         window?.rootViewController = navController
         window?.makeKeyAndVisible()*/
         
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        let alreadyLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
+        
+        if alreadyLoggedIn{
+            let storyboard = UIStoryboard(name: "App", bundle: nil)
+            
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "fakeLaunch")
+            self.window?.rootViewController = initialViewController
+        }else{
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginVC")
+            self.window?.rootViewController = initialViewController
+        }
+        
+        self.window?.makeKeyAndVisible()
+        self.window?.tintColor = nebulaPurple
+        
         return true
     }
 
