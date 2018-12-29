@@ -17,57 +17,10 @@
                     <view key="view" contentMode="scaleToFill" id="581-ik-m2x">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LaC-jB-gvU" userLabel="ExitButton">
-                                <rect key="frame" x="16" y="20" width="96" height="96"/>
-                                <state key="normal" image="BlackX"/>
-                                <connections>
-                                    <action selector="xButtonPressed:" destination="rmG-t5-B3m" eventType="touchUpInside" id="atl-Mt-VL6"/>
-                                </connections>
-                            </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tqq-3V-FCn">
-                                <rect key="frame" x="0.0" y="94" width="375" height="518"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="mainCell" id="HUw-aW-Iz3">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HUw-aW-Iz3" id="fn9-fM-VMd">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="rmG-t5-B3m" id="wTf-jV-4Ff"/>
-                                    <outlet property="delegate" destination="rmG-t5-B3m" id="ALh-wz-dBR"/>
-                                </connections>
-                            </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tid-F4-RjA">
-                                <rect key="frame" x="279" y="26" width="80" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Continue"/>
-                                <connections>
-                                    <action selector="continueButtonPressed:" destination="rmG-t5-B3m" eventType="touchUpInside" id="X6B-ef-yzg"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="LaC-jB-gvU" firstAttribute="top" secondItem="xjY-2i-uk4" secondAttribute="top" id="3zk-16-sa5"/>
-                            <constraint firstItem="xjY-2i-uk4" firstAttribute="trailing" secondItem="tqq-3V-FCn" secondAttribute="trailing" id="FcD-dG-1eV"/>
-                            <constraint firstItem="Tid-F4-RjA" firstAttribute="top" secondItem="xjY-2i-uk4" secondAttribute="top" constant="6" id="HiE-yT-rLn"/>
-                            <constraint firstItem="xjY-2i-uk4" firstAttribute="bottom" secondItem="tqq-3V-FCn" secondAttribute="bottom" constant="55" id="Urh-PU-h4X"/>
-                            <constraint firstItem="xjY-2i-uk4" firstAttribute="trailing" secondItem="Tid-F4-RjA" secondAttribute="trailing" constant="16" id="eEg-NY-Ypc"/>
-                            <constraint firstItem="tqq-3V-FCn" firstAttribute="leading" secondItem="xjY-2i-uk4" secondAttribute="leading" id="ePF-MT-SbR"/>
-                            <constraint firstItem="tqq-3V-FCn" firstAttribute="top" secondItem="xjY-2i-uk4" secondAttribute="top" constant="74" id="gDW-Zw-gLu"/>
-                            <constraint firstItem="LaC-jB-gvU" firstAttribute="leading" secondItem="xjY-2i-uk4" secondAttribute="leading" constant="16" id="jUx-6r-0zy"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="xjY-2i-uk4"/>
                     </view>
                     <connections>
-                        <outlet property="continueButton" destination="Tid-F4-RjA" id="3kY-0t-CvC"/>
-                        <outlet property="mainTable" destination="tqq-3V-FCn" id="zSP-AJ-fgI"/>
                         <segue destination="ex6-mi-mhv" kind="unwind" identifier="toMainMenuFromCreateMessage" unwindAction="didUnwindToMainMenu:" id="y13-Aa-eg2"/>
                         <segue destination="5bA-Vq-T3B" kind="presentation" identifier="toMessengerVCFromCreate" id="QZM-P9-7XR"/>
                     </connections>
@@ -344,10 +297,9 @@
     </scenes>
     <resources>
         <image name="BackArrowBlack" width="96" height="96"/>
-        <image name="BlackX" width="96" height="96"/>
         <image name="Logo" width="384" height="384"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="sfY-Y0-IdR"/>
+        <segue reference="QZM-P9-7XR"/>
     </inferredMetricsTieBreakers>
 </document>

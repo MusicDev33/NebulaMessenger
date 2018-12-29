@@ -9,8 +9,7 @@
 import UIKit
 
 class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet weak var mainTable: UITableView!
-    @IBOutlet weak var continueButton: UIButton!
+    var mainTable: UITableView!
     
     
     var selectedFriendsList = [String]()
@@ -20,14 +19,16 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     var passInvolved = ""
     var passFriend = ""
     
+    var topView: CreateMessageView?
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return GlobalUser.friends.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "mainCell")
-        cell.textLabel?.text=GlobalUser.friends[indexPath.row]
-        cell.detailTextLabel?.text=" "
+        cell.textLabel?.text = GlobalUser.friends[indexPath.row]
+        cell.detailTextLabel?.text = " "
         return cell
     }
     
@@ -43,26 +44,36 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         }
         
         if self.selectedFriendsList.count > 0{
-            self.continueButton.isHidden = false
+            topView?.continueButton.isHidden = false
         }else{
-            self.continueButton.isHidden = true
+            topView?.continueButton.isHidden = true
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        topView = CreateMessageView(frame: self.view.frame)
+        self.view.addSubview(topView!)
+        mainTable = topView?.friendsTable
+        
+        mainTable.delegate = self
+        mainTable.dataSource = self
+        
         // Do any additional setup after loading the view.
-        self.continueButton.isHidden = true
+        topView?.continueButton.isHidden = true
+        
+        topView?.backButton.addTarget(self, action: #selector(xButtonPressed), for: .touchUpInside)
+        topView?.continueButton.addTarget(self, action: #selector(continueButtonPressed), for: .touchUpInside)
     }
     
     //MARK: Actions
-    @IBAction func xButtonPressed(_ sender: UIButton) {
+    @objc func xButtonPressed() {
         self.performSegue(withIdentifier: "toMainMenuFromCreateMessage", sender: self)
     }
     
-    @IBAction func continueButtonPressed(_ sender: UIButton) {
+    @objc func continueButtonPressed() {
         if self.selectedFriendsList.count > 1{
             var quickInvolved = Utility.createGroupConvId(names: self.selectedFriendsList)
             quickInvolved = Utility.alphabetSort(preConvId: quickInvolved)
