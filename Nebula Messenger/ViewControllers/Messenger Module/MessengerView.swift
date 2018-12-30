@@ -303,7 +303,7 @@ class MessengerView: UIView {
         
         closeButton.heightAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
         closeButton.widthAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
-        closeButton.centerYAnchor.constraint(equalTo: bottomBar.topAnchor, constant: 5).isActive = true
+        closeButton.centerYAnchor.constraint(equalTo: grabCircleBackground.centerYAnchor).isActive = true
         closeButtonLeftAnchor = closeButton.leftAnchor.constraint(equalTo: bottomBar.leftAnchor, constant: 5)
         closeButtonLeftAnchor?.isActive = true
         closeButtonCenterXAnchor = closeButton.centerXAnchor.constraint(equalTo: bottomBar.centerXAnchor, constant: 0)
