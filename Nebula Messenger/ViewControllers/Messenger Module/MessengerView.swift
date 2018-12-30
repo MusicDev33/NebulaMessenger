@@ -108,19 +108,6 @@ class MessengerView: UIView {
     var resizeMode = false
     var hasMoved = false
     var circleSide = "right"
-    let grabCircle: UIView = {
-        let circle = UIView()
-        let height = CGFloat(20)
-        circle.frame = CGRect(x: 0, y: 0, width: height, height: height)
-        circle.backgroundColor = nebulaPurple
-        circle.translatesAutoresizingMaskIntoConstraints = false
-        circle.layer.cornerRadius = height/2
-        circle.layer.masksToBounds = true
-        
-        circle.bounds.insetBy(dx: -18.0, dy: -18.0)
-        
-        return circle
-    }()
     
     private let grabCircleBackground: UIView = {
         let circle = UIView()
@@ -222,7 +209,6 @@ class MessengerView: UIView {
         
         addSubview(bottomBar)
         addSubview(grabCircleBackground)
-        addSubview(grabCircle)
         addSubview(messageField)
         if involvedLabel.text?.count == 0{
             sendButton.isEnabled = false
@@ -317,7 +303,7 @@ class MessengerView: UIView {
         
         closeButton.heightAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
         closeButton.widthAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
-        closeButton.centerYAnchor.constraint(equalTo: grabCircle.centerYAnchor).isActive = true
+        closeButton.centerYAnchor.constraint(equalTo: bottomBar.topAnchor, constant: 5).isActive = true
         closeButtonLeftAnchor = closeButton.leftAnchor.constraint(equalTo: bottomBar.leftAnchor, constant: 5)
         closeButtonLeftAnchor?.isActive = true
         closeButtonCenterXAnchor = closeButton.centerXAnchor.constraint(equalTo: bottomBar.centerXAnchor, constant: 0)
@@ -331,16 +317,6 @@ class MessengerView: UIView {
         downArrowTopAnchor = downButton.topAnchor.constraint(equalTo: closeButton.bottomAnchor)
         downArrowTopAnchor?.isActive = true
         downButton.leftAnchor.constraint(equalTo: bottomBar.leftAnchor, constant: 5).isActive = true
-        
-        
-        grabCircleRightAnchor = grabCircle.rightAnchor.constraint(equalTo: bottomBar.rightAnchor, constant: -5)
-        grabCircleRightAnchor?.isActive = true
-        
-        grabCircleLeftAnchor = grabCircle.leftAnchor.constraint(equalTo: closeButton.rightAnchor, constant: 5)
-        
-        grabCircle.topAnchor.constraint(equalTo: bottomBar.topAnchor, constant: 5).isActive = true
-        grabCircle.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        grabCircle.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         grabCircleBackground.rightAnchor.constraint(equalTo: bottomBar.rightAnchor, constant: -5).isActive = true
         
@@ -365,9 +341,8 @@ class MessengerView: UIView {
         
         sendButton.heightAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
         sendButton.widthAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
-        sendButton.centerYAnchor.constraint(equalTo: grabCircle.centerYAnchor).isActive = true
+        sendButton.centerYAnchor.constraint(equalTo: grabCircleBackground.centerYAnchor).isActive = true
         sendButton.rightAnchor.constraint(equalTo: grabCircleBackground.leftAnchor, constant: -10).isActive = true
-        
     }
     
     var groupAddButtonTopAnchor: NSLayoutConstraint?
@@ -378,7 +353,7 @@ class MessengerView: UIView {
         
         groupFunctionButton.heightAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
         groupFunctionButton.widthAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
-        groupFunctionButton.centerYAnchor.constraint(equalTo: grabCircle.centerYAnchor).isActive = true
+        groupFunctionButton.centerYAnchor.constraint(equalTo: grabCircleBackground.centerYAnchor).isActive = true
         groupFunctionButton.rightAnchor.constraint(equalTo: sendButton.leftAnchor, constant: -10).isActive = true
         
         groupAddButton.heightAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
@@ -402,7 +377,6 @@ class MessengerView: UIView {
                 self.layoutIfNeeded()
             })
         }
-        self.bringSubviewToFront(grabCircle)
         
         if resizeMode{
             bottomBarHeightAnchor?.constant -= y
@@ -412,29 +386,8 @@ class MessengerView: UIView {
                 bottomBarWidthAnchor?.constant -= x
             }
         }else{
-            
-            
             bottomBarBottom?.constant += y
             bottomBarCenterX?.constant += x
-        }
-        
-        if grabCircle.frame.origin.x > screenSizeX-20{
-            grabCircleRightAnchor?.isActive = false
-            grabCircleRightAnchor?.constant = -5
-            grabCircleLeftAnchor?.isActive = true
-            UIView.animate(withDuration: 0.5, animations: {
-                self.layoutIfNeeded()
-            })
-            circleSide = "left"
-        }
-        if grabCircle.frame.origin.x < 7{
-            grabCircleLeftAnchor?.isActive = false
-            grabCircleLeftAnchor?.constant = 5
-            grabCircleRightAnchor?.isActive = true
-            UIView.animate(withDuration: 0.5, animations: {
-                self.layoutIfNeeded()
-            })
-            circleSide = "right"
         }
     }
     
@@ -454,12 +407,10 @@ class MessengerView: UIView {
         resizeMode = false
         UIView.animate(withDuration: 0.3, animations: {
             self.downButton.isHidden = true
-            self.grabCircle.backgroundColor = nebulaPurple
             self.bottomBar.layer.cornerRadius = 0
             self.bottomBarActionButton.alpha = 0
             self.bottomBar.alpha = 1
             self.sendButton.alpha = 1
-            self.grabCircle.alpha = 1
             self.closeButton.alpha = 1
             self.messageField.alpha = 1
             self.groupFunctionButton.alpha = 1
@@ -488,16 +439,6 @@ class MessengerView: UIView {
     
     func tappedGrabCircle(){
         resizeMode = !resizeMode
-        
-        if resizeMode{
-            UIView.animate(withDuration: 0.5, animations: {
-                self.grabCircle.backgroundColor = nebulaBlue
-            })
-        }else{
-            UIView.animate(withDuration: 0.5, animations: {
-                self.grabCircle.backgroundColor = nebulaPurple
-            })
-        }
     }
     
     func closeButtonTapped(){
@@ -507,10 +448,8 @@ class MessengerView: UIView {
         groupFunctionPressed()
         self.bottomBarActionButton.isHidden = false
         UIView.animate(withDuration: 0.2, animations: {
-            self.grabCircle.backgroundColor = nebulaPurple
             self.grabCircleBackground.alpha = 0
             self.sendButton.alpha = 0
-            self.grabCircle.alpha = 0
             self.messageField.alpha = 0
             self.groupFunctionButton.alpha = 0
             self.bottomBar.layer.cornerRadius = 16
@@ -568,7 +507,6 @@ class MessengerView: UIView {
         groupFunctionOpen = !groupFunctionOpen
     }
     
-    
     // Animations
     func animateLayer(){
         CATransaction.begin()
@@ -599,12 +537,11 @@ class MessengerView: UIView {
     }
 }
 
-extension UITextView{
+extension UITextView {
     func numberOfLines() -> Int{
         if let fontUnwrapped = self.font{
             return Int(self.contentSize.height / fontUnwrapped.lineHeight)
         }
         return 0
     }
-    
 }
