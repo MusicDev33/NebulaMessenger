@@ -145,6 +145,10 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             if !self.keyboardIsUp{
                 newView.draggedCircle(x: translation.x, y: translation.y)
                 sender.setTranslation(CGPoint.zero, in: self.view)
+            }else{
+                if translation.y > 0{
+                    //Possibly dismiss keyboard here
+                }
             }
             if !collectionMoved{
                 self.messagesCollectionBottomConstraint?.constant = 0
@@ -246,12 +250,12 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapOnCircle(_:)))
         tapGesture.numberOfTapsRequired = 2
         //newView.bottomBar.isUserInteractionEnabled = true
-        newView.grabCircle.addGestureRecognizer(tapGesture)
+        newView.bottomBar.addGestureRecognizer(tapGesture)
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.draggedCircle(_:)))
         panGesture.delegate = self
-        newView.grabCircle.isUserInteractionEnabled = true
-        newView.grabCircle.addGestureRecognizer(panGesture)
+        newView.bottomBar.isUserInteractionEnabled = true
+        newView.bottomBar.addGestureRecognizer(panGesture)
         
         newView.bottomBarActionButton.addTarget(self, action: #selector(resetButton), for: .touchUpInside)
         newView.backButton.addTarget(self, action: #selector(goBack(sender:)), for: .touchUpInside)
@@ -456,8 +460,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             }
             
             let safeAreaBottomInset = self.view.safeAreaInsets.bottom
-            print("SAFE")
-            print(safeAreaBottomInset)
+            
             newView.moveWithKeyboard(yValue: keyboardSize.height - safeAreaBottomInset, duration: keyboardDuration)
         }
         self.keyboardIsUp = true
@@ -880,10 +883,8 @@ extension String {
                 currentScalarSet = []
             }
             currentScalarSet.append(scalar)
-            
             previousScalar = scalar
         }
-        
         scalars.append(currentScalarSet)
         
         return scalars.map { $0.map{ String($0) } .reduce("", +) }

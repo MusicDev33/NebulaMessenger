@@ -20,6 +20,16 @@ class CreateMessageView: UIView {
         return button
     }()
     
+    let newMessageLabel: UILabel = {
+        let label = UILabel()
+        label.text = "New Message"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = UIColor.black
+        
+        return label
+    }()
+    
     let continueButton: UIButton = {
         var button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -60,6 +70,7 @@ class CreateMessageView: UIView {
         super.init(frame: frame)
         
         addSubview(backButton)
+        addSubview(newMessageLabel)
         addSubview(continueButton)
         addSubview(friendsTableTopLine)
         addSubview(friendsTable)
@@ -78,6 +89,9 @@ class CreateMessageView: UIView {
         backButton.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor, constant: 15).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        newMessageLabel.centerYAnchor.constraint(equalTo: backButton.centerYAnchor).isActive = true
+        newMessageLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         
         continueButton.centerYAnchor.constraint(equalTo: backButton.centerYAnchor).isActive = true
         continueButton.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor, constant: -15).isActive = true

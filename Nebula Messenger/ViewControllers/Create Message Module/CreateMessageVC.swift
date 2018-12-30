@@ -89,9 +89,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             self.passFriend = quickConvName
             self.passInvolved = quickInvolved
             if GlobalUser.convNames.contains(quickConvName){
-                print("YAAAA")
                 let quickId = GlobalUser.masterDict[quickConvName]!.id
-                print(quickId)
                 MessageRoutes.getMessages(id: quickId!){messageList in
                     self.passMsgList = messageList
                     self.performSegue(withIdentifier: "toMessengerVCFromCreate", sender: self)
