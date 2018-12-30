@@ -29,6 +29,11 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "mainCell")
         cell.textLabel?.text = GlobalUser.friends[indexPath.row]
         cell.detailTextLabel?.text = " "
+        
+        if selectedFriendsList.contains((cell.textLabel?.text)!){
+            cell.detailTextLabel?.text = "\u{2714}"
+        }
+        
         return cell
     }
     

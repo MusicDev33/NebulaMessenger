@@ -74,22 +74,23 @@ class CreateMessageView: UIView {
     }
     
     func setupTopButtons(){
-        backButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 15).isActive = true
+        backButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         backButton.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor, constant: 15).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        continueButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 15).isActive = true
+        continueButton.centerYAnchor.constraint(equalTo: backButton.centerYAnchor).isActive = true
         continueButton.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor, constant: -15).isActive = true
         continueButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         continueButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
     func setupTableView(){
-        friendsTable.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 80).isActive = true
+        friendsTable.topAnchor.constraint(equalTo: self.backButton.bottomAnchor, constant: 5).isActive = true
         friendsTable.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         friendsTable.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        friendsTable.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.7).isActive = true
+        //friendsTable.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.7).isActive = true
+        friendsTable.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
         friendsTableTopLine.bottomAnchor.constraint(equalTo: self.friendsTable.topAnchor).isActive = true
         friendsTableTopLine.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
