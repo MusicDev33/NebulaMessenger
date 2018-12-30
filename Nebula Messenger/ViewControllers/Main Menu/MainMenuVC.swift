@@ -74,6 +74,15 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         view.endEditing(true)
         self.searchController.searchBar.endEditing(true)
         
+        //Temporary
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromRight
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        //self.view.window!.layer.add(transition, forKey: kCATransition)
+        //present(dashboardWorkout, animated: false, completion: nil)
+        
         let userCount = self.passInvolved.components(separatedBy:":").count
         print("Important")
         print(self.passInvolved)
@@ -86,6 +95,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.passMsgList = messageList
             tableView.deselectRow(at: indexPath, animated: true)
             self.performSegue(withIdentifier: "toMessengerVC", sender: self)
+            //let nextVC = MessengerVC()
+            //self.present(nextVC, animated: false)
         }
     }
     

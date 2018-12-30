@@ -199,6 +199,12 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         self.sendMessage(sender)
     }
     
+    @objc func swipeRightOnCollection(){
+        GlobalUser.currentConv = ""
+        self.view.endEditing(true)
+        self.performSegue(withIdentifier: "messengerVCToMainMenu", sender: self)
+    }
+    
     var newView: MessengerView!
     var messagesCollectionBottomConstraint: NSLayoutConstraint?
     
@@ -281,6 +287,10 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         
         self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 12, right: 0)
         self.messagesCollection.keyboardDismissMode = .onDrag
+        
+        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(swipeRightOnCollection))
+        rightSwipe.direction = .right
+        self.messagesCollection.addGestureRecognizer(rightSwipe)
         
         let window = UIApplication.shared.keyWindow
         topPadding = window?.safeAreaInsets.top ?? 0
