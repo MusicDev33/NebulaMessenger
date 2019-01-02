@@ -80,8 +80,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         transition.type = CATransitionType.push
         transition.subtype = CATransitionSubtype.fromRight
         transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
-        //self.view.window!.layer.add(transition, forKey: kCATransition)
-        //present(dashboardWorkout, animated: false, completion: nil)
+        // self.view.window!.layer.add(transition, forKey: kCATransition)
+        // present(dashboardWorkout, animated: false, completion: nil)
         
         let userCount = self.passInvolved.components(separatedBy:":").count
         print("Important")
@@ -156,7 +156,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                                             }
         }
         action.image = UIImage(named: "Trashcan")
-        //action.title = "What the hell????"
         action.backgroundColor = UIColor.red
         return action
     }

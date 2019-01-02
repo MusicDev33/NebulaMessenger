@@ -58,7 +58,7 @@ class UserRoutes{
                 case .failure(let Json):
                     let jObj = JSON(Json)
                     print("Failed to register.")
-                    let serverMessage = ServerMessage(message: jObj["msg"].string!, success: false)
+                    let serverMessage = ServerMessage(message: "No connection!", success: false)
                     completion(serverMessage)
                 }
             })
