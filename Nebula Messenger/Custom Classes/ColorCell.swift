@@ -53,6 +53,22 @@ class ColorCell: UICollectionViewCell{
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        addSubview(colorImg)
+        addSubview(selectedImg)
+        
+        colorImgRightAnchor = colorImg.rightAnchor.constraint(equalTo: self.rightAnchor)
+        colorImgRightAnchor?.isActive = true
+        colorImg.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        
+        colorImg.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        colorImg.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        
+        selectedImg.rightAnchor.constraint(equalTo: colorImg.rightAnchor, constant: -15).isActive = true
+        selectedImg.topAnchor.constraint(equalTo: colorImg.topAnchor, constant: 15).isActive = true
+        
+        selectedImg.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        selectedImg.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
     var colorImgRightAnchor: NSLayoutConstraint?
