@@ -218,10 +218,12 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         if !self.keyboardIsUp{
             self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: keyboardSize.height+12-bottomPadding, right: 0)
             self.scrollToBottom(animated: true)
+            
+            let safeAreaBottomInset = self.view.safeAreaInsets.bottom
             UIView.animate(withDuration: keyboardDuration){
                 self.view.layoutIfNeeded()
             }
-            newView.moveWithKeyboard(yValue: keyboardSize.height, duration: keyboardDuration)
+            newView.moveWithKeyboard(yValue: keyboardSize.height - safeAreaBottomInset, duration: keyboardDuration)
         }
         self.keyboardIsUp = true
     }

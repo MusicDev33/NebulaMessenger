@@ -803,7 +803,7 @@ extension MessengerVC: UITextViewDelegate{
         }
         
         self.timer?.invalidate()
-        self.timer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(typingTimerComplete), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(typingTimerComplete), userInfo: nil, repeats: true)
         SocketIOManager.sendTyping(id: self.id)
         return true
     }

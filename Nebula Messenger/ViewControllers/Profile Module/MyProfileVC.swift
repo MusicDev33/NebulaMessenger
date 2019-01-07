@@ -123,15 +123,21 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     @objc func personalViewTapped(){
+        topView?.selfColorViewWidthAnchor?.constant += 5
+        topView?.selfColorViewHeightAnchor?.constant += 5
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            self.topView?.layoutIfNeeded()
+        }, completion:{_ in
+            self.topView?.selfColorViewWidthAnchor?.constant -= 5
+            self.topView?.selfColorViewHeightAnchor?.constant -= 5
+            UIView.animate(withDuration: 0.1, animations: {
+                self.topView?.layoutIfNeeded()
+            })
+        })
+        
         if !userColorsOpen{
             topView?.selfColorHeightConstraint?.constant = 200
-            /*
-            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 14, animations: {
-                self.topView?.layoutIfNeeded()
-                self.userColorsOpen = true
-            }, completion: {_ in
-                self.topView?.selfColorCollectionView.flashScrollIndicators()
-            })*/
             
             UIView.animate(withDuration: 0.3, animations: {
                 self.topView?.layoutIfNeeded()
@@ -149,6 +155,19 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     @objc func otherViewTapped(){
+        topView?.otherColorViewWidthAnchor?.constant += 5
+        topView?.otherColorViewHeightAnchor?.constant += 5
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            self.topView?.layoutIfNeeded()
+        }, completion:{_ in
+            self.topView?.otherColorViewWidthAnchor?.constant -= 5
+            self.topView?.otherColorViewHeightAnchor?.constant -= 5
+            UIView.animate(withDuration: 0.1, animations: {
+                self.topView?.layoutIfNeeded()
+            })
+        })
+        
         if !otherColorsOpen{
             topView?.otherColorHeightConstraint?.constant = 200
             UIView.animate(withDuration: 0.3, animations: {

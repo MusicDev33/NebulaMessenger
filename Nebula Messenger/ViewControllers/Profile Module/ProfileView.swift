@@ -68,6 +68,18 @@ class ProfileView: UIView {
         return view
     }()
     
+    let profilePicView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = nebulaSky
+        view.layer.cornerRadius = CGFloat(32)
+        
+        view.layer.borderWidth = 1
+        view.layer.borderColor = nebulaFlame.cgColor
+        
+        return view
+    }()
+    
     func createOptionsCollectionView(){
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
@@ -136,6 +148,7 @@ class ProfileView: UIView {
         addSubview(messageColorsLabel)
         addSubview(personalColorView)
         addSubview(otherColorView)
+        //addSubview(profilePicView)
         //createOptionsCollectionView()
         createSelfCollectionView()
         createOtherCollectionView()
@@ -148,6 +161,11 @@ class ProfileView: UIView {
         super.init(coder: aDecoder)
     }
     
+    var selfColorViewHeightAnchor: NSLayoutConstraint?
+    var otherColorViewHeightAnchor: NSLayoutConstraint?
+    
+    var selfColorViewWidthAnchor: NSLayoutConstraint?
+    var otherColorViewWidthAnchor: NSLayoutConstraint?
     
     func setTopViewConstraints(){
         let colorViewWidth = CGFloat(60)
@@ -167,14 +185,24 @@ class ProfileView: UIView {
         personalColorView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
         personalColorView.centerXAnchor.constraint(equalTo: self.centerXAnchor,
                                                    constant: (-colorViewWidth/2) - 5).isActive = true
-        personalColorView.widthAnchor.constraint(equalToConstant: colorViewWidth).isActive = true
-        personalColorView.heightAnchor.constraint(equalToConstant: colorViewWidth).isActive = true
+        selfColorViewWidthAnchor = personalColorView.widthAnchor.constraint(equalToConstant: colorViewWidth)
+        selfColorViewWidthAnchor?.isActive = true
+        selfColorViewHeightAnchor = personalColorView.heightAnchor.constraint(equalToConstant: colorViewWidth)
+        selfColorViewHeightAnchor?.isActive = true
         
         otherColorView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
         otherColorView.centerXAnchor.constraint(equalTo: self.centerXAnchor,
                                                 constant: (colorViewWidth/2) + 5).isActive = true
-        otherColorView.widthAnchor.constraint(equalToConstant: colorViewWidth).isActive = true
-        otherColorView.heightAnchor.constraint(equalToConstant: colorViewWidth).isActive = true
+        otherColorViewWidthAnchor = otherColorView.widthAnchor.constraint(equalToConstant: colorViewWidth)
+        otherColorViewWidthAnchor?.isActive = true
+        otherColorViewHeightAnchor = otherColorView.heightAnchor.constraint(equalToConstant: colorViewWidth)
+        otherColorViewHeightAnchor?.isActive = true
+        
+//        profilePicView.topAnchor.constraint(equalTo: selfColorCollectionView.bottomAnchor, constant: 5).isActive = true
+//        profilePicView.bottomAnchor.constraint(equalTo: profilePicView.topAnchor, constant: 120).isActive = true
+//        profilePicView.widthAnchor.constraint(equalTo: profilePicView.heightAnchor).isActive = true
+//
+//        profilePicView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
     }
     
     var selfColorHeightConstraint: NSLayoutConstraint?
