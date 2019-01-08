@@ -20,7 +20,6 @@
 		1F42503221E4047A00CE108C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F42503121E4047A00CE108C /* LoginView.swift */; };
 		1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2672152227F00DC9525 /* AppDelegate.swift */; };
 		1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2692152227F00DC9525 /* LoginVC.swift */; };
-		1F68B26D2152227F00DC9525 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B26B2152227F00DC9525 /* Main.storyboard */; };
 		1F68B26F2152228100DC9525 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B26E2152228100DC9525 /* Assets.xcassets */; };
 		1F68B2722152228100DC9525 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B2702152228100DC9525 /* LaunchScreen.storyboard */; };
 		1F68B27D2152228100DC9525 /* Nebula_MessengerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B27C2152228100DC9525 /* Nebula_MessengerTests.swift */; };
@@ -54,6 +53,8 @@
 		1FAF4D0821B4FF6100843C89 /* AlertBP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF4D0721B4FF6100843C89 /* AlertBP.swift */; };
 		1FB413EF21D7306800CB1288 /* FakeLaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB413EE21D7306800CB1288 /* FakeLaunchVC.swift */; };
 		1FB413F221D7587700CB1288 /* CreateMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB413F121D7587700CB1288 /* CreateMessageView.swift */; };
+		1FC7ED2A21E4912F002F1422 /* CustomTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED2921E4912F002F1422 /* CustomTransitions.swift */; };
+		1FC7ED2D21E49958002F1422 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED2C21E49958002F1422 /* RegisterView.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
 		1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */; };
@@ -96,7 +97,6 @@
 		1F68B2642152227F00DC9525 /* Nebula Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nebula Messenger.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F68B2672152227F00DC9525 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F68B2692152227F00DC9525 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
-		1F68B26C2152227F00DC9525 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1F68B26E2152228100DC9525 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F68B2712152228100DC9525 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F68B2732152228100DC9525 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -137,6 +137,8 @@
 		1FAF4D0721B4FF6100843C89 /* AlertBP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBP.swift; sourceTree = "<group>"; };
 		1FB413EE21D7306800CB1288 /* FakeLaunchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeLaunchVC.swift; sourceTree = "<group>"; };
 		1FB413F121D7587700CB1288 /* CreateMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMessageView.swift; sourceTree = "<group>"; };
+		1FC7ED2921E4912F002F1422 /* CustomTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransitions.swift; sourceTree = "<group>"; };
+		1FC7ED2C21E49958002F1422 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
 		1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
@@ -236,7 +238,6 @@
 				1F68B2B42152757800DC9525 /* Sound */,
 				1F68B2A22152366600DC9525 /* Globals */,
 				1F68B2A12152260400DC9525 /* Lib */,
-				1F68B26B2152227F00DC9525 /* Main.storyboard */,
 				1F68B2702152228100DC9525 /* LaunchScreen.storyboard */,
 				1F68B26E2152228100DC9525 /* Assets.xcassets */,
 				1F68B29D2152245A00DC9525 /* GoogleService-Info.plist */,
@@ -311,12 +312,12 @@
 		1F68B2B9215276AE00DC9525 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1FC7ED2B21E49925002F1422 /* Register Module */,
 				1F42503021E4045C00CE108C /* Login Module */,
+				1F8A3A8D21BA24AA008E42DB /* Main Menu */,
 				1F42502D21DC9DCB00CE108C /* Profile Module */,
 				1FB413F021D7584800CB1288 /* Create Message Module */,
-				1F8A3A8D21BA24AA008E42DB /* Main Menu */,
 				1FA20BCD21901D4F007317B5 /* Messenger Module */,
-				1F68B2BC2152DD1300DC9525 /* RegisterVC.swift */,
 				1F7E94BC2199BB0E00AA5715 /* Pooling Module */,
 				1FB413EE21D7306800CB1288 /* FakeLaunchVC.swift */,
 			);
@@ -393,6 +394,15 @@
 			path = "Create Message Module";
 			sourceTree = "<group>";
 		};
+		1FC7ED2B21E49925002F1422 /* Register Module */ = {
+			isa = PBXGroup;
+			children = (
+				1F68B2BC2152DD1300DC9525 /* RegisterVC.swift */,
+				1FC7ED2C21E49958002F1422 /* RegisterView.swift */,
+			);
+			path = "Register Module";
+			sourceTree = "<group>";
+		};
 		1FE4F0F821687CF400E4EF72 /* Custom Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -401,6 +411,7 @@
 				1FE4F102216CA86C00E4EF72 /* PoolChatCell.swift */,
 				1F2CE449216DD9C100B15C59 /* PoolAnnotation.swift */,
 				1F2CE4522175D0C100B15C59 /* MasterAudio.swift */,
+				1FC7ED2921E4912F002F1422 /* CustomTransitions.swift */,
 			);
 			path = "Custom Classes";
 			sourceTree = "<group>";
@@ -566,7 +577,6 @@
 				1F2CE4512175D07300B15C59 /* Incoming-Message.caf in Resources */,
 				1F68B2722152228100DC9525 /* LaunchScreen.storyboard in Resources */,
 				1F68B26F2152228100DC9525 /* Assets.xcassets in Resources */,
-				1F68B26D2152227F00DC9525 /* Main.storyboard in Resources */,
 				1F68B29E2152245A00DC9525 /* GoogleService-Info.plist in Resources */,
 				1F2CE4502175D07300B15C59 /* Outgoing-Message.caf in Resources */,
 			);
@@ -701,6 +711,7 @@
 				1F7E94BE2199BBAF00AA5715 /* PoolChatView.swift in Sources */,
 				1F42502F21DC9DFE00CE108C /* ProfileView.swift in Sources */,
 				1F68B2A02152258400DC9525 /* SwiftyJSON.swift in Sources */,
+				1FC7ED2D21E49958002F1422 /* RegisterView.swift in Sources */,
 				1F68B2B22152751700DC9525 /* Routes.swift in Sources */,
 				1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */,
 				1F7F763621AD38F5008D3BB1 /* RequestedFriendsVC.swift in Sources */,
@@ -725,6 +736,7 @@
 				1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */,
 				1F76C7DE2158A09E00EB6C8C /* PoolingVC.swift in Sources */,
 				1FB413EF21D7306800CB1288 /* FakeLaunchVC.swift in Sources */,
+				1FC7ED2A21E4912F002F1422 /* CustomTransitions.swift in Sources */,
 				1FB413F221D7587700CB1288 /* CreateMessageView.swift in Sources */,
 				1FE4F101216B139200E4EF72 /* FeedbackVC.swift in Sources */,
 				1FA20BD721915671007317B5 /* MessengerView.swift in Sources */,
@@ -773,14 +785,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1F68B26B2152227F00DC9525 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1F68B26C2152227F00DC9525 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		1F68B2702152228100DC9525 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

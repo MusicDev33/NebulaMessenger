@@ -13,6 +13,9 @@ class FakeLaunchVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.isNavigationBarHidden = true
+        
         self.view.backgroundColor = UIColor.white
         
         let quoteLabel = UILabel()
@@ -62,8 +65,8 @@ class FakeLaunchVC: UIViewController {
                         }
                         let mainVC = MainMenuVC()
                         mainVC.modalPresentationStyle = .overCurrentContext
-                        
-                        self.present(mainVC, animated: true, completion: nil)
+                        self.navigationController?.pushViewController(mainVC, animated: true)
+                        //self.present(mainVC, animated: true, completion: nil)
                         //self.performSegue(withIdentifier: "launchToMain", sender: self)
                     }
                     

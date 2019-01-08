@@ -112,7 +112,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             
             //poolChatVC.poolId = self.passPoolId
             //poolChatVC.currentPoolMessages = self.passPoolMessages
-            //self.present(messageVC, animated: true, completion: nil)
             self.navigationController?.pushViewController(messageVC, animated: true)
         }
     }
@@ -310,11 +309,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.createCreateMessageButton()
     }
     
-    override func viewDidLayoutSubviews() {
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
+        super.viewDidAppear(animated)
         self.openSocket {
             
         }
@@ -339,8 +335,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @objc func profileButtonPressed(){
         self.searchController.isActive = false
         let profileVC = MyProfileVC()
-        profileVC.modalPresentationStyle = .fullScreen
-        self.present(profileVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(profileVC, animated: true)
     }
     
     @objc func nebulaButtonPressed(){
@@ -353,8 +348,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @objc func createMessageButtonTapped() {
         let createMessageVC = CreateMessageVC()
         createMessageVC.modalPresentationStyle = .overFullScreen
-        
-        self.present(createMessageVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(createMessageVC, animated: true)
     }
     
     @objc func addFriendsButtonPressed() {
@@ -434,13 +428,12 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var settingsButtonHeightAnchor: NSLayoutConstraint?
     
     func createProfileButton(){
-        profileButton = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        profileButton = UIButton(type: .system)
         
         profileButton.translatesAutoresizingMaskIntoConstraints = false
         profileButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         profileButton.backgroundColor = UIColor.white
         profileButton.setTitleColor(nebulaBlue, for: .normal)
-        profileButton.setTitleColor(UIColor.lightGray, for: .highlighted)
         profileButton.setTitleColor(UIColor.lightGray, for: .disabled)
         profileButton.layer.cornerRadius = 10
         profileButton.layer.borderWidth = 1
@@ -459,13 +452,12 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func createSettingsButton(){
-        settingsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        settingsButton = UIButton(type: .system)
         
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
         settingsButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         settingsButton.backgroundColor = UIColor.white
         settingsButton.setTitleColor(nebulaPurple, for: .normal)
-        settingsButton.setTitleColor(UIColor.lightGray, for: .highlighted)
         settingsButton.setTitleColor(UIColor.lightGray, for: .disabled)
         settingsButton.layer.cornerRadius = 10
         settingsButton.layer.borderWidth = 1

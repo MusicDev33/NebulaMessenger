@@ -27,6 +27,8 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     var keyboardIsUp = false
     
+    var fromCreateMessage = false
+    
     var messagesCollection: UICollectionView! { didSet {
         messagesCollection.dataSource = self
         messagesCollection.delegate = self
@@ -192,8 +194,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     @objc func goBack(sender: UIButton){
         GlobalUser.currentConv = ""
         self.view.endEditing(true)
-        self.presentingViewController?.dismiss(animated: false, completion: nil)
-        self.dismiss(animated: false, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc func sendWrapper(sender: UIButton){
@@ -203,6 +204,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     @objc func swipeRightOnCollection(){
         GlobalUser.currentConv = ""
         self.view.endEditing(true)
+        self.navigationController?.popViewController(animated: true)
         //self.performSegue(withIdentifier: "messengerVCToMainMenu", sender: self)
     }
     
@@ -211,6 +213,12 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if fromCreateMessage{
+            let vcAmount = self.navigationController?.viewControllers.count
+            self.navigationController?.viewControllers.remove(at: vcAmount! - 2)
+        }
+        
         self.view.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 1)
         if self.friend.count > maxChars{
             self.friend.removeLast(self.friend.count-maxChars)
@@ -309,6 +317,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         self.openSocket {
         }
         self.messagesCollection.layoutIfNeeded()
@@ -323,7 +332,8 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.view.alpha = 0.3
+        super.viewWillDisappear(animated)
+        //self.view.alpha = 0.3
         SocketIOManager.sendNotTyping(id: self.id)
     }
     
@@ -336,11 +346,9 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-    }
-    
     override func viewDidDisappear(_ animated: Bool) {
-        self.view.alpha = 0.3
+        super.viewDidDisappear(animated)
+        //self.view.alpha = 0.3
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -676,7 +684,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         
                         let lastRow = self.msgList.count - 1
                         let lastIndex = IndexPath(item: lastRow, section: 0)
-                        let newLastIndex = IndexPath(item: lastRow+1, section: 0)
+                        let newLastIndex = IndexPath(item: lastRow + 1, section: 0)
                         
                         self.messagesCollection.performBatchUpdates({
                             print("Last Indices")

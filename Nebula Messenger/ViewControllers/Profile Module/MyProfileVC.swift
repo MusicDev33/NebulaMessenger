@@ -111,9 +111,7 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             UserDefaults.standard.set("", forKey: "password")
             UserDefaults.standard.set(false, forKey: "isLoggedIn")
             let loginVC = LoginVC()
-            loginVC.modalPresentationStyle = .overCurrentContext
-            self.present(loginVC, animated: true, completion: nil)
-            //self.navigationController?.pushViewController(loginVC, animated: true)
+            self.navigationController?.setViewControllers([loginVC], animated: true)
         }))
         alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: {action in
             
@@ -122,8 +120,7 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     @objc func backButtonPressed() {
-        //self.performSegue(withIdentifier: "toMainMenuFromProfile", sender: self)
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc func personalViewTapped(){

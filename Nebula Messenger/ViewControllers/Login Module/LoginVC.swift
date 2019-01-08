@@ -12,7 +12,7 @@ import FirebaseMessaging
 import FirebaseInstanceID
 import KeychainAccess
 
-class LoginVC: UIViewController, UITextFieldDelegate {
+class LoginVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
     var keychain = Keychain(service: "N-Messenger")
     
     var alreadyLoggedIn = false
@@ -44,6 +44,13 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         // Additional VC Setup
         topView?.usernameTextField.delegate = self
         topView?.passwordTextField.delegate = self
+        
+        topView?.loginButton.addTarget(self, action: #selector(loginButton(_:)), for: .touchUpInside)
+        topView?.toRegisterButton.addTarget(self, action: #selector(toRegisterButton(_:)), for: .touchUpInside)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tappedOnScreen(_:)))
+        tap.delegate = self
+        topView?.addGestureRecognizer(tap)
         
     }
     
@@ -135,17 +142,18 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     }
     
     // MARK: Actions
-    @IBAction func loginButton(_ sender: UIButton) {
+    @objc func loginButton(_ sender: UIButton) {
         self.login()
     }
     
-    @IBAction func tappedOnScreen(_ sender: UITapGestureRecognizer) {
+    @objc func tappedOnScreen(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
     
     
-    @IBAction func toRegisterButton(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "toRegisterVC", sender: self)
+    @objc func toRegisterButton(_ sender: UIButton) {
+        let registerVC = RegisterVC()
+        self.navigationController?.pushViewController(registerVC, animated: true)
     }
 }
 

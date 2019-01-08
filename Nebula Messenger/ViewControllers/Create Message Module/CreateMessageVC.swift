@@ -76,13 +76,14 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     //MARK: Actions
     @objc func xButtonPressed() {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc func continueButtonPressed() {
         let messageVC = MessengerVC()
         messageVC.modalPresentationStyle = .overFullScreen
         messageVC.id = ""
+        messageVC.fromCreateMessage = true
         
         if self.selectedFriendsList.count > 1{
             var quickInvolved = Utility.createGroupConvId(names: self.selectedFriendsList)
@@ -108,8 +109,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                     }else{
                         messageVC.involved = self.passInvolved
                     }
-                    
-                    self.present(messageVC, animated: true, completion: nil)
+                    self.navigationController?.pushViewController(messageVC, animated: true)
                 }
             }else{
                 messageVC.skipNotif = true
@@ -122,7 +122,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                 }else{
                     messageVC.involved = self.passInvolved
                 }
-                self.present(messageVC, animated: true, completion: nil)
+                self.navigationController?.pushViewController(messageVC, animated: true)
             }
         }else{
             if GlobalUser.convNames.contains(self.selectedFriendsList[0]){
@@ -142,7 +142,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                         passList.append(GlobalUser.username)
                         messageVC.involved = Utility.createConvId(names: passList)
                     }
-                    self.present(messageVC, animated: true, completion: nil)
+                    self.navigationController?.pushViewController(messageVC, animated: true)
                 }
             }else{
                 messageVC.friend = self.selectedFriendsList[0]
@@ -156,7 +156,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                     passList.append(GlobalUser.username)
                     messageVC.involved = Utility.createConvId(names: passList)
                 }
-                self.present(messageVC, animated: true, completion: nil)
+                self.navigationController?.pushViewController(messageVC, animated: true)
             }
         }
     }

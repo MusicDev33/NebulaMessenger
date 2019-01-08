@@ -72,6 +72,7 @@ class LoginView: UIView {
         addSubview(usernameTextField)
         addSubview(passwordTextField)
         addSubview(loginButton)
+        addSubview(toRegisterButton)
         
         setConstraints()
     }
@@ -99,5 +100,10 @@ class LoginView: UIView {
                                                constant: 5).isActive = true
         loginButton.widthAnchor.constraint(equalTo: usernameTextField.widthAnchor).isActive = true
         loginButton.heightAnchor.constraint(equalTo: usernameTextField.heightAnchor).isActive = true
+        
+        toRegisterButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        toRegisterButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor).isActive = true
+        toRegisterButton.widthAnchor.constraint(equalTo: usernameTextField.widthAnchor).isActive = true
+        toRegisterButton.heightAnchor.constraint(equalTo: usernameTextField.heightAnchor).isActive = true
     }
 }

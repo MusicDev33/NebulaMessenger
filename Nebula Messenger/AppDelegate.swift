@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //TEMPORARY - REMOVE LATER
         UserDefaults.standard.setValue(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
         
-        
+        window = UIWindow(frame: UIScreen.main.bounds)
         // Override point for customization after application launch.
         self.window!.tintColor = nebulaPurple
         setColors()
@@ -65,7 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         application.applicationIconBadgeNumber = 0
         
         let alreadyLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
-        window = UIWindow(frame: UIScreen.main.bounds)
         
         if alreadyLoggedIn{
             let firstScreen = FakeLaunchVC()
@@ -76,9 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let navController = UINavigationController(rootViewController: firstScreen)
             self.window?.rootViewController = navController
         }
-        
-        window?.makeKeyAndVisible()
-        
         
         self.window?.makeKeyAndVisible()
         self.window?.tintColor = nebulaPurple
