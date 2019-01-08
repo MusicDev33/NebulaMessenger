@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         
         // Override point for customization after application launch.
-        self.window!.tintColor = nebulaPurple//UIColor.init(red: 175/255, green: 0/255, blue: 124/255, alpha: 1)
+        self.window!.tintColor = nebulaPurple
         setColors()
         
         FirebaseApp.configure()
@@ -63,28 +63,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         application.registerForRemoteNotifications()
         application.applicationIconBadgeNumber = 0
-        /*
-        let firstScreen = LoginVC()
-        let navController = UINavigationController(rootViewController: firstScreen)
-         
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = navController
-        window?.makeKeyAndVisible()*/
         
-        self.window = UIWindow(frame: UIScreen.main.bounds)
         let alreadyLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
+        window = UIWindow(frame: UIScreen.main.bounds)
         
         if alreadyLoggedIn{
-            let storyboard = UIStoryboard(name: "App", bundle: nil)
-            
-            let initialViewController = storyboard.instantiateViewController(withIdentifier: "fakeLaunch")
-            self.window?.rootViewController = initialViewController
+            let firstScreen = FakeLaunchVC()
+            let navController = UINavigationController(rootViewController: firstScreen)
+            self.window?.rootViewController = navController
         }else{
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            
-            let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginVC")
-            self.window?.rootViewController = initialViewController
+            let firstScreen = LoginVC()
+            let navController = UINavigationController(rootViewController: firstScreen)
+            self.window?.rootViewController = navController
         }
+        
+        window?.makeKeyAndVisible()
+        
         
         self.window?.makeKeyAndVisible()
         self.window?.tintColor = nebulaPurple

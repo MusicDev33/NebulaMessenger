@@ -192,7 +192,8 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     @objc func goBack(sender: UIButton){
         GlobalUser.currentConv = ""
         self.view.endEditing(true)
-        self.performSegue(withIdentifier: "messengerVCToMainMenu", sender: self)
+        self.presentingViewController?.dismiss(animated: false, completion: nil)
+        self.dismiss(animated: false, completion: nil)
     }
     
     @objc func sendWrapper(sender: UIButton){
@@ -202,7 +203,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     @objc func swipeRightOnCollection(){
         GlobalUser.currentConv = ""
         self.view.endEditing(true)
-        self.performSegue(withIdentifier: "messengerVCToMainMenu", sender: self)
+        //self.performSegue(withIdentifier: "messengerVCToMainMenu", sender: self)
     }
     
     var newView: MessengerView!

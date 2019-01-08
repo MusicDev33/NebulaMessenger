@@ -24,8 +24,6 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     var poolsInArea = [PublicPool]()
     var currentPools = [PublicPool]()
     
-    @IBOutlet weak var segmentedTabs: UISegmentedControl!
-    
     var poolTable: UICollectionView!
     
     var passPoolId = ""
@@ -43,6 +41,9 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         
         topView = PoolingView(frame: self.view.frame)
         self.view.addSubview(topView)
+        
+        topView.mapOptionsField.delegate = self
+        topView.mapOptionsField.isHidden = true
         
         // Add button targets
         mapView = topView.mapView
@@ -96,12 +97,12 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
                 self.mapView.addAnnotation(annotation)
             }
             self.setupPoolTable()
+            self.poolTablePopup()
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.poolTablePopup()
         if UserDefaults.standard.string(forKey: "poolsIntroduced") != nil{
             
         }else{
@@ -356,7 +357,11 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         self.passPoolId = self.currentPools[indexPath.row].poolId ?? ""
         PoolRoutes.getPoolMessages(id: self.passPoolId){messagesList in
             self.passPoolMessages = messagesList
-            self.performSegue(withIdentifier: "toPoolChat", sender: self)
+            let poolChatVC = PoolChatVC()
+            poolChatVC.modalPresentationStyle = .currentContext
+            poolChatVC.poolId = self.passPoolId
+            poolChatVC.currentPoolMessages = self.passPoolMessages
+            self.present(poolChatVC, animated: true, completion: nil)
         }
     }
     
@@ -374,7 +379,7 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
     
     // MARK: Actions
     @objc func backButtonPressed() {
-        self.performSegue(withIdentifier: "unwindToMainMenuFromPools", sender: self)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func longPressedOnMap(_ sender: UILongPressGestureRecognizer) {
@@ -429,23 +434,6 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         self.present(alert, animated: true, completion: nil)
     }
     
-    //Set up pool view table
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-        
-        if segue.destination is PoolChatVC{
-            let vc = segue.destination as? PoolChatVC
-            vc?.poolId = passPoolId
-            vc?.currentPoolMessages = self.passPoolMessages
-        }
-    }
-    
-    @IBAction func didUnwindFromPoolChat(_ sender: UIStoryboardSegue){
-        guard sender.source is PoolChatVC else {return}
-    }
-    
     
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if(event?.subtype == UIEvent.EventSubtype.motionShake) {
@@ -459,5 +447,42 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
             }))
             self.present(alert, animated: true, completion: nil)
         }
+    }
+}
+
+extension PoolingVC: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        var numChoice = Int(string)
+        
+        if numChoice! > 5{
+            numChoice = 5
+        }else if numChoice! < 0{
+            numChoice = 0
+        }
+        
+        switch numChoice {
+        case 0:
+            topView.mapView.mapType = MKMapType.hybrid
+        case 1:
+            topView.mapView.mapType = MKMapType.hybridFlyover
+        case 2:
+            topView.mapView.mapType = MKMapType.satellite
+        case 3:
+            topView.mapView.mapType = MKMapType.satelliteFlyover
+        case 4:
+            topView.mapView.mapType = MKMapType.standard
+        case 5:
+            topView.mapView.mapType = MKMapType.mutedStandard
+        default:
+            topView.mapView.mapType = MKMapType.standard
+        }
+        
+        textField.resignFirstResponder()
+        
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.text = ""
     }
 }

@@ -105,15 +105,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="134" y="870"/>
-        </scene>
-        <!--MainMenuVC-->
-        <scene sceneID="dcM-5g-bac">
-            <objects>
-                <viewControllerPlaceholder storyboardName="App" referencedIdentifier="MainMenuVC" id="Dbt-2r-mAq" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="T4z-Hd-rcm" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-465" y="582"/>
+            <point key="canvasLocation" x="871" y="125"/>
         </scene>
         <!--LoginVC-->
         <scene sceneID="tne-QT-ifu">
@@ -122,89 +114,17 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zhz-h9-aVl">
-                                <rect key="frame" x="57.5" y="261.5" width="260" height="144"/>
-                                <subviews>
-                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UVp-Pc-4lg">
-                                        <rect key="frame" x="0.0" y="0.0" width="260" height="0.0"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="2Nw-vS-NrD">
-                                        <rect key="frame" x="0.0" y="0.0" width="260" height="30"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" spellCheckingType="no" returnKeyType="next"/>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Pnz-vo-MGj">
-                                        <rect key="frame" x="0.0" y="38" width="260" height="30"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" spellCheckingType="no" returnKeyType="go" secureTextEntry="YES"/>
-                                    </textField>
-                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="g1h-r6-wNg">
-                                        <rect key="frame" x="0.0" y="72" width="260" height="0.0"/>
-                                    </activityIndicatorView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9XS-y5-5ry">
-                                        <rect key="frame" x="0.0" y="76" width="260" height="30"/>
-                                        <state key="normal" title="Log In"/>
-                                        <connections>
-                                            <action selector="loginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cvH-zL-QZI"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UJa-q4-XTr">
-                                        <rect key="frame" x="0.0" y="114" width="260" height="30"/>
-                                        <state key="normal" title="Don't have an account? Click here."/>
-                                        <connections>
-                                            <action selector="toRegisterButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gmL-oP-L9I"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="260" id="gNI-s8-fLQ"/>
-                                </constraints>
-                            </stackView>
-                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
-                        <constraints>
-                            <constraint firstItem="zhz-h9-aVl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="TWZ-Nc-WrO"/>
-                            <constraint firstItem="zhz-h9-aVl" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="jMe-nX-2PX"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="jh1-so-PZl" appends="YES" id="cd7-VW-rF2"/>
-                        </connections>
                     </view>
                     <connections>
-                        <outlet property="goToRegisterButton" destination="UJa-q4-XTr" id="Pqo-G8-TdU"/>
-                        <outlet property="loginButtonOutlet" destination="9XS-y5-5ry" id="wMV-Jh-Ntv"/>
-                        <outlet property="passwordTextField" destination="Pnz-vo-MGj" id="4eB-oq-Jmf"/>
-                        <outlet property="serverMessageLabel" destination="UVp-Pc-4lg" id="dSY-yn-D2s"/>
-                        <outlet property="spinnyThing" destination="g1h-r6-wNg" id="u8Y-4m-ek3"/>
-                        <outlet property="usernameTextField" destination="2Nw-vS-NrD" id="oc2-gq-I6S"/>
                         <segue destination="zvo-bV-DP9" kind="presentation" identifier="toRegisterVC" modalTransitionStyle="flipHorizontal" id="kBY-kC-I5I"/>
-                        <segue destination="n0U-Pk-CS5" kind="show" identifier="toAppSB" id="euQ-rY-x5u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="jh1-so-PZl">
-                    <connections>
-                        <action selector="tappedOnScreen:" destination="BYZ-38-t0r" id="8bI-Rs-H2P"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="133.59999999999999" y="125.4872563718141"/>
-        </scene>
-        <!--MainMenuVC-->
-        <scene sceneID="SPG-uM-91J">
-            <objects>
-                <viewControllerPlaceholder storyboardName="App" referencedIdentifier="MainMenuVC" id="n0U-Pk-CS5" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="iNv-ta-YY3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-465" y="582"/>
         </scene>
     </scenes>
 </document>

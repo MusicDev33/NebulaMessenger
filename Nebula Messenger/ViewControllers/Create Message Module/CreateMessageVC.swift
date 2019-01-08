@@ -58,6 +58,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.white
         
         topView = CreateMessageView(frame: self.view.frame)
         self.view.addSubview(topView!)
@@ -75,10 +76,14 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     //MARK: Actions
     @objc func xButtonPressed() {
-        self.performSegue(withIdentifier: "toMainMenuFromCreateMessage", sender: self)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func continueButtonPressed() {
+        let messageVC = MessengerVC()
+        messageVC.modalPresentationStyle = .overFullScreen
+        messageVC.id = ""
+        
         if self.selectedFriendsList.count > 1{
             var quickInvolved = Utility.createGroupConvId(names: self.selectedFriendsList)
             quickInvolved = Utility.alphabetSort(preConvId: quickInvolved)
@@ -92,10 +97,32 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                 let quickId = GlobalUser.masterDict[quickConvName]!.id
                 MessageRoutes.getMessages(id: quickId!){messageList in
                     self.passMsgList = messageList
-                    self.performSegue(withIdentifier: "toMessengerVCFromCreate", sender: self)
+                    
+                    messageVC.skipNotif = true
+                    messageVC.friend = self.passFriend
+                    
+                    if GlobalUser.convNames.contains(self.passFriend){
+                        messageVC.involved = GlobalUser.involvedDict[self.passFriend]!
+                        messageVC.id = GlobalUser.masterDict[self.passFriend]!.id!
+                        messageVC.msgList = self.passMsgList
+                    }else{
+                        messageVC.involved = self.passInvolved
+                    }
+                    
+                    self.present(messageVC, animated: true, completion: nil)
                 }
             }else{
-                self.performSegue(withIdentifier: "toMessengerVCFromCreate", sender: self)
+                messageVC.skipNotif = true
+                messageVC.friend = self.passFriend
+                
+                if GlobalUser.convNames.contains(self.passFriend){
+                    messageVC.involved = GlobalUser.involvedDict[self.passFriend]!
+                    messageVC.id = GlobalUser.masterDict[self.passFriend]!.id!
+                    messageVC.msgList = self.passMsgList
+                }else{
+                    messageVC.involved = self.passInvolved
+                }
+                self.present(messageVC, animated: true, completion: nil)
             }
         }else{
             if GlobalUser.convNames.contains(self.selectedFriendsList[0]){
@@ -103,10 +130,33 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                 let quickId = GlobalUser.masterDict[friend]!.id
                 MessageRoutes.getMessages(id: quickId!){messageList in
                     self.passMsgList = messageList
-                    self.performSegue(withIdentifier: "toMessengerVCFromCreate", sender: self)
+                    
+                    messageVC.friend = self.selectedFriendsList[0]
+                    self.passFriend = self.selectedFriendsList[0]
+                    if GlobalUser.convNames.contains(self.selectedFriendsList[0]){
+                        messageVC.involved = GlobalUser.involvedDict[self.passFriend]!
+                        messageVC.id = GlobalUser.masterDict[self.passFriend]!.id!
+                        messageVC.msgList = self.passMsgList
+                    }else{
+                        var passList = self.selectedFriendsList
+                        passList.append(GlobalUser.username)
+                        messageVC.involved = Utility.createConvId(names: passList)
+                    }
+                    self.present(messageVC, animated: true, completion: nil)
                 }
             }else{
-                self.performSegue(withIdentifier: "toMessengerVCFromCreate", sender: self)
+                messageVC.friend = self.selectedFriendsList[0]
+                self.passFriend = self.selectedFriendsList[0]
+                if GlobalUser.convNames.contains(self.selectedFriendsList[0]){
+                    messageVC.involved = GlobalUser.involvedDict[self.passFriend]!
+                    messageVC.id = GlobalUser.masterDict[self.passFriend]!.id!
+                    messageVC.msgList = self.passMsgList
+                }else{
+                    var passList = self.selectedFriendsList
+                    passList.append(GlobalUser.username)
+                    messageVC.involved = Utility.createConvId(names: passList)
+                }
+                self.present(messageVC, animated: true, completion: nil)
             }
         }
     }

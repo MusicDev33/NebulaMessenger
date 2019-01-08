@@ -75,12 +75,12 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.searchController.searchBar.endEditing(true)
         
         //Temporary
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.type = CATransitionType.push
-        transition.subtype = CATransitionSubtype.fromRight
-        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
-        // self.view.window!.layer.add(transition, forKey: kCATransition)
+//        let transition = CATransition()
+//        transition.duration = 0.2
+//        transition.type = CATransitionType.push
+//        transition.subtype = CATransitionSubtype.fromRight
+//        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+//        self.view.window!.layer.add(transition, forKey: kCATransition)
         // present(dashboardWorkout, animated: false, completion: nil)
         
         let userCount = self.passInvolved.components(separatedBy:":").count
@@ -91,12 +91,29 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.isGroupChat = true
         }
         
+        let messageVC = MessengerVC()
+        messageVC.modalPresentationStyle = .overCurrentContext
+        messageVC.modalTransitionStyle = .crossDissolve
+        
         MessageRoutes.getMessages(id: self.passId){messageList in
             self.passMsgList = messageList
             tableView.deselectRow(at: indexPath, animated: true)
-            self.performSegue(withIdentifier: "toMessengerVC", sender: self)
-            //let nextVC = MessengerVC()
-            //self.present(nextVC, animated: false)
+            
+            SocketIOManager.socket.off("message")
+            if self.passInvolved.components(separatedBy:":").count-1 > 1{
+                messageVC.skipNotif = true
+            }
+            messageVC.id = self.passId
+            messageVC.involved = self.passInvolved
+            messageVC.friend = self.passFriend
+            messageVC.msgList = self.passMsgList
+            messageVC.isGroupChat = self.isGroupChat
+            self.isGroupChat = false
+            
+            //poolChatVC.poolId = self.passPoolId
+            //poolChatVC.currentPoolMessages = self.passPoolMessages
+            //self.present(messageVC, animated: true, completion: nil)
+            self.navigationController?.pushViewController(messageVC, animated: true)
         }
     }
     
@@ -321,15 +338,23 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     //MARK: Actions
     @objc func profileButtonPressed(){
         self.searchController.isActive = false
-        self.performSegue(withIdentifier: "toMyProfileView", sender: self)
+        let profileVC = MyProfileVC()
+        profileVC.modalPresentationStyle = .fullScreen
+        self.present(profileVC, animated: true, completion: nil)
     }
     
     @objc func nebulaButtonPressed(){
-        self.performSegue(withIdentifier: "toPools", sender: self)
+        let poolVC = PoolingVC()
+        poolVC.modalTransitionStyle = .crossDissolve
+        poolVC.modalPresentationStyle = .overCurrentContext
+        self.present(poolVC, animated: true)
     }
     
     @objc func createMessageButtonTapped() {
-        self.performSegue(withIdentifier: "toCreateMessageVC", sender: self)
+        let createMessageVC = CreateMessageVC()
+        createMessageVC.modalPresentationStyle = .overFullScreen
+        
+        self.present(createMessageVC, animated: true, completion: nil)
     }
     
     @objc func addFriendsButtonPressed() {
@@ -363,19 +388,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-        SocketIOManager.socket.off("message")
-        if segue.destination is MessengerVC{
-            let vc = segue.destination as? MessengerVC
-            if self.passInvolved.components(separatedBy:":").count-1 > 1{
-                vc?.skipNotif = true
-            }
-            vc?.id = self.passId
-            vc?.involved = self.passInvolved
-            vc?.friend = self.passFriend
-            vc?.msgList = self.passMsgList
-            vc?.isGroupChat = self.isGroupChat
-            self.isGroupChat = false
-        }
     }
     
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
@@ -392,30 +404,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             }))
             self.present(alert, animated: true, completion: nil)
         }
-    }
-    
-    // Unwinding
-    // Now the switch statement looks ugly...
-    // This is probably about as good as it gets, I suppose
-    @IBAction func didUnwindToMainMenu(_ sender: UIStoryboardSegue){
-        /*
-        switch sender.source {
-            
-        case is MessengerVC:
-            print("MessengerVC")
-        case is PoolingVC:
-            print("PoolingVC")
-        case is CreateMessageVC:
-            print("CreateMessageVC")
-        case is MyProfileVC:
-            print("MyProfileVC")
-        case is SecretVC:
-            print("SecretVC")
-        case is FeedbackVC:
-            print("FeedbackVC")
-        default:
-            print("NOTHING LOL")
-        }*/
     }
     
     // MARK: UI Creation
@@ -450,10 +438,13 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         profileButton.translatesAutoresizingMaskIntoConstraints = false
         profileButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        profileButton.backgroundColor = nebulaBlue
+        profileButton.backgroundColor = UIColor.white
+        profileButton.setTitleColor(nebulaBlue, for: .normal)
         profileButton.setTitleColor(UIColor.lightGray, for: .highlighted)
         profileButton.setTitleColor(UIColor.lightGray, for: .disabled)
         profileButton.layer.cornerRadius = 10
+        profileButton.layer.borderWidth = 1
+        profileButton.layer.borderColor = nebulaBlue.cgColor
         profileButton.setTitle("Profile", for: .normal)
         profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
         
@@ -472,10 +463,13 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
         settingsButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        settingsButton.backgroundColor = nebulaPurple
+        settingsButton.backgroundColor = UIColor.white
+        settingsButton.setTitleColor(nebulaPurple, for: .normal)
         settingsButton.setTitleColor(UIColor.lightGray, for: .highlighted)
         settingsButton.setTitleColor(UIColor.lightGray, for: .disabled)
         settingsButton.layer.cornerRadius = 10
+        settingsButton.layer.borderWidth = 1
+        settingsButton.layer.borderColor = nebulaPurple.cgColor
         settingsButton.setTitle("Settings", for: .normal)
         settingsButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
         

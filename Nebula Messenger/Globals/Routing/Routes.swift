@@ -34,7 +34,7 @@ let adminPassRoute = userRoot + "adminpass"
 let profileRoute = userRoot + "profile"
 let getFriendsAndConvsRoute = userRoot + "getfriendsandconvstoken"
 let getCurrentiOSRoute = userRoot + "getcurrentios"
-let getQuotesRoute = userRoot + "getquotes"
+let getQuotesRoute = userRoot + "getquote"
 let getUserRoute = userRoot + "getuser"
 let refreshTokenRoute = userRoot + "refreshtoken"
 

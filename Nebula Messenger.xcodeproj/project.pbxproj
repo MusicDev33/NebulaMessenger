@@ -17,6 +17,7 @@
 		1F2CE4512175D07300B15C59 /* Incoming-Message.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2CE44F2175D07300B15C59 /* Incoming-Message.caf */; };
 		1F2CE4532175D0C100B15C59 /* MasterAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CE4522175D0C100B15C59 /* MasterAudio.swift */; };
 		1F42502F21DC9DFE00CE108C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F42502E21DC9DFE00CE108C /* ProfileView.swift */; };
+		1F42503221E4047A00CE108C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F42503121E4047A00CE108C /* LoginView.swift */; };
 		1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2672152227F00DC9525 /* AppDelegate.swift */; };
 		1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2692152227F00DC9525 /* LoginVC.swift */; };
 		1F68B26D2152227F00DC9525 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B26B2152227F00DC9525 /* Main.storyboard */; };
@@ -51,7 +52,6 @@
 		1FA20BCC218D728C007317B5 /* GroupChatAddVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BCB218D728C007317B5 /* GroupChatAddVC.swift */; };
 		1FA20BD721915671007317B5 /* MessengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BD621915671007317B5 /* MessengerView.swift */; };
 		1FAF4D0821B4FF6100843C89 /* AlertBP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF4D0721B4FF6100843C89 /* AlertBP.swift */; };
-		1FB413ED21D71C4900CB1288 /* App.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FB413EC21D71C4900CB1288 /* App.storyboard */; };
 		1FB413EF21D7306800CB1288 /* FakeLaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB413EE21D7306800CB1288 /* FakeLaunchVC.swift */; };
 		1FB413F221D7587700CB1288 /* CreateMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB413F121D7587700CB1288 /* CreateMessageView.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
@@ -92,6 +92,7 @@
 		1F2CE44F2175D07300B15C59 /* Incoming-Message.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Incoming-Message.caf"; sourceTree = "<group>"; };
 		1F2CE4522175D0C100B15C59 /* MasterAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterAudio.swift; sourceTree = "<group>"; };
 		1F42502E21DC9DFE00CE108C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		1F42503121E4047A00CE108C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		1F68B2642152227F00DC9525 /* Nebula Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nebula Messenger.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F68B2672152227F00DC9525 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F68B2692152227F00DC9525 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -134,7 +135,6 @@
 		1FA20BCB218D728C007317B5 /* GroupChatAddVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatAddVC.swift; sourceTree = "<group>"; };
 		1FA20BD621915671007317B5 /* MessengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerView.swift; sourceTree = "<group>"; };
 		1FAF4D0721B4FF6100843C89 /* AlertBP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBP.swift; sourceTree = "<group>"; };
-		1FB413EC21D71C4900CB1288 /* App.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = App.storyboard; sourceTree = "<group>"; };
 		1FB413EE21D7306800CB1288 /* FakeLaunchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeLaunchVC.swift; sourceTree = "<group>"; };
 		1FB413F121D7587700CB1288 /* CreateMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMessageView.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
@@ -192,6 +192,15 @@
 			path = "Profile Module";
 			sourceTree = "<group>";
 		};
+		1F42503021E4045C00CE108C /* Login Module */ = {
+			isa = PBXGroup;
+			children = (
+				1F68B2692152227F00DC9525 /* LoginVC.swift */,
+				1F42503121E4047A00CE108C /* LoginView.swift */,
+			);
+			path = "Login Module";
+			sourceTree = "<group>";
+		};
 		1F68B25B2152227F00DC9525 = {
 			isa = PBXGroup;
 			children = (
@@ -228,7 +237,6 @@
 				1F68B2A22152366600DC9525 /* Globals */,
 				1F68B2A12152260400DC9525 /* Lib */,
 				1F68B26B2152227F00DC9525 /* Main.storyboard */,
-				1FB413EC21D71C4900CB1288 /* App.storyboard */,
 				1F68B2702152228100DC9525 /* LaunchScreen.storyboard */,
 				1F68B26E2152228100DC9525 /* Assets.xcassets */,
 				1F68B29D2152245A00DC9525 /* GoogleService-Info.plist */,
@@ -303,12 +311,12 @@
 		1F68B2B9215276AE00DC9525 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1F42503021E4045C00CE108C /* Login Module */,
 				1F42502D21DC9DCB00CE108C /* Profile Module */,
 				1FB413F021D7584800CB1288 /* Create Message Module */,
 				1F8A3A8D21BA24AA008E42DB /* Main Menu */,
 				1FA20BCD21901D4F007317B5 /* Messenger Module */,
 				1F68B2BC2152DD1300DC9525 /* RegisterVC.swift */,
-				1F68B2692152227F00DC9525 /* LoginVC.swift */,
 				1F7E94BC2199BB0E00AA5715 /* Pooling Module */,
 				1FB413EE21D7306800CB1288 /* FakeLaunchVC.swift */,
 			);
@@ -558,7 +566,6 @@
 				1F2CE4512175D07300B15C59 /* Incoming-Message.caf in Resources */,
 				1F68B2722152228100DC9525 /* LaunchScreen.storyboard in Resources */,
 				1F68B26F2152228100DC9525 /* Assets.xcassets in Resources */,
-				1FB413ED21D71C4900CB1288 /* App.storyboard in Resources */,
 				1F68B26D2152227F00DC9525 /* Main.storyboard in Resources */,
 				1F68B29E2152245A00DC9525 /* GoogleService-Info.plist in Resources */,
 				1F2CE4502175D07300B15C59 /* Outgoing-Message.caf in Resources */,
@@ -729,6 +736,7 @@
 				1F68B2B02152749700DC9525 /* GlobalUser.swift in Sources */,
 				1F76C7E02158A95500EB6C8C /* CreateMessageVC.swift in Sources */,
 				1FAF4D0821B4FF6100843C89 /* AlertBP.swift in Sources */,
+				1F42503221E4047A00CE108C /* LoginView.swift in Sources */,
 				1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

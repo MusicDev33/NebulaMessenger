@@ -404,7 +404,7 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
     @objc func goBack(sender: UIButton){
         GlobalUser.currentConv = ""
         self.view.endEditing(true)
-        self.performSegue(withIdentifier: "backToPoolingView", sender: self)
+        self.dismiss(animated: true, completion: nil)
     }
     
     //MARK: Nav

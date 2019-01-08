@@ -15,7 +15,7 @@ class PoolingView: UIView {
     
     var mapView: MKMapView = {
         let map = MKMapView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        map.mapType = MKMapType.hybrid
+        map.mapType = MKMapType.mutedStandard
         map.isZoomEnabled = true
         map.isScrollEnabled = true
         map.isRotateEnabled = true
@@ -25,6 +25,24 @@ class PoolingView: UIView {
         map.showsUserLocation = true
         map.translatesAutoresizingMaskIntoConstraints = false
         return map
+    }()
+    
+    let mapOptionsField: UITextField = {
+        let field = UITextField()
+        field.placeholder = "0 - 5"
+        field.keyboardType = UIKeyboardType.numberPad
+        field.translatesAutoresizingMaskIntoConstraints = false
+        field.layer.borderWidth = 1
+        field.layer.borderColor = nebulaPurple.cgColor
+        
+        field.layer.cornerRadius = 8
+        
+        field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: field.frame.height))
+        field.leftViewMode = .always
+        
+        field.backgroundColor = UIColor.white
+        
+        return field
     }()
     
     let backButtonBackground: UIView = {
@@ -53,6 +71,7 @@ class PoolingView: UIView {
         addSubview(mapView)
         addSubview(backButtonBackground)
         addSubview(backButton)
+        addSubview(mapOptionsField)
         
         layoutMapView()
     }
@@ -85,6 +104,11 @@ class PoolingView: UIView {
         backButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
         backButton.centerXAnchor.constraint(equalTo: backButtonBackground.centerXAnchor, constant: -1).isActive = true
         backButton.centerYAnchor.constraint(equalTo: backButtonBackground.centerYAnchor, constant: 0).isActive = true
+        
+        mapOptionsField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
+        mapOptionsField.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+        mapOptionsField.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        mapOptionsField.heightAnchor.constraint(equalToConstant: 38).isActive = true
     }
     
     //Actions

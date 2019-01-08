@@ -270,4 +270,29 @@ class UserRoutes{
         }
     }
     
+    static func getQuotes(completion:@escaping ([String]) -> ()){
+        let url = URL(string: getQuotesRoute)
+        var requestJson = [String:Any]()
+        requestJson["token"] = GlobalUser.token
+        do {
+            let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
+            let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)
+            
+            Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
+                switch response.result{
+                case .success(let Json):
+                    let jsonObject = JSON(Json)
+                    let quotesList = Utility.toArray(json: jsonObject["quotes"])
+                    completion(quotesList)
+                case .failure(_):
+                    print("Not working!")
+                    var returnList = [String]()
+                    returnList.append("Thanks for using Nebula!")
+                    completion(returnList)
+                }
+            })
+        }catch{
+        }
+    }
+    
 }

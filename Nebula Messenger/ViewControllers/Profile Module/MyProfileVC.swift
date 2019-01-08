@@ -58,7 +58,7 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.backgroundColor = UIColor.white
         topView = ProfileView(frame: self.view.frame)
         //CV
         topView?.selfColorCollectionView.delegate = self
@@ -110,7 +110,10 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             UserDefaults.standard.set("", forKey: "username")
             UserDefaults.standard.set("", forKey: "password")
             UserDefaults.standard.set(false, forKey: "isLoggedIn")
-            self.performSegue(withIdentifier: "toLoginFromMainSB", sender: self)
+            let loginVC = LoginVC()
+            loginVC.modalPresentationStyle = .overCurrentContext
+            self.present(loginVC, animated: true, completion: nil)
+            //self.navigationController?.pushViewController(loginVC, animated: true)
         }))
         alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: {action in
             
@@ -119,7 +122,8 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     @objc func backButtonPressed() {
-        self.performSegue(withIdentifier: "toMainMenuFromProfile", sender: self)
+        //self.performSegue(withIdentifier: "toMainMenuFromProfile", sender: self)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func personalViewTapped(){
