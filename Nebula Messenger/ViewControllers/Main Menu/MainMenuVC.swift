@@ -36,6 +36,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     var passMsgList = [TerseMessage]()
     
+    var outdated = false
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchConvMode{
             return searchResults.count
@@ -265,18 +267,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             }
         }
         
-        let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
-        let buildNumber = Bundle.main.infoDictionary!["CFBundleVersion"] as? String
-        
-        // appVersion and buildNumber both exist for sure
-        UserRoutes.getIfCurrent(version: appVersion!, build: Int(buildNumber!)!){message in
-            if message == ""{
-                
-            }else{
-                if GlobalUser.username != "MusicDev"{
-                    Alert.basicAlert(on: self, with: "App is outdated!", message: message)
-                }
-            }
+        if outdated{
+            Alert.basicAlert(on: self, with: "App is outdated!", message: "Update through TestFlight!")
         }
         
         SocketIOManager.establishConnection()

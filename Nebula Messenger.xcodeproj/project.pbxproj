@@ -55,6 +55,9 @@
 		1FB413F221D7587700CB1288 /* CreateMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB413F121D7587700CB1288 /* CreateMessageView.swift */; };
 		1FC7ED2A21E4912F002F1422 /* CustomTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED2921E4912F002F1422 /* CustomTransitions.swift */; };
 		1FC7ED2D21E49958002F1422 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED2C21E49958002F1422 /* RegisterView.swift */; };
+		1FC7ED3021E4A5F1002F1422 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED2F21E4A5F1002F1422 /* SettingsView.swift */; };
+		1FC7ED3221E4A606002F1422 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3121E4A606002F1422 /* SettingsVC.swift */; };
+		1FC7ED3421E4A71F002F1422 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3321E4A71F002F1422 /* SettingsCell.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
 		1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */; };
@@ -139,6 +142,9 @@
 		1FB413F121D7587700CB1288 /* CreateMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMessageView.swift; sourceTree = "<group>"; };
 		1FC7ED2921E4912F002F1422 /* CustomTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransitions.swift; sourceTree = "<group>"; };
 		1FC7ED2C21E49958002F1422 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		1FC7ED2F21E4A5F1002F1422 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		1FC7ED3121E4A606002F1422 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		1FC7ED3321E4A71F002F1422 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
 		1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
@@ -316,6 +322,7 @@
 				1F42503021E4045C00CE108C /* Login Module */,
 				1F8A3A8D21BA24AA008E42DB /* Main Menu */,
 				1F42502D21DC9DCB00CE108C /* Profile Module */,
+				1FC7ED2E21E4A5D5002F1422 /* Settings Module */,
 				1FB413F021D7584800CB1288 /* Create Message Module */,
 				1FA20BCD21901D4F007317B5 /* Messenger Module */,
 				1F7E94BC2199BB0E00AA5715 /* Pooling Module */,
@@ -403,6 +410,15 @@
 			path = "Register Module";
 			sourceTree = "<group>";
 		};
+		1FC7ED2E21E4A5D5002F1422 /* Settings Module */ = {
+			isa = PBXGroup;
+			children = (
+				1FC7ED2F21E4A5F1002F1422 /* SettingsView.swift */,
+				1FC7ED3121E4A606002F1422 /* SettingsVC.swift */,
+			);
+			path = "Settings Module";
+			sourceTree = "<group>";
+		};
 		1FE4F0F821687CF400E4EF72 /* Custom Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -412,6 +428,7 @@
 				1F2CE449216DD9C100B15C59 /* PoolAnnotation.swift */,
 				1F2CE4522175D0C100B15C59 /* MasterAudio.swift */,
 				1FC7ED2921E4912F002F1422 /* CustomTransitions.swift */,
+				1FC7ED3321E4A71F002F1422 /* SettingsCell.swift */,
 			);
 			path = "Custom Classes";
 			sourceTree = "<group>";
@@ -720,6 +737,7 @@
 				1F68B2BF2154A64D00DC9525 /* MessengerVC.swift in Sources */,
 				1FA20BCC218D728C007317B5 /* GroupChatAddVC.swift in Sources */,
 				1F68B2C12154C1C400DC9525 /* MainMenuVC.swift in Sources */,
+				1FC7ED3021E4A5F1002F1422 /* SettingsView.swift in Sources */,
 				1F7F763421AD10BA008D3BB1 /* AddFriendVC.swift in Sources */,
 				1F68B2B82152762A00DC9525 /* Utility.swift in Sources */,
 				1F170F162162FD1B009673E2 /* FriendRoutes.swift in Sources */,
@@ -736,10 +754,12 @@
 				1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */,
 				1F76C7DE2158A09E00EB6C8C /* PoolingVC.swift in Sources */,
 				1FB413EF21D7306800CB1288 /* FakeLaunchVC.swift in Sources */,
+				1FC7ED3421E4A71F002F1422 /* SettingsCell.swift in Sources */,
 				1FC7ED2A21E4912F002F1422 /* CustomTransitions.swift in Sources */,
 				1FB413F221D7587700CB1288 /* CreateMessageView.swift in Sources */,
 				1FE4F101216B139200E4EF72 /* FeedbackVC.swift in Sources */,
 				1FA20BD721915671007317B5 /* MessengerView.swift in Sources */,
+				1FC7ED3221E4A606002F1422 /* SettingsVC.swift in Sources */,
 				1F68B2B6215275CB00DC9525 /* PublicStructs.swift in Sources */,
 				1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */,
 				1F170F182163DBB3009673E2 /* ConversationRoutes.swift in Sources */,

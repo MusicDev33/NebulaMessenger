@@ -22,6 +22,9 @@ class FakeLaunchVC: UIViewController {
         quoteLabel.translatesAutoresizingMaskIntoConstraints = false
         quoteLabel.textColor = UIColor.black
         quoteLabel.font = UIFont.systemFont(ofSize: 18)
+        quoteLabel.numberOfLines = 0
+        quoteLabel.lineBreakMode = .byWordWrapping
+        quoteLabel.textAlignment = .center
         
         if UserDefaults.standard.stringArray(forKey: "quotesArray") != nil{
             let quotes = UserDefaults.standard.stringArray(forKey: "quotesArray")
@@ -42,14 +45,16 @@ class FakeLaunchVC: UIViewController {
         self.view.addSubview(nebulaImg)
         self.view.addSubview(quoteLabel)
         
-        nebulaImg.widthAnchor.constraint(equalToConstant: 160).isActive = true
-        nebulaImg.heightAnchor.constraint(equalToConstant: 160).isActive = true
+        nebulaImg.widthAnchor.constraint(equalToConstant: 180).isActive = true
+        nebulaImg.heightAnchor.constraint(equalToConstant: 180).isActive = true
         
         nebulaImg.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         nebulaImg.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         
         quoteLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         quoteLabel.topAnchor.constraint(equalTo: nebulaImg.bottomAnchor, constant: 50).isActive = true
+        
+        quoteLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.7).isActive = true
 
         let alreadyLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
         
@@ -57,19 +62,32 @@ class FakeLaunchVC: UIViewController {
             let username = UserDefaults.standard.string(forKey: "username") ?? ""
             let password = UserDefaults.standard.string(forKey: "password") ?? ""
             
+            let mainVC = MainMenuVC()
+            
             UserRoutes.sendLogin(username: username, password: password){success in
                 if success.success!{
                     UserRoutes.getFriendsAndConversations {
                         Messaging.messaging().subscribe(toTopic: GlobalUser.username) { error in
                             print("Subscribed to " + GlobalUser.username)
+                            
+                            let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
+                            let buildNumber = Bundle.main.infoDictionary!["CFBundleVersion"] as? String
+                            
+                            // appVersion and buildNumber both exist for sure
+                            UserRoutes.getIfCurrent(version: appVersion!,
+                                                    build: Int(buildNumber!)!){ message in
+                                if message == ""{
+                                    
+                                }else{
+                                    if GlobalUser.username != "MusicDev"{
+                                        mainVC.outdated = true
+                                    }
+                                }
+                                mainVC.modalPresentationStyle = .overCurrentContext
+                                self.navigationController?.pushViewController(mainVC, animated: true)
+                            }
                         }
-                        let mainVC = MainMenuVC()
-                        mainVC.modalPresentationStyle = .overCurrentContext
-                        self.navigationController?.pushViewController(mainVC, animated: true)
-                        //self.present(mainVC, animated: true, completion: nil)
-                        //self.performSegue(withIdentifier: "launchToMain", sender: self)
                     }
-                    
                 }else{
                     Alert.basicAlert(on: self, with: "Connection Failed", message: "Couldn't connect to the server.")
                 }
