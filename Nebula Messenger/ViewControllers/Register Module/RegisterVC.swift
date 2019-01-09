@@ -29,12 +29,17 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDele
         textFieldArray = [topView?.nameTextField, topView?.emailTextField,
                           topView?.usernameTextField, topView?.passwordTextField]
         
-        topView?.toLoginButton.addTarget(self, action: #selector(backToLoginPressed(_:)), for: .touchUpInside)
+        topView?.toLoginButton.addTarget(self, action: #selector(backToLoginPressed), for: .touchUpInside)
         topView?.registerButton.addTarget(self, action: #selector(registerButtonPress), for: .touchUpInside)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tappedOnScreen(_:)))
         tap.delegate = self
         topView?.addGestureRecognizer(tap)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(backToLoginPressed))
+        swipeLeft.direction = .right
+        swipeLeft.delegate = self
+        topView?.addGestureRecognizer(swipeLeft)
     }
     
     // MARK: Route Functions
@@ -103,7 +108,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDele
         view.endEditing(true)
     }
     
-    @objc func backToLoginPressed(_ sender: UIButton) {
+    @objc func backToLoginPressed() {
         self.navigationController?.popViewController(animated: true)
     }
     

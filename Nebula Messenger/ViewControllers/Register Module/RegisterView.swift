@@ -22,6 +22,7 @@ class RegisterView: UIView {
         textField.leftViewMode = .always
         
         textField.returnKeyType = .next
+        textField.tintColor = nebulaBlue
         
         return textField
     }()
@@ -38,6 +39,7 @@ class RegisterView: UIView {
         textField.leftViewMode = .always
         
         textField.returnKeyType = .next
+        textField.tintColor = nebulaBlue
         
         return textField
     }()
@@ -54,6 +56,7 @@ class RegisterView: UIView {
         textField.leftViewMode = .always
         
         textField.returnKeyType = .next
+        textField.tintColor = nebulaBlue
         
         return textField
     }()
@@ -71,6 +74,7 @@ class RegisterView: UIView {
         textField.leftViewMode = .always
         
         textField.returnKeyType = .go
+        textField.tintColor = nebulaBlue
         
         return textField
     }()

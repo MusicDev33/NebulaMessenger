@@ -46,11 +46,16 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegat
         topView?.passwordTextField.delegate = self
         
         topView?.loginButton.addTarget(self, action: #selector(loginButton(_:)), for: .touchUpInside)
-        topView?.toRegisterButton.addTarget(self, action: #selector(toRegisterButton(_:)), for: .touchUpInside)
+        topView?.toRegisterButton.addTarget(self, action: #selector(toRegisterButton), for: .touchUpInside)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tappedOnScreen(_:)))
         tap.delegate = self
         topView?.addGestureRecognizer(tap)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(toRegisterButton))
+        swipeLeft.direction = .left
+        swipeLeft.delegate = self
+        topView?.addGestureRecognizer(swipeLeft)
         
     }
     
@@ -151,7 +156,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegat
     }
     
     
-    @objc func toRegisterButton(_ sender: UIButton) {
+    @objc func toRegisterButton() {
         let registerVC = RegisterVC()
         self.navigationController?.pushViewController(registerVC, animated: true)
     }
