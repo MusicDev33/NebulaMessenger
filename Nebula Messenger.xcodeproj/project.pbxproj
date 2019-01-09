@@ -58,6 +58,8 @@
 		1FC7ED3021E4A5F1002F1422 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED2F21E4A5F1002F1422 /* SettingsView.swift */; };
 		1FC7ED3221E4A606002F1422 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3121E4A606002F1422 /* SettingsVC.swift */; };
 		1FC7ED3421E4A71F002F1422 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3321E4A71F002F1422 /* SettingsCell.swift */; };
+		1FC7ED3621E5B7D7002F1422 /* NALoading1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3521E5B7D7002F1422 /* NALoading1.swift */; };
+		1FC7ED3821E5C564002F1422 /* CustomMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3721E5C564002F1422 /* CustomMath.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
 		1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */; };
@@ -145,6 +147,8 @@
 		1FC7ED2F21E4A5F1002F1422 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1FC7ED3121E4A606002F1422 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		1FC7ED3321E4A71F002F1422 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
+		1FC7ED3521E5B7D7002F1422 /* NALoading1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NALoading1.swift; sourceTree = "<group>"; };
+		1FC7ED3721E5C564002F1422 /* CustomMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMath.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
 		1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
@@ -300,6 +304,7 @@
 				1F68B2AF2152749700DC9525 /* GlobalUser.swift */,
 				1F68B2B5215275CB00DC9525 /* PublicStructs.swift */,
 				1F68B2B72152762A00DC9525 /* Utility.swift */,
+				1FC7ED3721E5C564002F1422 /* CustomMath.swift */,
 			);
 			path = Globals;
 			sourceTree = "<group>";
@@ -429,6 +434,7 @@
 				1F2CE4522175D0C100B15C59 /* MasterAudio.swift */,
 				1FC7ED2921E4912F002F1422 /* CustomTransitions.swift */,
 				1FC7ED3321E4A71F002F1422 /* SettingsCell.swift */,
+				1FC7ED3521E5B7D7002F1422 /* NALoading1.swift */,
 			);
 			path = "Custom Classes";
 			sourceTree = "<group>";
@@ -730,6 +736,7 @@
 				1F68B2A02152258400DC9525 /* SwiftyJSON.swift in Sources */,
 				1FC7ED2D21E49958002F1422 /* RegisterView.swift in Sources */,
 				1F68B2B22152751700DC9525 /* Routes.swift in Sources */,
+				1FC7ED3621E5B7D7002F1422 /* NALoading1.swift in Sources */,
 				1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */,
 				1F7F763621AD38F5008D3BB1 /* RequestedFriendsVC.swift in Sources */,
 				1FA20BC7218D6E83007317B5 /* UserRoutes.swift in Sources */,
@@ -762,6 +769,7 @@
 				1FC7ED3221E4A606002F1422 /* SettingsVC.swift in Sources */,
 				1F68B2B6215275CB00DC9525 /* PublicStructs.swift in Sources */,
 				1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */,
+				1FC7ED3821E5C564002F1422 /* CustomMath.swift in Sources */,
 				1F170F182163DBB3009673E2 /* ConversationRoutes.swift in Sources */,
 				1F76C7DC215899B500EB6C8C /* MyProfileVC.swift in Sources */,
 				1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */,
