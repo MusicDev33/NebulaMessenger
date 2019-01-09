@@ -60,6 +60,8 @@
 		1FC7ED3421E4A71F002F1422 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3321E4A71F002F1422 /* SettingsCell.swift */; };
 		1FC7ED3621E5B7D7002F1422 /* NALoading1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3521E5B7D7002F1422 /* NALoading1.swift */; };
 		1FC7ED3821E5C564002F1422 /* CustomMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3721E5C564002F1422 /* CustomMath.swift */; };
+		1FC7ED3B21E5E67B002F1422 /* CanvasRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3A21E5E67B002F1422 /* CanvasRoutes.swift */; };
+		1FC7ED3D21E5E929002F1422 /* CanvasCourseRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3C21E5E929002F1422 /* CanvasCourseRouting.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
 		1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */; };
@@ -149,6 +151,8 @@
 		1FC7ED3321E4A71F002F1422 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		1FC7ED3521E5B7D7002F1422 /* NALoading1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NALoading1.swift; sourceTree = "<group>"; };
 		1FC7ED3721E5C564002F1422 /* CustomMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMath.swift; sourceTree = "<group>"; };
+		1FC7ED3A21E5E67B002F1422 /* CanvasRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasRoutes.swift; sourceTree = "<group>"; };
+		1FC7ED3C21E5E929002F1422 /* CanvasCourseRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasCourseRouting.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
 		1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
@@ -298,6 +302,7 @@
 		1F68B2A22152366600DC9525 /* Globals */ = {
 			isa = PBXGroup;
 			children = (
+				1FC7ED3921E5E662002F1422 /* Canvas */,
 				1F68B2C22155838B00DC9525 /* Routing */,
 				1F68B2A32152367A00DC9525 /* FirebaseGlobals.swift */,
 				1F68B2AD2152740700DC9525 /* SocketIOManager.swift */,
@@ -422,6 +427,15 @@
 				1FC7ED3121E4A606002F1422 /* SettingsVC.swift */,
 			);
 			path = "Settings Module";
+			sourceTree = "<group>";
+		};
+		1FC7ED3921E5E662002F1422 /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				1FC7ED3A21E5E67B002F1422 /* CanvasRoutes.swift */,
+				1FC7ED3C21E5E929002F1422 /* CanvasCourseRouting.swift */,
+			);
+			path = Canvas;
 			sourceTree = "<group>";
 		};
 		1FE4F0F821687CF400E4EF72 /* Custom Classes */ = {
@@ -737,11 +751,13 @@
 				1FC7ED2D21E49958002F1422 /* RegisterView.swift in Sources */,
 				1F68B2B22152751700DC9525 /* Routes.swift in Sources */,
 				1FC7ED3621E5B7D7002F1422 /* NALoading1.swift in Sources */,
+				1FC7ED3D21E5E929002F1422 /* CanvasCourseRouting.swift in Sources */,
 				1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */,
 				1F7F763621AD38F5008D3BB1 /* RequestedFriendsVC.swift in Sources */,
 				1FA20BC7218D6E83007317B5 /* UserRoutes.swift in Sources */,
 				1FA20BC9218D6FCD007317B5 /* MessageRoutes.swift in Sources */,
 				1F68B2BF2154A64D00DC9525 /* MessengerVC.swift in Sources */,
+				1FC7ED3B21E5E67B002F1422 /* CanvasRoutes.swift in Sources */,
 				1FA20BCC218D728C007317B5 /* GroupChatAddVC.swift in Sources */,
 				1F68B2C12154C1C400DC9525 /* MainMenuVC.swift in Sources */,
 				1FC7ED3021E4A5F1002F1422 /* SettingsView.swift in Sources */,
