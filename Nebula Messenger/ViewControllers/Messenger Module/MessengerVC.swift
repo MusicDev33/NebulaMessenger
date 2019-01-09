@@ -418,6 +418,9 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        print("Testing:)")
+        print(indexPath)
+        print(collectionView.numberOfItems(inSection: 0))
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messageBubble", for: indexPath) as! MessageBubble
         var height: CGFloat = 160
         height = findSize(text: self.msgList[indexPath.row].body!, label: cell.textView).height + 20
@@ -571,10 +574,12 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         let indexPath = IndexPath(row: self.msgList.count, section: 0)
                         self.msgList.append(tempMsg)
                         self.messagesCollection.insertItems(at: [indexPath])
+                        //self.messagesCollection.reloadData()
                     }, completion: {done in
                         
                         let lastItem = self.messagesCollection.numberOfItems(inSection: 0) - 1
                         let lastIndex = IndexPath(item: lastItem, section: 0)
+                        self.messagesCollection.reloadData()
                         self.messagesCollection.scrollToItem(at: lastIndex, at: .bottom, animated: true)
                     })
                     
@@ -681,7 +686,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         //self.messagesCollection.reloadData()
                         
                         //self.messagesCollection.reloadData()
-                        
+                        self.messagesCollection.reloadData()
                         let lastRow = self.msgList.count - 1
                         let lastIndex = IndexPath(item: lastRow, section: 0)
                         let newLastIndex = IndexPath(item: lastRow + 1, section: 0)
@@ -693,11 +698,13 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                             let indexPath = IndexPath(row: self.msgList.count, section: 0)
                             self.msgList.append(tempMsg)
                             self.messagesCollection.insertItems(at: [indexPath])
+                            self.messagesCollection.reloadData()
                         }, completion: {done in
                             
                             let lastItem = self.messagesCollection.numberOfItems(inSection: 0) - 1
                             let lastIndex = IndexPath(item: lastItem, section: 0)
                             self.messagesCollection.scrollToItem(at: lastIndex, at: .bottom, animated: true)
+                            self.messagesCollection.reloadData()
                         })
                         
                     }
@@ -742,6 +749,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         self.scrollToBottom(animated: true)
                     }
                 }else{
+                    self.messagesCollection.reloadData()
                     print("Something went wrong")
                 }
             } catch {
@@ -772,6 +780,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         self.scrollToBottom(animated: true)
                     }
                 }else{
+                    self.messagesCollection.reloadData()
                     print("Something went wrong")
                 }
             } catch {

@@ -84,6 +84,12 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         
         topView?.selfColorCollectionView.reloadData()
         
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(backButtonPressed))
+        swipeRight.direction = .right
+        swipeRight.delegate = self
+        
+        topView?.addGestureRecognizer(swipeRight)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {

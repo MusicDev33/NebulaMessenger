@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
     var mainTable: UITableView!
     
     
@@ -72,6 +72,12 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         topView?.backButton.addTarget(self, action: #selector(xButtonPressed), for: .touchUpInside)
         topView?.continueButton.addTarget(self, action: #selector(continueButtonPressed), for: .touchUpInside)
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(xButtonPressed))
+        swipeRight.direction = .right
+        swipeRight.delegate = self
+        
+        topView?.addGestureRecognizer(swipeRight)
     }
     
     //MARK: Actions
