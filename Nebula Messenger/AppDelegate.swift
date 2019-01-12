@@ -151,7 +151,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("Received message!")
         print(remoteMessage.appData)
         
-        UIApplication.shared.applicationIconBadgeNumber = 11
+        UIApplication.shared.applicationIconBadgeNumber = 1
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

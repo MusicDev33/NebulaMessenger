@@ -403,6 +403,7 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
     @objc func addFriend(){
         addFriendButton.isEnabled = false
         FriendRoutes.requestFriend(friend: usernameLabel.text!){
+            SocketIOManager.sendRequest(friend: self.usernameLabel.text!)
             self.usernameLabel.text = ""
             self.realNameLabel.text = ""
             self.sentLabel.isHidden = false

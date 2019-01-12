@@ -76,6 +76,13 @@ class SocketIOManager: NSObject {
         self.socket.emit("done-typing", with: [dec])
     }
     
+    static func sendRequest(friend: String){
+        var request = [String:Any]()
+        request["friend"] = friend
+        request["sender"] = GlobalUser.username
+        self.socket.emit("add-friend", with: [request])
+    }
+    
     func createNewSocket() -> SocketIOClient{
         let manager = SocketManager(socketURL: URL(string: baseUrl)!)
         let socket = manager.defaultSocket

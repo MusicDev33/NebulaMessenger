@@ -11,8 +11,6 @@ import UIKit
 class SettingsView: UIView {
     
     var settingsCView: UICollectionView!
-    var selfColorCollectionView: UICollectionView!
-    var otherColorCollectionView: UICollectionView!
     
     let backButton: UIButton = {
         var button = UIButton()
@@ -22,62 +20,6 @@ class SettingsView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
-    }()
-    
-    let logoutButton: UIButton = {
-        var button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 24)
-        button.setTitleColor(nebulaPurple, for: .normal)
-        button.setTitleColor(UIColor.lightGray, for: .highlighted)
-        button.setTitleColor(UIColor.lightGray, for: .disabled)
-        button.setTitle("Log Out", for: .normal)
-        
-        return button
-    }()
-    
-    let messageColorsLabel: UILabel = {
-        var label = UILabel()
-        label.text = "Message Colors"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor.black
-        label.font = UIFont.systemFont(ofSize: 16)
-        
-        return label
-    }()
-    
-    let personalColorView: UIView = {
-        let cornerRadius = CGFloat(16)
-        
-        var view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = userTextColor
-        view.layer.cornerRadius = cornerRadius
-        
-        return view
-    }()
-    
-    let otherColorView: UIView = {
-        let cornerRadius = CGFloat(16)
-        
-        var view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = otherTextColor
-        view.layer.cornerRadius = cornerRadius
-        
-        return view
-    }()
-    
-    let profilePicView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = nebulaSky
-        view.layer.cornerRadius = CGFloat(32)
-        
-        view.layer.borderWidth = 1
-        view.layer.borderColor = nebulaFlame.cgColor
-        
-        return view
     }()
     
     func createSettingsCollectionView(){
@@ -102,9 +44,20 @@ class SettingsView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        addSubview(backButton)
+        
+        setConstraints()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    func setConstraints(){
+        backButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        backButton.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor, constant: 15).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 }

@@ -24,6 +24,16 @@ class ProfileView: UIView {
         return button
     }()
     
+    let settingsButton: UIButton = {
+        var button = UIButton(type: .system)
+        if let image = UIImage(named: "SettingsBlack") {
+            button.setImage(image, for: .normal)
+        }
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
+    
     let logoutButton: UIButton = {
         var button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -144,6 +154,7 @@ class ProfileView: UIView {
         super.init(frame: frame)
         
         addSubview(backButton)
+        addSubview(settingsButton)
         addSubview(logoutButton)
         addSubview(messageColorsLabel)
         addSubview(personalColorView)
@@ -174,6 +185,11 @@ class ProfileView: UIView {
         backButton.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor, constant: 15).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        settingsButton.centerYAnchor.constraint(equalTo: backButton.centerYAnchor).isActive = true
+        settingsButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -15).isActive = true
+        settingsButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        settingsButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         
         logoutButton.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 30).isActive = true
         logoutButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true

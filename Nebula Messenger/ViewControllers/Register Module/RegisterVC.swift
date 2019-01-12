@@ -15,6 +15,8 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDele
     var textFieldArray: [UITextField?]!
     var textFieldIndex = 0
     
+    var isAdmin = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -40,6 +42,11 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDele
         swipeLeft.direction = .right
         swipeLeft.delegate = self
         topView?.addGestureRecognizer(swipeLeft)
+        
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(swipedUp))
+        swipeUp.direction = .up
+        swipeUp.delegate = self
+        topView?.addGestureRecognizer(swipeUp)
     }
     
     // MARK: Route Functions
@@ -112,6 +119,11 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDele
         self.navigationController?.popViewController(animated: true)
     }
     
+    @objc func swipedUp(){
+        isAdmin = true
+        print("Is Admin")
+    }
+    
     //just gonna toss these delegate methods down here
     func textFieldShouldReturn(_ textField: UITextField) -> Bool{
         if (textField.returnKeyType==UIReturnKeyType.go){
@@ -130,5 +142,24 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDele
             textField.resignFirstResponder()
         }
         return true
+    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if(event?.subtype == UIEvent.EventSubtype.motionShake) {
+            if isAdmin{
+                let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "Create Test User", style: .default, handler: {action in
+                    self.topView?.nameTextField.text = "Test User"
+                    self.topView?.emailTextField.text = "bill@boosh.com"
+                    self.topView?.usernameTextField.text = "test99"
+                    self.topView?.passwordTextField.text = "password"
+                }))
+                
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
+                    
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
     }
 }

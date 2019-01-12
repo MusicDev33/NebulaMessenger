@@ -69,6 +69,7 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         
         topView?.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         topView?.logoutButton.addTarget(self, action: #selector(logoutButtonPressed), for: .touchUpInside)
+        topView?.settingsButton.addTarget(self, action: #selector(settingsButtonPressed), for: .touchUpInside)
         
         let tap1 = UITapGestureRecognizer(target: self, action: #selector(personalViewTapped))
         tap1.delegate = self
@@ -129,16 +130,23 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         self.navigationController?.popViewController(animated: true)
     }
     
+    @objc func settingsButtonPressed(){
+        let settingsVC = SettingsVC()
+        self.navigationController?.pushViewController(settingsVC, animated: true)
+    }
+    
+    let bounceAnimDuration = TimeInterval(0.08)
+    
     @objc func personalViewTapped(){
-        topView?.selfColorViewWidthAnchor?.constant += 5
-        topView?.selfColorViewHeightAnchor?.constant += 5
+        topView?.selfColorViewWidthAnchor?.constant += 10
+        topView?.selfColorViewHeightAnchor?.constant += 10
         
-        UIView.animate(withDuration: 0.1, animations: {
+        UIView.animate(withDuration: bounceAnimDuration, animations: {
             self.topView?.layoutIfNeeded()
         }, completion:{_ in
-            self.topView?.selfColorViewWidthAnchor?.constant -= 5
-            self.topView?.selfColorViewHeightAnchor?.constant -= 5
-            UIView.animate(withDuration: 0.1, animations: {
+            self.topView?.selfColorViewWidthAnchor?.constant -= 10
+            self.topView?.selfColorViewHeightAnchor?.constant -= 10
+            UIView.animate(withDuration: self.bounceAnimDuration, animations: {
                 self.topView?.layoutIfNeeded()
             })
         })
@@ -162,15 +170,15 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     @objc func otherViewTapped(){
-        topView?.otherColorViewWidthAnchor?.constant += 5
-        topView?.otherColorViewHeightAnchor?.constant += 5
+        topView?.otherColorViewWidthAnchor?.constant += 10
+        topView?.otherColorViewHeightAnchor?.constant += 10
         
-        UIView.animate(withDuration: 0.1, animations: {
+        UIView.animate(withDuration: bounceAnimDuration, animations: {
             self.topView?.layoutIfNeeded()
         }, completion:{_ in
-            self.topView?.otherColorViewWidthAnchor?.constant -= 5
-            self.topView?.otherColorViewHeightAnchor?.constant -= 5
-            UIView.animate(withDuration: 0.1, animations: {
+            self.topView?.otherColorViewWidthAnchor?.constant -= 10
+            self.topView?.otherColorViewHeightAnchor?.constant -= 10
+            UIView.animate(withDuration: self.bounceAnimDuration, animations: {
                 self.topView?.layoutIfNeeded()
             })
         })
@@ -250,7 +258,6 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     // MARK: - Navigation
-    
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if(event?.subtype == UIEvent.EventSubtype.motionShake) {
             let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
@@ -264,5 +271,4 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             self.present(alert, animated: true, completion: nil)
         }
     }
-
 }
