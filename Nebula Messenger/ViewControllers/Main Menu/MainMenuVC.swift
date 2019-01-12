@@ -143,10 +143,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         if profileButtonHeightAnchor?.constant ?? 0 < CGFloat(20){
             profileButton.setTitle("", for: .normal)
-            settingsButton.setTitle("", for: .normal)
+            //settingsButton.setTitle("", for: .normal)
         }else{
             profileButton.setTitle("Profile", for: .normal)
-            settingsButton.setTitle("Settings", for: .normal)
+            //settingsButton.setTitle("Settings", for: .normal)
         }
         
     }
@@ -252,7 +252,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.createProfileButton()
-        self.createSettingsButton()
+        //self.createSettingsButton()
         self.createConvTable()
         
         self.view.bringSubviewToFront(profileButton)
@@ -368,13 +368,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             }
         }
     }
-
-    
-    // MARK: - Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
     
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if(event?.subtype == UIEvent.EventSubtype.motionShake) {
@@ -435,11 +428,11 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         self.view.addSubview(profileButton)
         
-        profileButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.47).isActive = true
+        profileButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9).isActive = true
         profileButtonHeightAnchor = profileButton.heightAnchor.constraint(equalToConstant: 30)
         profileButtonHeightAnchor?.isActive = true
         
-        profileButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
+        profileButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         profileButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
     }
     
