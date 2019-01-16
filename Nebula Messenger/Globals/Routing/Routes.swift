@@ -37,6 +37,7 @@ let getCurrentiOSRoute = userRoot + "getcurrentios"
 let getQuotesRoute = userRoot + "getquote"
 let getUserRoute = userRoot + "getuser"
 let refreshTokenRoute = userRoot + "refreshtoken"
+let addPhoneNumberRoute = userRoot + "addphonenumber"
 
 // MARK: Friends
 let getFriendsRoute = friendsRoot + "getfriends"

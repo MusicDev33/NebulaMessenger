@@ -15,6 +15,9 @@ let borderColorOne = UIColor(red: 199/255, green: 210/255, blue: 229/255, alpha:
 let panelColorOne = UIColor(red: 220/255, green: 220/255, blue: 225/255, alpha: 1)
 let panelColorTwo = UIColor(red: 252/255, green: 252/255, blue: 252/255, alpha: 1)
 
+// Disabled Button
+let disabledButtonColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 0.4)
+
 // Main Colors
 let nebulaPurple = UIColor(red: 198/255, green: 65/255, blue: 168/255, alpha: 1)
 let nebulaBlue = UIColor(red: 2/255, green: 148/255, blue: 227/255, alpha: 1)

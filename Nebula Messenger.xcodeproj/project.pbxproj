@@ -18,6 +18,7 @@
 		1F2CE4532175D0C100B15C59 /* MasterAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CE4522175D0C100B15C59 /* MasterAudio.swift */; };
 		1F42502F21DC9DFE00CE108C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F42502E21DC9DFE00CE108C /* ProfileView.swift */; };
 		1F42503221E4047A00CE108C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F42503121E4047A00CE108C /* LoginView.swift */; };
+		1F5DAE4321E9F0F600BC26DB /* PhoneNumberRegVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5DAE4221E9F0F600BC26DB /* PhoneNumberRegVC.swift */; };
 		1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2672152227F00DC9525 /* AppDelegate.swift */; };
 		1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2692152227F00DC9525 /* LoginVC.swift */; };
 		1F68B26F2152228100DC9525 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B26E2152228100DC9525 /* Assets.xcassets */; };
@@ -101,6 +102,7 @@
 		1F2CE4522175D0C100B15C59 /* MasterAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterAudio.swift; sourceTree = "<group>"; };
 		1F42502E21DC9DFE00CE108C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		1F42503121E4047A00CE108C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		1F5DAE4221E9F0F600BC26DB /* PhoneNumberRegVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberRegVC.swift; sourceTree = "<group>"; };
 		1F68B2642152227F00DC9525 /* Nebula Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nebula Messenger.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F68B2672152227F00DC9525 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F68B2692152227F00DC9525 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 			children = (
 				1F68B2BC2152DD1300DC9525 /* RegisterVC.swift */,
 				1FC7ED2C21E49958002F1422 /* RegisterView.swift */,
+				1F5DAE4221E9F0F600BC26DB /* PhoneNumberRegVC.swift */,
 			);
 			path = "Register Module";
 			sourceTree = "<group>";
@@ -778,6 +781,7 @@
 				1F76C7DE2158A09E00EB6C8C /* PoolingVC.swift in Sources */,
 				1FB413EF21D7306800CB1288 /* FakeLaunchVC.swift in Sources */,
 				1FC7ED3421E4A71F002F1422 /* SettingsCell.swift in Sources */,
+				1F5DAE4321E9F0F600BC26DB /* PhoneNumberRegVC.swift in Sources */,
 				1FC7ED2A21E4912F002F1422 /* CustomTransitions.swift in Sources */,
 				1FB413F221D7587700CB1288 /* CreateMessageView.swift in Sources */,
 				1FE4F101216B139200E4EF72 /* FeedbackVC.swift in Sources */,

@@ -84,7 +84,9 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDele
                         self.topView?.usernameTextField.text! = ""
                         self.topView?.passwordTextField.text! = ""
                         //self.confirmPassField.text = ""
-                        self.navigationController?.popViewController(animated: true)
+                        let phoneNoVC = PhoneNumberRegVC()
+                        self.navigationController?.pushViewController(phoneNoVC, animated: true)
+                        //self.navigationController?.popViewController(animated: true)
                     }
                     
                 case .failure(_):
@@ -108,7 +110,9 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDele
     
     // MARK: Actions
     @objc func registerButtonPress() {
-        sendRegisterRequest()
+        //sendRegisterRequest()
+        let phoneNoVC = PhoneNumberRegVC()
+        self.navigationController?.pushViewController(phoneNoVC, animated: true)
     }
     
     @objc func tappedOnScreen(_ sender: UITapGestureRecognizer) {
@@ -147,7 +151,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDele
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if(event?.subtype == UIEvent.EventSubtype.motionShake) {
             if isAdmin{
-                let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
+                let alert = UIAlertController(title: "Super Secret Admin Tool!", message: "If you found this, good job! This probably isn't meant for you, but it's cool to play around with.", preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "Create Test User", style: .default, handler: {action in
                     self.topView?.nameTextField.text = "Test User"
                     self.topView?.emailTextField.text = "bill@boosh.com"

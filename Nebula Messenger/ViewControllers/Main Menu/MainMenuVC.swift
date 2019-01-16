@@ -347,7 +347,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         let addFriendVC = AddFriendVC()
         addFriendVC.modalPresentationStyle = .overCurrentContext
         self.present(addFriendVC, animated: true, completion: nil)
-        
     }
     
     //MARK: Sockets

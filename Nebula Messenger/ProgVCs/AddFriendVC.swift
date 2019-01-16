@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Contacts
 
 class AddFriendVC: UIViewController, UITextFieldDelegate {
     
@@ -39,7 +40,7 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         self.view.isOpaque = false
         
-        
+        self.fetchContacts()
         
         createBackground()
         createSentLabel()
@@ -188,12 +189,12 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
         self.view.addSubview(realNameLabel)
         self.view.addSubview(usernameLabel)
         
-        addFriendButton = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        addFriendButton = UIButton(type: .system)
         addFriendButton.translatesAutoresizingMaskIntoConstraints = false
         addFriendButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        addFriendButton.setTitleColor(disabledButtonColor, for: .disabled)
+        addFriendButton.tintColor = UIColor.white
         addFriendButton.backgroundColor = nebulaBlue
-        addFriendButton.setTitleColor(UIColor.lightGray, for: .highlighted)
-        addFriendButton.setTitleColor(UIColor.lightGray, for: .disabled)
         addFriendButton.layer.cornerRadius = 16
         addFriendButton.setTitle("Add", for: .normal)
         addFriendButton.addTarget(self, action: #selector(addFriend), for: .touchUpInside)
@@ -230,12 +231,12 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
     var reqArrowViewWidthAnchor: NSLayoutConstraint?
     
     func createRequestsButton(){
-        friendRequestsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        friendRequestsButton = UIButton(type: .system)
         friendRequestsButton.translatesAutoresizingMaskIntoConstraints = false
         friendRequestsButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         friendRequestsButton.backgroundColor = nebulaBlue
-        friendRequestsButton.setTitleColor(UIColor.lightGray, for: .highlighted)
-        friendRequestsButton.setTitleColor(UIColor.lightGray, for: .disabled)
+        friendRequestsButton.setTitleColor(disabledButtonColor, for: .disabled)
+        friendRequestsButton.tintColor = UIColor.white
         friendRequestsButton.layer.cornerRadius = 10
         friendRequestsButton.setTitle("Friend Requests", for: .normal)
         friendRequestsButton.addTarget(self, action: #selector(toRequestsView), for: .touchUpInside)
@@ -280,7 +281,8 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
         acceptButton.translatesAutoresizingMaskIntoConstraints = false
         acceptButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         acceptButton.backgroundColor = nebulaPurple
-        acceptButton.setTitleColor(UIColor.lightGray, for: .highlighted)
+        acceptButton.setTitleColor(disabledButtonColor, for: .disabled)
+        acceptButton.tintColor = UIColor.white
         acceptButton.layer.cornerRadius = 8
         acceptButton.setTitle("Accept", for: .normal)
         acceptButton.addTarget(self, action: #selector(acceptRequest), for: .touchUpInside)
@@ -494,5 +496,25 @@ extension UITextField {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
         self.leftView = paddingView
         self.leftViewMode = .always
+    }
+}
+
+//Contacts
+extension AddFriendVC{
+    private func fetchContacts(){
+        let store = CNContactStore()
+        
+        store.requestAccess(for: .contacts) {granted, err in
+            if let err = err{
+                print("Error!")
+                return
+            }
+            
+            if granted{
+                print("Access granted!")
+            }else{
+                print("Denied bruh.")
+            }
+        }
     }
 }
