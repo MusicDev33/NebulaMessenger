@@ -19,6 +19,8 @@
 		1F42502F21DC9DFE00CE108C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F42502E21DC9DFE00CE108C /* ProfileView.swift */; };
 		1F42503221E4047A00CE108C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F42503121E4047A00CE108C /* LoginView.swift */; };
 		1F5DAE4321E9F0F600BC26DB /* PhoneNumberRegVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5DAE4221E9F0F600BC26DB /* PhoneNumberRegVC.swift */; };
+		1F5DAE4521FA316500BC26DB /* TestMapBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5DAE4421FA316500BC26DB /* TestMapBoxView.swift */; };
+		1F5DAE4721FA33C200BC26DB /* TestMapBoxVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5DAE4621FA33C200BC26DB /* TestMapBoxVC.swift */; };
 		1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2672152227F00DC9525 /* AppDelegate.swift */; };
 		1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2692152227F00DC9525 /* LoginVC.swift */; };
 		1F68B26F2152228100DC9525 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B26E2152228100DC9525 /* Assets.xcassets */; };
@@ -103,6 +105,8 @@
 		1F42502E21DC9DFE00CE108C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		1F42503121E4047A00CE108C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		1F5DAE4221E9F0F600BC26DB /* PhoneNumberRegVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberRegVC.swift; sourceTree = "<group>"; };
+		1F5DAE4421FA316500BC26DB /* TestMapBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMapBoxView.swift; sourceTree = "<group>"; };
+		1F5DAE4621FA33C200BC26DB /* TestMapBoxVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMapBoxVC.swift; sourceTree = "<group>"; };
 		1F68B2642152227F00DC9525 /* Nebula Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nebula Messenger.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F68B2672152227F00DC9525 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F68B2692152227F00DC9525 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -365,6 +369,8 @@
 				1FE4F104216D321A00E4EF72 /* PoolChatVC.swift */,
 				1F7E94BD2199BBAF00AA5715 /* PoolChatView.swift */,
 				1F8A3A8B21B924F5008E42DB /* PoolingView.swift */,
+				1F5DAE4421FA316500BC26DB /* TestMapBoxView.swift */,
+				1F5DAE4621FA33C200BC26DB /* TestMapBoxVC.swift */,
 			);
 			path = "Pooling Module";
 			sourceTree = "<group>";
@@ -644,13 +650,9 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 			);
 			name = "Increment Build";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -667,6 +669,8 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
+				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
+				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
@@ -677,6 +681,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
@@ -769,9 +775,11 @@
 				1F170F162162FD1B009673E2 /* FriendRoutes.swift in Sources */,
 				1F2CE44A216DD9C100B15C59 /* PoolAnnotation.swift in Sources */,
 				1F68B2AE2152740700DC9525 /* SocketIOManager.swift in Sources */,
+				1F5DAE4521FA316500BC26DB /* TestMapBoxView.swift in Sources */,
 				1F68B2BD2152DD1300DC9525 /* RegisterVC.swift in Sources */,
 				1F68B2A42152367A00DC9525 /* FirebaseGlobals.swift in Sources */,
 				1F68B2BB2152789B00DC9525 /* RouteUtils.swift in Sources */,
+				1F5DAE4721FA33C200BC26DB /* TestMapBoxVC.swift in Sources */,
 				1FE4F105216D321A00E4EF72 /* PoolChatVC.swift in Sources */,
 				1F2CE4532175D0C100B15C59 /* MasterAudio.swift in Sources */,
 				1FE4F103216CA86C00E4EF72 /* PoolChatCell.swift in Sources */,

@@ -38,6 +38,9 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     var outdated = false
     
+    let impact = UIImpactFeedbackGenerator(style: .light)
+    let notifImpact = UINotificationFeedbackGenerator()
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchConvMode{
             return searchResults.count
@@ -303,6 +306,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        impact.prepare()
         self.openSocket {
             
         }
@@ -331,10 +335,15 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     @objc func nebulaButtonPressed(){
+        impact.impactOccurred()
         let poolVC = PoolingVC()
         poolVC.modalTransitionStyle = .crossDissolve
         poolVC.modalPresentationStyle = .overCurrentContext
-        self.present(poolVC, animated: true)
+        
+        let mapVC = TestMapBoxVC()
+        mapVC.modalTransitionStyle = .crossDissolve
+        
+        self.present(mapVC, animated: true)
     }
     
     @objc func createMessageButtonTapped() {

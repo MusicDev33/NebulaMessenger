@@ -30,13 +30,15 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.11</string>
 	<key>CFBundleVersion</key>
-	<string>458</string>
+	<string>480</string>
 	<key>ITSEncryptionExportComplianceCode</key>
 	<string>NO</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<false/>
+	<key>MGLMapboxAccessToken</key>
+	<string>pk.eyJ1IjoibXVzaWNkZXYiLCJhIjoiY2pyYWM1Mmk2MHFjMzRhbW1ubW9iajhzbSJ9.F57Lvmee_6U2NWnyRf1sTA</string>
 	<key>MKDirectionsApplicationSupportedModes</key>
 	<array>
 		<string>MKDirectionsModeBike</string>

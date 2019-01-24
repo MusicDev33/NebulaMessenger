@@ -9,6 +9,10 @@
 import Foundation
 import CoreBluetooth
 
+let mapboxToken = "pk.eyJ1IjoibXVzaWNkZXYiLCJhIjoiY2pyYWM1Mmk2MHFjMzRhbW1ubW9iajhzbSJ9.F57Lvmee_6U2NWnyRf1sTA"
+
+let mapboxUrl1 = "mapbox://styles/musicdev/cjrat7obp0pv52tmqfiqow58d"
+
 class GlobalUser: NSObject {
     static var showNotification = true
     
