@@ -9,7 +9,18 @@
 import UIKit
 import Mapbox
 
-class TestMapBoxVC: UIViewController, MGLMapViewDelegate {
+class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 6
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = self.mapView.poolCollectionView.dequeueReusableCell(withReuseIdentifier: "poolCell",for: indexPath) as! PoolChatCell
+        cell.poolNameLabel.text = "Testing"
+        
+        return cell
+    }
+    
     
     var mapView: TestMapBoxView!
 
@@ -21,8 +32,16 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate {
         self.view.addSubview(mapView)
         
         mapView.map.delegate = self
+        mapView.poolCollectionView.delegate = self
+        mapView.poolCollectionView.dataSource = self
+        
+        mapView.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
 
         // Do any additional setup after loading the view.
+    }
+    
+    @objc func backButtonPressed(){
+        self.dismiss(animated: true, completion: nil)
     }
 
 }
