@@ -54,7 +54,7 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         // If there’s no reusable annotation view available, initialize a new one.
         if annotationView == nil {
             annotationView = MGLAnnotationView(reuseIdentifier: reuseIdentifier)
-            annotationView?.frame = CGRect(x: 0, y: 0, width: 15, height: 15)
+            annotationView?.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
             annotationView?.layer.cornerRadius = (annotationView?.frame.size.width)! / 2
             annotationView?.layer.borderWidth = 2.0
             annotationView?.layer.borderColor = UIColor.white.cgColor
@@ -82,6 +82,23 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         
         return annotationImage
     }
+    
+    // Mapbox polygons
+    func mapView(_ mapView: MGLMapView, alphaForShapeAnnotation annotation: MGLShape) -> CGFloat {
+        return 0.1
+    }
+    func mapView(_ mapView: MGLMapView, strokeColorForShapeAnnotation annotation: MGLShape) -> UIColor {
+        return .white
+    }
+    
+    func mapView(_ mapView: MGLMapView, fillColorForPolygonAnnotation annotation: MGLPolygon) -> UIColor {
+        return nebulaPurple
+    }
+    
+    // User location
+    func mapView(_ mapView: MGLMapView, didUpdate userLocation: MGLUserLocation?) {
+        
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,14 +117,21 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         
         PoolRoutes.getPools(){pools in
             for pool in pools{
+                let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
+                
+                let polygon = polygonCircleForCoordinate(coordinate: coordinate, withMeterRadius: 30)
+                self.mapView.map.addAnnotation(polygon)
+            }
+            
+            for pool in pools{
                 self.poolsInArea.append(pool)
                 let poolAtPoint = MBPoolAnnotation()
                 
                 //let annotation = PoolAnnotation()
                 let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
                 poolAtPoint.coordinate = coordinate
-                
                 poolAtPoint.title = pool.name
+                
                 poolAtPoint.subtitle = pool.creator
                 poolAtPoint.imageName = "CloudCircle"
                 poolAtPoint.id = pool.poolId
