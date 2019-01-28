@@ -21,6 +21,7 @@
 		1F5DAE4321E9F0F600BC26DB /* PhoneNumberRegVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5DAE4221E9F0F600BC26DB /* PhoneNumberRegVC.swift */; };
 		1F5DAE4521FA316500BC26DB /* TestMapBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5DAE4421FA316500BC26DB /* TestMapBoxView.swift */; };
 		1F5DAE4721FA33C200BC26DB /* TestMapBoxVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5DAE4621FA33C200BC26DB /* TestMapBoxVC.swift */; };
+		1F5DAE4921FEF60600BC26DB /* MBPoolAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5DAE4821FEF60600BC26DB /* MBPoolAnnotation.swift */; };
 		1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2672152227F00DC9525 /* AppDelegate.swift */; };
 		1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2692152227F00DC9525 /* LoginVC.swift */; };
 		1F68B26F2152228100DC9525 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B26E2152228100DC9525 /* Assets.xcassets */; };
@@ -107,6 +108,7 @@
 		1F5DAE4221E9F0F600BC26DB /* PhoneNumberRegVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberRegVC.swift; sourceTree = "<group>"; };
 		1F5DAE4421FA316500BC26DB /* TestMapBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMapBoxView.swift; sourceTree = "<group>"; };
 		1F5DAE4621FA33C200BC26DB /* TestMapBoxVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMapBoxVC.swift; sourceTree = "<group>"; };
+		1F5DAE4821FEF60600BC26DB /* MBPoolAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBPoolAnnotation.swift; sourceTree = "<group>"; };
 		1F68B2642152227F00DC9525 /* Nebula Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nebula Messenger.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F68B2672152227F00DC9525 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F68B2692152227F00DC9525 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -458,6 +460,7 @@
 				1FC7ED2921E4912F002F1422 /* CustomTransitions.swift */,
 				1FC7ED3321E4A71F002F1422 /* SettingsCell.swift */,
 				1FC7ED3521E5B7D7002F1422 /* NALoading1.swift */,
+				1F5DAE4821FEF60600BC26DB /* MBPoolAnnotation.swift */,
 			);
 			path = "Custom Classes";
 			sourceTree = "<group>";
@@ -796,6 +799,7 @@
 				1FA20BD721915671007317B5 /* MessengerView.swift in Sources */,
 				1FC7ED3221E4A606002F1422 /* SettingsVC.swift in Sources */,
 				1F68B2B6215275CB00DC9525 /* PublicStructs.swift in Sources */,
+				1F5DAE4921FEF60600BC26DB /* MBPoolAnnotation.swift in Sources */,
 				1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */,
 				1FC7ED3821E5C564002F1422 /* CustomMath.swift in Sources */,
 				1F170F182163DBB3009673E2 /* ConversationRoutes.swift in Sources */,

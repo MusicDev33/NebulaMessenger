@@ -22,7 +22,7 @@ class TestMapBoxView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.tintColor = nebulaPurple
         view.showsUserLocation = true
-        view.setZoomLevel(0.1, animated: false)
+        view.setZoomLevel(9, animated: false)
         
         // TODO: Add logo and i button back to map
         //view.logoView.isHidden = true
