@@ -51,6 +51,23 @@ class TestMapBoxView: UIView {
         return button
     }()
     
+    let cViewXBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = nebulaPurple
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 0
+        
+        return view
+    }()
+    
+    let cViewX: UIImageView = {
+        let view = UIImageView(image: UIImage(named: "BlackX"))
+        view.tintColor = UIColor.white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
     func createCollectionView(){
         let bottomPadding = self.safeAreaInsets.bottom
         
@@ -81,6 +98,10 @@ class TestMapBoxView: UIView {
         
         setupMap()
         createCollectionView()
+        
+        addSubview(cViewXBackground)
+        addSubview(cViewX)
+        
         layoutConstraints()
     }
     
@@ -97,6 +118,15 @@ class TestMapBoxView: UIView {
 
     var bButtonBgX: NSLayoutConstraint?
     var bButtonBgY: NSLayoutConstraint?
+    
+    // Possibly the worst variable names of the century
+    // It's a good thing there are still 81 years for someone else to beat me
+    // Anyway, cViewXBG = collectionView X Background
+    // This is the X that pops up on the collectionView to show if it's going away or not
+    // If you have questions, don't call me
+    // Just get rid of this and make one that makes more sense
+    var cViewXBGWidth: NSLayoutConstraint?
+    var cViewXBGHeight: NSLayoutConstraint?
     
     func layoutConstraints(){
         map.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
@@ -122,5 +152,18 @@ class TestMapBoxView: UIView {
         poolCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         poolCollectionView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         poolCollectionView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        
+        cViewXBackground.topAnchor.constraint(equalTo: poolCollectionView.topAnchor, constant: 5).isActive = true
+        cViewXBackground.rightAnchor.constraint(equalTo: poolCollectionView.rightAnchor, constant: -5).isActive = true
+        
+        cViewXBGWidth = cViewXBackground.widthAnchor.constraint(equalToConstant: 0)
+        cViewXBGWidth?.isActive = true
+        cViewXBGHeight = cViewXBackground.heightAnchor.constraint(equalToConstant: 0)
+        cViewXBGHeight?.isActive = true
+        
+        cViewX.centerXAnchor.constraint(equalTo: cViewXBackground.centerXAnchor).isActive = true
+        cViewX.centerYAnchor.constraint(equalTo: cViewXBackground.centerYAnchor).isActive = true
+        cViewX.widthAnchor.constraint(equalTo: cViewXBackground.widthAnchor, multiplier: 0.8).isActive = true
+        cViewX.heightAnchor.constraint(equalTo: cViewXBackground.heightAnchor, multiplier: 0.8).isActive = true
     }
 }

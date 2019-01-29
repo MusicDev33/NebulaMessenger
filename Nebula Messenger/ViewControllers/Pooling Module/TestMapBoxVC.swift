@@ -16,7 +16,10 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
     var poolsInArea = [PublicPool]()
     var currentPools = [PublicPool]()
     
-    let defaultRadius = 50
+    let defaultRadius = 30
+    
+    var didImpact = false
+    let lightImpact = UIImpactFeedbackGenerator(style: .light)
     
     // Collectionview stuff
     
@@ -29,6 +32,40 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         cell.poolNameLabel.text = self.currentPools[indexPath.row].name
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //let cell = self.poolTable.dequeueReusableCell(withReuseIdentifier: "poolCell",for: indexPath) as! PoolChatCell
+        let poolId = self.currentPools[indexPath.row].poolId ?? ""
+        PoolRoutes.getPoolMessages(id: poolId){messagesList in
+            var messages = [TerseMessage]()
+            messages = messagesList
+            let poolChatVC = PoolChatVC()
+            poolChatVC.modalPresentationStyle = .currentContext
+            poolChatVC.poolId = poolId
+            poolChatVC.currentPoolMessages = messages
+            self.present(poolChatVC, animated: true, completion: nil)
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y <= 0{
+            var scrollOffset = abs(scrollView.contentOffset.y)
+            if scrollOffset >= 30{
+                scrollOffset = 30
+                if !didImpact{
+                    lightImpact.impactOccurred()
+                    didImpact = true
+                }
+            }else{
+                didImpact = false
+            }
+            
+            self.mapView.cViewXBGWidth?.constant = scrollOffset
+            self.mapView.cViewXBGHeight?.constant = scrollOffset
+            self.mapView.cViewXBackground.layer.cornerRadius = scrollOffset/2
+            
+        }
     }
     
     // Mapbox stuff
@@ -110,7 +147,6 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         if self.mapView.poolCollectionView != nil {
             self.mapView.poolCollectionView.reloadData()
         }
-        
     }
     
     // Mapbox polygons
@@ -127,7 +163,27 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
     
     // User location
     func mapView(_ mapView: MGLMapView, didUpdate userLocation: MGLUserLocation?) {
-        print(userLocation?.coordinate)
+        guard let userCoord = mapView.userLocation?.coordinate else {return}
+        
+        // guard statements
+        let point = CLLocation(latitude: userCoord.latitude, longitude: userCoord.longitude)
+        
+        for pool in self.poolsInArea{
+            let poolCenter = CLLocation(latitude: pool.coordinates?[0] ?? 0, longitude: pool.coordinates?[1] ?? 0)
+            if point.distance(from: poolCenter) < CLLocationDistance(self.defaultRadius+1) {
+                if !currentPools.contains(where: { $0.poolId == pool.poolId}){
+                    currentPools.append(pool)
+                    print(pool.poolId!)
+                }
+            }else{
+                if currentPools.contains(where: { $0.poolId == pool.poolId}){
+                    currentPools = currentPools.filter {$0.poolId != pool.poolId}
+                }
+            }
+        }
+        if self.mapView.poolCollectionView != nil {
+            self.mapView.poolCollectionView.reloadData()
+        }
     }
 
     override func viewDidLoad() {
@@ -149,7 +205,7 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
             for pool in pools{
                 let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
                 
-                let polygon = polygonCircleForCoordinate(coordinate: coordinate, withMeterRadius: 30)
+                let polygon = polygonCircleForCoordinate(coordinate: coordinate, withMeterRadius: Double(self.defaultRadius))
                 self.mapView.map.addAnnotation(polygon)
             }
             
