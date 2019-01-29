@@ -17,7 +17,7 @@ let mapboxNavDay1 = "mapbox://styles/musicdev/cjri2oczc8ya82srv1bomb4cc"
 let mapboxNavNight1 = "mapbox://styles/musicdev/cjri2msnu802x2spjfeg0dwwl"
 
 class GlobalUser: NSObject {
-    static var userMapUrl = pickMap(mapName: UserDefaults.standard.string(forKey: "mapPreference") ?? "nav") 
+    static var userMapUrl = pickMap(mapName: UserDefaults.standard.string(forKey: "mapPreference") ?? "default")
     
     static var showNotification = true
     
@@ -132,11 +132,11 @@ class GlobalUser: NSObject {
 
 func pickMap(mapName: String) -> String{
     switch mapName {
-    case "default":
+    case "experimental":
         return mapboxUrl1
     case "satellite":
         return mapboxSat1Url
-    case "nav":
+    case "default":
         if Utility.dayTimeCheck() == "day"{
             return mapboxNavDay1
         }else{

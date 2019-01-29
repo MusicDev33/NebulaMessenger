@@ -16,6 +16,24 @@ class SettingsVC: UIViewController {
     @objc func backButtonPressed(){
         self.navigationController?.popViewController(animated: true)
     }
+    
+    @objc func expMapButtonPressed(){
+        topView?.chooseButton(chosen: "experimental")
+        UserDefaults.standard.set("experimental", forKey: "mapPreference")
+        GlobalUser.userMapUrl = pickMap(mapName: "experimental")
+    }
+    
+    @objc func satMapButtonPressed(){
+        topView?.chooseButton(chosen: "satellite")
+        UserDefaults.standard.set("satellite", forKey: "mapPreference")
+        GlobalUser.userMapUrl = pickMap(mapName: "satellite")
+    }
+    
+    @objc func defaultMapButtonPressed(){
+        topView?.chooseButton(chosen: "default")
+        UserDefaults.standard.set("default", forKey: "mapPreference")
+        GlobalUser.userMapUrl = pickMap(mapName: "default")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,5 +43,9 @@ class SettingsVC: UIViewController {
         self.view.addSubview(topView!)
         
         topView?.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        
+        topView?.experimentalOptionButton.addTarget(self, action: #selector(expMapButtonPressed), for: .touchUpInside)
+        topView?.satelliteOptionButton.addTarget(self, action: #selector(satMapButtonPressed), for: .touchUpInside)
+        topView?.defaultNavOptionButton.addTarget(self, action: #selector(defaultMapButtonPressed), for: .touchUpInside)
     }
 }
