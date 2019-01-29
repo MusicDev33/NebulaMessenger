@@ -247,7 +247,7 @@ class PoolChatView: UIView {
     func buildConstraintsForNavBar(){
         navBar.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         navBar.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        navBar.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.1).isActive = true
+        navBar.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.07).isActive = true
         navBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
         
         topLine.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
