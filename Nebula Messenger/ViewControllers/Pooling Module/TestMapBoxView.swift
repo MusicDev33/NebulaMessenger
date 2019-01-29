@@ -22,7 +22,6 @@ class TestMapBoxView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.tintColor = nebulaPurple
         view.showsUserLocation = true
-        view.setZoomLevel(9, animated: false)
         
         // TODO: Add logo and i button back to map
         //view.logoView.isHidden = true
@@ -79,12 +78,21 @@ class TestMapBoxView: UIView {
         addSubview(map)
         addSubview(backButtonBackground)
         addSubview(backButton)
+        
+        setupMap()
         createCollectionView()
         layoutConstraints()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    func setupMap(){
+        let latitude = UserDefaults.standard.object(forKey: "lastLatitude") as? Double ?? 0
+        let longitude = UserDefaults.standard.object(forKey: "lastLongitude") as? Double ?? 0
+        
+        map.setCenter(CLLocationCoordinate2D(latitude: latitude, longitude: longitude), zoomLevel: 15, animated: false)
     }
 
     var bButtonBgX: NSLayoutConstraint?

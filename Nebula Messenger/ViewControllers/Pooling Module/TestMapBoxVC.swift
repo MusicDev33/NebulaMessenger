@@ -21,12 +21,12 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
     // Collectionview stuff
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return currentPools.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = self.mapView.poolCollectionView.dequeueReusableCell(withReuseIdentifier: "poolCell",for: indexPath) as! PoolChatCell
-        cell.poolNameLabel.text = "Testing"
+        cell.poolNameLabel.text = self.currentPools[indexPath.row].name
         
         return cell
     }
@@ -83,6 +83,36 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         return annotationImage
     }
     
+    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
+        let latitude: Double? = mapView.userLocation?.coordinate.latitude ?? 0
+        let longitude: Double? = mapView.userLocation?.coordinate.longitude ?? 0
+        UserDefaults.standard.set(latitude, forKey: "lastLatitude")
+        UserDefaults.standard.set(longitude, forKey: "lastLongitude")
+        
+        guard let userCoord = mapView.userLocation?.coordinate else {return}
+        
+        // guard statements
+        let point = CLLocation(latitude: userCoord.latitude, longitude: userCoord.longitude)
+        
+        for pool in self.poolsInArea{
+            let poolCenter = CLLocation(latitude: pool.coordinates?[0] ?? 0, longitude: pool.coordinates?[1] ?? 0)
+            if point.distance(from: poolCenter) < CLLocationDistance(self.defaultRadius+1) {
+                if !currentPools.contains(where: { $0.poolId == pool.poolId}){
+                    currentPools.append(pool)
+                    print(pool.poolId!)
+                }
+            }else{
+                if currentPools.contains(where: { $0.poolId == pool.poolId}){
+                    currentPools = currentPools.filter {$0.poolId != pool.poolId}
+                }
+            }
+        }
+        if self.mapView.poolCollectionView != nil {
+            self.mapView.poolCollectionView.reloadData()
+        }
+        
+    }
+    
     // Mapbox polygons
     func mapView(_ mapView: MGLMapView, alphaForShapeAnnotation annotation: MGLShape) -> CGFloat {
         return 0.1
@@ -97,7 +127,7 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
     
     // User location
     func mapView(_ mapView: MGLMapView, didUpdate userLocation: MGLUserLocation?) {
-        
+        print(userLocation?.coordinate)
     }
 
     override func viewDidLoad() {
