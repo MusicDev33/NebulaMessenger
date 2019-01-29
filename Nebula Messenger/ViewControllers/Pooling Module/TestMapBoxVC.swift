@@ -60,11 +60,23 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
             }else{
                 didImpact = false
             }
-            
             self.mapView.cViewXBGWidth?.constant = scrollOffset
             self.mapView.cViewXBGHeight?.constant = scrollOffset
             self.mapView.cViewXBackground.layer.cornerRadius = scrollOffset/2
-            
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView.contentOffset.y <= -30 {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.mapView.poolCollectionBottomAnchor?.constant = 200
+                self.view.layoutIfNeeded()
+            }, completion: {_ in
+                UIView.animate(withDuration: 0.1, delay: 0.03, animations: {
+                    self.mapView.expandArrow.alpha = 1
+                    self.mapView.expandArrowBackground.alpha = 1
+                })
+            })
         }
     }
     
@@ -198,6 +210,7 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         mapView.poolCollectionView.dataSource = self
         
         mapView.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        mapView.expandArrow.addTarget(self, action: #selector(expandButtonPressed), for: .touchUpInside)
 
         // Do any additional setup after loading the view.
         
@@ -230,6 +243,18 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
     
     @objc func backButtonPressed(){
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func expandButtonPressed(){
+        UIView.animate(withDuration: 0.3, animations: {
+            self.mapView.poolCollectionBottomAnchor?.constant = 0
+            self.view.layoutIfNeeded()
+        }, completion: {_ in
+            UIView.animate(withDuration: 0.1, animations: {
+                self.mapView.expandArrow.alpha = 0
+                self.mapView.expandArrowBackground.alpha = 0
+            })
+        })
     }
 
 }

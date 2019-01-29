@@ -68,6 +68,26 @@ class TestMapBoxView: UIView {
         return view
     }()
     
+    let expandArrowBackground: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = nebulaPurple
+        view.layer.cornerRadius = 19
+        view.alpha = 0
+        
+        return view
+    }()
+    
+    let expandArrow: UIButton = {
+        let view = UIButton(type: .system)
+        view.setImage(UIImage(named: "UpArrowBlack"), for: .normal)
+        view.tintColor = UIColor.white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.alpha = 0
+        
+        return view
+    }()
+    
     func createCollectionView(){
         let bottomPadding = self.safeAreaInsets.bottom
         
@@ -86,6 +106,7 @@ class TestMapBoxView: UIView {
         poolCollectionView.register(PoolChatCell.self, forCellWithReuseIdentifier: "poolCell")
         poolCollectionView.backgroundColor = panelColorTwo
         poolCollectionView.layer.cornerRadius = 16
+        poolCollectionView.showsVerticalScrollIndicator = false
         addSubview(poolCollectionView)
     }
     
@@ -95,6 +116,8 @@ class TestMapBoxView: UIView {
         addSubview(map)
         addSubview(backButtonBackground)
         addSubview(backButton)
+        addSubview(expandArrowBackground)
+        addSubview(expandArrow)
         
         setupMap()
         createCollectionView()
@@ -128,6 +151,9 @@ class TestMapBoxView: UIView {
     var cViewXBGWidth: NSLayoutConstraint?
     var cViewXBGHeight: NSLayoutConstraint?
     
+    var poolCollectionHeightConstraint: NSLayoutConstraint?
+    var poolCollectionBottomAnchor: NSLayoutConstraint?
+    
     func layoutConstraints(){
         map.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         map.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
@@ -148,9 +174,24 @@ class TestMapBoxView: UIView {
         backButton.centerXAnchor.constraint(equalTo: backButtonBackground.centerXAnchor, constant: -1).isActive = true
         backButton.centerYAnchor.constraint(equalTo: backButtonBackground.centerYAnchor, constant: 0).isActive = true
         
+        
+        expandArrowBackground.widthAnchor.constraint(equalToConstant: 38).isActive = true
+        expandArrowBackground.heightAnchor.constraint(equalToConstant: 38).isActive = true
+        expandArrowBackground.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -25).isActive = true
+        expandArrowBackground.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        
+        expandArrow.centerXAnchor.constraint(equalTo: expandArrowBackground.centerXAnchor).isActive = true
+        expandArrow.centerYAnchor.constraint(equalTo: expandArrowBackground.centerYAnchor).isActive = true
+        expandArrow.widthAnchor.constraint(equalTo: expandArrowBackground.widthAnchor, multiplier: 0.85).isActive = true
+        expandArrow.heightAnchor.constraint(equalTo: expandArrowBackground.heightAnchor, multiplier: 0.85).isActive = true
+        
+        
         poolCollectionView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        poolCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        poolCollectionView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        
+        poolCollectionBottomAnchor = poolCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        poolCollectionBottomAnchor?.isActive = true
+        poolCollectionHeightConstraint = poolCollectionView.heightAnchor.constraint(equalToConstant: 200)
+        poolCollectionHeightConstraint?.isActive = true
         poolCollectionView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         
         cViewXBackground.topAnchor.constraint(equalTo: poolCollectionView.topAnchor, constant: 5).isActive = true
