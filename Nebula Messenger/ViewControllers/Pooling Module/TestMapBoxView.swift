@@ -16,7 +16,7 @@ class TestMapBoxView: UIView {
     let buttonBGHeight = CGFloat(40)
     
     let map: MGLMapView = {
-        let styleURL = URL(string: "mapbox://styles/musicdev/cjrat7obp0pv52tmqfiqow58d")
+        let styleURL = URL(string: GlobalUser.userMapUrl)
         let view = MGLMapView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), styleURL: styleURL)
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.translatesAutoresizingMaskIntoConstraints = false

@@ -77,7 +77,7 @@ class PoolingVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate,
         panRec.delegate = self
         self.mapView.addGestureRecognizer(panRec)
         
-        var mapLongPressRec = UILongPressGestureRecognizer(target: self, action: #selector(longPressedOnMap(_:)))
+        let mapLongPressRec = UILongPressGestureRecognizer(target: self, action: #selector(longPressedOnMap(_:)))
         mapLongPressRec.delegate = self
         self.mapView.addGestureRecognizer(mapLongPressRec)
 

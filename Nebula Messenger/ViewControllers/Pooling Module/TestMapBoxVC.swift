@@ -9,7 +9,7 @@
 import UIKit
 import Mapbox
 
-class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate {
     
     
     var mapView: TestMapBoxView!
@@ -78,6 +78,11 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
                 })
             })
         }
+    }
+    
+    // Gesture Delegate
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     // Mapbox stuff
@@ -211,6 +216,11 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         
         mapView.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         mapView.expandArrow.addTarget(self, action: #selector(expandButtonPressed), for: .touchUpInside)
+        
+        // gestures
+        let mapViewLongPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressedOnMap(_:)))
+        mapViewLongPress.delegate = self
+        self.mapView.map.addGestureRecognizer(mapViewLongPress)
 
         // Do any additional setup after loading the view.
         
@@ -255,6 +265,54 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
                 self.mapView.expandArrowBackground.alpha = 0
             })
         })
+    }
+    
+    @objc func longPressedOnMap(_ sender: UILongPressGestureRecognizer){
+        let location = sender.location(in: self.mapView.map)
+        let coordinate = mapView.map.convert(location,toCoordinateFrom: mapView.map)
+        
+        // Add annotation:
+        let annotation = MBPoolAnnotation()
+        annotation.coordinate = coordinate
+        
+        let alert = UIAlertController(title: "Pool Name", message: "Please enter a name for your pool", preferredStyle: .alert)
+        
+        //2. Add the text field
+        alert.addTextField { (textField) in
+            textField.autocapitalizationType = UITextAutocapitalizationType.words
+            textField.placeholder = "Pool Name"
+        }
+        
+        // 3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "Create a Pool", style: .default, handler: { [weak alert] (_) in
+            let textField = alert!.textFields![0] // Force unwrapping because we know it exists.
+            print("Text field: \(textField.text ?? "Error: No Text Found")")
+            annotation.title = textField.text
+            PoolRoutes.createPool(name: textField.text!, coords: [annotation.coordinate.latitude, annotation.coordinate.longitude]){pool in
+                
+                print("POOLTHING")
+                print(pool)
+                self.poolsInArea.append(pool)
+                let annotation = MBPoolAnnotation()
+                let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
+                annotation.coordinate = coordinate
+                let polygon = polygonCircleForCoordinate(coordinate: coordinate, withMeterRadius: Double(self.defaultRadius))
+                self.mapView.map.addAnnotation(polygon)
+                annotation.title = pool.name
+                annotation.subtitle = pool.creator
+                annotation.imageName = "CloudCircle"
+                annotation.id = pool.poolId
+                self.mapView.map.addAnnotation(annotation)
+            }
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { [weak alert] (_) in alert
+            
+        }))
+        
+        // 4. Present the alert.
+        self.present(alert, animated: true, completion: nil)
     }
 
 }

@@ -12,8 +12,13 @@ import CoreBluetooth
 let mapboxToken = "pk.eyJ1IjoibXVzaWNkZXYiLCJhIjoiY2pyYWM1Mmk2MHFjMzRhbW1ubW9iajhzbSJ9.F57Lvmee_6U2NWnyRf1sTA"
 
 let mapboxUrl1 = "mapbox://styles/musicdev/cjrat7obp0pv52tmqfiqow58d"
+let mapboxSat1Url = "mapbox://styles/musicdev/cjri2kycn8y772srvicpllgjf"
+let mapboxNavDay1 = "mapbox://styles/musicdev/cjri2oczc8ya82srv1bomb4cc"
+let mapboxNavNight1 = "mapbox://styles/musicdev/cjri2msnu802x2spjfeg0dwwl"
 
 class GlobalUser: NSObject {
+    static var userMapUrl = pickMap(mapName: UserDefaults.standard.string(forKey: "mapPreference") ?? "nav") 
+    
     static var showNotification = true
     
     static var username = ""
@@ -123,4 +128,21 @@ class GlobalUser: NSObject {
         return "\(version) build: \(build)"
     }
     
+}
+
+func pickMap(mapName: String) -> String{
+    switch mapName {
+    case "default":
+        return mapboxUrl1
+    case "satellite":
+        return mapboxSat1Url
+    case "nav":
+        if Utility.dayTimeCheck() == "day"{
+            return mapboxNavDay1
+        }else{
+            return mapboxNavNight1
+        }
+    default:
+        return mapboxUrl1
+    }
 }

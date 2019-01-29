@@ -177,4 +177,24 @@ class Utility {
         }
         return nil
     }
+    
+    static func dayTimeCheck() -> String{
+        let hour = Calendar.current.component(.hour, from: Date())
+        let formatter = DateFormatter()
+        formatter.dateFormat = "a" // "a" prints "pm" or "am"
+        let meridiemString = formatter.string(from: Date()) // "AM"
+        if meridiemString == "AM"{
+            if hour == 12 || hour < 7{
+                return "night"
+            }else{
+                return "day"
+            }
+        }else{ // If PM
+            if hour == 12 || hour < 8{
+                return "day"
+            }else{
+                return "night"
+            }
+        }
+    }
 }
