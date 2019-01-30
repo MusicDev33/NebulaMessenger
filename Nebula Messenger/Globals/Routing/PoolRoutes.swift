@@ -56,8 +56,9 @@ class PoolRoutes{
     }
     
     static func getPools(completion:@escaping ([PublicPool]) -> ()){
-        let url = URL(string: getPoolsRoute)
-        let requestJson = [String:Any]()
+        let url = URL(string: getPoolsWithUsernameRoute)
+        var requestJson = [String:Any]()
+        requestJson["username"] = GlobalUser.username
         do {
             let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
             let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)

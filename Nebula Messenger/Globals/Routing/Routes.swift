@@ -62,6 +62,7 @@ let getPoolsRoute = poolsRoot + "getpools"
 let sendPoolsRoute = poolsRoot + "send"
 let getPoolMessagesRoute = poolsRoot + "getmsgs"
 let deletePoolRoute = poolsRoot + "deletepool"
+let getPoolsWithUsernameRoute = poolsRoot + "getpoolswithusername"
 
 // MARK: Diagnostics Data
 let sendInfoRoute = diagRoot + "sendinfo"
