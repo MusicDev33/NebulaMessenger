@@ -336,9 +336,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @objc func nebulaButtonPressed(){
         impact.impactOccurred()
-        let poolVC = PoolingVC()
-        poolVC.modalTransitionStyle = .crossDissolve
-        poolVC.modalPresentationStyle = .overCurrentContext
         
         let mapVC = TestMapBoxVC()
         mapVC.modalTransitionStyle = .crossDissolve

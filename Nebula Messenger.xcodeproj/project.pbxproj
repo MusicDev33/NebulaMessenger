@@ -44,12 +44,10 @@
 		1F68B2C12154C1C400DC9525 /* MainMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68B2C02154C1C400DC9525 /* MainMenuVC.swift */; };
 		1F76C7DA215859C200EB6C8C /* RetroTone1.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1F68B2B32152757300DC9525 /* RetroTone1.caf */; };
 		1F76C7DC215899B500EB6C8C /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DB215899B500EB6C8C /* MyProfileVC.swift */; };
-		1F76C7DE2158A09E00EB6C8C /* PoolingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */; };
 		1F76C7E02158A95500EB6C8C /* CreateMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76C7DF2158A95500EB6C8C /* CreateMessageVC.swift */; };
 		1F7E94BE2199BBAF00AA5715 /* PoolChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7E94BD2199BBAF00AA5715 /* PoolChatView.swift */; };
 		1F7F763421AD10BA008D3BB1 /* AddFriendVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7F763321AD10BA008D3BB1 /* AddFriendVC.swift */; };
 		1F7F763621AD38F5008D3BB1 /* RequestedFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7F763521AD38F5008D3BB1 /* RequestedFriendsVC.swift */; };
-		1F8A3A8C21B924F5008E42DB /* PoolingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A3A8B21B924F5008E42DB /* PoolingView.swift */; };
 		1FA20BC7218D6E83007317B5 /* UserRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BC6218D6E83007317B5 /* UserRoutes.swift */; };
 		1FA20BC9218D6FCD007317B5 /* MessageRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BC8218D6FCD007317B5 /* MessageRoutes.swift */; };
 		1FA20BCC218D728C007317B5 /* GroupChatAddVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA20BCB218D728C007317B5 /* GroupChatAddVC.swift */; };
@@ -139,12 +137,10 @@
 		1F68B2BE2154A64D00DC9525 /* MessengerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerVC.swift; sourceTree = "<group>"; };
 		1F68B2C02154C1C400DC9525 /* MainMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuVC.swift; sourceTree = "<group>"; };
 		1F76C7DB215899B500EB6C8C /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
-		1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolingVC.swift; sourceTree = "<group>"; };
 		1F76C7DF2158A95500EB6C8C /* CreateMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMessageVC.swift; sourceTree = "<group>"; };
 		1F7E94BD2199BBAF00AA5715 /* PoolChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolChatView.swift; sourceTree = "<group>"; };
 		1F7F763321AD10BA008D3BB1 /* AddFriendVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendVC.swift; sourceTree = "<group>"; };
 		1F7F763521AD38F5008D3BB1 /* RequestedFriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedFriendsVC.swift; sourceTree = "<group>"; };
-		1F8A3A8B21B924F5008E42DB /* PoolingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolingView.swift; sourceTree = "<group>"; };
 		1FA20BC6218D6E83007317B5 /* UserRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRoutes.swift; sourceTree = "<group>"; };
 		1FA20BC8218D6FCD007317B5 /* MessageRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRoutes.swift; sourceTree = "<group>"; };
 		1FA20BCB218D728C007317B5 /* GroupChatAddVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatAddVC.swift; sourceTree = "<group>"; };
@@ -367,10 +363,8 @@
 		1F7E94BC2199BB0E00AA5715 /* Pooling Module */ = {
 			isa = PBXGroup;
 			children = (
-				1F76C7DD2158A09E00EB6C8C /* PoolingVC.swift */,
 				1FE4F104216D321A00E4EF72 /* PoolChatVC.swift */,
 				1F7E94BD2199BBAF00AA5715 /* PoolChatView.swift */,
-				1F8A3A8B21B924F5008E42DB /* PoolingView.swift */,
 				1F5DAE4421FA316500BC26DB /* TestMapBoxView.swift */,
 				1F5DAE4621FA33C200BC26DB /* TestMapBoxVC.swift */,
 			);
@@ -787,9 +781,7 @@
 				1F2CE4532175D0C100B15C59 /* MasterAudio.swift in Sources */,
 				1FE4F103216CA86C00E4EF72 /* PoolChatCell.swift in Sources */,
 				1F170F1A21647157009673E2 /* PoolRoutes.swift in Sources */,
-				1F8A3A8C21B924F5008E42DB /* PoolingView.swift in Sources */,
 				1F68B26A2152227F00DC9525 /* LoginVC.swift in Sources */,
-				1F76C7DE2158A09E00EB6C8C /* PoolingVC.swift in Sources */,
 				1FB413EF21D7306800CB1288 /* FakeLaunchVC.swift in Sources */,
 				1FC7ED3421E4A71F002F1422 /* SettingsCell.swift in Sources */,
 				1F5DAE4321E9F0F600BC26DB /* PhoneNumberRegVC.swift in Sources */,
