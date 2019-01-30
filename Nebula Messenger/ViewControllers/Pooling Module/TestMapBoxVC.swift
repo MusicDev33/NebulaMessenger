@@ -21,6 +21,8 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
     var didImpact = false
     let lightImpact = UIImpactFeedbackGenerator(style: .light)
     
+    var testPool = PublicPool(coordinates: [0, 0], poolId: "testpool;;;", name: "Global Pool", creator: "MusicDev", connectionLimit: 1000, usersConnected: [String]())
+    
     // Collectionview stuff
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -216,6 +218,8 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         
         mapView.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         mapView.expandArrow.addTarget(self, action: #selector(expandButtonPressed), for: .touchUpInside)
+        
+        self.currentPools.append(testPool)
         
         // gestures
         let mapViewLongPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressedOnMap(_:)))
