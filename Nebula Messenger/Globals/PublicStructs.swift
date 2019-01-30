@@ -11,9 +11,12 @@ import UIKit
 
 // UI Colors
 let borderColorOne = UIColor(red: 199/255, green: 210/255, blue: 229/255, alpha: 1)
+let borderColorTwo = UIColor(red: 199/255, green: 210/255, blue: 229/255, alpha: 1)
 
 let panelColorOne = UIColor(red: 220/255, green: 220/255, blue: 225/255, alpha: 1)
 let panelColorTwo = UIColor(red: 252/255, green: 252/255, blue: 252/255, alpha: 1)
+
+let panelColorOneAlt = UIColor(red: 235/255, green: 235/255, blue: 240/255, alpha: 1)
 
 // Disabled Button
 let disabledButtonColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 0.4)

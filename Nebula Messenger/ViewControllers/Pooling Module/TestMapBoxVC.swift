@@ -20,6 +20,7 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
     
     var didImpact = false
     let lightImpact = UIImpactFeedbackGenerator(style: .light)
+    let impactNotif = UINotificationFeedbackGenerator()
     
     var testPool = PublicPool(coordinates: [0, 0], poolId: "testpool;;;", name: "Global Pool", creator: "MusicDev", connectionLimit: 1000, usersConnected: [String]())
     
@@ -285,12 +286,18 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         alert.addTextField { (textField) in
             textField.autocapitalizationType = UITextAutocapitalizationType.words
             textField.placeholder = "Pool Name"
+            textField.layer.cornerRadius = 5
         }
         
         // 3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "Create a Pool", style: .default, handler: { [weak alert] (_) in
             let textField = alert!.textFields![0] // Force unwrapping because we know it exists.
             print("Text field: \(textField.text ?? "Error: No Text Found")")
+            if textField.text == nil || textField.text == ""{
+                self.impactNotif.notificationOccurred(.error)
+                return
+            }
+            
             annotation.title = textField.text
             PoolRoutes.createPool(name: textField.text!, coords: [annotation.coordinate.latitude, annotation.coordinate.longitude]){pool in
                 

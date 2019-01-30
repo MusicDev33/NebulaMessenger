@@ -104,7 +104,14 @@ class TestMapBoxView: UIView {
         poolCollectionView.alwaysBounceVertical = true
         poolCollectionView.translatesAutoresizingMaskIntoConstraints = false
         poolCollectionView.register(PoolChatCell.self, forCellWithReuseIdentifier: "poolCell")
-        poolCollectionView.backgroundColor = panelColorTwo
+        
+        poolCollectionView.layer.borderWidth = 1
+        if Utility.dayTimeCheck() == "day"{
+            poolCollectionView.backgroundColor = panelColorOneAlt
+            poolCollectionView.layer.borderColor = borderColorOne.cgColor
+        }else{
+            poolCollectionView.backgroundColor = panelColorTwo
+        }
         poolCollectionView.layer.cornerRadius = 16
         poolCollectionView.showsVerticalScrollIndicator = false
         addSubview(poolCollectionView)
