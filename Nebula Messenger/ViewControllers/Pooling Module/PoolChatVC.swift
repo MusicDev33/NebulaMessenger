@@ -8,11 +8,13 @@
 
 import UIKit
 import Alamofire
+import FirebaseMessaging
 
 class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UITextViewDelegate, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
     var currentPoolMessages = [TerseMessage]()
     var poolId = ""
+    var poolName = ""
     
     var newView: PoolChatView!
     var messagesCollection: UICollectionView! { didSet {
@@ -20,6 +22,8 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         messagesCollection.delegate = self
         }
     }
+    
+    var subscribed = false
     
     var bottomPadding: CGFloat!
     var topPadding: CGFloat!
@@ -137,6 +141,10 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         //newView.bottomBar.isUserInteractionEnabled = true
         newView.grabCircle.addGestureRecognizer(tapGesture)
         
+        let tapOnSubscribeGesture = UITapGestureRecognizer(target: self, action: #selector(tappedOnSubscribe))
+        tapOnSubscribeGesture.delegate = self
+        newView.subscribeView.addGestureRecognizer(tapOnSubscribeGesture)
+        
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.draggedCircle(_:)))
         panGesture.delegate = self
         newView.grabCircle.isUserInteractionEnabled = true
@@ -156,12 +164,40 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         self.openSocket {
         }
         self.scrollToBottom(animated: true)
+        self.newView.involvedLabel.text = self.poolName
+        
+        print("OOOOOOO")
+        print(GlobalUser.subscribedPools)
+        if GlobalUser.subscribedPools.contains(self.poolId){
+            subscribed = true
+            self.newView.subscribeView.backgroundColor = UIColor.green
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.closeVC), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.openVC), name: UIApplication.didBecomeActiveNotification, object: nil)
         
+    }
+    
+    @objc func tappedOnSubscribe(){
+        if subscribed{
+            PoolRoutes.removePoolSubscription(poolId: self.poolId, completion: {success in
+                if success == true{
+                    self.newView.subscribeView.backgroundColor = UIColor.red
+                    self.subscribed = false
+                    Messaging.messaging().unsubscribe(fromTopic: self.poolId)
+                }
+            })
+        }else{
+            PoolRoutes.addPoolSubscription(poolId: self.poolId, completion: {success in
+                if success == true{
+                    self.subscribed = true
+                    Messaging.messaging().subscribe(toTopic: self.poolId)
+                    self.newView.subscribeView.backgroundColor = UIColor.green
+                }
+            })
+        }
     }
     
     @objc func closeVC()  {

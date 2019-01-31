@@ -63,6 +63,25 @@ class PoolChatView: UIView {
         return label
     }()
     
+    let subscribeBackground: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.white
+        view.layer.cornerRadius = 11
+        
+        return view
+    }()
+    
+    let subscribeView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.red
+        view.layer.cornerRadius = 8
+        view.bounds.insetBy(dx: -18.0, dy: -18.0)
+        
+        return view
+    }()
+    
     let bottomBarActionButton: UIButton = {
         var button = UIButton()
         if let image = UIImage(named: "FullscreenBlack") {
@@ -195,6 +214,8 @@ class PoolChatView: UIView {
         addSubview(backButton)
         addSubview(trashButton)
         addSubview(involvedLabel)
+        addSubview(subscribeBackground)
+        addSubview(subscribeView)
         //self.layer.addSublayer(pulsatingLayer)
         addSubview(bottomBarActionButton)
         bottomBarActionButton.layer.addSublayer(pulsatingLayer)
@@ -266,12 +287,22 @@ class PoolChatView: UIView {
         trashButton.centerXAnchor.constraint(equalTo: rightAnchor, constant: -30).isActive = true
         trashButton.centerYAnchor.constraint(equalTo: backButton.centerYAnchor).isActive = true
         
-        involvedWidthAnchor = involvedLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.33)
-        involvedWidthAnchor?.isActive = true
+        //involvedWidthAnchor = involvedLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.33)
+        //involvedWidthAnchor?.isActive = true
         involvedLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         involvedCenterAnchor = involvedLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
         //involvedCenterAnchor?.isActive = true
         involvedLabel.centerYAnchor.constraint(equalTo: backButton.centerYAnchor, constant: -10).isActive = true
+        
+        subscribeBackground.centerYAnchor.constraint(equalTo: involvedLabel.centerYAnchor).isActive = true
+        subscribeBackground.leftAnchor.constraint(equalTo: involvedLabel.rightAnchor, constant: 4).isActive = true
+        subscribeBackground.widthAnchor.constraint(equalToConstant: 22).isActive = true
+        subscribeBackground.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        
+        subscribeView.centerYAnchor.constraint(equalTo: subscribeBackground.centerYAnchor).isActive = true
+        subscribeView.centerXAnchor.constraint(equalTo: subscribeBackground.centerXAnchor).isActive = true
+        subscribeView.widthAnchor.constraint(equalToConstant: 16).isActive = true
+        subscribeView.heightAnchor.constraint(equalToConstant: 16).isActive = true
         
         bottomBarActionButton.widthAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
         bottomBarActionButton.heightAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true

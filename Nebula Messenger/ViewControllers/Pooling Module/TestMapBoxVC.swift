@@ -40,12 +40,14 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //let cell = self.poolTable.dequeueReusableCell(withReuseIdentifier: "poolCell",for: indexPath) as! PoolChatCell
         let poolId = self.currentPools[indexPath.row].poolId ?? ""
+        let poolName = self.currentPools[indexPath.row].name ?? "Pool"
         PoolRoutes.getPoolMessages(id: poolId){messagesList in
             var messages = [TerseMessage]()
             messages = messagesList
             let poolChatVC = PoolChatVC()
             poolChatVC.modalPresentationStyle = .currentContext
             poolChatVC.poolId = poolId
+            poolChatVC.poolName = poolName
             poolChatVC.currentPoolMessages = messages
             self.present(poolChatVC, animated: true, completion: nil)
         }

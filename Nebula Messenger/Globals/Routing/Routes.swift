@@ -38,6 +38,8 @@ let getQuotesRoute = userRoot + "getquote"
 let getUserRoute = userRoot + "getuser"
 let refreshTokenRoute = userRoot + "refreshtoken"
 let addPhoneNumberRoute = userRoot + "addphonenumber"
+let addPoolSubscriptionRoute = userRoot + "addpoolsubscription"
+let removePoolSubscriptionRoute = userRoot + "removepoolsubscription"
 
 // MARK: Friends
 let getFriendsRoute = friendsRoot + "getfriends"

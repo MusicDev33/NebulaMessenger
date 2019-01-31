@@ -45,6 +45,10 @@ class UserRoutes{
                         GlobalUser.friends = Utility.toArray(json: jObj["user"]["friends"])
                         GlobalUser.requestedFriends = Utility.toArray(json: jObj["user"]["requestedFriends"])
                         GlobalUser.token = jObj["token"].stringValue
+                        if jObj["user"]["poolSubs"] != JSON.null {
+                            print("It's okay")
+                            GlobalUser.subscribedPools = Utility.toArray(json: jObj["user"]["poolSubs"])
+                        }
                         
                         UserDefaults.standard.set(username, forKey: "username")
                         UserDefaults.standard.set(password, forKey: "password")

@@ -214,6 +214,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // This makes sure you don't exit to the create message page
         if fromCreateMessage{
             let vcAmount = self.navigationController?.viewControllers.count
             self.navigationController?.viewControllers.remove(at: vcAmount! - 2)
@@ -248,8 +249,6 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         newView.involvedCenterAnchor?.isActive = true
         
         self.view.addSubview(newView)
-        print(newView.bottomBar.alpha)
-        print("THIS")
         self.newView.addSubview(self.messagesCollection)
         newView.sendSubviewToBack(self.messagesCollection)
         
