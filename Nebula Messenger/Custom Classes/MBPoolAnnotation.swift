@@ -12,6 +12,7 @@ import Mapbox
 class MBPoolAnnotation: MGLPointAnnotation{
     var imageName: String!
     var id: String!
+    var creator: String!
 }
 
 func polygonCircleForCoordinate(coordinate: CLLocationCoordinate2D, withMeterRadius: Double) -> MGLPolygon{

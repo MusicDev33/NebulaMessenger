@@ -98,7 +98,23 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
     
     func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
         
+        var annotationColor = UIColor.lightGray
+        var annotationBorderColor = UIColor.lightGray.cgColor
+        
         if let castAnnotation = annotation as? MBPoolAnnotation {
+            switch castAnnotation.creator {
+            case GlobalUser.username:
+                annotationColor = nebulaBlue
+            default:
+                annotationColor = UIColor(red: 0.03, green: 0.80, blue: 0.69, alpha: 1.0)
+            }
+            
+            if GlobalUser.subscribedPools.contains(castAnnotation.id){
+                annotationBorderColor = nebulaGreen.cgColor
+            }else{
+                annotationBorderColor = UIColor.white.cgColor
+            }
+            
             if ((castAnnotation.imageName) == nil) {
                 return nil
             }
@@ -116,8 +132,17 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
             annotationView?.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
             annotationView?.layer.cornerRadius = (annotationView?.frame.size.width)! / 2
             annotationView?.layer.borderWidth = 2.0
-            annotationView?.layer.borderColor = UIColor.white.cgColor
-            annotationView!.backgroundColor = UIColor(red: 0.03, green: 0.80, blue: 0.69, alpha: 1.0)
+            annotationView?.layer.borderColor = annotationBorderColor
+            
+            annotationView!.backgroundColor = annotationColor
+        }else{
+            annotationView = MGLAnnotationView(reuseIdentifier: reuseIdentifier)
+            annotationView?.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+            annotationView?.layer.cornerRadius = (annotationView?.frame.size.width)! / 2
+            annotationView?.layer.borderWidth = 2.0
+            annotationView?.layer.borderColor = annotationBorderColor
+            
+            annotationView!.backgroundColor = annotationColor
         }
         
         return annotationView
@@ -247,6 +272,7 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
                 let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
                 poolAtPoint.coordinate = coordinate
                 poolAtPoint.title = pool.name
+                poolAtPoint.creator = pool.creator
                 
                 poolAtPoint.subtitle = pool.creator
                 poolAtPoint.imageName = "CloudCircle"
