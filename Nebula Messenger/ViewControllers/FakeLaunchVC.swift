@@ -83,8 +83,12 @@ class FakeLaunchVC: UIViewController {
                                         mainVC.outdated = true
                                     }
                                 }
-                                mainVC.modalPresentationStyle = .overCurrentContext
-                                self.navigationController?.pushViewController(mainVC, animated: true)
+                                                        
+                                PoolRoutes.getPools(completion: {pools in
+                                    globalPools = pools
+                                    mainVC.modalPresentationStyle = .overCurrentContext
+                                    self.navigationController?.pushViewController(mainVC, animated: true)
+                                })
                             }
                         }
                     }

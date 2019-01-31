@@ -16,6 +16,8 @@ let mapboxSat1Url = "mapbox://styles/musicdev/cjri2kycn8y772srvicpllgjf"
 let mapboxNavDay1 = "mapbox://styles/musicdev/cjri2oczc8ya82srv1bomb4cc"
 let mapboxNavNight1 = "mapbox://styles/musicdev/cjri2msnu802x2spjfeg0dwwl"
 
+var globalPools = [PublicPool]()
+
 class GlobalUser: NSObject {
     static var userMapUrl = pickMap(mapName: UserDefaults.standard.string(forKey: "mapPreference") ?? "default")
     

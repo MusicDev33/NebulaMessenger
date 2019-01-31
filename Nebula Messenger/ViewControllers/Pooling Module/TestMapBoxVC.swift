@@ -91,6 +91,12 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
     }
     
     // Mapbox stuff
+    func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
+        if annotation.isKind(of: MGLPolygon.self) {
+            return
+        }
+    }
+    
     func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
         // Always allow callouts to popup when annotations are tapped.
         return true
@@ -100,19 +106,24 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         
         var annotationColor = UIColor.lightGray
         var annotationBorderColor = UIColor.lightGray.cgColor
+        var borderWidth = 2.0
         
         if let castAnnotation = annotation as? MBPoolAnnotation {
             switch castAnnotation.creator {
             case GlobalUser.username:
-                annotationColor = nebulaBlue
+                annotationColor = nebulaPurple
             default:
-                annotationColor = UIColor(red: 0.03, green: 0.80, blue: 0.69, alpha: 1.0)
+                // UIColor(red: 0.03, green: 0.80, blue: 0.69, alpha: 1.0)
+                // Saving this color for later
+                annotationColor = nebulaBlue
             }
             
             if GlobalUser.subscribedPools.contains(castAnnotation.id){
-                annotationBorderColor = nebulaGreen.cgColor
+                annotationBorderColor = UIColor.green.cgColor
+                borderWidth = 2.0
             }else{
                 annotationBorderColor = UIColor.white.cgColor
+                borderWidth = 2.0
             }
             
             if ((castAnnotation.imageName) == nil) {
@@ -131,7 +142,7 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
             annotationView = MGLAnnotationView(reuseIdentifier: reuseIdentifier)
             annotationView?.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
             annotationView?.layer.cornerRadius = (annotationView?.frame.size.width)! / 2
-            annotationView?.layer.borderWidth = 2.0
+            annotationView?.layer.borderWidth = CGFloat(borderWidth)
             annotationView?.layer.borderColor = annotationBorderColor
             
             annotationView!.backgroundColor = annotationColor
@@ -139,7 +150,7 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
             annotationView = MGLAnnotationView(reuseIdentifier: reuseIdentifier)
             annotationView?.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
             annotationView?.layer.cornerRadius = (annotationView?.frame.size.width)! / 2
-            annotationView?.layer.borderWidth = 2.0
+            annotationView?.layer.borderWidth = CGFloat(borderWidth)
             annotationView?.layer.borderColor = annotationBorderColor
             
             annotationView!.backgroundColor = annotationColor
@@ -178,7 +189,7 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         // guard statements
         let point = CLLocation(latitude: userCoord.latitude, longitude: userCoord.longitude)
         
-        for pool in self.poolsInArea{
+        for pool in globalPools{
             let poolCenter = CLLocation(latitude: pool.coordinates?[0] ?? 0, longitude: pool.coordinates?[1] ?? 0)
             if point.distance(from: poolCenter) < CLLocationDistance(self.defaultRadius+1) {
                 if !currentPools.contains(where: { $0.poolId == pool.poolId}){
@@ -215,7 +226,7 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         // guard statements
         let point = CLLocation(latitude: userCoord.latitude, longitude: userCoord.longitude)
         
-        for pool in self.poolsInArea{
+        for pool in globalPools{
             let poolCenter = CLLocation(latitude: pool.coordinates?[0] ?? 0, longitude: pool.coordinates?[1] ?? 0)
             if point.distance(from: poolCenter) < CLLocationDistance(self.defaultRadius+1) {
                 if !currentPools.contains(where: { $0.poolId == pool.poolId}){
@@ -255,30 +266,39 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         self.mapView.map.addGestureRecognizer(mapViewLongPress)
 
         // Do any additional setup after loading the view.
-        
-        PoolRoutes.getPools(){pools in
-            for pool in pools{
-                let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
-                
-                let polygon = polygonCircleForCoordinate(coordinate: coordinate, withMeterRadius: Double(self.defaultRadius))
-                self.mapView.map.addAnnotation(polygon)
-            }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        for pool in globalPools{
+            let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
             
-            for pool in pools{
-                self.poolsInArea.append(pool)
-                let poolAtPoint = MBPoolAnnotation()
-                
-                //let annotation = PoolAnnotation()
-                let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
-                poolAtPoint.coordinate = coordinate
-                poolAtPoint.title = pool.name
-                poolAtPoint.creator = pool.creator
-                
-                poolAtPoint.subtitle = pool.creator
-                poolAtPoint.imageName = "CloudCircle"
-                poolAtPoint.id = pool.poolId
-                self.mapView.map.addAnnotation(poolAtPoint)
-            }
+            let polygon = polygonCircleForCoordinate(coordinate: coordinate, withMeterRadius: Double(self.defaultRadius))
+            self.mapView.map.addAnnotation(polygon)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        for pool in globalPools{
+            let poolAtPoint = MBPoolAnnotation()
+            
+            //let annotation = PoolAnnotation()
+            let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
+            poolAtPoint.coordinate = coordinate
+            poolAtPoint.title = pool.name
+            poolAtPoint.creator = pool.creator
+            
+            poolAtPoint.subtitle = pool.creator
+            poolAtPoint.imageName = "CloudCircle"
+            poolAtPoint.id = pool.poolId
+            self.mapView.map.addAnnotation(poolAtPoint)
+        }
+    }
+    
+     override func viewDidDisappear(_ animated: Bool) {
+        if let annotations = self.mapView.map.annotations{
+            self.mapView.map.removeAnnotations(annotations)
         }
     }
     
@@ -331,7 +351,7 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
                 
                 print("POOLTHING")
                 print(pool)
-                self.poolsInArea.append(pool)
+                globalPools.append(pool)
                 let annotation = MBPoolAnnotation()
                 let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
                 annotation.coordinate = coordinate

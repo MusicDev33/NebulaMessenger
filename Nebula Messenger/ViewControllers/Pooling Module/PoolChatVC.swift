@@ -189,6 +189,7 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
                     self.newView.subscribeView.backgroundColor = UIColor.red
                     self.subscribed = false
                     Messaging.messaging().unsubscribe(fromTopic: self.poolId)
+                    GlobalUser.subscribedPools = GlobalUser.subscribedPools.filter {$0 != self.poolId}
                 }
             })
         }else{
@@ -197,6 +198,7 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
                     self.subscribed = true
                     Messaging.messaging().subscribe(toTopic: self.poolId)
                     self.newView.subscribeView.backgroundColor = UIColor.green
+                    GlobalUser.subscribedPools.append(self.poolId)
                 }
             })
         }

@@ -31,6 +31,9 @@ let nebulaYellow = UIColor(red: 216/255, green: 216/255, blue: 17/255, alpha: 1)
 let nebulaBurn = UIColor(red: 206/255, green: 143/255, blue: 16/255, alpha: 1)
 let nebulaPink = UIColor(red: 1, green: 209/255, blue: 220/255, alpha: 1)
 
+// Misc
+let nebulaSkyBorder = UIColor(red: 17/255, green: 214/255, blue: 214/255, alpha: 1)
+
 var userTextColor = nebulaPurple
 var otherTextColor = nebulaBlue
 

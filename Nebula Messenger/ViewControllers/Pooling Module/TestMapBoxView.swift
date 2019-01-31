@@ -23,6 +23,10 @@ class TestMapBoxView: UIView {
         view.tintColor = nebulaPurple
         view.showsUserLocation = true
         
+        // ??? wtf
+        view.allowsRotating = false
+        view.isRotateEnabled = false
+        
         // TODO: Add logo and i button back to map
         //view.logoView.isHidden = true
         //view.attributionButton.isHidden = true
