@@ -174,6 +174,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo
+        print(userInfo)
         
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
@@ -185,6 +186,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Print full message.
         print("REMOTE")
         guard
+            let convId = userInfo[AnyHashable("id")] as? String,
             let aps = userInfo[AnyHashable("aps")] as? NSDictionary,
             let alert = aps["alert"] as? NSDictionary,
             let body = alert["body"] as? String,
@@ -193,8 +195,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 // handle any error here
                 return
         }
+        print(convId)
+        print(GlobalUser.currentConv)
         print(title)
-        if (title != GlobalUser.currentConv){
+        if (convId != GlobalUser.currentConv){
             completionHandler([.alert, .badge, .sound])
         }else{
             completionHandler([])

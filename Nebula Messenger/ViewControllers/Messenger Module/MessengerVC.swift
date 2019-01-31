@@ -306,7 +306,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         
         self.setupKeyboardObservers()
         
-        GlobalUser.currentConv = self.friend
+        GlobalUser.currentConv = self.id
         self.scrollToBottom(animated: false)
         if msgList.count > 0{
             ConversationRoutes.updateLastRead(id: self.id, msgId: msgList[msgList.count-1]._id ?? "NA"){
@@ -561,7 +561,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         dateTime: now,
                         read: false)
                     
-                    
+                    /*
                     let lastRow = self.msgList.count - 1
                     let lastIndex = IndexPath(item: lastRow, section: 0)
                     let newLastIndex = IndexPath(item: lastRow+1, section: 0)
@@ -580,12 +580,12 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         let lastIndex = IndexPath(item: lastItem, section: 0)
                         self.messagesCollection.reloadData()
                         self.messagesCollection.scrollToItem(at: lastIndex, at: .bottom, animated: true)
-                    })
+                    })*/
                     
                     
-                    //self.msgList.append(tempMsg)
-                    //self.messagesCollection.reloadData()
-                    //self.scrollToBottom(animated: true)
+                    self.msgList.append(tempMsg)
+                    self.messagesCollection.reloadData()
+                    self.scrollToBottom(animated: true)
                     self.newView.messageField.text = ""
                     
                     if jsonObject["conv"].exists(){
@@ -672,19 +672,11 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                         self.messagesCollection.reloadData()
                         self.scrollToBottom(animated: true)
                     }else{
+                        
+                        self.msgList.append(tempMsg)
+                        self.messagesCollection.reloadData()
+                        self.scrollToBottom(animated: true)
                         /*
-                        let lastSectionIndex = self.messagesCollection!.numberOfSections - 1
-                        // Then grab the number of rows in the last section
-                        let lastRowIndex = self.messagesCollection!.numberOfItems(inSection: lastSectionIndex) - 1
-                        // Now just construct the index path
-                        let pathToLastRow = NSIndexPath(row: lastRowIndex+1, section: lastSectionIndex)
-                        let pathToRow2 = NSIndexPath(row: lastRowIndex+1, section: lastSectionIndex)
-                        self.messagesCollection.insertItems(at: [pathToLastRow as IndexPath])
-                        self.messagesCollection.reloadItems(at: [pathToRow2 as IndexPath])*/
-                        
-                        //self.messagesCollection.reloadData()
-                        
-                        //self.messagesCollection.reloadData()
                         self.messagesCollection.reloadData()
                         let lastRow = self.msgList.count - 1
                         let lastIndex = IndexPath(item: lastRow, section: 0)
@@ -704,7 +696,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                             let lastIndex = IndexPath(item: lastItem, section: 0)
                             self.messagesCollection.scrollToItem(at: lastIndex, at: .bottom, animated: true)
                             self.messagesCollection.reloadData()
-                        })
+                        })*/
                         
                     }
                     ConversationRoutes.updateLastRead(id: self.id, msgId: ""){
@@ -841,6 +833,8 @@ extension MessengerVC: UITextViewDelegate{
     func textViewDidEndEditing(_ textView: UITextView) {
     }
 }
+
+// MARK: Extras
 
 // Simple solution for detecting emojis in a string
 // Thanks, StackOverflow

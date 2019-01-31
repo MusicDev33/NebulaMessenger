@@ -94,6 +94,8 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 1)
         
+        GlobalUser.currentConv = self.poolId
+        
         let window = UIApplication.shared.keyWindow
         topPadding = window?.safeAreaInsets.top ?? 0
         bottomPadding = window?.safeAreaInsets.bottom ?? 0
