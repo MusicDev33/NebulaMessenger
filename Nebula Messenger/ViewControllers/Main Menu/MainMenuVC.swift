@@ -239,7 +239,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.searchConvMode = true
         self.searchResults = GlobalUser.convNames
         self.searchBarWidth?.constant -= 40
-        //searchBarRightAnchor?.constant -= 40
         
         UIView.animate(withDuration: 0.2, animations: {
             self.view.layoutIfNeeded()
@@ -249,10 +248,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         self.convTable.reloadData()
-        self.searchBarWidth?.constant += 40
+        self.searchBarWidth?.constant = 0
         //searchBarRightAnchor?.constant = -5
         UIView.animate(withDuration: 0.2, animations: {
-            self.view.layoutIfNeeded()
+            self.convTable.layoutIfNeeded()
             self.exitSearchButton.alpha = 0
         })
     }
@@ -376,7 +375,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     override func viewSafeAreaInsetsDidChange() {
-        // ... your layout code here
         convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.view.safeAreaLayoutGuide.layoutFrame.height - 60)
         convTableHeightAnchor?.isActive = true
     }
@@ -388,7 +386,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @objc func profileButtonPressed(){
         self.view.endEditing(true)
-        self.searchController.isActive = false
+        self.searchBar.resignFirstResponder()
         let profileVC = MyProfileVC()
         self.navigationController?.pushViewController(profileVC, animated: true)
     }
