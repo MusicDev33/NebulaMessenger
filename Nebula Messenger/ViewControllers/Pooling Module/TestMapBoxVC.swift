@@ -363,7 +363,6 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
                 annotation.id = pool.poolId
                 self.mapView.map.addAnnotation(annotation)
             }
-            
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { [weak alert] (_) in alert

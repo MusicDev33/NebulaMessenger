@@ -18,11 +18,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     var searchController: UISearchController!
     var searchResults = [String]()
+    var searchBar: UISearchBar!
+    var exitSearchButton: UIButton!
     
     var convTable: UITableView!
-    
-    var profileButton: UIButton!
-    var settingsButton: UIButton!
     
     var bottomBarView: UIView!
     var addFriendsButton: UIButton!
@@ -40,6 +39,14 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     let impact = UIImpactFeedbackGenerator(style: .light)
     let notifImpact = UINotificationFeedbackGenerator()
+    
+    var lineView: UIView!
+    var lineViewBottomAnchor: NSLayoutConstraint?
+    
+    var bottomLineView: UIView!
+    var bottomLineViewBottomAnchor: NSLayoutConstraint?
+    
+    var profileUIButton: UIButton!
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchConvMode{
@@ -63,6 +70,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             }
             cell.textLabel?.text = convName
         }
+        
         return cell
     }
     
@@ -78,15 +86,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.passFriend = cellText
         view.endEditing(true)
         self.searchController.searchBar.endEditing(true)
-        
-        //Temporary
-//        let transition = CATransition()
-//        transition.duration = 0.2
-//        transition.type = CATransitionType.push
-//        transition.subtype = CATransitionSubtype.fromRight
-//        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
-//        self.view.window!.layer.add(transition, forKey: kCATransition)
-        // present(dashboardWorkout, animated: false, completion: nil)
         
         let userCount = self.passInvolved.components(separatedBy:":").count
         print("Important")
@@ -133,24 +132,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print(scrollView.contentOffset.y)
         
-        if -(scrollView.contentOffset.y*2) + 30 > 30{
-            profileButtonHeightAnchor?.constant = 30
-        }else{
-            profileButtonHeightAnchor?.constant = -(scrollView.contentOffset.y*2) + 30
-        }
-        
-        //convTable.contentOffset.y = 0
-        
-        print("CONSTANT")
-        print(convTableHeightAnchor?.constant)
-        
-        if profileButtonHeightAnchor?.constant ?? 0 < CGFloat(20){
-            profileButton.setTitle("", for: .normal)
-            //settingsButton.setTitle("", for: .normal)
-        }else{
-            profileButton.setTitle("Profile", for: .normal)
-            //settingsButton.setTitle("Settings", for: .normal)
-        }
+        lineViewBottomAnchor?.constant = 1 - scrollView.contentOffset.y
         
     }
     
@@ -181,24 +163,98 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         return action
     }
     
+    var searchBarWidth: NSLayoutConstraint?
+    var searchBarRightAnchor: NSLayoutConstraint?
+    
     //Search Controller Setup
     func configureSearchController(){
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search for conversations here"
-        searchController.searchBar.delegate = self
-        searchController.searchBar.sizeToFit()
-        self.convTable.tableHeaderView = searchController.searchBar
+        let buttonHeight = CGFloat(40)
+        // profile button 2
+        profileUIButton = UIButton(type: .system)
+        profileUIButton.translatesAutoresizingMaskIntoConstraints = false
+        profileUIButton.setImage(UIImage(named: "ProfileBlack"), for: .normal)
+        profileUIButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
+        
+        exitSearchButton = UIButton(type: .system)
+        exitSearchButton.translatesAutoresizingMaskIntoConstraints = false
+        exitSearchButton.setImage(UIImage(named: "BlackX"), for: .normal)
+        exitSearchButton.addTarget(self, action: #selector(exitSearchButtonPressed), for: .touchUpInside)
+        
+        searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        searchBar.delegate = self
+        searchBar.placeholder = "Conversations"
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.barTintColor = UIColor.white
+        
+        let topLineView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 5))
+        topLineView.translatesAutoresizingMaskIntoConstraints = false
+        topLineView.backgroundColor = UIColor.white
+        
+        let bottomLineView = UIView(frame: CGRect(x: 0, y: 55, width: self.view.frame.width, height: 5))
+        bottomLineView.translatesAutoresizingMaskIntoConstraints = false
+        bottomLineView.backgroundColor = UIColor.white
+        
+        for subview in searchBar.subviews  {
+            for subSubview in subview.subviews  {
+                if let textField = subSubview as? UITextField {
+                    var bounds: CGRect
+                    bounds = textField.frame
+                    bounds.size.height = 35 //(set height whatever you want)
+                    textField.bounds = bounds
+                    textField.layer.cornerRadius = 10
+                    textField.layer.borderWidth = 1.0
+                    textField.layer.borderColor = nebulaPurple.cgColor
+                    textField.backgroundColor = UIColor.white
+                }
+            }
+        }
+        
+        self.convTable.tableHeaderView = searchBar
+        self.convTable.tableHeaderView?.addSubview(topLineView)
+        self.convTable.tableHeaderView?.addSubview(bottomLineView)
+        self.convTable.addSubview(profileUIButton)
+        self.convTable.addSubview(exitSearchButton)
+        
+        exitSearchButton.alpha = 0
+        
+        searchBar.topAnchor.constraint(equalTo: self.convTable.topAnchor, constant: 3).isActive = true
+        
+        profileUIButton.widthAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+        profileUIButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+        profileUIButton.leftAnchor.constraint(equalTo: self.convTable.leftAnchor, constant: 10).isActive = true
+        profileUIButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor).isActive = true
+        
+        searchBarWidth = searchBar.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.85)
+        searchBarWidth?.isActive = true
+        searchBarRightAnchor = searchBar.leftAnchor.constraint(equalTo: self.profileUIButton.rightAnchor, constant: 5)
+        searchBarRightAnchor?.isActive = true
+        
+        exitSearchButton.widthAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+        exitSearchButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+        exitSearchButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
+        exitSearchButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor).isActive = true
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.searchConvMode = true
         self.searchResults = GlobalUser.convNames
+        self.searchBarWidth?.constant -= 40
+        //searchBarRightAnchor?.constant -= 40
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.view.layoutIfNeeded()
+            self.exitSearchButton.alpha = 1
+        })
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         self.convTable.reloadData()
+        self.searchBarWidth?.constant += 40
+        //searchBarRightAnchor?.constant = -5
+        UIView.animate(withDuration: 0.2, animations: {
+            self.view.layoutIfNeeded()
+            self.exitSearchButton.alpha = 0
+        })
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -254,12 +310,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.createProfileButton()
         //self.createSettingsButton()
         self.createConvTable()
         
-        self.view.bringSubviewToFront(profileButton)
-        self.view.backgroundColor = panelColorTwo
+        self.view.backgroundColor = UIColor.white
         
         for i in GlobalUser.convNames{
             if GlobalUser.masterDict[i]?.lastMessage == GlobalUser.masterDict[i]?.lastRead{
@@ -328,7 +382,12 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     //MARK: Actions
+    @objc func exitSearchButtonPressed(){
+        self.view.endEditing(true)
+    }
+    
     @objc func profileButtonPressed(){
+        self.view.endEditing(true)
         self.searchController.isActive = false
         let profileVC = MyProfileVC()
         self.navigationController?.pushViewController(profileVC, animated: true)
@@ -395,74 +454,36 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var convTableHeightAnchor: NSLayoutConstraint?
     
     func createConvTable(){
+        // view for block the dark line at the top of the tableview
+        lineView = UIView()
+        lineView.translatesAutoresizingMaskIntoConstraints = false
+        lineView.backgroundColor = UIColor.white
+        
         convTable = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         convTable.register(UITableViewCell.self, forCellReuseIdentifier: "conversationCell")
         convTable.dataSource = self
         convTable.delegate = self
         convTable.translatesAutoresizingMaskIntoConstraints = false
         convTable.isScrollEnabled = true
-        
+        convTable.separatorStyle = .none
+        convTable.separatorColor = convTable.backgroundColor
         self.view.addSubview(convTable)
+        self.convTable.addSubview(lineView)
         
-        var combinedInsets = self.view.safeAreaInsets.bottom + self.view.safeAreaInsets.top
+        let combinedInsets = self.view.safeAreaInsets.bottom + self.view.safeAreaInsets.top
         print(combinedInsets)
         
-        convTable.topAnchor.constraint(equalTo: self.profileButton.bottomAnchor, constant: 2).isActive = true
+        convTable.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 2).isActive = true
         convTable.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1).isActive = true
         convTable.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.view.safeAreaLayoutGuide.layoutFrame.height - 60)
         convTableHeightAnchor?.isActive = true
-    }
-    
-    var profileButtonHeightAnchor: NSLayoutConstraint?
-    var settingsButtonHeightAnchor: NSLayoutConstraint?
-    
-    func createProfileButton(){
-        profileButton = UIButton(type: .system)
         
-        profileButton.translatesAutoresizingMaskIntoConstraints = false
-        profileButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        profileButton.backgroundColor = UIColor.white
-        profileButton.setTitleColor(nebulaBlue, for: .normal)
-        profileButton.setTitleColor(UIColor.lightGray, for: .disabled)
-        profileButton.layer.cornerRadius = 10
-        profileButton.layer.borderWidth = 1
-        profileButton.layer.borderColor = nebulaBlue.cgColor
-        profileButton.setTitle("Profile", for: .normal)
-        profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
-        
-        self.view.addSubview(profileButton)
-        
-        profileButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9).isActive = true
-        profileButtonHeightAnchor = profileButton.heightAnchor.constraint(equalToConstant: 30)
-        profileButtonHeightAnchor?.isActive = true
-        
-        profileButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        profileButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-    }
-    
-    func createSettingsButton(){
-        settingsButton = UIButton(type: .system)
-        
-        settingsButton.translatesAutoresizingMaskIntoConstraints = false
-        settingsButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        settingsButton.backgroundColor = UIColor.white
-        settingsButton.setTitleColor(nebulaPurple, for: .normal)
-        settingsButton.setTitleColor(UIColor.lightGray, for: .disabled)
-        settingsButton.layer.cornerRadius = 10
-        settingsButton.layer.borderWidth = 1
-        settingsButton.layer.borderColor = nebulaPurple.cgColor
-        settingsButton.setTitle("Settings", for: .normal)
-        settingsButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
-        
-        self.view.addSubview(settingsButton)
-        
-        settingsButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.47).isActive = true
-        settingsButtonHeightAnchor = settingsButton.heightAnchor.constraint(equalTo: profileButton.heightAnchor)
-        settingsButtonHeightAnchor?.isActive = true
-        
-        settingsButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 5).isActive = true
-        settingsButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        lineView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        lineViewBottomAnchor = lineView.topAnchor.constraint(equalTo: convTable.topAnchor, constant: 1)
+        lineViewBottomAnchor?.isActive = true
+        lineView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        lineView.heightAnchor.constraint(equalToConstant: 5).isActive = true
     }
     
     var bottomBarHeightAnchor: NSLayoutConstraint?

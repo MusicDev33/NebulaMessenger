@@ -110,9 +110,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDele
     
     // MARK: Actions
     @objc func registerButtonPress() {
-        //sendRegisterRequest()
-        let phoneNoVC = PhoneNumberRegVC()
-        self.navigationController?.pushViewController(phoneNoVC, animated: true)
+        sendRegisterRequest()
     }
     
     @objc func tappedOnScreen(_ sender: UITapGestureRecognizer) {
