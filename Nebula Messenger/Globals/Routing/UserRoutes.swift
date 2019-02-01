@@ -49,6 +49,9 @@ class UserRoutes{
                             print("It's okay")
                             GlobalUser.subscribedPools = Utility.toArray(json: jObj["user"]["poolSubs"])
                         }
+                        for topic in GlobalUser.subscribedPools{
+                            Messaging.messaging().subscribe(toTopic: topic)
+                        }
                         
                         UserDefaults.standard.set(username, forKey: "username")
                         UserDefaults.standard.set(password, forKey: "password")
@@ -293,6 +296,30 @@ class UserRoutes{
                     var returnList = [String]()
                     returnList.append("Thanks for using Nebula!")
                     completion(returnList)
+                }
+            })
+        }catch{
+        }
+    }
+    
+    static func addPhoneNumber(number:String, username: String, completion:@escaping () -> ()){
+        let url = URL(string: addPhoneNumberRoute)
+        var requestJson = [String:Any]()
+        requestJson["token"] = GlobalUser.token
+        requestJson["username"] = username
+        requestJson["phoneNumber"] = number
+        do {
+            let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
+            let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)
+            
+            Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
+                switch response.result{
+                case .success(let Json):
+                    let jsonObject = JSON(Json)
+                    completion()
+                case .failure(_):
+                    print("Not working!")
+                    completion()
                 }
             })
         }catch{

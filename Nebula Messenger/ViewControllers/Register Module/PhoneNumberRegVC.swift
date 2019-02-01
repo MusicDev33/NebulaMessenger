@@ -14,9 +14,12 @@ class PhoneNumberRegVC: UIViewController, UIGestureRecognizerDelegate, UITextFie
     // That's just in case I have another Phone Number VC somewhere
     
     var descLabel: UILabel?
+    var areaCodeLabel: UILabel?
     var addNumberButton: UIButton?
     var cancelButton: UIButton?
     var numberTextField: UITextField?
+    
+    var username: String!
     
     // Creating the UI
     func createLabel(){
@@ -29,6 +32,16 @@ class PhoneNumberRegVC: UIViewController, UIGestureRecognizerDelegate, UITextFie
         descLabel?.textAlignment = .center
         descLabel?.numberOfLines = 0
         self.view.addSubview(descLabel!)
+        
+        areaCodeLabel = UILabel()
+        areaCodeLabel?.translatesAutoresizingMaskIntoConstraints = false
+        areaCodeLabel?.text = "Area Code: US (+1)"
+        areaCodeLabel?.font = UIFont.systemFont(ofSize: 16)
+        areaCodeLabel?.textColor = UIColor.black
+        areaCodeLabel?.lineBreakMode = .byWordWrapping
+        areaCodeLabel?.textAlignment = .center
+        areaCodeLabel?.numberOfLines = 0
+        self.view.addSubview(areaCodeLabel!)
     }
     
     func createTextField(){
@@ -56,11 +69,13 @@ class PhoneNumberRegVC: UIViewController, UIGestureRecognizerDelegate, UITextFie
         addNumberButton?.translatesAutoresizingMaskIntoConstraints = false
         addNumberButton?.setTitle("Add Number", for: .normal)
         addNumberButton?.tintColor = nebulaBlue
+        addNumberButton?.addTarget(self, action: #selector(addNumberButtonPressed), for: .touchUpInside)
         
         cancelButton = UIButton(type: .system)
         cancelButton?.translatesAutoresizingMaskIntoConstraints = false
         cancelButton?.setTitle("Add Later", for: .normal)
         cancelButton?.tintColor = nebulaBlue
+        cancelButton?.addTarget(self, action: #selector(addLaterButtonPressed), for: .touchUpInside)
         
         self.view.addSubview(addNumberButton!)
         self.view.addSubview(cancelButton!)
@@ -77,8 +92,10 @@ class PhoneNumberRegVC: UIViewController, UIGestureRecognizerDelegate, UITextFie
     
     @objc func addNumberButtonPressed(){
         // Send to Route
-        
-        self.navigationController?.popToRootViewController(animated: true)
+        print(self.username)
+        UserRoutes.addPhoneNumber(number: numberTextField?.text ?? "empty", username: self.username, completion: {
+            self.navigationController?.popToRootViewController(animated: true)
+        })
     }
     
     override func viewDidLoad() {
@@ -111,6 +128,9 @@ class PhoneNumberRegVC: UIViewController, UIGestureRecognizerDelegate, UITextFie
         numberTextField?.widthAnchor.constraint(equalTo: self.view.widthAnchor,
                                                 multiplier: 0.6).isActive = true
         numberTextField?.heightAnchor.constraint(equalToConstant: 38).isActive = true
+        
+        areaCodeLabel?.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        areaCodeLabel?.bottomAnchor.constraint(equalTo: (numberTextField?.topAnchor)!, constant: -5).isActive = true
         
         addNumberButton?.topAnchor.constraint(equalTo: (numberTextField?.bottomAnchor)!,
                                               constant: 5).isActive = true

@@ -79,14 +79,14 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDele
                     }
                     if (jsonObject["success"] == true){
                         print("true")
+                        let phoneNoVC = PhoneNumberRegVC()
+                        phoneNoVC.username = self.topView?.usernameTextField.text!
+                        
                         self.topView?.nameTextField.text! = ""
                         self.topView?.emailTextField.text! = ""
                         self.topView?.usernameTextField.text! = ""
                         self.topView?.passwordTextField.text! = ""
-                        //self.confirmPassField.text = ""
-                        let phoneNoVC = PhoneNumberRegVC()
                         self.navigationController?.pushViewController(phoneNoVC, animated: true)
-                        //self.navigationController?.popViewController(animated: true)
                     }
                     
                 case .failure(_):

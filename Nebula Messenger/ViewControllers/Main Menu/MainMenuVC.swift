@@ -76,7 +76,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentCell = tableView.cellForRow(at: indexPath) as! UITableViewCell
-        self.searchController.isActive = false
+        self.searchBar.resignFirstResponder()
         var cellText = (currentCell.textLabel?.text!)!
         if cellText.contains(" READ"){
             cellText = String(cellText.dropLast(5))
@@ -85,7 +85,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.passInvolved = GlobalUser.conversations[indexPath.row]
         self.passFriend = cellText
         view.endEditing(true)
-        self.searchController.searchBar.endEditing(true)
         
         let userCount = self.passInvolved.components(separatedBy:":").count
         print("Important")

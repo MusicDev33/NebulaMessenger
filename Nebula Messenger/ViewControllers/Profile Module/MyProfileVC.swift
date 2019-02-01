@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import FirebaseMessaging
+import FirebaseInstanceID
 
 class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate {
     
@@ -83,6 +84,10 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         pan1.delegate = self
         topView?.personalColorView.addGestureRecognizer(pan1)
         
+        let pan2 = UIPanGestureRecognizer(target: self, action: #selector(draggedOtherColorView(_:)))
+        pan2.delegate = self
+        topView?.otherColorView.addGestureRecognizer(pan2)
+        
         topView?.selfColorCollectionView.reloadData()
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(backButtonPressed))
@@ -113,6 +118,9 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: {action in
             Messaging.messaging().unsubscribe(fromTopic: GlobalUser.username)
+            for topic in GlobalUser.subscribedPools{
+                Messaging.messaging().unsubscribe(fromTopic: topic)
+            }
             GlobalUser.emptyGlobals()
             UserDefaults.standard.set("", forKey: "username")
             UserDefaults.standard.set("", forKey: "password")
@@ -212,30 +220,59 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             position = sender.location(in: self.view)
             
             position = (self.topView?.convert(position, to: self.view))!
-            print(position)
             selfCViewPoint = self.topView!.convert((self.topView?.selfColorCollectionView.frame.origin)!, to: self.view)
-            print(selfCViewPoint)
             
             difference = selfCViewPoint.y - position.y
         case .changed:
             translation = sender.translation(in: self.topView)
             lastVelocity = sender.velocity(in: self.topView).y
-            print(lastVelocity)
             self.topView?.selfColorHeightConstraint?.constant = translation.y - difference
             
         case .ended:
             let distance = CGFloat(500) - (self.topView?.selfColorHeightConstraint?.constant)!
             let timeInCGFloat = distance / sender.velocity(in: self.topView).y
             let time: TimeInterval = TimeInterval(timeInCGFloat)
-            print("TIME")
-            print(sender.velocity(in: self.topView).y)
-            print(timeInCGFloat)
-            print(time)
             
             self.topView?.selfColorHeightConstraint?.constant = 500
             UIView.animate(withDuration: time, animations: {
                 self.topView?.layoutIfNeeded()
                 self.userColorsOpen = true
+            })
+            
+        default:
+            break
+        }
+    }
+    
+    @objc func draggedOtherColorView(_ sender:UIPanGestureRecognizer){
+        var position: CGPoint
+        let selfCViewPoint: CGPoint
+        var difference: CGFloat = 0
+        var translation: CGPoint = CGPoint(x: 0, y: 0)
+        var lastVelocity: CGFloat = 1
+        
+        switch sender.state {
+        case .began:
+            position = sender.location(in: self.view)
+            
+            position = (self.topView?.convert(position, to: self.view))!
+            selfCViewPoint = self.topView!.convert((self.topView?.otherColorCollectionView.frame.origin)!, to: self.view)
+            
+            difference = selfCViewPoint.y - position.y
+        case .changed:
+            translation = sender.translation(in: self.topView)
+            lastVelocity = sender.velocity(in: self.topView).y
+            self.topView?.otherColorHeightConstraint?.constant = translation.y - difference
+            
+        case .ended:
+            let distance = CGFloat(500) - (self.topView?.otherColorHeightConstraint?.constant)!
+            let timeInCGFloat = distance / sender.velocity(in: self.topView).y
+            let time: TimeInterval = TimeInterval(timeInCGFloat)
+            
+            self.topView?.otherColorHeightConstraint?.constant = 500
+            UIView.animate(withDuration: time, animations: {
+                self.topView?.layoutIfNeeded()
+                self.otherColorsOpen = true
             })
             
         default:
