@@ -74,9 +74,6 @@ class NALoading1: UIView {
             let segmentLength = (1/amountOfSegments)*360
             
             let degrees = ((1/amountOfSegments)*CGFloat(i)*360) + (segmentLength/2)
-            print("RES")
-            print(degrees)
-            print(CustomMath.getPathToCircleCenter(degrees: degrees, radius: diameter/2))
             
             let coordRatios = CustomMath.getPathToCircleCenter(degrees: degrees, radius: diameter/2)
             

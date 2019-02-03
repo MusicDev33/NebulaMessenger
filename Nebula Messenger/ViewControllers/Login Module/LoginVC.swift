@@ -37,10 +37,6 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegat
             print("Subscribed to master topic")
         }
         
-        UserRoutes.getAdminPass(){pass in
-            self.adminPass = pass
-        }
-        
         // Additional VC Setup
         topView?.usernameTextField.delegate = self
         topView?.passwordTextField.delegate = self
@@ -91,21 +87,6 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegat
             }
             if self.adminPass == "nopass"{
                 return
-            }
-            UserRoutes.sendLoginAdmin(username: usernameText!){success in
-                if success.success!{
-                    UserRoutes.getFriendsAndConversations {
-                        print(GlobalUser.conversations)
-
-                        self.topView?.usernameTextField.text = ""
-                        self.topView?.passwordTextField.text = ""
-                        
-                        self.performSegue(withIdentifier: "toAppSB", sender: self)
-                    }
-                }else{
-                    //self.serverMessageLabel.text = success.message
-                    self.showServerMessage()
-                }
             }
         }else{
             UserRoutes.sendLogin(username: usernameText!, password: passwordText!){success in

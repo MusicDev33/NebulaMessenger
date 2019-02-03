@@ -16,7 +16,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     var isGroupChat = false
     
-    var searchController: UISearchController!
     var searchResults = [String]()
     var searchBar: UISearchBar!
     var exitSearchButton: UIButton!
@@ -31,7 +30,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var searchConvMode = false
     
     // Add names here to allow the users to access pools
-    let adminUsers = ["MusicDev", "ben666", "wesperrett", "Ashton"]
+    let adminUsers = ["MusicDev"]
     
     var passMsgList = [TerseMessage]()
     
@@ -40,21 +39,28 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     let impact = UIImpactFeedbackGenerator(style: .light)
     let notifImpact = UINotificationFeedbackGenerator()
     
-    var lineView: UIView!
-    var lineViewBottomAnchor: NSLayoutConstraint?
-    
-    var bottomLineView: UIView!
-    var bottomLineViewBottomAnchor: NSLayoutConstraint?
-    
-    var profileUIButton: UIButton!
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchConvMode{
             return searchResults.count
         } else{
             return GlobalUser.conversations.count
         }
-        
+    }
+    
+    var searchBarWidthAnchor: NSLayoutConstraint?
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: "headerCell") as! SearchBarHeaderView
+        self.searchBar = headerCell.searchBar
+        searchBar.delegate = self
+        searchBarWidthAnchor = headerCell.searchBarWidthAnchor
+        headerCell.profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
+        headerCell.exitSearchButton.addTarget(self, action: #selector(exitSearchButtonPressed), for: .touchUpInside)
+        return headerCell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 60
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -125,10 +131,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         return swipeConfig
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        lineViewBottomAnchor?.constant = 1 - scrollView.contentOffset.y
-    }
-    
     func contextualDelete(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         
         let action = UIContextualAction(style: .destructive,
@@ -150,93 +152,21 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var searchBarWidth: NSLayoutConstraint?
     var searchBarRightAnchor: NSLayoutConstraint?
     
-    //Search Controller Setup
-    func configureSearchController(){
-        let buttonHeight = CGFloat(40)
-        // profile button 2
-        profileUIButton = UIButton(type: .system)
-        profileUIButton.translatesAutoresizingMaskIntoConstraints = false
-        profileUIButton.setImage(UIImage(named: "ProfileBlack"), for: .normal)
-        profileUIButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
-        
-        exitSearchButton = UIButton(type: .system)
-        exitSearchButton.translatesAutoresizingMaskIntoConstraints = false
-        exitSearchButton.setImage(UIImage(named: "BlackX"), for: .normal)
-        exitSearchButton.addTarget(self, action: #selector(exitSearchButtonPressed), for: .touchUpInside)
-        
-        searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        searchBar.delegate = self
-        searchBar.placeholder = "Conversations"
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.barTintColor = UIColor.white
-        
-        let topLineView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 5))
-        topLineView.translatesAutoresizingMaskIntoConstraints = false
-        topLineView.backgroundColor = UIColor.white
-        
-        let bottomLineView = UIView(frame: CGRect(x: 0, y: 55, width: self.view.frame.width, height: 5))
-        bottomLineView.translatesAutoresizingMaskIntoConstraints = false
-        bottomLineView.backgroundColor = UIColor.white
-        
-        for subview in searchBar.subviews  {
-            for subSubview in subview.subviews  {
-                if let textField = subSubview as? UITextField {
-                    var bounds: CGRect
-                    bounds = textField.frame
-                    bounds.size.height = 35 //(set height whatever you want)
-                    textField.bounds = bounds
-                    textField.layer.cornerRadius = 10
-                    textField.layer.borderWidth = 1.0
-                    textField.layer.borderColor = nebulaPurple.cgColor
-                    textField.backgroundColor = UIColor.white
-                }
-            }
-        }
-        
-        self.convTable.tableHeaderView = searchBar
-        self.convTable.tableHeaderView?.addSubview(topLineView)
-        self.convTable.tableHeaderView?.addSubview(bottomLineView)
-        self.convTable.addSubview(profileUIButton)
-        self.convTable.addSubview(exitSearchButton)
-        
-        exitSearchButton.alpha = 0
-        
-        searchBar.topAnchor.constraint(equalTo: self.convTable.topAnchor, constant: 3).isActive = true
-        
-        profileUIButton.widthAnchor.constraint(equalToConstant: buttonHeight).isActive = true
-        profileUIButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
-        profileUIButton.leftAnchor.constraint(equalTo: self.convTable.leftAnchor, constant: 10).isActive = true
-        profileUIButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor).isActive = true
-        
-        searchBarWidth = searchBar.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.85)
-        searchBarWidth?.isActive = true
-        searchBarRightAnchor = searchBar.leftAnchor.constraint(equalTo: self.profileUIButton.rightAnchor, constant: 5)
-        searchBarRightAnchor?.isActive = true
-        
-        exitSearchButton.widthAnchor.constraint(equalToConstant: buttonHeight).isActive = true
-        exitSearchButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
-        exitSearchButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5).isActive = true
-        exitSearchButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor).isActive = true
-    }
-    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.searchConvMode = true
         self.searchResults = GlobalUser.convNames
-        self.searchBarWidth?.constant -= 40
+        self.searchBarWidthAnchor?.constant -= 40
         
         UIView.animate(withDuration: 0.2, animations: {
             self.view.layoutIfNeeded()
-            self.exitSearchButton.alpha = 1
         })
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         self.convTable.reloadData()
-        self.searchBarWidth?.constant = 0
-        //searchBarRightAnchor?.constant = -5
+        self.searchBarWidthAnchor?.constant = 0
         UIView.animate(withDuration: 0.2, animations: {
             self.convTable.layoutIfNeeded()
-            self.exitSearchButton.alpha = 0
         })
     }
     
@@ -246,15 +176,16 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchController.searchBar.resignFirstResponder()
+        searchBar.resignFirstResponder()
     }
     // We're just going to pretend like I understand what these functions do
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print("HI")
         if searchText == "" {
             self.searchResults = GlobalUser.convNames
             self.convTable.reloadData()
         }else if searchText.count > 0{
-            let searchString = searchController.searchBar.text
+            let searchString = searchBar.text
             if self.searchConvMode{
                 self.searchResults = [String]()
                 for i in GlobalUser.convNames{
@@ -262,6 +193,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                         self.searchResults.append(i)
                     }
                 }
+                self.convTable.reloadData()
             }
         }else{
             if self.searchConvMode{
@@ -312,7 +244,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         
         SocketIOManager.establishConnection()
-        self.configureSearchController()
+        //self.configureSearchController()
         if self.adminUsers.contains(GlobalUser.username) {
             
         }else{
@@ -474,13 +406,9 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var convTableHeightAnchor: NSLayoutConstraint?
     
     func createConvTable(){
-        // view for block the dark line at the top of the tableview
-        lineView = UIView()
-        lineView.translatesAutoresizingMaskIntoConstraints = false
-        lineView.backgroundColor = UIColor.white
-        
-        convTable = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        convTable = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .grouped)
         convTable.register(UITableViewCell.self, forCellReuseIdentifier: "conversationCell")
+        convTable.register(SearchBarHeaderView.self, forHeaderFooterViewReuseIdentifier: "headerCell")
         convTable.dataSource = self
         convTable.delegate = self
         convTable.translatesAutoresizingMaskIntoConstraints = false
@@ -488,7 +416,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         convTable.separatorStyle = .none
         convTable.separatorColor = convTable.backgroundColor
         self.view.addSubview(convTable)
-        self.convTable.addSubview(lineView)
         
         let combinedInsets = self.view.safeAreaInsets.bottom + self.view.safeAreaInsets.top
         
@@ -497,12 +424,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         convTable.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.view.safeAreaLayoutGuide.layoutFrame.height - 60)
         convTableHeightAnchor?.isActive = true
-        
-        lineView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        lineViewBottomAnchor = lineView.topAnchor.constraint(equalTo: convTable.topAnchor, constant: 1)
-        lineViewBottomAnchor?.isActive = true
-        lineView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        lineView.heightAnchor.constraint(equalToConstant: 5).isActive = true
     }
     
     var bottomBarHeightAnchor: NSLayoutConstraint?
