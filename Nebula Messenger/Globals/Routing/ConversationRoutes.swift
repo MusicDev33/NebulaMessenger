@@ -10,6 +10,41 @@ import Foundation
 import Alamofire
 
 class ConversationRoutes{
+    static func getOneConversation(involved: String, completion:@escaping ([String]) -> ()){
+        let url = URL(string: getConvRoute)
+        var requestJson = [String:Any]()
+        requestJson["users"] = Utility.getAllFromConvId(convId: involved)
+        requestJson["token"] = GlobalUser.token
+        do {
+            let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
+            let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)
+            
+            Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
+                switch response.result{
+                case .success(let Json):
+                    let jsonObject = JSON(Json)
+                    print("CONVERSATION")
+                    print(jsonObject)
+                    guard
+                        let involved = jsonObject["involved"].string,
+                        let id = jsonObject["id"].string,
+                        let lastRead = jsonObject["lastMsgRead"][GlobalUser.username].string,
+                        let lastMessage = jsonObject["lastMessage"].string
+                        else {
+                            return
+                            
+                    }
+                    
+                    completion([involved, id, lastRead, lastMessage])
+                case .failure(_):
+                    print("Not working!")
+                    completion(["Failed"])
+                }
+            })
+        }catch{
+        }
+    }
+    
     static func getConversations(completion:@escaping () -> ()){
         let url = URL(string: getConvsRoute)
         var requestJson = [String:Any]()

@@ -364,8 +364,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         GlobalUser.currentConv = ""
         self.convTable.reloadData()
-        //print("FB Token:")
-        //print(FirebaseGlobals.globalDeviceToken)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -427,6 +425,25 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             if msgConvId.contains(GlobalUser.username){
                 GlobalUser.unreadList.append(msg["id"].string!)
                 self.convTable.reloadData()
+            }
+            
+            let conversationExists = GlobalUser.conversations.contains{conv in
+                if case conv = msgConvId{
+                    print("No")
+                    return true
+                }else{
+                    
+                    return false
+                }
+            }
+            
+            if !conversationExists{
+                ConversationRoutes.getOneConversation(involved: msgConvId, completion: {convList in
+                    // convList is an array of strings
+                    GlobalUser.addConversation(involved: convList[0], id: convList[1], lastRead: convList[2], lastMessage: convList[3])
+                })
+                self.convTable.reloadData()
+                print("Did a thing")
             }
         }
         

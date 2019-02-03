@@ -191,7 +191,6 @@ class UserRoutes{
                         let conversation = Conversation(involved: currentConvId, name: friend, id: jsonObject["convs"][i]["id"].stringValue, lastRead: lastRead, lastMessage: lastMessage)
                         GlobalUser.masterDict[friend] = conversation
                         GlobalUser.conversations.append(currentConvId)
-                        print(currentConvId)
                         GlobalUser.involvedDict[friend] = currentConvId
                         GlobalUser.convNames.append(friend)
                     }
