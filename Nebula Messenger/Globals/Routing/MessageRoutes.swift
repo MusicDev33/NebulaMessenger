@@ -21,13 +21,11 @@ class MessageRoutes{
             Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
                 switch response.result{
                 case .success(let Json):
-                    let jsonObject = JSON(Json)
-                    print("GETTING")
-                    print(jsonObject)
+                    _ = JSON(Json)
                     
                     completion()
                 case .failure(_):
-                    print("Not working!")
+                    print("MessageRoutes: failed to send message. BIG PROBLEM!")
                     completion()
                 }
             })
@@ -66,11 +64,10 @@ class MessageRoutes{
                         passMsgList.append(tempMsg)
                         index += 1
                     }
-                    //self.messagesTable.reloadData()
-                    //self.scrollToBottom()
                     completion(passMsgList)
                 case .failure(_):
-                    print("failed")
+                    print("MessageRoutes: failed to get messages")
+                    completion([TerseMessage]())
                 }
             })
         }catch{
@@ -89,13 +86,11 @@ class MessageRoutes{
             Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
                 switch response.result{
                 case .success(let Json):
-                    let jsonObject = JSON(Json)
-                    print("GETTING")
-                    print(jsonObject)
+                    _ = JSON(Json)
                     
                     completion()
                 case .failure(_):
-                    print("Not working!")
+                    print("MessageRoutes: failed to delete message")
                     completion()
                 }
             })

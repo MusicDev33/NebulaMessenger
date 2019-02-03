@@ -26,8 +26,6 @@ class PoolRoutes{
                 switch response.result{
                 case .success(let Json):
                     let jsonObject = JSON(Json)
-                    print("DELETING")
-                    print(jsonObject)
                     
                     var doubleList = [Double]()
                     doubleList.append(jsonObject["pool"]["coordinates"][0].doubleValue)
@@ -48,7 +46,7 @@ class PoolRoutes{
                     
                     completion(tempPool)
                 case .failure(_):
-                    print("Not working!")
+                    print("PoolRoutes: couldn't create a pool")
                 }
             })
         }catch{
@@ -89,11 +87,9 @@ class PoolRoutes{
                         pools.append(tempPool)
                         index += 1
                     }
-                    print("DELETING")
-                    print(jsonObject)
                     completion(pools)
                 case .failure(_):
-                    print("Not working!")
+                    print("PoolRoutes: couldn't get pools")
                     completion([])
                 }
             })
@@ -122,7 +118,6 @@ class PoolRoutes{
                 switch response.result{
                 case .success(let Json):
                     let jsonObject = JSON(Json)
-                    print(jsonObject)
                     var index = 0
                     if jsonObject.count > 0{
                         for item in jsonObject{
@@ -137,11 +132,9 @@ class PoolRoutes{
                         }
                     }
                     
-                    //self.messagesTable.reloadData()
-                    //self.scrollToBottom()
                     completion(passMsgList)
                 case .failure(_):
-                    print("failed")
+                    print("PoolRoutes: couldn't get pool messages")
                 }
             })
         }catch{
@@ -165,7 +158,7 @@ class PoolRoutes{
                     
                     completion(jsonObject["success"].bool ?? false)
                 case .failure(_):
-                    print("Not working!")
+                    print("PoolRoutes: couldn't delete pool")
                     completion(false)
                 }
             })
@@ -189,7 +182,7 @@ class PoolRoutes{
                     
                     completion(jsonObject["success"].bool ?? false)
                 case .failure(_):
-                    print("Not working!")
+                    print("PoolRoutes: couldn't add pool subscription")
                     completion(false)
                 }
             })
@@ -213,7 +206,7 @@ class PoolRoutes{
                     
                     completion(jsonObject["success"].bool ?? false)
                 case .failure(_):
-                    print("Not working!")
+                    print("PoolRoutes: couldn't remove pool subscription")
                     completion(false)
                 }
             })

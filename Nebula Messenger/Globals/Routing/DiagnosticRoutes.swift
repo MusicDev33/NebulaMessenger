@@ -24,9 +24,9 @@ class DiagnosticRoutes{
             Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
                 switch response.result{
                 case .success( _):
-                    print("Data sent")
+                    print("Feedback sent")
                 case .failure(_):
-                    print("Can't send data.")
+                    print("DiagnosticRoutes: couldn't send feedback")
                 }
             })
         }catch{

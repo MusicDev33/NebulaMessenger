@@ -38,15 +38,12 @@ class UserRoutes{
                     if (jObj["success"] == true){
                         //print("true")
                         GlobalUser.username = jObj["user"]["username"].stringValue
-                        print("HEY")
-                        print(GlobalUser.username)
                         GlobalUser.name = jObj["user"]["name"].stringValue
                         GlobalUser.email = jObj["user"]["email"].stringValue
                         GlobalUser.friends = Utility.toArray(json: jObj["user"]["friends"])
                         GlobalUser.requestedFriends = Utility.toArray(json: jObj["user"]["requestedFriends"])
                         GlobalUser.token = jObj["token"].stringValue
                         if jObj["user"]["poolSubs"] != JSON.null {
-                            print("It's okay")
                             GlobalUser.subscribedPools = Utility.toArray(json: jObj["user"]["poolSubs"])
                         }
                         for topic in GlobalUser.subscribedPools{
@@ -63,81 +60,9 @@ class UserRoutes{
                     }
                     
                 case .failure(let Json):
-                    let jObj = JSON(Json)
-                    print("Failed to register.")
+                    _ = JSON(Json)
+                    print("UserRoutes: failed to login normally")
                     let serverMessage = ServerMessage(message: "No connection!", success: false)
-                    completion(serverMessage)
-                }
-            })
-        }catch{
-        }
-    }
-    
-    
-    static func getAdminPass(completion:@escaping (String) -> ()){
-        let url = URL(string: adminPassRoute)
-        var requestJson = [String:Any]()
-        
-        requestJson["blank"] = "blank"
-        
-        do {
-            let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
-            let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)
-            
-            Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
-                switch response.result{
-                case .success(let Json):
-                    let jObj = JSON(Json)
-                    //print(jObj)
-                    completion(jObj["pass"].string!)
-                    
-                case .failure(let Json):
-                    completion("Blank")
-                }
-            })
-        }catch{
-        }
-    }
-    
-    
-    static func sendLoginAdmin(username: String, completion:@escaping (ServerMessage) -> ()){
-        let url = URL(string: adminLoginRoute)
-        var requestJson = [String:Any]()
-        
-        requestJson["username"] = username
-        
-        do {
-            let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
-            let request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)
-            
-            Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
-                
-                switch response.result{
-                case .success(let Json):
-                    let jObj = JSON(Json)
-                    //print(jObj)
-                    if (jObj["success"] == false){
-                        let serverMessage = ServerMessage(message: jObj["msg"].string!, success: false)
-                        completion(serverMessage)
-                    }
-                    if (jObj["success"] == true){
-                        //print("true")
-                        GlobalUser.username = jObj["user"]["username"].stringValue
-                        print("HEY")
-                        print(GlobalUser.username)
-                        GlobalUser.name = jObj["user"]["name"].stringValue
-                        GlobalUser.email = jObj["user"]["email"].stringValue
-                        GlobalUser.friends = Utility.toArray(json: jObj["user"]["friends"])
-                        
-                        let serverMessage = ServerMessage(message: "Successful", success: true)
-                        
-                        completion(serverMessage)
-                    }
-                    
-                case .failure(let Json):
-                    let jObj = JSON(Json)
-                    print("Failed to register.")
-                    let serverMessage = ServerMessage(message: jObj["msg"].string!, success: false)
                     completion(serverMessage)
                 }
             })
@@ -163,7 +88,6 @@ class UserRoutes{
                         let name = jsonObject["friends"][index]["name"].string ?? "N/A: Name not found"
                         let username = jsonObject["friends"][index]["username"].string ?? "N/A: Username not found"
                         GlobalUser.realNames.append(name)
-                        print(name)
                         GlobalUser.namesToUsernames[name] = username
                         index += 1
                     }
@@ -196,7 +120,7 @@ class UserRoutes{
                     }
                     completion()
                 case .failure(_):
-                    print("Not working!")
+                    print("UserRoutes: failed to retrieve friends and conversations")
                     completion()
                 }
             })
@@ -223,7 +147,7 @@ class UserRoutes{
                         completion("")
                     }
                 case .failure(_):
-                    print("Not working!")
+                    print("UserRoutes: failed to get current version")
                     completion("")
                 }
             })
@@ -245,11 +169,11 @@ class UserRoutes{
             Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
                 switch response.result{
                 case .success(let Json):
-                    let jObj = JSON(Json)
-                    //print(jObj)
+                    _ = JSON(Json)
                     completion()
                     
-                case .failure(let Json):
+                case .failure(let _):
+                    print("UserRoutes: refresh token in database")
                     completion()
                 }
             })
@@ -270,14 +194,13 @@ class UserRoutes{
                 switch response.result{
                 case .success(let Json):
                     let jsonObject = JSON(Json)
-                    print(jsonObject)
                     var returnList = [String]()
                     returnList.append(jsonObject["user"]["name"].stringValue)
                     returnList.append(jsonObject["user"]["username"].stringValue)
                     returnList.append("success")
                     completion(returnList)
                 case .failure(_):
-                    print("Not working!")
+                    print("UserRoutes: failed to get userobject from username")
                     var returnList = [String]()
                     returnList.append("Name Unknown")
                     returnList.append("Error: No Username")
@@ -304,7 +227,7 @@ class UserRoutes{
                     let quotesList = Utility.toArray(json: jsonObject["quotes"])
                     completion(quotesList)
                 case .failure(_):
-                    print("Not working!")
+                    print("UserRoutes: failed to get quotes...this isn't really that big of a deal though")
                     var returnList = [String]()
                     returnList.append("Thanks for using Nebula!")
                     completion(returnList)
@@ -327,10 +250,10 @@ class UserRoutes{
             Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
                 switch response.result{
                 case .success(let Json):
-                    let jsonObject = JSON(Json)
+                    _ = JSON(Json)
                     completion()
                 case .failure(_):
-                    print("Not working!")
+                    print("UserRoutes: failed to add phone number for user")
                     completion()
                 }
             })

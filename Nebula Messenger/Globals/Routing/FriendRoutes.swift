@@ -34,7 +34,7 @@ class FriendRoutes{
                     }
                     completion(searchResults)
                 case .failure(_):
-                    print("failed")
+                    print("FriendRoutes: failed to search friends")
                 }
             })
         }catch{
@@ -59,15 +59,14 @@ class FriendRoutes{
             
             Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
                 switch response.result{
-                case .success(let _):
+                case .success( _):
                     //let jsonObject = JSON(Json)
                     GlobalUser.addFriend(friend: friend)
                     print("Added friend!")
                     completion()
                 case .failure(let Json):
-                    let jsonObject = JSON(Json)
-                    print(jsonObject)
-                    print("failed")
+                    _ = JSON(Json)
+                    print("FriendRoutes: failed to add friend")
                     completion()
                 }
             })
@@ -95,13 +94,11 @@ class FriendRoutes{
             Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
                 switch response.result{
                 case .success(let Json):
-                    let jsonObject = JSON(Json)
-                    print(jsonObject)
+                    _ = JSON(Json)
                     completion()
                 case .failure(let Json):
-                    let jsonObject = JSON(Json)
-                    print(jsonObject)
-                    print("failed")
+                    _ = JSON(Json)
+                    print("FriendRoutes: failed to request friend")
                     completion()
                 }
             })
@@ -128,13 +125,11 @@ class FriendRoutes{
             Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
                 switch response.result{
                 case .success(let Json):
-                    let jsonObject = JSON(Json)
-                    print(jsonObject)
-                    print("Removed")
+                    _ = JSON(Json)
                     GlobalUser.friends = GlobalUser.friends.filter { $0 != friend }
                     completion()
                 case .failure(_):
-                    print("failed")
+                    print("FriendRoutes: failed to remove friend")
                     completion()
                 }
             })

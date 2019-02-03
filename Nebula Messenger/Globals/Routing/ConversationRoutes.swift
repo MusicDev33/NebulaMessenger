@@ -23,8 +23,6 @@ class ConversationRoutes{
                 switch response.result{
                 case .success(let Json):
                     let jsonObject = JSON(Json)
-                    print("CONVERSATION")
-                    print(jsonObject)
                     guard
                         let involved = jsonObject["involved"].string,
                         let id = jsonObject["id"].string,
@@ -37,7 +35,7 @@ class ConversationRoutes{
                     
                     completion([involved, id, "N/A", lastMessage])
                 case .failure(_):
-                    print("Not working!")
+                    print("ConversationRoutes: getOneConversation failed")
                     completion(["Failed"])
                 }
             })
@@ -65,13 +63,10 @@ class ConversationRoutes{
                         GlobalUser.involvedDict[friend] = currentConvId
                         GlobalUser.convNames.append(friend)
                     }
-                    print("GLOBALS!!!!!!!")
-                    print(GlobalUser.conversations)
-                    print(GlobalUser.convNames)
                     
                     completion()
                 case .failure(_):
-                    print("Not working!")
+                    print("ConversationRoutes: getConversations failed")
                     completion()
                 }
             })
@@ -90,14 +85,12 @@ class ConversationRoutes{
             Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
                 switch response.result{
                 case .success(let Json):
-                    let jsonObject = JSON(Json)
-                    print("DELETING")
-                    print(jsonObject)
+                    _ = JSON(Json)
                     GlobalUser.removeFromConvNames(convName: convName)
                     
                     completion()
                 case .failure(_):
-                    print("Not working!")
+                    print("ConversationRoutes: couldn't delete conversation")
                     completion()
                 }
             })
@@ -118,13 +111,11 @@ class ConversationRoutes{
             Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
                 switch response.result{
                 case .success(let Json):
-                    let jsonObject = JSON(Json)
-                    print("DELETING")
-                    print(jsonObject)
+                    _ = JSON(Json)
                     
                     completion()
                 case .failure(_):
-                    print("Couldn't update last read!")
+                    print("ConversationRoutes: couldn't update last read message")
                     completion()
                 }
             })
@@ -145,13 +136,11 @@ class ConversationRoutes{
             Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
                 switch response.result{
                 case .success(let Json):
-                    let jsonObject = JSON(Json)
-                    print("DELETING")
-                    print(jsonObject)
+                    let _ = JSON(Json)
                     GlobalUser.globalChangeGroupMembers(oldInvolved: oldInvolved, newInvolved: newInvolved)
                     completion()
                 case .failure(_):
-                    print("Couldn't update last read!")
+                    print("ConversationRoutes: couldn't change group members")
                     completion()
                 }
             })
