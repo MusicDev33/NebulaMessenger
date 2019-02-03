@@ -28,14 +28,14 @@ class ConversationRoutes{
                     guard
                         let involved = jsonObject["involved"].string,
                         let id = jsonObject["id"].string,
-                        let lastRead = jsonObject["lastMsgRead"][GlobalUser.username].string,
                         let lastMessage = jsonObject["lastMessage"].string
                         else {
+                            print("Error adding conversation!")
                             return
                             
                     }
                     
-                    completion([involved, id, lastRead, lastMessage])
+                    completion([involved, id, "N/A", lastMessage])
                 case .failure(_):
                     print("Not working!")
                     completion(["Failed"])

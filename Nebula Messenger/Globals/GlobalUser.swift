@@ -94,9 +94,9 @@ class GlobalUser: NSObject {
         let conversation = Conversation(involved: involved, name: friend, id: id, lastRead: lastRead, lastMessage: lastMessage)
         
         GlobalUser.masterDict[friend] = conversation
-        GlobalUser.conversations.append(involved)
+        GlobalUser.conversations.insert(involved, at: 0)
         GlobalUser.involvedDict[friend] = involved
-        GlobalUser.convNames.append(friend)
+        GlobalUser.convNames.insert(friend, at: 0)
     }
     
     static func removeFromConvNames(convName: String){

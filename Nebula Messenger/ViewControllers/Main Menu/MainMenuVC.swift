@@ -441,9 +441,11 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 ConversationRoutes.getOneConversation(involved: msgConvId, completion: {convList in
                     // convList is an array of strings
                     GlobalUser.addConversation(involved: convList[0], id: convList[1], lastRead: convList[2], lastMessage: convList[3])
+                    GlobalUser.unreadList.append(convList[1])
+                    DispatchQueue.main.async {
+                        self.convTable.reloadData()
+                    }
                 })
-                self.convTable.reloadData()
-                print("Did a thing")
             }
         }
         
