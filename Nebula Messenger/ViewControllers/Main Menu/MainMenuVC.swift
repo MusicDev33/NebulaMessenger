@@ -448,9 +448,12 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 print("Error")
                 return }
             let friendRequest = JSON.init(parseJSON: parsedData)
-            guard let friendUsername = friendRequest["friend"].string else { return }
-            GlobalUser.requestedFriends.append(friendUsername)
-            print(GlobalUser.requestedFriends)
+            guard let friendUsername = friendRequest["sender"].string else { return }
+            guard let requestedUser = friendRequest["friend"].string else { return }
+            if GlobalUser.username == requestedUser{
+                GlobalUser.requestedFriends.append(friendUsername)
+                print(GlobalUser.requestedFriends)
+            }
         }
     }
     
