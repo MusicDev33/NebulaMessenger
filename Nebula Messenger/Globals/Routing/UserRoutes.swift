@@ -169,9 +169,21 @@ class UserRoutes{
                     }
                     
                     for i in 0..<jsonObject["convs"].count{
+                        var foundUsername = false
                         var currentConvId = jsonObject["convs"][i]["involved"].stringValue
                         currentConvId = Utility.alphabetSort(preConvId: currentConvId)
                         let friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: currentConvId)
+                        
+                        for username in Utility.getAllFromConvId(convId: currentConvId){
+                            if username == GlobalUser.username{
+                                foundUsername = true
+                                break
+                            }
+                        }
+                        
+                        if !foundUsername{
+                            continue
+                        }
                         
                         let lastRead = jsonObject["convs"][i]["lastMsgRead"][GlobalUser.username].string ?? ""
                         
@@ -179,6 +191,7 @@ class UserRoutes{
                         let conversation = Conversation(involved: currentConvId, name: friend, id: jsonObject["convs"][i]["id"].stringValue, lastRead: lastRead, lastMessage: lastMessage)
                         GlobalUser.masterDict[friend] = conversation
                         GlobalUser.conversations.append(currentConvId)
+                        print(currentConvId)
                         GlobalUser.involvedDict[friend] = currentConvId
                         GlobalUser.convNames.append(friend)
                     }

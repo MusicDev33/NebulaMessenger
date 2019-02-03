@@ -418,8 +418,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             guard let parsedData = data[0] as? String else { return }
             let msg = JSON.init(parseJSON: parsedData)
             print("Socket Beginning - Main Menu")
-            // print(parsedData)
-            // print(msg)
+            print(parsedData)
+            print(msg)
             guard let msgConvId = msg["convId"].string else{
                 return
             }

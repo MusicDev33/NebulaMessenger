@@ -115,6 +115,28 @@ class Utility {
     }
     
     // Pass in the convId and this will take care of the rest (returning array of people in convId)
+    static func getAllFromConvId(convId: String) -> [String]{
+        var userArray = [String]()
+        var currentUser = ""
+        
+        for char in convId{
+            if (char == ":"){
+                userArray.append(currentUser)
+                currentUser = ""
+            }
+            else if (char == ";"){
+                userArray.append(currentUser)
+                currentUser = ""
+            }else{
+                currentUser += String(char)
+            }
+        }
+        
+        userArray.sort()
+        return userArray
+    }
+    
+    // Pass in the convId and this will take care of the rest (returning array of people in convId)
     static func getFriendsFromConvIdAsArray(user: String, convId: String) -> [String]{
         var userArray = [String]()
         var currentUser = ""
