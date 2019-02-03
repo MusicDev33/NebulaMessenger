@@ -87,10 +87,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         view.endEditing(true)
         
         let userCount = self.passInvolved.components(separatedBy:":").count
-        print("Important")
-        print(self.passInvolved)
         if userCount-1>1{
-            print("Group chat enabled")
             self.isGroupChat = true
         }
         
@@ -129,33 +126,21 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset.y)
-        
         lineViewBottomAnchor?.constant = 1 - scrollView.contentOffset.y
-        
     }
     
     func contextualDelete(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         
         let action = UIContextualAction(style: .destructive,
                                         title: "Delete") { (contextAction: UIContextualAction, sourceView: UIView, completionHandler: (Bool) -> Void) in
-                                            // 3
                                             if true {
-                                                // 4
-                                                //self.data[indexPath.row] = email
                                                 let tempId = GlobalUser.masterDict[GlobalUser.convNames[indexPath.row]]!.id
                                                 ConversationRoutes.deleteConversation(id: tempId!, convName: GlobalUser.convNames[indexPath.row]){
                                                     self.convTable.reloadData()
-                                                    print(GlobalUser.convNames)
                                                 }
-                                                //print(GlobalUser.convNames)
-                                                print("Delete")
-                                                // 5
                                                 completionHandler(true)
-                                            } else {
-                                                // 6
-                                                completionHandler(false)
                                             }
+                                            completionHandler(false)
         }
         action.image = UIImage(named: "Trashcan")
         action.backgroundColor = UIColor.red
@@ -341,7 +326,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         InstanceID.instanceID().instanceID { (result, error) in
             if let error = error {
-                print("Error fetching remote instange ID: \(error)")
+                print("Error fetching remote instance ID: \(error)")
             } else if let result = result {
                 print("Remote instance ID token: \(result.token)")
                 FirebaseGlobals.globalDeviceToken = result.token
@@ -415,10 +400,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         SocketIOManager.socket.on("message") { ( data, ack) -> Void in
             guard let parsedData = data[0] as? String else { return }
             let msg = JSON.init(parseJSON: parsedData)
-            print("Socket Beginning - Main Menu")
-            print(parsedData)
-            print(msg)
             guard let msgConvId = msg["convId"].string else{
+                print("Error on receive message: Main Menu")
                 return
             }
             
@@ -429,10 +412,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             
             let conversationExists = GlobalUser.conversations.contains{conv in
                 if case conv = msgConvId{
-                    print("No")
                     return true
                 }else{
-                    
                     return false
                 }
             }
@@ -452,26 +433,22 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         SocketIOManager.socket.on("_test-socket") { ( data, ack) -> Void in
             print(data)
             guard let parsedData = data[0] as? String else {
-                print("Error")
+                print("Error on Test Socket")
                 return }
             let msg = JSON.init(parseJSON: parsedData)
-            print(msg)
             guard let alertMessage = msg["msg"].string else { return }
-            print("Passed")
             Alert.basicAlert(on: (self.navigationController?.visibleViewController)!, with: "HEY!", message: alertMessage)
         }
         
         SocketIOManager.socket.on("_add-friend") { ( data, ack) -> Void in
-            print(data)
             guard let parsedData = data[0] as? String else {
-                print("Error")
+                print("Error on add-friend")
                 return }
             let friendRequest = JSON.init(parseJSON: parsedData)
             guard let friendUsername = friendRequest["sender"].string else { return }
             guard let requestedUser = friendRequest["friend"].string else { return }
             if GlobalUser.username == requestedUser{
                 GlobalUser.requestedFriends.append(friendUsername)
-                print(GlobalUser.requestedFriends)
             }
         }
     }
@@ -514,7 +491,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.convTable.addSubview(lineView)
         
         let combinedInsets = self.view.safeAreaInsets.bottom + self.view.safeAreaInsets.top
-        print(combinedInsets)
         
         convTable.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 2).isActive = true
         convTable.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1).isActive = true
