@@ -76,11 +76,35 @@ class SocketIOManager: NSObject {
         self.socket.emit("done-typing", with: [dec])
     }
     
-    static func sendRequest(friend: String){
-        var request = [String:Any]()
-        request["friend"] = friend
-        request["sender"] = GlobalUser.username
-        self.socket.emit("add-friend", with: [request])
+    static func sendRequest(friend: String, friendUsername: String){
+        var sendObj = [String:Any]()
+        sendObj["friend"] = friendUsername
+        sendObj["friendName"] = friend
+        sendObj["sender"] = GlobalUser.username
+        var dec: String?
+        do {
+            let data = try JSONSerialization.data(withJSONObject: sendObj, options:.prettyPrinted)
+            dec = String(data: data, encoding: .utf8)
+        }catch{
+            
+        }
+        
+        self.socket.emit("add-friend", with: [dec])
+    }
+    
+    static func sendToTestSocket(title: String, message: String){
+        var sendObj = [String:Any]()
+        sendObj["title"] = title
+        sendObj["msg"] = message
+        var dec: String?
+        do {
+            let data = try JSONSerialization.data(withJSONObject: sendObj, options:.prettyPrinted)
+            dec = String(data: data, encoding: .utf8)
+        }catch{
+            
+        }
+        
+        self.socket.emit("test-socket", with: [dec])
     }
     
     func createNewSocket() -> SocketIOClient{

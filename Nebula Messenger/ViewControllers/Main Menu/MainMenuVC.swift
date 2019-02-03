@@ -384,6 +384,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     @objc func profileButtonPressed(){
+        //SocketIOManager.sendToTestSocket(title: "Hey! Listen!", message: "How are you?")
         self.view.endEditing(true)
         self.searchBar.resignFirstResponder()
         let profileVC = MyProfileVC()
@@ -427,6 +428,29 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 GlobalUser.unreadList.append(msg["id"].string!)
                 self.convTable.reloadData()
             }
+        }
+        
+        SocketIOManager.socket.on("_test-socket") { ( data, ack) -> Void in
+            print(data)
+            guard let parsedData = data[0] as? String else {
+                print("Error")
+                return }
+            let msg = JSON.init(parseJSON: parsedData)
+            print(msg)
+            guard let alertMessage = msg["msg"].string else { return }
+            print("Passed")
+            Alert.basicAlert(on: (self.navigationController?.visibleViewController)!, with: "HEY!", message: alertMessage)
+        }
+        
+        SocketIOManager.socket.on("_add-friend") { ( data, ack) -> Void in
+            print(data)
+            guard let parsedData = data[0] as? String else {
+                print("Error")
+                return }
+            let friendRequest = JSON.init(parseJSON: parsedData)
+            guard let friendUsername = friendRequest["friend"].string else { return }
+            GlobalUser.requestedFriends.append(friendUsername)
+            print(GlobalUser.requestedFriends)
         }
     }
     

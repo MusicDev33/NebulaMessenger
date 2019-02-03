@@ -187,6 +187,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("REMOTE")
         guard
             let convId = userInfo[AnyHashable("id")] as? String,
+            let purpose = userInfo[AnyHashable("purpose")] as? String,
             let aps = userInfo[AnyHashable("aps")] as? NSDictionary,
             let alert = aps["alert"] as? NSDictionary,
             let body = alert["body"] as? String,
@@ -195,10 +196,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 // handle any error here
                 return
         }
-        print(convId)
-        print(GlobalUser.currentConv)
-        print(title)
-        if (convId != GlobalUser.currentConv){
+        
+        print("SOCKET AND NOTIF")
+        if (convId != GlobalUser.currentConv && purpose == "Messaging"){
+            completionHandler([.alert, .badge, .sound])
+        }else if (purpose == "Friend Request" && convId == GlobalUser.username){
+            // convId will be the username in this case...it's a hack, I know...
+            print("Checked")
             completionHandler([.alert, .badge, .sound])
         }else{
             completionHandler([])

@@ -140,6 +140,7 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
         textField.textColor = UIColor.black
         textField.layer.cornerRadius = 10
         textField.backgroundColor = UIColor.white
+        textField.autocorrectionType = .no
         
         // Super handy extension I found on Stack
         // Why doesn't UITextField have its own inset function like other UIKit objects???
@@ -405,7 +406,7 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
     @objc func addFriend(){
         addFriendButton.isEnabled = false
         FriendRoutes.requestFriend(friend: usernameLabel.text!){
-            SocketIOManager.sendRequest(friend: self.usernameLabel.text!)
+            SocketIOManager.sendRequest(friend: self.realNameLabel.text!, friendUsername: self.usernameLabel.text!)
             self.usernameLabel.text = ""
             self.realNameLabel.text = ""
             self.sentLabel.isHidden = false
