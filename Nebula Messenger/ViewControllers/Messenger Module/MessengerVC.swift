@@ -313,6 +313,8 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             }
         }
         GlobalUser.unreadList = GlobalUser.unreadList.filter {$0 != self.id}
+        
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {

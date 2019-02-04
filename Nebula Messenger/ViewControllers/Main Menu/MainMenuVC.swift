@@ -19,6 +19,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var searchResults = [String]()
     var searchBar: UISearchBar!
     var exitSearchButton: UIButton!
+    var navSearchBar: UISearchBar!
     
     var convTable: UITableView!
     
@@ -157,16 +158,21 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.searchResults = GlobalUser.convNames
         self.searchBarWidthAnchor?.constant -= 40
         
+        self.navSearchBarWidthAnchor?.constant -= 40
         UIView.animate(withDuration: 0.2, animations: {
             self.view.layoutIfNeeded()
+            self.navigationController?.navigationBar.layoutIfNeeded()
         })
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         self.convTable.reloadData()
         self.searchBarWidthAnchor?.constant = 0
+        self.navSearchBarWidthAnchor?.constant = 0
+        
         UIView.animate(withDuration: 0.2, animations: {
             self.convTable.layoutIfNeeded()
+            self.navigationController?.navigationBar.layoutIfNeeded()
         })
     }
     
@@ -185,11 +191,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.searchResults = GlobalUser.convNames
             self.convTable.reloadData()
         }else if searchText.count > 0{
-            let searchString = searchBar.text
             if self.searchConvMode{
                 self.searchResults = [String]()
                 for i in GlobalUser.convNames{
-                    if i.lowercased().contains(searchText.lowercased()){
+                    if i.lowercased().hasPrefix(searchText.lowercased()){
                         self.searchResults.append(i)
                     }
                 }
@@ -281,6 +286,64 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         GlobalUser.currentConv = ""
         self.convTable.reloadData()
+        
+        setupNavbar()
+    }
+    
+    var navSearchBarWidthAnchor: NSLayoutConstraint?
+    
+    func setupNavbar(){
+        let profileLocation = (UIScreen.main.bounds.width * 0.075)
+        let profileButton = UIButton(type: .system)
+        profileButton.setImage(UIImage(named: "ProfileBlack"), for: .normal)
+        profileButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        profileButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let exitSearchButton: UIButton = {
+            let button = UIButton(type: .system)
+            button.setImage(UIImage(named: "BlackX"), for: .normal)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            
+            return button
+        }()
+        
+        navigationItem.hidesBackButton = true
+        navSearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 50, height: 15))
+        navSearchBar.placeholder = "Conversations"
+        navSearchBar.translatesAutoresizingMaskIntoConstraints = false
+        for subview in navSearchBar.subviews  {
+            for subSubview in subview.subviews  {
+                if let textField = subSubview as? UITextField {
+                    var bounds: CGRect
+                    bounds = textField.frame
+                    bounds.size.height = 15 //(set height whatever you want)
+                    textField.bounds = bounds
+                    textField.layer.cornerRadius = 10
+                    textField.layer.borderWidth = 1.0
+                    textField.layer.borderColor = nebulaPurple.cgColor
+                    textField.backgroundColor = UIColor.white
+                }
+            }
+        }
+        
+        navigationController?.navigationBar.addSubview(profileButton)
+        navigationController?.navigationBar.addSubview(exitSearchButton)
+        navigationController?.navigationBar.addSubview(navSearchBar)
+        
+        navSearchBar.leftAnchor.constraint(equalTo: profileButton.centerXAnchor, constant: profileLocation-5).isActive = true
+        navSearchBar.centerYAnchor.constraint(equalTo: (navigationController?.navigationBar.centerYAnchor)!).isActive = true
+        navSearchBarWidthAnchor = navSearchBar.widthAnchor.constraint(equalTo: (navigationController?.navigationBar.widthAnchor)!, multiplier: 0.85)
+        navSearchBarWidthAnchor?.isActive = true
+        
+        profileButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        profileButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        profileButton.centerXAnchor.constraint(equalTo: (navigationController?.navigationBar.leftAnchor)!, constant: profileLocation).isActive = true
+        profileButton.centerYAnchor.constraint(equalTo: navSearchBar.centerYAnchor).isActive = true
+        
+        exitSearchButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        exitSearchButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        exitSearchButton.rightAnchor.constraint(equalTo: (navigationController?.navigationBar.rightAnchor)!, constant: -6).isActive = true
+        exitSearchButton.centerYAnchor.constraint(equalTo: navSearchBar.centerYAnchor).isActive = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -406,7 +469,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var convTableHeightAnchor: NSLayoutConstraint?
     
     func createConvTable(){
-        convTable = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .grouped)
+        convTable = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .plain)
         convTable.register(UITableViewCell.self, forCellReuseIdentifier: "conversationCell")
         convTable.register(SearchBarHeaderView.self, forHeaderFooterViewReuseIdentifier: "headerCell")
         convTable.dataSource = self

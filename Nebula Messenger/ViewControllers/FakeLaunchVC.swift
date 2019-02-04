@@ -98,4 +98,9 @@ class FakeLaunchVC: UIViewController {
             }
         }
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
 }
