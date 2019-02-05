@@ -53,9 +53,9 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         }
         
         if self.selectedFriendsList.count > 0{
-            topView?.continueButton.isHidden = false
+            topView?.continueSwitch(buttonOn: true)
         }else{
-            topView?.continueButton.isHidden = true
+            topView?.continueSwitch(buttonOn: false)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -79,6 +79,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         // Do any additional setup after loading the view.
         backButton.addTarget(self, action: #selector(xButtonPressed), for: .touchUpInside)
+        topView?.continueButton.addTarget(self, action: #selector(continueButtonPressed), for: .touchUpInside)
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(xButtonPressed))
         swipeRight.direction = .right
@@ -120,8 +121,6 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             quickInvolved = Utility.alphabetSort(preConvId: quickInvolved)
             let quickConvName = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: quickInvolved)
             
-            print(quickInvolved)
-            print(quickConvName)
             self.passFriend = quickConvName
             self.passInvolved = quickInvolved
             if GlobalUser.convNames.contains(quickConvName){

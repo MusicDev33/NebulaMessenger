@@ -30,24 +30,27 @@ class CreateMessageView: UIView {
         return label
     }()
     
+    let continueButtonBg: UIView = {
+        let view = UIView()
+        view.backgroundColor = nebulaPurple
+        view.layer.cornerRadius = 20
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
+        
+        return view
+    }()
+    
     let continueButton: UIButton = {
         var button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        button.setTitleColor(nebulaPurple, for: .normal)
-        button.setTitleColor(UIColor.lightGray, for: .highlighted)
-        button.setTitleColor(UIColor.lightGray, for: .disabled)
-        button.setTitle("Continue", for: .normal)
+        if let image = UIImage(named: "ForwardArrowBlack") {
+            button.setImage(image, for: .normal)
+        }
+        button.tintColor = UIColor.white
+        
+        button.isHidden = true
         
         return button
-    }()
-    
-    let friendsTableTopLine: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.lightGray
-        
-        return view
     }()
     
     let friendsTable: UITableView = {
@@ -71,6 +74,8 @@ class CreateMessageView: UIView {
         
         addSubview(friendsTable)
         addSubview(friendsTableBottomLine)
+        addSubview(continueButtonBg)
+        addSubview(continueButton)
         
         setupTableView()
     }
@@ -80,6 +85,16 @@ class CreateMessageView: UIView {
     }
     
     func setupTableView(){
+        continueButtonBg.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        continueButtonBg.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        continueButtonBg.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -15).isActive = true
+        continueButtonBg.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8).isActive = true
+        
+        continueButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        continueButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        continueButton.centerYAnchor.constraint(equalTo: continueButtonBg.centerYAnchor).isActive = true
+        continueButton.centerXAnchor.constraint(equalTo: continueButtonBg.centerXAnchor).isActive = true
+        
         friendsTable.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 5).isActive = true
         friendsTable.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         friendsTable.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
@@ -90,5 +105,15 @@ class CreateMessageView: UIView {
         friendsTableBottomLine.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         friendsTableBottomLine.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         friendsTableBottomLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
+    }
+    
+    func continueSwitch(buttonOn: Bool){
+        if buttonOn{
+            continueButton.isHidden = false
+            continueButtonBg.isHidden = false
+        }else{
+            continueButton.isHidden = true
+            continueButtonBg.isHidden = true
+        }
     }
 }
