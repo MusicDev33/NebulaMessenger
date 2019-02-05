@@ -15,6 +15,7 @@ class FakeLaunchVC: UIViewController {
         super.viewDidLoad()
         
         self.navigationController?.isNavigationBarHidden = true
+        navigationItem.hidesBackButton = true
         
         self.view.backgroundColor = UIColor.white
         

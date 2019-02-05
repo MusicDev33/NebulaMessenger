@@ -20,6 +20,10 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     var passFriend = ""
     
     var topView: CreateMessageView?
+    var backButton: UIButton!
+    
+    var navProfileButton: UIButton!
+    var navProfileCenterXAnchor: NSLayoutConstraint?
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return GlobalUser.friends.count
@@ -59,6 +63,12 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
+        navigationItem.hidesBackButton = true
+        
+        backButton = UIButton(type: .system)
+        backButton.setImage(UIImage(named: "BackArrowBlack"), for: .normal)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        navigationController?.navigationBar.addSubview(backButton)
         
         topView = CreateMessageView(frame: self.view.frame)
         self.view.addSubview(topView!)
@@ -68,10 +78,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         mainTable.dataSource = self
         
         // Do any additional setup after loading the view.
-        topView?.continueButton.isHidden = true
-        
-        topView?.backButton.addTarget(self, action: #selector(xButtonPressed), for: .touchUpInside)
-        topView?.continueButton.addTarget(self, action: #selector(continueButtonPressed), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(xButtonPressed), for: .touchUpInside)
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(xButtonPressed))
         swipeRight.direction = .right
@@ -80,9 +87,26 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         topView?.addGestureRecognizer(swipeRight)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = false
+        
+        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        backButton.rightAnchor.constraint(equalTo: navProfileButton.leftAnchor, constant: 0).isActive = true
+        backButton.centerYAnchor.constraint(equalTo: navProfileButton.centerYAnchor).isActive = true
+        
+        navProfileCenterXAnchor?.constant += 30
+        UIView.animate(withDuration: 0.2, animations: {
+            self.navigationController?.navigationBar.layoutIfNeeded()
+        })
+    }
+    
     //MARK: Actions
     @objc func xButtonPressed() {
         self.navigationController?.popViewController(animated: true)
+        
+        backButton.removeFromSuperview()
     }
     
     @objc func continueButtonPressed() {

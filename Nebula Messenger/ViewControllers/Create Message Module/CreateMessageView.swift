@@ -69,14 +69,9 @@ class CreateMessageView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addSubview(backButton)
-        addSubview(newMessageLabel)
-        addSubview(continueButton)
-        addSubview(friendsTableTopLine)
         addSubview(friendsTable)
         addSubview(friendsTableBottomLine)
         
-        setupTopButtons()
         setupTableView()
     }
     
@@ -84,32 +79,12 @@ class CreateMessageView: UIView {
         super.init(coder: aDecoder)
     }
     
-    func setupTopButtons(){
-        backButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        backButton.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor, constant: 15).isActive = true
-        backButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        newMessageLabel.centerYAnchor.constraint(equalTo: backButton.centerYAnchor).isActive = true
-        newMessageLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        
-        continueButton.centerYAnchor.constraint(equalTo: backButton.centerYAnchor).isActive = true
-        continueButton.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor, constant: -15).isActive = true
-        continueButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        continueButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    }
-    
     func setupTableView(){
-        friendsTable.topAnchor.constraint(equalTo: self.backButton.bottomAnchor, constant: 5).isActive = true
+        friendsTable.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 5).isActive = true
         friendsTable.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         friendsTable.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         //friendsTable.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.7).isActive = true
         friendsTable.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        
-        friendsTableTopLine.bottomAnchor.constraint(equalTo: self.friendsTable.topAnchor).isActive = true
-        friendsTableTopLine.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        friendsTableTopLine.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        friendsTableTopLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
         friendsTableBottomLine.topAnchor.constraint(equalTo: self.friendsTable.bottomAnchor).isActive = true
         friendsTableBottomLine.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true

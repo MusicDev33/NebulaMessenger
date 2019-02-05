@@ -96,6 +96,8 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         
         topView?.addGestureRecognizer(swipeRight)
         
+        navigationController?.isNavigationBarHidden = true
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {

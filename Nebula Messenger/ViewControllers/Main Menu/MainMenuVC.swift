@@ -18,10 +18,11 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     var searchResults = [String]()
     var searchBar: UISearchBar!
-    var exitSearchButton: UIButton!
     var navSearchBar: UISearchBar!
     
     var convTable: UITableView!
+    
+    var profileButton: UIButton!
     
     var bottomBarView: UIView!
     var addFriendsButton: UIButton!
@@ -30,12 +31,16 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     var searchConvMode = false
     
+    var profileLocation: CGFloat!
+    
     // Add names here to allow the users to access pools
     let adminUsers = ["MusicDev"]
     
     var passMsgList = [TerseMessage]()
     
     var outdated = false
+    
+    var profileButtonCenterXAnchor: NSLayoutConstraint?
     
     let impact = UIImpactFeedbackGenerator(style: .light)
     let notifImpact = UINotificationFeedbackGenerator()
@@ -49,20 +54,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     var searchBarWidthAnchor: NSLayoutConstraint?
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: "headerCell") as! SearchBarHeaderView
-        self.searchBar = headerCell.searchBar
-        searchBar.delegate = self
-        searchBarWidthAnchor = headerCell.searchBarWidthAnchor
-        headerCell.profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
-        headerCell.exitSearchButton.addTarget(self, action: #selector(exitSearchButtonPressed), for: .touchUpInside)
-        return headerCell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 60
-    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "conversationCell")
@@ -168,7 +159,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         self.convTable.reloadData()
         self.searchBarWidthAnchor?.constant = 0
-        self.navSearchBarWidthAnchor?.constant = 0
+        self.navSearchBarWidthAnchor?.constant = -8
         
         UIView.animate(withDuration: 0.2, animations: {
             self.convTable.layoutIfNeeded()
@@ -229,8 +220,11 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     //Start of non-search part
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        //self.createSettingsButton()
+        profileLocation = (UIScreen.main.bounds.width * 0.075)
+        
+        navigationItem.hidesBackButton = true
+        setupNavbar()
+        
         self.createConvTable()
         
         self.view.backgroundColor = UIColor.white
@@ -286,15 +280,12 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         GlobalUser.currentConv = ""
         self.convTable.reloadData()
-        
-        setupNavbar()
     }
     
     var navSearchBarWidthAnchor: NSLayoutConstraint?
     
     func setupNavbar(){
-        let profileLocation = (UIScreen.main.bounds.width * 0.075)
-        let profileButton = UIButton(type: .system)
+        profileButton = UIButton(type: .system)
         profileButton.setImage(UIImage(named: "ProfileBlack"), for: .normal)
         profileButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         profileButton.translatesAutoresizingMaskIntoConstraints = false
@@ -303,11 +294,11 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             let button = UIButton(type: .system)
             button.setImage(UIImage(named: "BlackX"), for: .normal)
             button.translatesAutoresizingMaskIntoConstraints = false
+            button.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
             
             return button
         }()
         
-        navigationItem.hidesBackButton = true
         navSearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 50, height: 15))
         navSearchBar.placeholder = "Conversations"
         navSearchBar.translatesAutoresizingMaskIntoConstraints = false
@@ -330,20 +321,33 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         navigationController?.navigationBar.addSubview(exitSearchButton)
         navigationController?.navigationBar.addSubview(navSearchBar)
         
+        self.searchBar = navSearchBar
+        navSearchBar.delegate = self
+        profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
+        exitSearchButton.addTarget(self, action: #selector(exitSearchButtonPressed), for: .touchUpInside)
+        
         navSearchBar.leftAnchor.constraint(equalTo: profileButton.centerXAnchor, constant: profileLocation-5).isActive = true
-        navSearchBar.centerYAnchor.constraint(equalTo: (navigationController?.navigationBar.centerYAnchor)!).isActive = true
-        navSearchBarWidthAnchor = navSearchBar.widthAnchor.constraint(equalTo: (navigationController?.navigationBar.widthAnchor)!, multiplier: 0.85)
+        navSearchBarWidthAnchor = navSearchBar.rightAnchor.constraint(equalTo: (navigationController?.navigationBar.rightAnchor)!, constant: -8)
         navSearchBarWidthAnchor?.isActive = true
+        navSearchBar.centerYAnchor.constraint(equalTo: (navigationController?.navigationBar.centerYAnchor)!).isActive = true
         
         profileButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         profileButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        profileButton.centerXAnchor.constraint(equalTo: (navigationController?.navigationBar.leftAnchor)!, constant: profileLocation).isActive = true
+        profileButtonCenterXAnchor = profileButton.centerXAnchor.constraint(equalTo: (navigationController?.navigationBar.leftAnchor)!, constant: profileLocation)
+        profileButtonCenterXAnchor?.isActive = true
         profileButton.centerYAnchor.constraint(equalTo: navSearchBar.centerYAnchor).isActive = true
         
         exitSearchButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         exitSearchButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         exitSearchButton.rightAnchor.constraint(equalTo: (navigationController?.navigationBar.rightAnchor)!, constant: -6).isActive = true
         exitSearchButton.centerYAnchor.constraint(equalTo: navSearchBar.centerYAnchor).isActive = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = false
+        self.searchBar.placeholder = "Conversations"
+        self.profileButtonCenterXAnchor?.constant = profileLocation
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -359,12 +363,14 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     //MARK: Actions
     @objc func exitSearchButtonPressed(){
         self.view.endEditing(true)
+        self.navigationController?.navigationBar.endEditing(true)
     }
     
     @objc func profileButtonPressed(){
         //SocketIOManager.sendToTestSocket(title: "Hey! Listen!", message: "How are you?")
         self.view.endEditing(true)
-        self.searchBar.resignFirstResponder()
+        self.navSearchBar.resignFirstResponder()
+        //self.searchBar.placeholder = "New Message"
         let profileVC = MyProfileVC()
         self.navigationController?.pushViewController(profileVC, animated: true)
     }
@@ -380,6 +386,9 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @objc func createMessageButtonTapped() {
         let createMessageVC = CreateMessageVC()
+        self.navSearchBar.placeholder = "New Message"
+        createMessageVC.navProfileButton = profileButton
+        createMessageVC.navProfileCenterXAnchor = self.profileButtonCenterXAnchor
         createMessageVC.modalPresentationStyle = .overFullScreen
         self.navigationController?.pushViewController(createMessageVC, animated: true)
     }
