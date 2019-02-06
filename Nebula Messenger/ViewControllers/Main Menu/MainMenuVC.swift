@@ -32,6 +32,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var searchConvMode = false
     
     var profileLocation: CGFloat!
+    var exitSearchButton: UIButton!
     
     // Add names here to allow the users to access pools
     let adminUsers = ["MusicDev"]
@@ -280,6 +281,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         GlobalUser.currentConv = ""
         self.convTable.reloadData()
+        
+        navSearchBar.delegate = self
+        profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
+        exitSearchButton.addTarget(self, action: #selector(exitSearchButtonPressed), for: .touchUpInside)
     }
     
     var navSearchBarWidthAnchor: NSLayoutConstraint?
@@ -290,14 +295,9 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         profileButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         profileButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let exitSearchButton: UIButton = {
-            let button = UIButton(type: .system)
-            button.setImage(UIImage(named: "BlackX"), for: .normal)
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
-            
-            return button
-        }()
+        exitSearchButton = UIButton(type: .system)
+        exitSearchButton.setImage(UIImage(named: "BlackX"), for: .normal)
+        exitSearchButton.translatesAutoresizingMaskIntoConstraints = false
         
         navSearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 50, height: 15))
         navSearchBar.placeholder = "Conversations"
@@ -362,7 +362,11 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     //MARK: Actions
     @objc func exitSearchButtonPressed(){
-        self.view.endEditing(true)
+        self.searchBar.resignFirstResponder()
+        self.navSearchBar.text = ""
+        self.searchResults = GlobalUser.convNames
+        self.convTable.reloadData()
+        
         self.navigationController?.navigationBar.endEditing(true)
     }
     
@@ -387,8 +391,11 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @objc func createMessageButtonTapped() {
         let createMessageVC = CreateMessageVC()
         self.navSearchBar.placeholder = "New Message"
+        createMessageVC.searchBar = self.navSearchBar
         createMessageVC.navProfileButton = profileButton
         createMessageVC.navProfileCenterXAnchor = self.profileButtonCenterXAnchor
+        createMessageVC.searchBarRightAnchor = self.navSearchBarWidthAnchor
+        createMessageVC.closeSearchButton = exitSearchButton
         createMessageVC.modalPresentationStyle = .overFullScreen
         self.navigationController?.pushViewController(createMessageVC, animated: true)
     }

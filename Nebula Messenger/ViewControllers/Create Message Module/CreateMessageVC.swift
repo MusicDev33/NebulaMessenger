@@ -9,6 +9,7 @@
 import UIKit
 
 class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
+    
     var mainTable: UITableView!
     
     
@@ -25,17 +26,33 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     var navProfileButton: UIButton!
     var navProfileCenterXAnchor: NSLayoutConstraint?
     
+    var searchBarRightAnchor: NSLayoutConstraint?
+    
+    var searchBar: UISearchBar!
+    var searchResults = [String]()
+    var searchMode = false
+    var closeSearchButton: UIButton!
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return GlobalUser.friends.count
+        if searchMode{
+            return searchResults.count
+        }else{
+            return GlobalUser.friends.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "mainCell")
-        cell.textLabel?.text = GlobalUser.friends[indexPath.row]
-        cell.detailTextLabel?.text = " "
         
-        if selectedFriendsList.contains((cell.textLabel?.text)!){
-            cell.detailTextLabel?.text = "\u{2714}"
+        if self.searchMode{
+            cell.textLabel?.text = searchResults[indexPath.row]
+        }else{
+            cell.textLabel?.text = GlobalUser.friends[indexPath.row]
+            cell.detailTextLabel?.text = " "
+            
+            if selectedFriendsList.contains((cell.textLabel?.text)!){
+                cell.detailTextLabel?.text = "\u{2714}"
+            }
         }
         
         return cell
@@ -64,6 +81,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         navigationItem.hidesBackButton = true
+        self.searchBar.delegate = self
         
         backButton = UIButton(type: .system)
         backButton.setImage(UIImage(named: "BackArrowBlack"), for: .normal)
@@ -80,6 +98,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         // Do any additional setup after loading the view.
         backButton.addTarget(self, action: #selector(xButtonPressed), for: .touchUpInside)
         topView?.continueButton.addTarget(self, action: #selector(continueButtonPressed), for: .touchUpInside)
+        closeSearchButton.addTarget(self, action: #selector(closeSearchButtonPressed), for: .touchUpInside)
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(xButtonPressed))
         swipeRight.direction = .right
@@ -94,7 +113,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.rightAnchor.constraint(equalTo: navProfileButton.leftAnchor, constant: 0).isActive = true
+        backButton.rightAnchor.constraint(equalTo: navProfileButton.leftAnchor, constant: -4).isActive = true
         backButton.centerYAnchor.constraint(equalTo: navProfileButton.centerYAnchor).isActive = true
         
         navProfileCenterXAnchor?.constant += 30
@@ -103,11 +122,22 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         })
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        backButton.removeFromSuperview()
+    }
+    
     //MARK: Actions
     @objc func xButtonPressed() {
+        searchBar.resignFirstResponder()
         self.navigationController?.popViewController(animated: true)
-        
-        backButton.removeFromSuperview()
+    }
+    
+    @objc func closeSearchButtonPressed(){
+        self.searchBar.resignFirstResponder()
+        self.searchMode = false
+        self.searchResults = []
+        self.mainTable.reloadData()
     }
     
     @objc func continueButtonPressed() {
@@ -237,6 +267,80 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                     vc?.involved = Utility.createConvId(names: passList)
                 }
             }
+        }
+    }
+}
+
+extension CreateMessageVC: UISearchResultsUpdating, UISearchBarDelegate {
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.searchMode = true
+        self.searchResults = GlobalUser.friends
+        print("???????????????")
+        searchBarRightAnchor?.constant -= 40
+        UIView.animate(withDuration: 0.2, animations: {
+            self.view.layoutIfNeeded()
+            self.navigationController?.navigationBar.layoutIfNeeded()
+        })
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        self.mainTable.reloadData()
+        print("!!!!!!!!!!!!")
+        searchBarRightAnchor?.constant = -8
+        UIView.animate(withDuration: 0.2, animations: {
+            self.view.layoutIfNeeded()
+            self.navigationController?.navigationBar.layoutIfNeeded()
+        })
+
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.searchMode = false
+        self.mainTable.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    // We're just going to pretend like I understand what these functions do
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText == "" {
+            self.searchResults = GlobalUser.friends
+            self.mainTable.reloadData()
+        }else if searchText.count > 0{
+            if self.searchMode{
+                self.searchResults = [String]()
+                for i in GlobalUser.friends{
+                    if i.lowercased().hasPrefix(searchText.lowercased()){
+                        self.searchResults.append(i)
+                    }
+                }
+                self.mainTable.reloadData()
+            }
+        }else{
+            if self.searchMode{
+                self.searchResults = GlobalUser.friends
+            }else{
+                self.searchResults = []
+            }
+            self.mainTable.reloadData()
+        }
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchString = searchController.searchBar.text
+        
+        if searchString == "" {
+            self.mainTable.reloadData()
+        }else if searchString!.count > 0{
+            FriendRoutes.searchFriends(characters: searchString!){friends in
+                self.searchResults = friends
+            }
+            self.mainTable.reloadData()
+        }else{
+            self.searchResults = []
+            self.mainTable.reloadData()
         }
     }
 }

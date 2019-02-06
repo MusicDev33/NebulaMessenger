@@ -88,12 +88,12 @@ class CreateMessageView: UIView {
         continueButtonBg.widthAnchor.constraint(equalToConstant: 40).isActive = true
         continueButtonBg.heightAnchor.constraint(equalToConstant: 40).isActive = true
         continueButtonBg.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -15).isActive = true
-        continueButtonBg.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8).isActive = true
+        continueButtonBg.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -15).isActive = true
         
         continueButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         continueButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         continueButton.centerYAnchor.constraint(equalTo: continueButtonBg.centerYAnchor).isActive = true
-        continueButton.centerXAnchor.constraint(equalTo: continueButtonBg.centerXAnchor).isActive = true
+        continueButton.centerXAnchor.constraint(equalTo: continueButtonBg.centerXAnchor, constant: 1).isActive = true
         
         friendsTable.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 5).isActive = true
         friendsTable.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
