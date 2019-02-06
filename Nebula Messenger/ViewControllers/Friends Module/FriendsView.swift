@@ -1,14 +1,14 @@
 //
-//  CreateMessageView.swift
+//  FriendsView.swift
 //  Nebula Messenger
 //
-//  Created by Shelby McCowan on 12/29/18.
-//  Copyright © 2018 Shelby McCowan. All rights reserved.
+//  Created by Shelby McCowan on 2/6/19.
+//  Copyright © 2019 Shelby McCowan. All rights reserved.
 //
 
 import UIKit
 
-class CreateMessageView: UIView {
+class FriendsView: UIView {
     
     let continueButtonBg: UIView = {
         let view = UIView()
@@ -27,14 +27,13 @@ class CreateMessageView: UIView {
             button.setImage(image, for: .normal)
         }
         button.tintColor = UIColor.white
-        
         button.isHidden = true
         
         return button
     }()
     
     let friendsTable: UITableView = {
-        let table = UITableView()
+        let table = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .grouped)
         table.translatesAutoresizingMaskIntoConstraints = false
         table.register(UITableViewCell.self, forCellReuseIdentifier: "mainCell")
         
@@ -78,7 +77,6 @@ class CreateMessageView: UIView {
         friendsTable.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 5).isActive = true
         friendsTable.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         friendsTable.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        //friendsTable.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.7).isActive = true
         friendsTable.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
         friendsTableBottomLine.topAnchor.constraint(equalTo: self.friendsTable.bottomAnchor).isActive = true

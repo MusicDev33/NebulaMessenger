@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1314EDA20D1149BD02F576FE /* Pods_Nebula_MessengerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1801EBBDFE532B9E5184890A /* Pods_Nebula_MessengerUITests.framework */; };
 		1F16E62222078E6000FC7B78 /* SearchBarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F16E62122078E5F00FC7B78 /* SearchBarHeaderView.swift */; };
+		1F16E625220B352300FC7B78 /* FriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F16E624220B352300FC7B78 /* FriendsVC.swift */; };
+		1F16E627220B354A00FC7B78 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F16E626220B354A00FC7B78 /* FriendsView.swift */; };
 		1F170F162162FD1B009673E2 /* FriendRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F170F152162FD1B009673E2 /* FriendRoutes.swift */; };
 		1F170F182163DBB3009673E2 /* ConversationRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F170F172163DBB3009673E2 /* ConversationRoutes.swift */; };
 		1F170F1A21647157009673E2 /* PoolRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F170F1921647156009673E2 /* PoolRoutes.swift */; };
@@ -95,6 +97,8 @@
 /* Begin PBXFileReference section */
 		1801EBBDFE532B9E5184890A /* Pods_Nebula_MessengerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_MessengerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F16E62122078E5F00FC7B78 /* SearchBarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarHeaderView.swift; sourceTree = "<group>"; };
+		1F16E624220B352300FC7B78 /* FriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsVC.swift; sourceTree = "<group>"; };
+		1F16E626220B354A00FC7B78 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
 		1F170F152162FD1B009673E2 /* FriendRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRoutes.swift; sourceTree = "<group>"; };
 		1F170F172163DBB3009673E2 /* ConversationRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationRoutes.swift; sourceTree = "<group>"; };
 		1F170F1921647156009673E2 /* PoolRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolRoutes.swift; sourceTree = "<group>"; };
@@ -205,6 +209,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F16E623220B34E800FC7B78 /* Friends Module */ = {
+			isa = PBXGroup;
+			children = (
+				1F16E624220B352300FC7B78 /* FriendsVC.swift */,
+				1F16E626220B354A00FC7B78 /* FriendsView.swift */,
+			);
+			path = "Friends Module";
+			sourceTree = "<group>";
+		};
 		1F42502D21DC9DCB00CE108C /* Profile Module */ = {
 			isa = PBXGroup;
 			children = (
@@ -334,6 +347,7 @@
 		1F68B2B9215276AE00DC9525 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1F16E623220B34E800FC7B78 /* Friends Module */,
 				1FC7ED2B21E49925002F1422 /* Register Module */,
 				1F42503021E4045C00CE108C /* Login Module */,
 				1F8A3A8D21BA24AA008E42DB /* Main Menu */,
@@ -766,6 +780,7 @@
 				1FA20BC7218D6E83007317B5 /* UserRoutes.swift in Sources */,
 				1FA20BC9218D6FCD007317B5 /* MessageRoutes.swift in Sources */,
 				1F68B2BF2154A64D00DC9525 /* MessengerVC.swift in Sources */,
+				1F16E627220B354A00FC7B78 /* FriendsView.swift in Sources */,
 				1FC7ED3B21E5E67B002F1422 /* CanvasRoutes.swift in Sources */,
 				1FA20BCC218D728C007317B5 /* GroupChatAddVC.swift in Sources */,
 				1F68B2C12154C1C400DC9525 /* MainMenuVC.swift in Sources */,
@@ -803,6 +818,7 @@
 				1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */,
 				1F68B2B02152749700DC9525 /* GlobalUser.swift in Sources */,
 				1F76C7E02158A95500EB6C8C /* CreateMessageVC.swift in Sources */,
+				1F16E625220B352300FC7B78 /* FriendsVC.swift in Sources */,
 				1FAF4D0821B4FF6100843C89 /* AlertBP.swift in Sources */,
 				1F42503221E4047A00CE108C /* LoginView.swift in Sources */,
 				1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */,
