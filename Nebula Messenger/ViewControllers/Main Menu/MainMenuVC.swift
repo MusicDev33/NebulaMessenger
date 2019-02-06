@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseInstanceID
 
-class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate, UIGestureRecognizerDelegate {
+class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate, UIGestureRecognizerDelegate, CAAnimationDelegate {
     var passId = ""
     var passInvolved = ""
     var passFriend = ""
@@ -42,6 +42,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var outdated = false
     
     var profileButtonCenterXAnchor: NSLayoutConstraint?
+    var exitSearchRightAnchor: NSLayoutConstraint?
     
     let impact = UIImpactFeedbackGenerator(style: .light)
     let notifImpact = UINotificationFeedbackGenerator()
@@ -339,7 +340,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         exitSearchButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         exitSearchButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        exitSearchButton.rightAnchor.constraint(equalTo: (navigationController?.navigationBar.rightAnchor)!, constant: -6).isActive = true
+        exitSearchRightAnchor = exitSearchButton.rightAnchor.constraint(equalTo: (navigationController?.navigationBar.rightAnchor)!, constant: -6)
+        exitSearchRightAnchor?.isActive = true
         exitSearchButton.centerYAnchor.constraint(equalTo: navSearchBar.centerYAnchor).isActive = true
     }
     
@@ -401,9 +403,23 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     @objc func addFriendsButtonPressed() {
-        let addFriendVC = AddFriendVC()
-        addFriendVC.modalPresentationStyle = .overCurrentContext
-        self.present(addFriendVC, animated: true, completion: nil)
+        let transition = CATransition.init()
+        transition.duration = 0.45
+        transition.timingFunction = CAMediaTimingFunction.init(name: CAMediaTimingFunctionName.default)
+        transition.type = CATransitionType.push //Transition you want like Push, Reveal
+        transition.subtype = CATransitionSubtype.fromLeft // Direction like Left to Right, Right to Left
+        transition.delegate = self
+        view.window!.layer.add(transition, forKey: kCATransition)
+        
+        let friendsVC = FriendsVC()
+        friendsVC.profileButton = self.profileButton
+        friendsVC.exitSearchButton = self.exitSearchButton
+        friendsVC.searchBar = self.navSearchBar
+        
+        friendsVC.exitSearchRightAnchor = self.exitSearchRightAnchor
+        friendsVC.searchBarRightAnchor = self.navSearchBarWidthAnchor
+        
+        navigationController?.pushViewController(friendsVC, animated: true)
     }
     
     //MARK: Sockets

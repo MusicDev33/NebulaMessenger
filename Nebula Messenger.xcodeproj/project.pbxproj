@@ -347,9 +347,9 @@
 		1F68B2B9215276AE00DC9525 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				1F16E623220B34E800FC7B78 /* Friends Module */,
 				1FC7ED2B21E49925002F1422 /* Register Module */,
 				1F42503021E4045C00CE108C /* Login Module */,
+				1F16E623220B34E800FC7B78 /* Friends Module */,
 				1F8A3A8D21BA24AA008E42DB /* Main Menu */,
 				1F42502D21DC9DCB00CE108C /* Profile Module */,
 				1FC7ED2E21E4A5D5002F1422 /* Settings Module */,
