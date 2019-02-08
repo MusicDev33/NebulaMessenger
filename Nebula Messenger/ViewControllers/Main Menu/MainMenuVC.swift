@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseInstanceID
 
-class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate, UIGestureRecognizerDelegate, CAAnimationDelegate {
+class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate, UIGestureRecognizerDelegate, CAAnimationDelegate, UINavigationControllerDelegate {
     var passId = ""
     var passInvolved = ""
     var passFriend = ""
@@ -225,6 +225,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         profileLocation = (UIScreen.main.bounds.width * 0.075)
         
         navigationItem.hidesBackButton = true
+        navigationController?.delegate = self
         setupNavbar()
         
         self.createConvTable()

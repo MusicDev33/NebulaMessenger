@@ -11,6 +11,8 @@
 		1F16E62222078E6000FC7B78 /* SearchBarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F16E62122078E5F00FC7B78 /* SearchBarHeaderView.swift */; };
 		1F16E625220B352300FC7B78 /* FriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F16E624220B352300FC7B78 /* FriendsVC.swift */; };
 		1F16E627220B354A00FC7B78 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F16E626220B354A00FC7B78 /* FriendsView.swift */; };
+		1F16E629220D660F00FC7B78 /* CustomAnim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F16E628220D660F00FC7B78 /* CustomAnim.swift */; };
+		1F16E62B220D75BC00FC7B78 /* CustomInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F16E62A220D75BC00FC7B78 /* CustomInteractor.swift */; };
 		1F170F162162FD1B009673E2 /* FriendRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F170F152162FD1B009673E2 /* FriendRoutes.swift */; };
 		1F170F182163DBB3009673E2 /* ConversationRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F170F172163DBB3009673E2 /* ConversationRoutes.swift */; };
 		1F170F1A21647157009673E2 /* PoolRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F170F1921647156009673E2 /* PoolRoutes.swift */; };
@@ -99,6 +101,8 @@
 		1F16E62122078E5F00FC7B78 /* SearchBarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarHeaderView.swift; sourceTree = "<group>"; };
 		1F16E624220B352300FC7B78 /* FriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsVC.swift; sourceTree = "<group>"; };
 		1F16E626220B354A00FC7B78 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
+		1F16E628220D660F00FC7B78 /* CustomAnim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnim.swift; sourceTree = "<group>"; };
+		1F16E62A220D75BC00FC7B78 /* CustomInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInteractor.swift; sourceTree = "<group>"; };
 		1F170F152162FD1B009673E2 /* FriendRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRoutes.swift; sourceTree = "<group>"; };
 		1F170F172163DBB3009673E2 /* ConversationRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationRoutes.swift; sourceTree = "<group>"; };
 		1F170F1921647156009673E2 /* PoolRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolRoutes.swift; sourceTree = "<group>"; };
@@ -472,6 +476,8 @@
 				1FC7ED3521E5B7D7002F1422 /* NALoading1.swift */,
 				1F5DAE4821FEF60600BC26DB /* MBPoolAnnotation.swift */,
 				1F16E62122078E5F00FC7B78 /* SearchBarHeaderView.swift */,
+				1F16E628220D660F00FC7B78 /* CustomAnim.swift */,
+				1F16E62A220D75BC00FC7B78 /* CustomInteractor.swift */,
 			);
 			path = "Custom Classes";
 			sourceTree = "<group>";
@@ -775,6 +781,7 @@
 				1F68B2B22152751700DC9525 /* Routes.swift in Sources */,
 				1FC7ED3621E5B7D7002F1422 /* NALoading1.swift in Sources */,
 				1FC7ED3D21E5E929002F1422 /* CanvasCourseRouting.swift in Sources */,
+				1F16E62B220D75BC00FC7B78 /* CustomInteractor.swift in Sources */,
 				1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */,
 				1F7F763621AD38F5008D3BB1 /* RequestedFriendsVC.swift in Sources */,
 				1FA20BC7218D6E83007317B5 /* UserRoutes.swift in Sources */,
@@ -817,6 +824,7 @@
 				1F76C7DC215899B500EB6C8C /* MyProfileVC.swift in Sources */,
 				1F68B2682152227F00DC9525 /* AppDelegate.swift in Sources */,
 				1F68B2B02152749700DC9525 /* GlobalUser.swift in Sources */,
+				1F16E629220D660F00FC7B78 /* CustomAnim.swift in Sources */,
 				1F76C7E02158A95500EB6C8C /* CreateMessageVC.swift in Sources */,
 				1F16E625220B352300FC7B78 /* FriendsVC.swift in Sources */,
 				1FAF4D0821B4FF6100843C89 /* AlertBP.swift in Sources */,
