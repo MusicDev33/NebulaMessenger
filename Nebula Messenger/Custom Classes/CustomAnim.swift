@@ -9,15 +9,17 @@
 import Foundation
 import UIKit
 
+enum NavType {
+    case fromLeft
+    case fromRight
+    case toRight
+    case toLeft
+}
+
 class CustomAnim : NSObject, UIViewControllerAnimatedTransitioning {
     
     var duration : TimeInterval
     var isPresenting : Bool
-    
-    enum NavType {
-        case fromLeft
-        case fromRight
-    }
     
     var direction: NavType
     
@@ -38,17 +40,31 @@ class CustomAnim : NSObject, UIViewControllerAnimatedTransitioning {
         let detailView = isPresenting ? toView : fromView
         
         switch self.direction {
+        case .fromLeft:
+            toView.frame = isPresenting ?  CGRect(x: -fromView.frame.width, y: 0, width: toView.frame.width, height: toView.frame.height) : toView.frame
         case .fromRight:
             toView.frame = isPresenting ?  CGRect(x: fromView.frame.width, y: 0, width: toView.frame.width, height: toView.frame.height) : toView.frame
-        case .fromLeft:
-            toView.frame = isPresenting ?  toView.frame : CGRect(x: fromView.frame.width, y: 0, width: toView.frame.width, height: toView.frame.height)
+        case .toLeft:
+            toView.frame = isPresenting ?  toView.frame : CGRect(x: 0, y: 0, width: toView.frame.width, height: toView.frame.height)
+        case .toRight:
+            toView.frame = isPresenting ?  toView.frame : CGRect(x: 0, y: 0, width: toView.frame.width, height: toView.frame.height)
         }
         
         toView.alpha = isPresenting ? 0 : 1
         toView.layoutIfNeeded()
         
         UIView.animate(withDuration: duration, animations: {
-            detailView.frame = self.isPresenting ? fromView.frame : CGRect(x: toView.frame.width, y: 0, width: toView.frame.width, height: toView.frame.height)
+            switch self.direction {
+            case .fromLeft:
+                detailView.frame = self.isPresenting ? fromView.frame : CGRect(x: 0, y: 0, width: toView.frame.width, height: toView.frame.height)
+            case .fromRight:
+                detailView.frame = self.isPresenting ? fromView.frame : CGRect(x: -toView.frame.width, y: 0, width: toView.frame.width, height: toView.frame.height)
+            case .toLeft:
+                detailView.frame = self.isPresenting ? fromView.frame : CGRect(x: -toView.frame.width, y: 0, width: toView.frame.width, height: toView.frame.height)
+            case .toRight:
+                detailView.frame = self.isPresenting ? fromView.frame : CGRect(x: toView.frame.width, y: 0, width: toView.frame.width, height: toView.frame.height)
+            }
+            
             detailView.alpha = self.isPresenting ? 1 : 0
         }, completion: { (finished) in
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)

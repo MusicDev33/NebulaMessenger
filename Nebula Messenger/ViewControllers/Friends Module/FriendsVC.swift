@@ -52,7 +52,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         
         switch operation {
         case .push:
-            return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: true, direction: .fromRight)
+            return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: true, direction: .fromLeft)
         default:
             return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: false, direction: .fromRight)
         }
@@ -71,6 +71,8 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         
         topView = FriendsView(frame: self.view.frame)
         self.view.addSubview(topView)
+        topView.friendsTable.delegate = self
+        topView.friendsTable.dataSource = self
         
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(swipedLeft))
         swipeLeft.direction = .left

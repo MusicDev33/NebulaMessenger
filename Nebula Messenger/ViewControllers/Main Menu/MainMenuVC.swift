@@ -47,6 +47,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     let impact = UIImpactFeedbackGenerator(style: .light)
     let notifImpact = UINotificationFeedbackGenerator()
     
+    var navType = NavType.fromRight
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchConvMode{
             return searchResults.count
@@ -219,13 +221,22 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        switch operation {
+        case .push:
+            return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: true, direction: self.navType)
+        default:
+            return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: false, direction: self.navType)
+        }
+    }
+    
     //Start of non-search part
     override func viewDidLoad() {
         super.viewDidLoad()
         profileLocation = (UIScreen.main.bounds.width * 0.075)
         
         navigationItem.hidesBackButton = true
-        navigationController?.delegate = self
         setupNavbar()
         
         self.createConvTable()
@@ -283,6 +294,9 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         GlobalUser.currentConv = ""
         self.convTable.reloadData()
+        
+        self.navType = .fromRight
+        navigationController?.delegate = self
         
         navSearchBar.delegate = self
         profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
@@ -399,18 +413,14 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         createMessageVC.navProfileCenterXAnchor = self.profileButtonCenterXAnchor
         createMessageVC.searchBarRightAnchor = self.navSearchBarWidthAnchor
         createMessageVC.closeSearchButton = exitSearchButton
+        
+        self.navType = .fromRight
+        
         createMessageVC.modalPresentationStyle = .overFullScreen
         self.navigationController?.pushViewController(createMessageVC, animated: true)
     }
     
     @objc func addFriendsButtonPressed() {
-        let transition = CATransition.init()
-        transition.duration = 0.45
-        transition.timingFunction = CAMediaTimingFunction.init(name: CAMediaTimingFunctionName.default)
-        transition.type = CATransitionType.push //Transition you want like Push, Reveal
-        transition.subtype = CATransitionSubtype.fromLeft // Direction like Left to Right, Right to Left
-        transition.delegate = self
-        view.window!.layer.add(transition, forKey: kCATransition)
         
         let friendsVC = FriendsVC()
         friendsVC.profileButton = self.profileButton
@@ -419,6 +429,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         friendsVC.exitSearchRightAnchor = self.exitSearchRightAnchor
         friendsVC.searchBarRightAnchor = self.navSearchBarWidthAnchor
+        print("NEW NAV")
+        self.navType = .fromLeft
         
         navigationController?.pushViewController(friendsVC, animated: true)
     }
