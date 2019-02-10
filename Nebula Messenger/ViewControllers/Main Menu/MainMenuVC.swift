@@ -128,7 +128,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func contextualDelete(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
-        
         let action = UIContextualAction(style: .destructive,
                                         title: "Delete") { (contextAction: UIContextualAction, sourceView: UIView, completionHandler: (Bool) -> Void) in
                                             if true {
@@ -376,6 +375,9 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 }
             }
         }
+        
+        profileButton.removeTarget(nil, action: nil, for: .allEvents)
+        profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -442,6 +444,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         friendsVC.exitSearchRightAnchor = self.exitSearchRightAnchor
         friendsVC.searchBarRightAnchor = self.navSearchBarWidthAnchor
         self.navType = .fromLeft
+        
+        friendsVC.addFriendButton = self.profileButton
         
         navigationController?.pushViewController(friendsVC, animated: true)
     }

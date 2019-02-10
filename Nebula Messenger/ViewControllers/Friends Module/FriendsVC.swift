@@ -28,6 +28,8 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     var searchResults = [String]()
     var currentRequestedFriends = [String]()
     
+    var addFriendButton: UIButton!
+    
     
     // Tableview methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -54,8 +56,9 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
             cell.acceptButton.addTarget(cell, action: #selector(cell.acceptedRequest), for: .touchUpInside)
             
             cell.action = { (cell) in
-                cell.acceptButton.backgroundColor = nebulaBlue
+                cell.acceptButton.backgroundColor = UIColor.white
                 cell.acceptButton.setTitle("Accepted", for: .normal)
+                cell.acceptButton.tintColor = nebulaPurple
                 cell.acceptButton.isUserInteractionEnabled = false
                 GlobalUser.requestedFriends = GlobalUser.requestedFriends.filter {$0 != cell.usernameLabel.text}
                 tableView.reloadData()
@@ -122,7 +125,20 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     @objc func swipedLeft(){
         self.backButton.removeFromSuperview()
         self.searchBar.endEditing(true)
+        
+        UIView.transition(with: self.addFriendButton,
+                          duration: 0.2,
+                          options: .transitionFlipFromRight,
+                          animations: {
+                            self.addFriendButton.setImage(UIImage(named: "ProfileBlack"), for: .normal) })
+        
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func addFriendButtonPressed(){
+        let addVC = AddFriendVC()
+        addVC.modalPresentationStyle = .overCurrentContext
+        self.present(addVC, animated: true, completion: nil)
     }
 
     override func viewDidLoad() {
@@ -166,6 +182,16 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         currentRequestedFriends = GlobalUser.requestedFriends
         
         topView.addGestureRecognizer(swipeLeft)
+        
+        UIView.transition(with: self.addFriendButton,
+                          duration: 0.2,
+                          options: .transitionFlipFromLeft,
+                          animations: {
+                            self.addFriendButton.setImage(UIImage(named: "AddFriendBlack"), for: .normal)})
+        
+        //self.addFriendButton.setImage(UIImage(named: "AddFriendBlack"), for: .normal)
+        self.addFriendButton.removeTarget(nil, action: nil, for: .allEvents)
+        self.addFriendButton.addTarget(self, action: #selector(addFriendButtonPressed), for: .touchUpInside)
     }
     
     override func viewDidAppear(_ animated: Bool) {
