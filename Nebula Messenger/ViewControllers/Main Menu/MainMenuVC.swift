@@ -299,6 +299,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         navigationController?.delegate = self
         
         navSearchBar.delegate = self
+        navSearchBar.isUserInteractionEnabled = true
+        
         profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
         exitSearchButton.addTarget(self, action: #selector(exitSearchButtonPressed), for: .touchUpInside)
     }
@@ -367,6 +369,13 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.profileButtonCenterXAnchor?.constant = profileLocation
         self.exitSearchRightAnchor?.constant = -6
         self.navSearchBarWidthAnchor?.constant = -8
+        for subview in navSearchBar.subviews  {
+            for subSubview in subview.subviews  {
+                if let textField = subSubview as? UITextField {
+                    textField.backgroundColor = UIColor.white
+                }
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

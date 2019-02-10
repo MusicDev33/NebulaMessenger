@@ -26,6 +26,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     
     var searchMode = false
     var searchResults = [String]()
+    var currentRequestedFriends = [String]()
     
     
     // Tableview methods
@@ -34,7 +35,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
             if searchMode{
                 return searchResults.count
             }
-            return GlobalUser.requestedFriends.count
+            return currentRequestedFriends.count
         }else{
             return GlobalUser.friends.count
         }
@@ -47,7 +48,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
             if searchMode{
                 cell.usernameLabel.text = searchResults[indexPath.row]
             }else{
-                cell.usernameLabel.text = GlobalUser.requestedFriends[indexPath.row]
+                cell.usernameLabel.text = currentRequestedFriends[indexPath.row]
             }
             
             cell.acceptButton.addTarget(cell, action: #selector(cell.acceptedRequest), for: .touchUpInside)
@@ -56,6 +57,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
                 cell.acceptButton.backgroundColor = nebulaBlue
                 cell.acceptButton.setTitle("Accepted", for: .normal)
                 cell.acceptButton.isUserInteractionEnabled = false
+                GlobalUser.requestedFriends = GlobalUser.requestedFriends.filter {$0 != cell.usernameLabel.text}
                 tableView.reloadData()
             }
         }else {
@@ -129,6 +131,15 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         navigationItem.hidesBackButton = true
         navigationController?.delegate = self
         self.searchBar.delegate = self
+        self.searchBar.isUserInteractionEnabled = false
+        
+        for subview in searchBar.subviews  {
+            for subSubview in subview.subviews  {
+                if let textField = subSubview as? UITextField {
+                    textField.backgroundColor = panelColorOneAlt
+                }
+            }
+        }
         
         topView = FriendsView(frame: self.view.frame)
         self.view.addSubview(topView)
@@ -151,6 +162,8 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         self.navigationController?.navigationBar.layoutIfNeeded()
+        
+        currentRequestedFriends = GlobalUser.requestedFriends
         
         topView.addGestureRecognizer(swipeLeft)
     }
