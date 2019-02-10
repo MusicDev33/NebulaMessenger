@@ -71,9 +71,7 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
         if textField.isFirstResponder{
             view.endEditing(true)
         }else{
-            self.dismiss(animated: true){
-                
-            }
+            self.dismiss(animated: true, completion: nil)
         }
     }
     

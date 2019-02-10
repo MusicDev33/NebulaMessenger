@@ -41,24 +41,42 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell:UITableViewCell=UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "friendCell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as! RequestedTableViewCell
+        
         if indexPath.section == 0{
             if searchMode{
-                cell.textLabel?.text = searchResults[indexPath.row]
+                cell.usernameLabel.text = searchResults[indexPath.row]
             }else{
-                cell.textLabel?.text = GlobalUser.requestedFriends[indexPath.row]
+                cell.usernameLabel.text = GlobalUser.requestedFriends[indexPath.row]
+            }
+            
+            cell.acceptButton.addTarget(cell, action: #selector(cell.acceptedRequest), for: .touchUpInside)
+            
+            cell.action = { (cell) in
+                cell.acceptButton.backgroundColor = nebulaBlue
+                cell.acceptButton.setTitle("Accepted", for: .normal)
+                cell.acceptButton.isUserInteractionEnabled = false
+                tableView.reloadData()
             }
         }else {
-            cell.textLabel?.text = GlobalUser.friends[indexPath.row]
+            cell.usernameLabel.text = GlobalUser.friends[indexPath.row]
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let addFriendsVC = AddFriendVC()
+        addFriendsVC.modalPresentationStyle = .overCurrentContext
+        self.present(addFriendsVC, animated: true, completion: {
+            tableView.deselectRow(at: indexPath, animated: true)
+        })
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if searchMode{
             return 1
         }
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -67,7 +85,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
             if searchMode{
                 return ""
             }
-            return "Requests"
+            return "Friend Requests"
         case 1:
             return "Friends"
         case 2:
@@ -158,7 +176,7 @@ extension FriendsVC: UISearchResultsUpdating, UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.searchMode = true
         self.friendTable.contentInset = UIEdgeInsets(top: -35, left: 0, bottom: 0, right: 0)
-        self.searchResults = GlobalUser.friends
+        self.searchResults = GlobalUser.requestedFriends
         self.friendTable.reloadData()
         searchBarRightAnchor?.constant -= 40
         UIView.animate(withDuration: 0.2, animations: {
@@ -190,15 +208,15 @@ extension FriendsVC: UISearchResultsUpdating, UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
-    // We're just going to pretend like I understand what these functions do
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText == "" {
-            self.searchResults = GlobalUser.friends
+            self.searchResults = GlobalUser.requestedFriends
             self.friendTable.reloadData()
         }else if searchText.count > 0{
             if self.searchMode{
                 self.searchResults = [String]()
-                for i in GlobalUser.friends{
+                for i in GlobalUser.requestedFriends{
                     if i.lowercased().hasPrefix(searchText.lowercased()){
                         self.searchResults.append(i)
                     }
@@ -207,7 +225,7 @@ extension FriendsVC: UISearchResultsUpdating, UISearchBarDelegate {
             }
         }else{
             if self.searchMode{
-                self.searchResults = GlobalUser.friends
+                self.searchResults = GlobalUser.requestedFriends
             }else{
                 self.searchResults = []
             }

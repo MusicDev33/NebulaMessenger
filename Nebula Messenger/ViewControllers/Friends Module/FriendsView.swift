@@ -35,7 +35,7 @@ class FriendsView: UIView {
     let friendsTable: UITableView = {
         let table = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .grouped)
         table.translatesAutoresizingMaskIntoConstraints = false
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "friendCell")
+        table.register(RequestedTableViewCell.self, forCellReuseIdentifier: "friendCell")
         
         return table
     }()
