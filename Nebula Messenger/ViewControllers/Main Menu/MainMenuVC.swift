@@ -365,6 +365,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         navigationController?.isNavigationBarHidden = false
         self.searchBar.placeholder = "Conversations"
         self.profileButtonCenterXAnchor?.constant = profileLocation
+        self.exitSearchRightAnchor?.constant = -6
+        self.navSearchBarWidthAnchor?.constant = -8
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -421,6 +423,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     @objc func addFriendsButtonPressed() {
+        self.navSearchBar.placeholder = "Friend Requests"
         
         let friendsVC = FriendsVC()
         friendsVC.profileButton = self.profileButton
@@ -429,7 +432,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         friendsVC.exitSearchRightAnchor = self.exitSearchRightAnchor
         friendsVC.searchBarRightAnchor = self.navSearchBarWidthAnchor
-        print("NEW NAV")
         self.navType = .fromLeft
         
         navigationController?.pushViewController(friendsVC, animated: true)

@@ -74,7 +74,7 @@ class FriendsView: UIView {
         continueButton.centerYAnchor.constraint(equalTo: continueButtonBg.centerYAnchor).isActive = true
         continueButton.centerXAnchor.constraint(equalTo: continueButtonBg.centerXAnchor, constant: 1).isActive = true
         
-        friendsTable.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 5).isActive = true
+        friendsTable.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
         friendsTable.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         friendsTable.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         friendsTable.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true

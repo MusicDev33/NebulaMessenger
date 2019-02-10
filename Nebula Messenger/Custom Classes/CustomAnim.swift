@@ -56,7 +56,7 @@ class CustomAnim : NSObject, UIViewControllerAnimatedTransitioning {
         UIView.animate(withDuration: duration, animations: {
             switch self.direction {
             case .fromLeft:
-                detailView.frame = self.isPresenting ? fromView.frame : CGRect(x: 0, y: 0, width: toView.frame.width, height: toView.frame.height)
+                detailView.frame = self.isPresenting ? fromView.frame : CGRect(x: toView.frame.width, y: 0, width: toView.frame.width, height: toView.frame.height)
             case .fromRight:
                 detailView.frame = self.isPresenting ? fromView.frame : CGRect(x: -toView.frame.width, y: 0, width: toView.frame.width, height: toView.frame.height)
             case .toLeft:
