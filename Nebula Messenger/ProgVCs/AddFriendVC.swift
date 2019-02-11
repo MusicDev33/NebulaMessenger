@@ -46,7 +46,6 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
         createSentLabel()
         createTextField()
         createSearchView()
-        createRequestsButton()
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         view.addGestureRecognizer(tap)
@@ -213,7 +212,11 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
     }
     
     func setLabels(name: String, username: String){
-        realNameLabel.text = name
+        if username == GlobalUser.username{
+            realNameLabel.text = "You"
+        }else{
+            realNameLabel.text = name
+        }
         usernameLabel.text = username
         
         realNameLabel.topAnchor.constraint(equalTo: friendView.topAnchor, constant: 5).isActive = true
@@ -228,103 +231,6 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
     
     var reqArrowViewHeightAnchor: NSLayoutConstraint?
     var reqArrowViewWidthAnchor: NSLayoutConstraint?
-    
-    func createRequestsButton(){
-        friendRequestsButton = UIButton(type: .system)
-        friendRequestsButton.translatesAutoresizingMaskIntoConstraints = false
-        friendRequestsButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        friendRequestsButton.backgroundColor = nebulaBlue
-        friendRequestsButton.setTitleColor(disabledButtonColor, for: .disabled)
-        friendRequestsButton.tintColor = UIColor.white
-        friendRequestsButton.layer.cornerRadius = 10
-        friendRequestsButton.setTitle("Friend Requests", for: .normal)
-        friendRequestsButton.addTarget(self, action: #selector(toRequestsView), for: .touchUpInside)
-        if requestsArray.count == 0{
-            friendRequestsButton.isEnabled = false
-        }
-        
-        
-        requestsView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        requestsView.translatesAutoresizingMaskIntoConstraints = false
-        requestsView.layer.cornerRadius = 10
-        requestsView.backgroundColor = nebulaBlue
-        
-        reqArrowView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        reqArrowView.translatesAutoresizingMaskIntoConstraints = false
-        reqArrowView.layer.cornerRadius = 14
-        reqArrowView.backgroundColor = nebulaPurple
-        
-        //Arrows
-        rightReqArrow = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        rightReqArrow.translatesAutoresizingMaskIntoConstraints = false
-        rightReqArrow.setImage(UIImage(named: "ForwardArrowBlack"), for: .normal)
-        rightReqArrow.tintColor = UIColor.black
-        rightReqArrow.addTarget(self, action: #selector(rightArrowPressed), for: .touchUpInside)
-        
-        leftReqArrow = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        leftReqArrow.translatesAutoresizingMaskIntoConstraints = false
-        leftReqArrow.setImage(UIImage(named: "BackArrowBlack"), for: .normal)
-        leftReqArrow.tintColor = UIColor.black
-        leftReqArrow.addTarget(self, action: #selector(leftArrowPressed), for: .touchUpInside)
-        
-        leftReqArrow.isEnabled = false
-        leftReqArrow.alpha = 0
-        
-        if requestsArray.count == 1{
-            rightReqArrow.isEnabled = false
-            rightReqArrow.alpha = 0
-        }
-        
-        //Accept Button
-        acceptButton = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        acceptButton.translatesAutoresizingMaskIntoConstraints = false
-        acceptButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        acceptButton.backgroundColor = nebulaPurple
-        acceptButton.setTitleColor(disabledButtonColor, for: .disabled)
-        acceptButton.tintColor = UIColor.white
-        acceptButton.layer.cornerRadius = 8
-        acceptButton.setTitle("Accept", for: .normal)
-        acceptButton.addTarget(self, action: #selector(acceptRequest), for: .touchUpInside)
-        
-        self.view.addSubview(reqArrowView)
-        self.view.addSubview(rightReqArrow)
-        self.view.addSubview(leftReqArrow)
-        self.view.addSubview(requestsView)
-        self.view.addSubview(acceptButton)
-        self.view.addSubview(friendRequestsButton)
-        
-        friendRequestsButton.centerXAnchor.constraint(equalTo: bg.centerXAnchor).isActive = true
-        friendRequestsButton.widthAnchor.constraint(equalTo: bg.widthAnchor).isActive = true
-        friendRequestsButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        friendRequestsButton.bottomAnchor.constraint(equalTo: bg.topAnchor, constant: -5).isActive = true
-        
-        
-        reqArrowView.centerXAnchor.constraint(equalTo: bg.centerXAnchor).isActive = true
-        reqArrowViewWidthAnchor = reqArrowView.widthAnchor.constraint(equalTo: bg.widthAnchor, constant: 0)
-        reqArrowViewWidthAnchor?.isActive = true
-        reqArrowViewHeightAnchor = reqArrowView.heightAnchor.constraint(equalToConstant: 30)
-        reqArrowViewHeightAnchor?.isActive = true
-        reqArrowView.bottomAnchor.constraint(equalTo: bg.topAnchor, constant: -5).isActive = true
-        
-        // Because the arrow images have so much empty space in them, we kind of have to make up for it...
-        rightReqArrow.centerYAnchor.constraint(equalTo: reqArrowView.centerYAnchor).isActive = true
-        rightReqArrow.rightAnchor.constraint(equalTo: reqArrowView.rightAnchor, constant: 8).isActive = true
-        
-        leftReqArrow.centerYAnchor.constraint(equalTo: reqArrowView.centerYAnchor).isActive = true
-        leftReqArrow.leftAnchor.constraint(equalTo: reqArrowView.leftAnchor, constant: -8).isActive = true
-        
-        requestsView.centerXAnchor.constraint(equalTo: bg.centerXAnchor).isActive = true
-        requestsView.widthAnchor.constraint(equalTo: bg.widthAnchor).isActive = true
-        reqViewHeightAnchor = requestsView.heightAnchor.constraint(equalToConstant: 30)
-        reqViewHeightAnchor?.isActive = true
-        requestsView.bottomAnchor.constraint(equalTo: bg.topAnchor, constant: -5).isActive = true
-        
-        acceptButton.centerXAnchor.constraint(equalTo: requestsView.centerXAnchor).isActive = true
-        acceptButton.bottomAnchor.constraint(equalTo: requestsView.bottomAnchor, constant: -5).isActive = true
-        acceptButton.widthAnchor.constraint(equalTo: friendView.widthAnchor, multiplier: 0.5).isActive = true
-        acceptButton.heightAnchor.constraint(equalToConstant: 15).isActive = true
-        
-    }
     
     func createRequestLabels(){
         reqUsername = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -367,36 +273,6 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
         }
     }
     
-    @objc func rightArrowPressed(){
-        if requestedIndex < requestsArray.count-1{
-            requestedIndex += 1
-            changeReqLabels()
-        }
-        
-        if requestedIndex > 0{
-            enableButton(button: leftReqArrow)
-        }
-        
-        if requestedIndex == requestsArray.count-1{
-            disableButton(button: rightReqArrow)
-        }
-    }
-    
-    @objc func leftArrowPressed(){
-        if requestedIndex > 0{
-            requestedIndex -= 1
-            changeReqLabels()
-        }
-        
-        if requestedIndex < requestsArray.count-1{
-            enableButton(button: rightReqArrow)
-        }
-        
-        if requestedIndex == 0{
-            disableButton(button: leftReqArrow)
-        }
-    }
-    
     @objc func buttonAction(){
         
     }
@@ -404,7 +280,9 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
     @objc func addFriend(){
         addFriendButton.isEnabled = false
         FriendRoutes.requestFriend(friend: usernameLabel.text!){
-            SocketIOManager.sendRequest(friend: self.realNameLabel.text!, friendUsername: self.usernameLabel.text!)
+            if !GlobalUser.friends.contains(self.usernameLabel.text!){
+                SocketIOManager.sendRequest(friend: self.realNameLabel.text!, friendUsername: self.usernameLabel.text!)
+            }
             self.usernameLabel.text = ""
             self.realNameLabel.text = ""
             self.sentLabel.isHidden = false
@@ -472,9 +350,10 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if (textField.returnKeyType==UIReturnKeyType.search)
-        {
+        if (textField.returnKeyType==UIReturnKeyType.search){
             textField.resignFirstResponder()
+            textField.text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+            
             UserRoutes.getUserFromUsername(username: textField.text ?? "none"){user in
                 self.setLabels(name: user[0], username: user[1])
                 UIView.animate(withDuration: 0.3, animations: {

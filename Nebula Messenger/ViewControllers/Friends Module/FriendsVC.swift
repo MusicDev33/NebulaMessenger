@@ -61,6 +61,11 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
                 cell.acceptButton.tintColor = nebulaPurple
                 cell.acceptButton.isUserInteractionEnabled = false
                 GlobalUser.requestedFriends = GlobalUser.requestedFriends.filter {$0 != cell.usernameLabel.text}
+                
+                FriendRoutes.addFriend(friend: cell.usernameLabel.text!, completion: {
+                    GlobalUser.requestedFriends = GlobalUser.requestedFriends.filter {$0 != cell.usernameLabel.text}
+                })
+                
                 tableView.reloadData()
             }
         }else {

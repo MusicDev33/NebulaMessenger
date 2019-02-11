@@ -141,6 +141,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     //MARK: Actions
     @objc func xButtonPressed() {
         searchBar.resignFirstResponder()
+        searchBar.text = ""
         self.navigationController?.popViewController(animated: true)
     }
     
