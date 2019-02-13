@@ -146,7 +146,7 @@ class TestMapBoxView: UIView {
     func setupMap(){
         let latitude = UserDefaults.standard.object(forKey: "lastLatitude") as? Double ?? 0
         let longitude = UserDefaults.standard.object(forKey: "lastLongitude") as? Double ?? 0
-        
+        print(latitude, longitude)
         map.setCenter(CLLocationCoordinate2D(latitude: latitude, longitude: longitude), zoomLevel: 15, animated: false)
     }
 

@@ -179,10 +179,19 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
     }
     
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
+        
         let latitude: Double? = mapView.userLocation?.coordinate.latitude ?? 0
         let longitude: Double? = mapView.userLocation?.coordinate.longitude ?? 0
-        UserDefaults.standard.set(latitude, forKey: "lastLatitude")
-        UserDefaults.standard.set(longitude, forKey: "lastLongitude")
+        if (latitude?.magnitude)! > Double(90){
+            UserDefaults.standard.set(0, forKey: "lastLatitude")
+        }else{
+            UserDefaults.standard.set(latitude, forKey: "lastLatitude")
+        }
+        if (longitude?.magnitude)! > Double(180){
+            UserDefaults.standard.set(0, forKey: "lastLatitude")
+        }else{
+            UserDefaults.standard.set(longitude, forKey: "lastLongitude")
+        }
         
         guard let userCoord = mapView.userLocation?.coordinate else {return}
         
@@ -246,6 +255,7 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Beginning")
         mapView = TestMapBoxView(frame: self.view.frame)
         mapView.map.userTrackingMode = .follow
         
@@ -266,6 +276,7 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         self.mapView.map.addGestureRecognizer(mapViewLongPress)
 
         // Do any additional setup after loading the view.
+        print("End")
     }
     
     override func viewWillAppear(_ animated: Bool) {

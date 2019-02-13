@@ -204,10 +204,6 @@ class Utility {
         let hour = Calendar.current.component(.hour, from: Date())
         let formatter = DateFormatter()
         formatter.dateFormat = "a" // "a" prints "pm" or "am"
-        let meridiemString = formatter.string(from: Date()) // "AM"
-        print("MMMMM")
-        print(meridiemString)
-        print(hour)
         if hour > 19 || hour < 7{
             return "night"
         }else{
