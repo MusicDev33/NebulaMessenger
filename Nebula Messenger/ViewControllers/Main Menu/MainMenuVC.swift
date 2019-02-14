@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseInstanceID
+import MediaPlayer
 
 class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate, UIGestureRecognizerDelegate, CAAnimationDelegate, UINavigationControllerDelegate {
     var passId = ""
@@ -224,6 +225,9 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         switch operation {
         case .push:
+            if self.passId != ""{
+                return nil
+            }
             return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: true, direction: self.navType)
         default:
             return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: false, direction: self.navType)
@@ -359,6 +363,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         exitSearchRightAnchor = exitSearchButton.rightAnchor.constraint(equalTo: (navigationController?.navigationBar.rightAnchor)!, constant: -6)
         exitSearchRightAnchor?.isActive = true
         exitSearchButton.centerYAnchor.constraint(equalTo: navSearchBar.centerYAnchor).isActive = true
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

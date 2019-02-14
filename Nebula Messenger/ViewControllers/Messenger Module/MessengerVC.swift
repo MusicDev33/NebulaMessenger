@@ -349,8 +349,17 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        //self.view.alpha = 0.3
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        switch operation {
+        case .push:
+            return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: true, direction: .toRight)
+        default:
+            return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: false, direction: .toRight)
+        }
     }
     
     @objc func closeVC()  {
