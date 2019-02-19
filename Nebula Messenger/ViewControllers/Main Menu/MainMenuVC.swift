@@ -333,7 +333,9 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                     textField.layer.cornerRadius = 10
                     textField.layer.borderWidth = 1.0
                     textField.layer.borderColor = nebulaPurple.cgColor
-                    textField.backgroundColor = UIColor.white
+                    UIView.animate(withDuration: 0.4, animations: {
+                        textField.backgroundColor = UIColor.white
+                    })
                 }
             }
         }

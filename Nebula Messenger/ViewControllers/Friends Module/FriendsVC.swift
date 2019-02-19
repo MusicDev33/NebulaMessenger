@@ -157,7 +157,9 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         for subview in searchBar.subviews  {
             for subSubview in subview.subviews  {
                 if let textField = subSubview as? UITextField {
-                    textField.backgroundColor = panelColorOneAlt
+                    UIView.animate(withDuration: 0.4, animations: {
+                        textField.backgroundColor = panelColorOneAlt
+                    })
                 }
             }
         }

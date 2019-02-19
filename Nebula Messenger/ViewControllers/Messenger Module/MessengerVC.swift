@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import CoreData
 
-class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
+class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, UINavigationControllerDelegate {
     
     var msgList = [TerseMessage]()
     
@@ -213,7 +213,7 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationController?.delegate = self
         // This makes sure you don't exit to the create message page
         if fromCreateMessage{
             let vcAmount = self.navigationController?.viewControllers.count

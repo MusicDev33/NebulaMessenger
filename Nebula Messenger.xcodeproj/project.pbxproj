@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1314EDA20D1149BD02F576FE /* Pods_Nebula_MessengerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1801EBBDFE532B9E5184890A /* Pods_Nebula_MessengerUITests.framework */; };
+		03F4D910DFBC82F8906DA2E4 /* Pods_Nebula_Messenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34311F4A11E9114E39FEE217 /* Pods_Nebula_Messenger.framework */; };
 		1F16E62222078E6000FC7B78 /* SearchBarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F16E62122078E5F00FC7B78 /* SearchBarHeaderView.swift */; };
 		1F16E625220B352300FC7B78 /* FriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F16E624220B352300FC7B78 /* FriendsVC.swift */; };
 		1F16E627220B354A00FC7B78 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F16E626220B354A00FC7B78 /* FriendsView.swift */; };
@@ -76,8 +76,8 @@
 		1FE4F101216B139200E4EF72 /* FeedbackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F100216B139200E4EF72 /* FeedbackVC.swift */; };
 		1FE4F103216CA86C00E4EF72 /* PoolChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F102216CA86C00E4EF72 /* PoolChatCell.swift */; };
 		1FE4F105216D321A00E4EF72 /* PoolChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F104216D321A00E4EF72 /* PoolChatVC.swift */; };
-		521D9F1CB2278C1EC9063910 /* Pods_Nebula_MessengerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DD9EE7AAF24FC32A1834E4 /* Pods_Nebula_MessengerTests.framework */; };
-		9C3B0985CA5BFC63A7CBB7BB /* Pods_Nebula_Messenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41745756096BA6F4D1D8B161 /* Pods_Nebula_Messenger.framework */; };
+		2CCCB3997304155B3445A393 /* Pods_Nebula_MessengerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B194178D93103E59D5D33947 /* Pods_Nebula_MessengerTests.framework */; };
+		3F307F4C0BF787A6773DDA22 /* Pods_Nebula_MessengerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1265EF37ED48A66D44E1595 /* Pods_Nebula_MessengerUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,7 +98,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1801EBBDFE532B9E5184890A /* Pods_Nebula_MessengerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_MessengerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F16E62122078E5F00FC7B78 /* SearchBarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarHeaderView.swift; sourceTree = "<group>"; };
 		1F16E624220B352300FC7B78 /* FriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsVC.swift; sourceTree = "<group>"; };
 		1F16E626220B354A00FC7B78 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
@@ -175,14 +174,15 @@
 		1FE4F100216B139200E4EF72 /* FeedbackVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVC.swift; sourceTree = "<group>"; };
 		1FE4F102216CA86C00E4EF72 /* PoolChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolChatCell.swift; sourceTree = "<group>"; };
 		1FE4F104216D321A00E4EF72 /* PoolChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolChatVC.swift; sourceTree = "<group>"; };
-		41745756096BA6F4D1D8B161 /* Pods_Nebula_Messenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_Messenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7DA8CAA5C0A1BB47FB13F9BA /* Pods-Nebula Messenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula Messenger.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger.release.xcconfig"; sourceTree = "<group>"; };
-		8A09D3646B102188B8CFCEE4 /* Pods-Nebula MessengerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerUITests/Pods-Nebula MessengerUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		9B5B4F00BE82A17321B0E8A7 /* Pods-Nebula Messenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula Messenger.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger.debug.xcconfig"; sourceTree = "<group>"; };
-		E3DD9EE7AAF24FC32A1834E4 /* Pods_Nebula_MessengerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_MessengerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E8BA8CB424CE3ED74AD005E6 /* Pods-Nebula MessengerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerUITests/Pods-Nebula MessengerUITests.release.xcconfig"; sourceTree = "<group>"; };
-		FD3D17897675A3BFB54B55B0 /* Pods-Nebula MessengerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerTests/Pods-Nebula MessengerTests.debug.xcconfig"; sourceTree = "<group>"; };
-		FF0D45659CD995521180A2FA /* Pods-Nebula MessengerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerTests/Pods-Nebula MessengerTests.release.xcconfig"; sourceTree = "<group>"; };
+		34311F4A11E9114E39FEE217 /* Pods_Nebula_Messenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_Messenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D4E0E1BC3C0735B97326380 /* Pods-Nebula MessengerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerUITests/Pods-Nebula MessengerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		751DC700DA180EC2A39C1202 /* Pods-Nebula MessengerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerUITests/Pods-Nebula MessengerUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		79D2AC0E990DB0988BFB8A3D /* Pods-Nebula Messenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula Messenger.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger.release.xcconfig"; sourceTree = "<group>"; };
+		AC57574C956CDD8AD45B49C6 /* Pods-Nebula MessengerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerTests/Pods-Nebula MessengerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B194178D93103E59D5D33947 /* Pods_Nebula_MessengerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_MessengerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1265EF37ED48A66D44E1595 /* Pods_Nebula_MessengerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_MessengerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDB3068D867D34DC3384F248 /* Pods-Nebula Messenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula Messenger.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger.debug.xcconfig"; sourceTree = "<group>"; };
+		FF3295CE16CE38884B7A147B /* Pods-Nebula MessengerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerTests/Pods-Nebula MessengerTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,7 +192,7 @@
 			files = (
 				1F68B298215222DD00DC9525 /* MapKit.framework in Frameworks */,
 				1F68B29A215222E400DC9525 /* StoreKit.framework in Frameworks */,
-				9C3B0985CA5BFC63A7CBB7BB /* Pods_Nebula_Messenger.framework in Frameworks */,
+				03F4D910DFBC82F8906DA2E4 /* Pods_Nebula_Messenger.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,7 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				521D9F1CB2278C1EC9063910 /* Pods_Nebula_MessengerTests.framework in Frameworks */,
+				2CCCB3997304155B3445A393 /* Pods_Nebula_MessengerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,7 +208,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1314EDA20D1149BD02F576FE /* Pods_Nebula_MessengerUITests.framework in Frameworks */,
+				3F307F4C0BF787A6773DDA22 /* Pods_Nebula_MessengerUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,7 +250,7 @@
 				1F68B2862152228100DC9525 /* Nebula MessengerUITests */,
 				1F68B2652152227F00DC9525 /* Products */,
 				1F68B296215222DD00DC9525 /* Frameworks */,
-				F290589D164F84332EEA1EDB /* Pods */,
+				D184A180A39800284F0C7F7D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -309,9 +309,9 @@
 				1F68B29B2152230300DC9525 /* AuthenticationServices.framework */,
 				1F68B299215222E400DC9525 /* StoreKit.framework */,
 				1F68B297215222DD00DC9525 /* MapKit.framework */,
-				41745756096BA6F4D1D8B161 /* Pods_Nebula_Messenger.framework */,
-				E3DD9EE7AAF24FC32A1834E4 /* Pods_Nebula_MessengerTests.framework */,
-				1801EBBDFE532B9E5184890A /* Pods_Nebula_MessengerUITests.framework */,
+				34311F4A11E9114E39FEE217 /* Pods_Nebula_Messenger.framework */,
+				B194178D93103E59D5D33947 /* Pods_Nebula_MessengerTests.framework */,
+				C1265EF37ED48A66D44E1595 /* Pods_Nebula_MessengerUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -493,15 +493,15 @@
 			path = TestingViewControllers;
 			sourceTree = "<group>";
 		};
-		F290589D164F84332EEA1EDB /* Pods */ = {
+		D184A180A39800284F0C7F7D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9B5B4F00BE82A17321B0E8A7 /* Pods-Nebula Messenger.debug.xcconfig */,
-				7DA8CAA5C0A1BB47FB13F9BA /* Pods-Nebula Messenger.release.xcconfig */,
-				FD3D17897675A3BFB54B55B0 /* Pods-Nebula MessengerTests.debug.xcconfig */,
-				FF0D45659CD995521180A2FA /* Pods-Nebula MessengerTests.release.xcconfig */,
-				8A09D3646B102188B8CFCEE4 /* Pods-Nebula MessengerUITests.debug.xcconfig */,
-				E8BA8CB424CE3ED74AD005E6 /* Pods-Nebula MessengerUITests.release.xcconfig */,
+				DDB3068D867D34DC3384F248 /* Pods-Nebula Messenger.debug.xcconfig */,
+				79D2AC0E990DB0988BFB8A3D /* Pods-Nebula Messenger.release.xcconfig */,
+				AC57574C956CDD8AD45B49C6 /* Pods-Nebula MessengerTests.debug.xcconfig */,
+				FF3295CE16CE38884B7A147B /* Pods-Nebula MessengerTests.release.xcconfig */,
+				751DC700DA180EC2A39C1202 /* Pods-Nebula MessengerUITests.debug.xcconfig */,
+				4D4E0E1BC3C0735B97326380 /* Pods-Nebula MessengerUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -513,12 +513,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F68B28C2152228100DC9525 /* Build configuration list for PBXNativeTarget "Nebula Messenger" */;
 			buildPhases = (
-				9610BB83E0D03D58BBC8429B /* [CP] Check Pods Manifest.lock */,
+				592B6164159B870D7AB0ACF9 /* [CP] Check Pods Manifest.lock */,
 				1F68B2602152227F00DC9525 /* Sources */,
 				1F68B2612152227F00DC9525 /* Frameworks */,
 				1F68B2622152227F00DC9525 /* Resources */,
-				377E57E38B2DB61ABDAC18B7 /* [CP] Embed Pods Frameworks */,
 				1F2CE44D2174903F00B15C59 /* Increment Build */,
+				9220E27C2E09F7C67DEB28FC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -533,7 +533,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F68B28F2152228100DC9525 /* Build configuration list for PBXNativeTarget "Nebula MessengerTests" */;
 			buildPhases = (
-				A90820EEFB1D25967CE4C289 /* [CP] Check Pods Manifest.lock */,
+				77986232C73B46DADFC5A7BD /* [CP] Check Pods Manifest.lock */,
 				1F68B2742152228100DC9525 /* Sources */,
 				1F68B2752152228100DC9525 /* Frameworks */,
 				1F68B2762152228100DC9525 /* Resources */,
@@ -552,7 +552,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F68B2922152228100DC9525 /* Build configuration list for PBXNativeTarget "Nebula MessengerUITests" */;
 			buildPhases = (
-				A81D9AB33C9BE26D8EBD7A73 /* [CP] Check Pods Manifest.lock */,
+				86748AD10E776FAA64B591AA /* [CP] Check Pods Manifest.lock */,
 				1F68B27F2152228100DC9525 /* Sources */,
 				1F68B2802152228100DC9525 /* Frameworks */,
 				1F68B2812152228100DC9525 /* Resources */,
@@ -682,41 +682,7 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n";
 		};
-		377E57E38B2DB61ABDAC18B7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
-				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9610BB83E0D03D58BBC8429B /* [CP] Check Pods Manifest.lock */ = {
+		592B6164159B870D7AB0ACF9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -734,7 +700,25 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A81D9AB33C9BE26D8EBD7A73 /* [CP] Check Pods Manifest.lock */ = {
+		77986232C73B46DADFC5A7BD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Nebula MessengerTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		86748AD10E776FAA64B591AA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -752,22 +736,40 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A90820EEFB1D25967CE4C289 /* [CP] Check Pods Manifest.lock */ = {
+		9220E27C2E09F7C67DEB28FC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
+				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
+				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
+				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Nebula MessengerTests-checkManifestLockResult.txt",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Nebula Messenger/Pods-Nebula Messenger-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -998,7 +1000,7 @@
 		};
 		1F68B28D2152228100DC9525 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B5B4F00BE82A17321B0E8A7 /* Pods-Nebula Messenger.debug.xcconfig */;
+			baseConfigurationReference = DDB3068D867D34DC3384F248 /* Pods-Nebula Messenger.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Nebula Messenger/Nebula Messenger.entitlements";
@@ -1019,7 +1021,7 @@
 		};
 		1F68B28E2152228100DC9525 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7DA8CAA5C0A1BB47FB13F9BA /* Pods-Nebula Messenger.release.xcconfig */;
+			baseConfigurationReference = 79D2AC0E990DB0988BFB8A3D /* Pods-Nebula Messenger.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Nebula Messenger/Nebula Messenger.entitlements";
@@ -1040,7 +1042,7 @@
 		};
 		1F68B2902152228100DC9525 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FD3D17897675A3BFB54B55B0 /* Pods-Nebula MessengerTests.debug.xcconfig */;
+			baseConfigurationReference = AC57574C956CDD8AD45B49C6 /* Pods-Nebula MessengerTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1062,7 +1064,7 @@
 		};
 		1F68B2912152228100DC9525 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF0D45659CD995521180A2FA /* Pods-Nebula MessengerTests.release.xcconfig */;
+			baseConfigurationReference = FF3295CE16CE38884B7A147B /* Pods-Nebula MessengerTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1084,7 +1086,7 @@
 		};
 		1F68B2932152228100DC9525 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8A09D3646B102188B8CFCEE4 /* Pods-Nebula MessengerUITests.debug.xcconfig */;
+			baseConfigurationReference = 751DC700DA180EC2A39C1202 /* Pods-Nebula MessengerUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1105,7 +1107,7 @@
 		};
 		1F68B2942152228100DC9525 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8BA8CB424CE3ED74AD005E6 /* Pods-Nebula MessengerUITests.release.xcconfig */;
+			baseConfigurationReference = 4D4E0E1BC3C0735B97326380 /* Pods-Nebula MessengerUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
