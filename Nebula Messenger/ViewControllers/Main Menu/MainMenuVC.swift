@@ -95,8 +95,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         
         let messageVC = MessengerVC()
-        messageVC.modalPresentationStyle = .overCurrentContext
-        messageVC.modalTransitionStyle = .crossDissolve
         
         MessageRoutes.getMessages(id: self.passId){messageList in
             self.passMsgList = messageList

@@ -81,7 +81,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         switch operation {
         case .push:
-            return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: true, direction: .fromLeft)
+            return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: true, direction: .fromRight)
         default:
             return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: false, direction: .toRight)
         }
@@ -154,9 +154,9 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     @objc func continueButtonPressed() {
         let messageVC = MessengerVC()
-        messageVC.modalPresentationStyle = .overFullScreen
         messageVC.id = ""
         messageVC.fromCreateMessage = true
+        self.searchBar.resignFirstResponder()
         
         if self.selectedFriendsList.count > 1{
             var quickInvolved = Utility.createGroupConvId(names: self.selectedFriendsList)
@@ -345,12 +345,12 @@ extension CreateMessageVC: UISearchResultsUpdating, UISearchBarDelegate {
         
         if searchString == "" {
             self.mainTable.reloadData()
-        }else if searchString!.count > 0{
+        } else if searchString!.count > 0{
             FriendRoutes.searchFriends(characters: searchString!){friends in
                 self.searchResults = friends
             }
             self.mainTable.reloadData()
-        }else{
+        } else{
             self.searchResults = []
             self.mainTable.reloadData()
         }

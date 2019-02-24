@@ -181,7 +181,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         backButton.addTarget(self, action: #selector(swipedLeft), for: .touchUpInside)
         navigationController?.navigationBar.addSubview(backButton)
         
-        backButton.rightAnchor.constraint(equalTo: (navigationController?.navigationBar.rightAnchor)!, constant: 20).isActive = true
+        backButton.rightAnchor.constraint(equalTo: (navigationController?.navigationBar.rightAnchor)!, constant: 30).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         self.navigationController?.navigationBar.layoutIfNeeded()
