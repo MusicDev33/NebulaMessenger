@@ -48,6 +48,8 @@ class MessengerVC: UIViewController, UIGestureRecognizerDelegate {
     
     var timer: Timer?
     
+    var collectionMoved = false
+    
     /*
     @objc func confirmAddButtonPressed(){
         // This is basically just taking off the semicolon and adding a user then re-adding it
@@ -86,94 +88,8 @@ class MessengerVC: UIViewController, UIGestureRecognizerDelegate {
         }
     }*/
     
-    @objc func doubleTapOnCircle(_ sender: UITapGestureRecognizer){
-        newView.tappedGrabCircle()
-    }
-    
-    @objc func closeButtonPressed(){
-        if !keyboardIsUp{
-            newView.closeButtonTapped()
-            self.messagesCollectionBottomConstraint?.constant -= 3
-            UIView.animate(withDuration: 0.2, animations: {
-                self.view.layoutIfNeeded()
-            }, completion:{_ in
-                self.messagesCollectionBottomConstraint?.constant = 0
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.view.layoutIfNeeded()
-                })
-            })
-        }
-    }
-    
-    var collectionMoved = false
-    @objc func draggedCircle(_ sender:UIPanGestureRecognizer){
-        switch sender.state {
-        case .began:
-            print("hi")
-        case .changed:
-            let translation = sender.translation(in: self.view)
-            if !self.keyboardIsUp{
-                newView.draggedCircle(x: translation.x, y: translation.y)
-                sender.setTranslation(CGPoint.zero, in: self.view)
-            }else{
-                if translation.y > 0{
-                    //Possibly dismiss keyboard here
-                }
-            }
-            if !collectionMoved{
-                self.messagesCollectionBottomConstraint?.constant = 0
-                //self.collectionBottomAnchor?.constant = 100
-                let quickFrame = self.messagesCollection.frame
-                UIView.animate(withDuration: 0.3){
-                    self.messagesCollection.frame = CGRect(x: quickFrame.origin.x, y: quickFrame.origin.y, width: quickFrame.width, height: quickFrame.height+100)
-                    self.view.layoutIfNeeded()
-                }
-                print("moved")
-                self.collectionMoved = true
-            }
-        default:
-            break
-        }
-    }
-    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return false
-    }
-    
-    @objc func resetButton(){
-        collectionMoved = false
-        newView.resetBottomBar()
-        self.messagesCollectionBottomConstraint?.constant = -self.newView.bottomBar.frame.height
-        UIView.animate(withDuration: 0.3, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: {_ in
-            self.scrollToBottom(animated: true)
-        })
-    }
-    
-    @objc func downButtonPressed(){
-        view.endEditing(true)
-    }
-    
-    @objc func groupFunctionButtonPressed(){
-        newView.groupFunctionPressed()
-    }
-    
-    @objc func goBack(sender: UIButton){
-        GlobalUser.currentConv = ""
-        self.view.endEditing(true)
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func sendWrapper(sender: UIButton){
-        self.sendMessage(sender)
-    }
-    
-    @objc func swipeRightOnCollection(){
-        GlobalUser.currentConv = ""
-        self.view.endEditing(true)
-        self.navigationController?.popViewController(animated: true)
-        //self.performSegue(withIdentifier: "messengerVCToMainMenu", sender: self)
     }
     
     var newView: MessengerView!
@@ -320,14 +236,6 @@ class MessengerVC: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.removeObserver(self)
     }
     
-    @objc func closeVC()  {
-        view.endEditing(true)
-    }
-    
-    @objc func openVC()  {
-        self.messagesCollection.reloadData()
-    }
-    
     func scrollToBottom(animated: Bool) {
         DispatchQueue.main.async {
             self.messagesCollection.layoutIfNeeded()
@@ -339,10 +247,24 @@ class MessengerVC: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    @objc func typingTimerComplete(){
-        SocketIOManager.sendNotTyping(id: self.id)
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if(event?.subtype == UIEvent.EventSubtype.motionShake) {
+            let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Give Feedback", style: .default, handler: {action in
+                let feedbackVC = FeedbackVC()
+                feedbackVC.modalPresentationStyle = .overCurrentContext
+                self.present(feedbackVC, animated: true, completion: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
-    
+}
+
+
+// MARK: Keyboard Ext.
+extension MessengerVC{
     func setupKeyboardObservers(){
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
@@ -384,8 +306,12 @@ class MessengerVC: UIViewController, UIGestureRecognizerDelegate {
         }
         self.keyboardIsUp = false
     }
+}
+
+
+// MARK: Network Ext.
+extension MessengerVC{
     
-    //MARK: Actions
     func sendMessage(_ sender: UIButton) {
         let url = URL(string: sendRoute)
         
@@ -446,25 +372,25 @@ class MessengerVC: UIViewController, UIGestureRecognizerDelegate {
                         read: false)
                     
                     /*
-                    let lastRow = self.msgList.count - 1
-                    let lastIndex = IndexPath(item: lastRow, section: 0)
-                    let newLastIndex = IndexPath(item: lastRow+1, section: 0)
-                    
-                    self.messagesCollection.performBatchUpdates({
-                        print("Last Indices")
-                        print(lastRow)
-                        print(self.messagesCollection.numberOfItems(inSection: 0))
-                        let indexPath = IndexPath(row: self.msgList.count, section: 0)
-                        self.msgList.append(tempMsg)
-                        self.messagesCollection.insertItems(at: [indexPath])
-                        //self.messagesCollection.reloadData()
-                    }, completion: {done in
-                        
-                        let lastItem = self.messagesCollection.numberOfItems(inSection: 0) - 1
-                        let lastIndex = IndexPath(item: lastItem, section: 0)
-                        self.messagesCollection.reloadData()
-                        self.messagesCollection.scrollToItem(at: lastIndex, at: .bottom, animated: true)
-                    })*/
+                     let lastRow = self.msgList.count - 1
+                     let lastIndex = IndexPath(item: lastRow, section: 0)
+                     let newLastIndex = IndexPath(item: lastRow+1, section: 0)
+                     
+                     self.messagesCollection.performBatchUpdates({
+                     print("Last Indices")
+                     print(lastRow)
+                     print(self.messagesCollection.numberOfItems(inSection: 0))
+                     let indexPath = IndexPath(row: self.msgList.count, section: 0)
+                     self.msgList.append(tempMsg)
+                     self.messagesCollection.insertItems(at: [indexPath])
+                     //self.messagesCollection.reloadData()
+                     }, completion: {done in
+                     
+                     let lastItem = self.messagesCollection.numberOfItems(inSection: 0) - 1
+                     let lastIndex = IndexPath(item: lastItem, section: 0)
+                     self.messagesCollection.reloadData()
+                     self.messagesCollection.scrollToItem(at: lastIndex, at: .bottom, animated: true)
+                     })*/
                     
                     
                     self.msgList.append(tempMsg)
@@ -495,21 +421,6 @@ class MessengerVC: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        if(event?.subtype == UIEvent.EventSubtype.motionShake) {
-            let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Give Feedback", style: .default, handler: {action in
-                let feedbackVC = FeedbackVC()
-                feedbackVC.modalPresentationStyle = .overCurrentContext
-                self.present(feedbackVC, animated: true, completion: nil)
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
-            }))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
-    //MARK: Sockets
     func openSocket(completion: () -> Void) {
         SocketIOManager.socket.on("message") { ( data, ack) -> Void in
             guard let parsedData = data[0] as? String else { return }
@@ -648,17 +559,6 @@ class MessengerVC: UIViewController, UIGestureRecognizerDelegate {
                 self.messagesCollection.reloadData()
                 print("Something went wrong")
             }
-        }
-    }
-    
-    //MARK: Nav
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        SocketIOManager.socket.off("message")
-        SocketIOManager.socket.off("typing")
-        SocketIOManager.socket.off("nottyping")
-        
-        if segue.destination is MainMenuVC{
-            SocketIOManager.shutOffListener()
         }
     }
 }
@@ -844,97 +744,103 @@ extension MessengerVC: UINavigationControllerDelegate{
     }
 }
 
-// MARK: Extras
-// Simple solution for detecting emojis in a string
-// Thanks, StackOverflow
-extension UnicodeScalar {
-    var isEmoji: Bool {
-        switch value {
-        case 0x1F600...0x1F64F, // Emoticons
-        0x1F300...0x1F5FF, // Misc Symbols and Pictographs
-        0x1F680...0x1F6FF, // Transport and Map
-        0x1F1E6...0x1F1FF, // Regional country flags
-        0x2600...0x26FF,   // Misc symbols
-        0x2700...0x27BF,   // Dingbats
-        0xFE00...0xFE0F,   // Variation Selectors
-        0x1F900...0x1F9FF,  // Supplemental Symbols and Pictographs
-        127000...127600, // Various asian characters
-        65024...65039, // Variation selector
-        9100...9300, // Misc items
-        8400...8447: // Combining Diacritical Marks for Symbols
-            return true
-            
-        default: return false
-        }
-    }
-    
-    var isZeroWidthJoiner: Bool {
-        return value == 8205
-    }
-}
 
-extension String {
-    var glyphCount: Int {
-        
-        let richText = NSAttributedString(string: self)
-        let line = CTLineCreateWithAttributedString(richText)
-        return CTLineGetGlyphCount(line)
+// MARK: Listeners/Selectors Ext.
+extension MessengerVC{
+    @objc func doubleTapOnCircle(_ sender: UITapGestureRecognizer){
+        newView.tappedGrabCircle()
     }
     
-    var isSingleEmoji: Bool {
-        return glyphCount == 1 && containsEmoji
-    }
-    
-    var containsEmoji: Bool {
-        return unicodeScalars.contains { $0.isEmoji }
-    }
-    
-    var containsOnlyEmoji: Bool {
-        return !isEmpty
-            && !unicodeScalars.contains(where: {
-                !$0.isEmoji
-                    && !$0.isZeroWidthJoiner
+    @objc func closeButtonPressed(){
+        if !keyboardIsUp{
+            newView.closeButtonTapped()
+            self.messagesCollectionBottomConstraint?.constant -= 3
+            UIView.animate(withDuration: 0.2, animations: {
+                self.view.layoutIfNeeded()
+            }, completion:{_ in
+                self.messagesCollectionBottomConstraint?.constant = 0
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.view.layoutIfNeeded()
+                })
             })
-    }
-    
-    var emojiString: String {
-        return emojiScalars.map { String($0) }.reduce("", +)
-    }
-    
-    var emojis: [String] {
-        var scalars: [[UnicodeScalar]] = []
-        var currentScalarSet: [UnicodeScalar] = []
-        var previousScalar: UnicodeScalar?
-        
-        for scalar in emojiScalars {
-            if let prev = previousScalar, !prev.isZeroWidthJoiner && !scalar.isZeroWidthJoiner {
-                
-                scalars.append(currentScalarSet)
-                currentScalarSet = []
-            }
-            currentScalarSet.append(scalar)
-            previousScalar = scalar
         }
-        scalars.append(currentScalarSet)
-        
-        return scalars.map { $0.map{ String($0) } .reduce("", +) }
     }
     
-    fileprivate var emojiScalars: [UnicodeScalar] {
-        var chars: [UnicodeScalar] = []
-        var previous: UnicodeScalar?
-        for cur in unicodeScalars {
-            
-            if let previous = previous, previous.isZeroWidthJoiner && cur.isEmoji {
-                chars.append(previous)
-                chars.append(cur)
-                
-            } else if cur.isEmoji {
-                chars.append(cur)
+    @objc func draggedCircle(_ sender:UIPanGestureRecognizer){
+        switch sender.state {
+        case .began:
+            print("hi")
+        case .changed:
+            let translation = sender.translation(in: self.view)
+            if !self.keyboardIsUp{
+                newView.draggedCircle(x: translation.x, y: translation.y)
+                sender.setTranslation(CGPoint.zero, in: self.view)
+            }else{
+                if translation.y > 0{
+                    //Possibly dismiss keyboard here
+                }
             }
-            
-            previous = cur
+            if !collectionMoved{
+                self.messagesCollectionBottomConstraint?.constant = 0
+                //self.collectionBottomAnchor?.constant = 100
+                let quickFrame = self.messagesCollection.frame
+                UIView.animate(withDuration: 0.3){
+                    self.messagesCollection.frame = CGRect(x: quickFrame.origin.x, y: quickFrame.origin.y, width: quickFrame.width, height: quickFrame.height+100)
+                    self.view.layoutIfNeeded()
+                }
+                print("moved")
+                self.collectionMoved = true
+            }
+        default:
+            break
         }
-        return chars
+    }
+    
+    @objc func resetButton(){
+        collectionMoved = false
+        newView.resetBottomBar()
+        self.messagesCollectionBottomConstraint?.constant = -self.newView.bottomBar.frame.height
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: {_ in
+            self.scrollToBottom(animated: true)
+        })
+    }
+    
+    @objc func downButtonPressed(){
+        view.endEditing(true)
+    }
+    
+    @objc func groupFunctionButtonPressed(){
+        newView.groupFunctionPressed()
+    }
+    
+    @objc func goBack(sender: UIButton){
+        GlobalUser.currentConv = ""
+        self.view.endEditing(true)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func sendWrapper(sender: UIButton){
+        self.sendMessage(sender)
+    }
+    
+    @objc func swipeRightOnCollection(){
+        GlobalUser.currentConv = ""
+        self.view.endEditing(true)
+        self.navigationController?.popViewController(animated: true)
+        //self.performSegue(withIdentifier: "messengerVCToMainMenu", sender: self)
+    }
+    
+    @objc func closeVC()  {
+        view.endEditing(true)
+    }
+    
+    @objc func openVC()  {
+        self.messagesCollection.reloadData()
+    }
+    
+    @objc func typingTimerComplete(){
+        SocketIOManager.sendNotTyping(id: self.id)
     }
 }
