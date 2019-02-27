@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import CoreData
 
-class MessengerVC: UIViewController, UIGestureRecognizerDelegate, UINavigationControllerDelegate {
+class MessengerVC: UIViewController, UIGestureRecognizerDelegate {
     
     var msgList = [TerseMessage]()
     
@@ -320,16 +320,6 @@ class MessengerVC: UIViewController, UIGestureRecognizerDelegate, UINavigationCo
         NotificationCenter.default.removeObserver(self)
     }
     
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
-        switch operation {
-        case .push:
-            return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: true, direction: .toRight)
-        default:
-            return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: false, direction: .toRight)
-        }
-    }
-    
     @objc func closeVC()  {
         view.endEditing(true)
     }
@@ -447,7 +437,7 @@ class MessengerVC: UIViewController, UIGestureRecognizerDelegate, UINavigationCo
                 case .success(let Json):
                     let jsonObject = JSON(Json)
                     //let jsonObject = JSON(Json)
-                    SocketIOManager.sendMessage(message: [dec])
+                    SocketIOManager.sendMessage(message: [dec as Any])
                     
                     let tempMsg = TerseMessage(_id: "", //Fix this
                         sender: GlobalUser.username,
@@ -524,153 +514,139 @@ class MessengerVC: UIViewController, UIGestureRecognizerDelegate, UINavigationCo
         SocketIOManager.socket.on("message") { ( data, ack) -> Void in
             guard let parsedData = data[0] as? String else { return }
             let msg = JSON.init(parseJSON: parsedData)
-            do {
-                print(self.involved)
-                
-                guard let conversationsId = msg["id"].string else{
-                    return
-                }
-                
-                let tempMsg = TerseMessage(_id: "", //Fix this
-                    sender: msg["sender"].string!,
-                    body: msg["body"].string!,
-                    dateTime: msg["dateTime"].string!,
-                    read: false)
-                if tempMsg.sender == GlobalUser.username{
-                    return
-                }
-                
-                print(tempMsg)
-                
-                if conversationsId == self.id{
-                    print("Something happened!")
-                    if msg["sender"].string! == GlobalUser.username{
-                        
-                    }else{
-                        playIncomingMessage()
-                    }
+            print(self.involved)
+            
+            guard let conversationsId = msg["id"].string else{
+                return
+            }
+            
+            let tempMsg = TerseMessage(_id: "", //Fix this
+                sender: msg["sender"].string!,
+                body: msg["body"].string!,
+                dateTime: msg["dateTime"].string!,
+                read: false)
+            if tempMsg.sender == GlobalUser.username{
+                return
+            }
+            
+            print(tempMsg)
+            
+            if conversationsId == self.id{
+                print("Something happened!")
+                if msg["sender"].string! == GlobalUser.username{
                     
-                    let lastIndex = self.msgList.count-1
-                    
-                    if self.msgList[lastIndex]._id == "Chatting"{
-                        self.msgList[lastIndex] = tempMsg
-                        /*
-                        let lastSectionIndex = self.messagesCollection!.numberOfSections - 1
-                        // Then grab the number of rows in the last section
-                        let lastRowIndex = self.messagesCollection!.numberOfItems(inSection: lastSectionIndex) - 1
-                        // Now just construct the index path
-                        let pathToLastRow = NSIndexPath(row: lastRowIndex+1, section: lastSectionIndex)
-                        let pathToRow2 = NSIndexPath(row: lastRowIndex+1, section: lastSectionIndex)
-                        self.messagesCollection.insertItems(at: [pathToLastRow as IndexPath])
-                        self.messagesCollection.reloadItems(at: [pathToRow2 as IndexPath])*/
-                        self.messagesCollection.reloadData()
-                        self.scrollToBottom(animated: true)
-                    }else{
-                        
-                        self.msgList.append(tempMsg)
-                        self.messagesCollection.reloadData()
-                        self.scrollToBottom(animated: true)
-                        /*
-                        self.messagesCollection.reloadData()
-                        let lastRow = self.msgList.count - 1
-                        let lastIndex = IndexPath(item: lastRow, section: 0)
-                        let newLastIndex = IndexPath(item: lastRow + 1, section: 0)
-                        
-                        self.messagesCollection.performBatchUpdates({
-                            print("Last Indices")
-                            print(lastRow)
-                            print(self.messagesCollection.numberOfItems(inSection: 0))
-                            let indexPath = IndexPath(row: self.msgList.count, section: 0)
-                            self.msgList.append(tempMsg)
-                            self.messagesCollection.insertItems(at: [indexPath])
-                            self.messagesCollection.reloadData()
-                        }, completion: {done in
-                            
-                            let lastItem = self.messagesCollection.numberOfItems(inSection: 0) - 1
-                            let lastIndex = IndexPath(item: lastItem, section: 0)
-                            self.messagesCollection.scrollToItem(at: lastIndex, at: .bottom, animated: true)
-                            self.messagesCollection.reloadData()
-                        })*/
-                        
-                    }
-                    ConversationRoutes.updateLastRead(id: self.id, msgId: ""){
-                    }
-                    //self.scrollToBottomAnimated(animated: true)
                 }else{
-                    print("Something went wrong")
+                    playIncomingMessage()
                 }
-            } catch {
-                print(msg)
-                print("Error JSON: \(error)")
+                
+                let lastIndex = self.msgList.count-1
+                
+                if self.msgList[lastIndex]._id == "Chatting"{
+                    self.msgList[lastIndex] = tempMsg
+                    /*
+                     let lastSectionIndex = self.messagesCollection!.numberOfSections - 1
+                     // Then grab the number of rows in the last section
+                     let lastRowIndex = self.messagesCollection!.numberOfItems(inSection: lastSectionIndex) - 1
+                     // Now just construct the index path
+                     let pathToLastRow = NSIndexPath(row: lastRowIndex+1, section: lastSectionIndex)
+                     let pathToRow2 = NSIndexPath(row: lastRowIndex+1, section: lastSectionIndex)
+                     self.messagesCollection.insertItems(at: [pathToLastRow as IndexPath])
+                     self.messagesCollection.reloadItems(at: [pathToRow2 as IndexPath])*/
+                    self.messagesCollection.reloadData()
+                    self.scrollToBottom(animated: true)
+                }else{
+                    
+                    self.msgList.append(tempMsg)
+                    self.messagesCollection.reloadData()
+                    self.scrollToBottom(animated: true)
+                    /*
+                     self.messagesCollection.reloadData()
+                     let lastRow = self.msgList.count - 1
+                     let lastIndex = IndexPath(item: lastRow, section: 0)
+                     let newLastIndex = IndexPath(item: lastRow + 1, section: 0)
+                     
+                     self.messagesCollection.performBatchUpdates({
+                     print("Last Indices")
+                     print(lastRow)
+                     print(self.messagesCollection.numberOfItems(inSection: 0))
+                     let indexPath = IndexPath(row: self.msgList.count, section: 0)
+                     self.msgList.append(tempMsg)
+                     self.messagesCollection.insertItems(at: [indexPath])
+                     self.messagesCollection.reloadData()
+                     }, completion: {done in
+                     
+                     let lastItem = self.messagesCollection.numberOfItems(inSection: 0) - 1
+                     let lastIndex = IndexPath(item: lastItem, section: 0)
+                     self.messagesCollection.scrollToItem(at: lastIndex, at: .bottom, animated: true)
+                     self.messagesCollection.reloadData()
+                     })*/
+                    
+                }
+                ConversationRoutes.updateLastRead(id: self.id, msgId: ""){
+                }
+                //self.scrollToBottomAnimated(animated: true)
+            }else{
+                print("Something went wrong")
             }
         }
         
         SocketIOManager.socket.on("typing") { ( data, ack) -> Void in
             guard let parsedData = data[0] as? String else { return }
             let msg = JSON.init(parseJSON: parsedData)
-            do {
-                let tempMsg = TerseMessage(_id: "Chatting",
-                    sender: msg["friend"].string!,
-                    body: ". . .",
-                    dateTime: "",
-                    read: false)
-                
-                guard let conversationsId = msg["id"].string else{
-                    return
-                }
-                
-                if conversationsId == self.id{
-                    let isTypingBubbles = self.msgList.filter { $0._id == "Chatting" }
-                    if isTypingBubbles.count == 0 && tempMsg.sender != GlobalUser.username{
-                        self.msgList.append(tempMsg)
-                        /*
-                        let lastSectionIndex = self.messagesCollection!.numberOfSections - 1
-                        // Then grab the number of rows in the last section
-                        let lastRowIndex = self.messagesCollection!.numberOfItems(inSection: lastSectionIndex) - 1
-                        // Now just construct the index path
-                        let pathToLastRow = NSIndexPath(row: lastRowIndex, section: lastSectionIndex)
-                        self.messagesCollection.reloadItems(at: [pathToLastRow as IndexPath])*/
-                        self.messagesCollection.reloadData()
-                        self.scrollToBottom(animated: true)
-                    }
-                }else{
+            let tempMsg = TerseMessage(_id: "Chatting",
+                                       sender: msg["friend"].string!,
+                                       body: ". . .",
+                                       dateTime: "",
+                                       read: false)
+            
+            guard let conversationsId = msg["id"].string else{
+                return
+            }
+            
+            if conversationsId == self.id{
+                let isTypingBubbles = self.msgList.filter { $0._id == "Chatting" }
+                if isTypingBubbles.count == 0 && tempMsg.sender != GlobalUser.username{
+                    self.msgList.append(tempMsg)
+                    /*
+                     let lastSectionIndex = self.messagesCollection!.numberOfSections - 1
+                     // Then grab the number of rows in the last section
+                     let lastRowIndex = self.messagesCollection!.numberOfItems(inSection: lastSectionIndex) - 1
+                     // Now just construct the index path
+                     let pathToLastRow = NSIndexPath(row: lastRowIndex, section: lastSectionIndex)
+                     self.messagesCollection.reloadItems(at: [pathToLastRow as IndexPath])*/
                     self.messagesCollection.reloadData()
-                    print("Something went wrong")
+                    self.scrollToBottom(animated: true)
                 }
-            } catch {
-                print("Error JSON: \(error)")
+            }else{
+                self.messagesCollection.reloadData()
+                print("Something went wrong")
             }
         }
         
         SocketIOManager.socket.on("nottyping") { ( data, ack) -> Void in
             guard let parsedData = data[0] as? String else { return }
             let msg = JSON.init(parseJSON: parsedData)
-            do {
-                guard let conversationsId = msg["id"].string else{
-                    return
-                }
-                
-                if conversationsId == self.id{
-                    let isTypingBubbles = self.msgList.filter { $0._id == "Chatting" }
-                    if isTypingBubbles.count > 0 && msg["friend"].string! != GlobalUser.username{
-                        self.msgList = self.msgList.filter { $0._id != "Chatting" }
-                        /*
-                        let lastSectionIndex = self.messagesCollection!.numberOfSections - 1
-                        // Then grab the number of rows in the last section
-                        let lastRowIndex = self.messagesCollection!.numberOfItems(inSection: lastSectionIndex) - 1
-                        // Now just construct the index path
-                        let pathToLastRow = NSIndexPath(row: lastRowIndex, section: lastSectionIndex)
-                        self.messagesCollection.reloadItems(at: [pathToLastRow as IndexPath])*/
-                        self.messagesCollection.reloadData()
-                        self.scrollToBottom(animated: true)
-                    }
-                }else{
+            guard let conversationsId = msg["id"].string else{
+                return
+            }
+            
+            if conversationsId == self.id{
+                let isTypingBubbles = self.msgList.filter { $0._id == "Chatting" }
+                if isTypingBubbles.count > 0 && msg["friend"].string! != GlobalUser.username{
+                    self.msgList = self.msgList.filter { $0._id != "Chatting" }
+                    /*
+                     let lastSectionIndex = self.messagesCollection!.numberOfSections - 1
+                     // Then grab the number of rows in the last section
+                     let lastRowIndex = self.messagesCollection!.numberOfItems(inSection: lastSectionIndex) - 1
+                     // Now just construct the index path
+                     let pathToLastRow = NSIndexPath(row: lastRowIndex, section: lastSectionIndex)
+                     self.messagesCollection.reloadItems(at: [pathToLastRow as IndexPath])*/
                     self.messagesCollection.reloadData()
-                    print("Something went wrong")
+                    self.scrollToBottom(animated: true)
                 }
-            } catch {
-                print(msg)
-                print("Error JSON: \(error)")
+            }else{
+                self.messagesCollection.reloadData()
+                print("Something went wrong")
             }
         }
     }
@@ -682,7 +658,6 @@ class MessengerVC: UIViewController, UIGestureRecognizerDelegate, UINavigationCo
         SocketIOManager.socket.off("nottyping")
         
         if segue.destination is MainMenuVC{
-            let vc = segue.destination as? MessengerVC
             SocketIOManager.shutOffListener()
         }
     }
@@ -853,6 +828,19 @@ extension MessengerVC: UITextViewDelegate{
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
+    }
+}
+
+// MARK: UINavigationController Ext.
+extension MessengerVC: UINavigationControllerDelegate{
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        switch operation {
+        case .push:
+            return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: true, direction: .toRight)
+        default:
+            return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: false, direction: .toRight)
+        }
     }
 }
 
