@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import CoreData
 
-class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, UINavigationControllerDelegate {
+class MessengerVC: UIViewController, UIGestureRecognizerDelegate, UINavigationControllerDelegate {
     
     var msgList = [TerseMessage]()
     
@@ -47,38 +47,6 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     
     var timer: Timer?
-    
-    // Might build this in other file later
-    func createTableView(){
-        let displayWidth: CGFloat = self.view.frame.width
-        let displayHeight: CGFloat = self.view.frame.height
-        let barHeight: CGFloat = 100
-        
-        self.possibleMembersTable = UITableView(frame: CGRect(x: 0, y: self.view.frame.height, width: displayWidth, height: displayHeight - barHeight))
-        self.possibleMembersTable.register(UITableViewCell.self, forCellReuseIdentifier: "friendCell")
-        self.possibleMembersTable.dataSource = self
-        self.possibleMembersTable.delegate = self
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.possibleMembers.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath as IndexPath)
-        cell.textLabel!.text = "\(self.possibleMembers[indexPath.row])"
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cellText = self.possibleMembers[indexPath.row]
-        self.selectedFriend = cellText
-        if self.selectedFriend != ""{
-            //self.confirmAddButton.isEnabled = true
-        }else{
-            print(self.selectedFriend)
-        }
-    }
     
     /*
     @objc func confirmAddButtonPressed(){
@@ -368,91 +336,6 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     @objc func openVC()  {
         self.messagesCollection.reloadData()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.msgList.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messageBubble", for: indexPath) as! MessageBubble
-        let text = self.msgList[indexPath.row].body
-        
-        var onlyEmoji = false
-        
-        cell.textView.text = text
-        cell.senderLabel.text = ""
-        
-        if (text?.containsOnlyEmoji)! && (text?.count)! <= 3{
-            cell.textView.font = UIFont.systemFont(ofSize: 48)
-            print(cell.textView.text)
-            cell.bubbleView.backgroundColor = UIColor.clear
-            onlyEmoji = true
-        }else{
-            cell.textView.font = UIFont.systemFont(ofSize: 16)
-        }
-        
-        cell.bubbleWidthAnchor?.constant = findSize(text: text!, label: cell.textView).width + 32
-        
-        cell.textView.textColor = UIColor.white
-        
-        
-        if self.msgList[indexPath.row].sender == GlobalUser.username{
-            cell.bubbleView.backgroundColor = onlyEmoji ? UIColor.clear : userTextColor
-            cell.bubbleViewRightAnchor?.isActive = true
-            cell.bubbleViewLeftAnchor?.isActive = false
-            if cell.bubbleView.backgroundColor == nebulaPink{
-                cell.textView.textColor = UIColor.black
-            }
-            cell.senderHideBottomAnchor?.isActive = true
-            cell.senderAboveBottomAnchor?.isActive = false
-        }else{
-            cell.bubbleView.backgroundColor = onlyEmoji ? UIColor.clear : otherTextColor
-            cell.bubbleViewRightAnchor?.isActive = false
-            cell.bubbleViewLeftAnchor?.isActive = true
-            if cell.bubbleView.backgroundColor == nebulaPink{
-                cell.textView.textColor = UIColor.black
-            }
-            if isGroupChat{
-                if indexPath.row > 0 && self.msgList[indexPath.row-1].sender != self.msgList[indexPath.row].sender{
-                    cell.senderLabel.text = self.msgList[indexPath.row].sender
-                }
-            }
-            
-            cell.senderLeftAnchor?.isActive = true
-            cell.senderRightAnchor?.isActive = false
-            cell.senderHideBottomAnchor?.isActive = false
-            cell.senderAboveBottomAnchor?.isActive = true
-        }
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print("Testing:)")
-        print(indexPath)
-        print(collectionView.numberOfItems(inSection: 0))
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messageBubble", for: indexPath) as! MessageBubble
-        var height: CGFloat = 160
-        height = findSize(text: self.msgList[indexPath.row].body!, label: cell.textView).height + 20
-        return CGSize(width: view.frame.width, height: height)
-    }
-    
-    func findSize(text: String, label: UITextView) -> CGRect{
-        let constraintRect = CGSize(width: 200,
-                                    height: 1000)
-        var defaultFontSize = CGFloat(16)
-        if text.containsOnlyEmoji && text.count <= 3{
-            print(text)
-            defaultFontSize = CGFloat(48)
-        }else{
-            defaultFontSize = CGFloat(16)
-        }
-        
-        return NSString(string: text).boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: UIFont.systemFont(ofSize: defaultFontSize)], context: nil)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.view.endEditing(true)
     }
     
     func scrollToBottom(animated: Bool) {
@@ -805,6 +688,134 @@ class MessengerVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
 }
 
+// MARK: UICollectionView Ext.
+extension MessengerVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.msgList.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messageBubble", for: indexPath) as! MessageBubble
+        let text = self.msgList[indexPath.row].body
+        
+        var onlyEmoji = false
+        
+        cell.textView.text = text
+        cell.senderLabel.text = ""
+        
+        if (text?.containsOnlyEmoji)! && (text?.count)! <= 3{
+            cell.textView.font = UIFont.systemFont(ofSize: 48)
+            print(cell.textView.text)
+            cell.bubbleView.backgroundColor = UIColor.clear
+            onlyEmoji = true
+        }else{
+            cell.textView.font = UIFont.systemFont(ofSize: 16)
+        }
+        
+        cell.bubbleWidthAnchor?.constant = findSize(text: text!, label: cell.textView).width + 32
+        
+        cell.textView.textColor = UIColor.white
+        
+        
+        if self.msgList[indexPath.row].sender == GlobalUser.username{
+            cell.bubbleView.backgroundColor = onlyEmoji ? UIColor.clear : userTextColor
+            cell.bubbleViewRightAnchor?.isActive = true
+            cell.bubbleViewLeftAnchor?.isActive = false
+            if cell.bubbleView.backgroundColor == nebulaPink{
+                cell.textView.textColor = UIColor.black
+            }
+            cell.senderHideBottomAnchor?.isActive = true
+            cell.senderAboveBottomAnchor?.isActive = false
+        }else{
+            cell.bubbleView.backgroundColor = onlyEmoji ? UIColor.clear : otherTextColor
+            cell.bubbleViewRightAnchor?.isActive = false
+            cell.bubbleViewLeftAnchor?.isActive = true
+            if cell.bubbleView.backgroundColor == nebulaPink{
+                cell.textView.textColor = UIColor.black
+            }
+            if isGroupChat{
+                if indexPath.row > 0 && self.msgList[indexPath.row-1].sender != self.msgList[indexPath.row].sender{
+                    cell.senderLabel.text = self.msgList[indexPath.row].sender
+                }
+            }
+            
+            cell.senderLeftAnchor?.isActive = true
+            cell.senderRightAnchor?.isActive = false
+            cell.senderHideBottomAnchor?.isActive = false
+            cell.senderAboveBottomAnchor?.isActive = true
+        }
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        print("Testing:)")
+        print(indexPath)
+        print(collectionView.numberOfItems(inSection: 0))
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messageBubble", for: indexPath) as! MessageBubble
+        var height: CGFloat = 160
+        height = findSize(text: self.msgList[indexPath.row].body!, label: cell.textView).height + 20
+        return CGSize(width: view.frame.width, height: height)
+    }
+    
+    func findSize(text: String, label: UITextView) -> CGRect{
+        let constraintRect = CGSize(width: 200,
+                                    height: 1000)
+        var defaultFontSize = CGFloat(16)
+        if text.containsOnlyEmoji && text.count <= 3{
+            print(text)
+            defaultFontSize = CGFloat(48)
+        }else{
+            defaultFontSize = CGFloat(16)
+        }
+        
+        return NSString(string: text).boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: UIFont.systemFont(ofSize: defaultFontSize)], context: nil)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.view.endEditing(true)
+    }
+    
+}
+
+//MARK: UITableView Ext.
+extension MessengerVC: UITableViewDataSource, UITableViewDelegate{
+    
+    // Might build this in other file later
+    func createTableView(){
+        let displayWidth: CGFloat = self.view.frame.width
+        let displayHeight: CGFloat = self.view.frame.height
+        let barHeight: CGFloat = 100
+        
+        self.possibleMembersTable = UITableView(frame: CGRect(x: 0, y: self.view.frame.height, width: displayWidth, height: displayHeight - barHeight))
+        self.possibleMembersTable.register(UITableViewCell.self, forCellReuseIdentifier: "friendCell")
+        self.possibleMembersTable.dataSource = self
+        self.possibleMembersTable.delegate = self
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.possibleMembers.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath as IndexPath)
+        cell.textLabel!.text = "\(self.possibleMembers[indexPath.row])"
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cellText = self.possibleMembers[indexPath.row]
+        self.selectedFriend = cellText
+        if self.selectedFriend != ""{
+            //self.confirmAddButton.isEnabled = true
+        }else{
+            print(self.selectedFriend)
+        }
+    }
+}
+
+
+// MARK: UITextView Ext.
 extension MessengerVC: UITextViewDelegate{
     //MARK: UITextViewDelegate
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -846,7 +857,6 @@ extension MessengerVC: UITextViewDelegate{
 }
 
 // MARK: Extras
-
 // Simple solution for detecting emojis in a string
 // Thanks, StackOverflow
 extension UnicodeScalar {

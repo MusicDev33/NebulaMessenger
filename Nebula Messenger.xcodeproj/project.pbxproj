@@ -70,6 +70,7 @@
 		1FC7ED3821E5C564002F1422 /* CustomMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3721E5C564002F1422 /* CustomMath.swift */; };
 		1FC7ED3B21E5E67B002F1422 /* CanvasRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3A21E5E67B002F1422 /* CanvasRoutes.swift */; };
 		1FC7ED3D21E5E929002F1422 /* CanvasCourseRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3C21E5E929002F1422 /* CanvasCourseRouting.swift */; };
+		1FDB13ED222231EB007CD0E2 /* ModularKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB13EC222231EB007CD0E2 /* ModularKeyboard.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
 		1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */; };
@@ -168,6 +169,7 @@
 		1FC7ED3721E5C564002F1422 /* CustomMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMath.swift; sourceTree = "<group>"; };
 		1FC7ED3A21E5E67B002F1422 /* CanvasRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasRoutes.swift; sourceTree = "<group>"; };
 		1FC7ED3C21E5E929002F1422 /* CanvasCourseRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasCourseRouting.swift; sourceTree = "<group>"; };
+		1FDB13EC222231EB007CD0E2 /* ModularKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModularKeyboard.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
 		1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 				1FE4F0FF216B131200E4EF72 /* TestingViewControllers */,
 				1F68B2B9215276AE00DC9525 /* ViewControllers */,
 				1FA20BCA218D7250007317B5 /* ProgVCs */,
+				1FDB13EB2222318B007CD0E2 /* Custom View Widgets */,
 				1F68B2B42152757800DC9525 /* Sound */,
 				1F68B2A22152366600DC9525 /* Globals */,
 				1F68B2A12152260400DC9525 /* Lib */,
@@ -463,6 +466,14 @@
 				1FC7ED3C21E5E929002F1422 /* CanvasCourseRouting.swift */,
 			);
 			path = Canvas;
+			sourceTree = "<group>";
+		};
+		1FDB13EB2222318B007CD0E2 /* Custom View Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				1FDB13EC222231EB007CD0E2 /* ModularKeyboard.swift */,
+			);
+			path = "Custom View Widgets";
 			sourceTree = "<group>";
 		};
 		1FE4F0F821687CF400E4EF72 /* Custom Classes */ = {
@@ -804,6 +815,7 @@
 				1F68B2AE2152740700DC9525 /* SocketIOManager.swift in Sources */,
 				1F5DAE4521FA316500BC26DB /* TestMapBoxView.swift in Sources */,
 				1F68B2BD2152DD1300DC9525 /* RegisterVC.swift in Sources */,
+				1FDB13ED222231EB007CD0E2 /* ModularKeyboard.swift in Sources */,
 				1F68B2A42152367A00DC9525 /* FirebaseGlobals.swift in Sources */,
 				1F68B2BB2152789B00DC9525 /* RouteUtils.swift in Sources */,
 				1F5DAE4721FA33C200BC26DB /* TestMapBoxVC.swift in Sources */,
