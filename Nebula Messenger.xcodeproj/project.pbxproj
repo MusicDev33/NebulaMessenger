@@ -71,6 +71,7 @@
 		1FC7ED3B21E5E67B002F1422 /* CanvasRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3A21E5E67B002F1422 /* CanvasRoutes.swift */; };
 		1FC7ED3D21E5E929002F1422 /* CanvasCourseRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3C21E5E929002F1422 /* CanvasCourseRouting.swift */; };
 		1FDB13ED222231EB007CD0E2 /* ModularKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB13EC222231EB007CD0E2 /* ModularKeyboard.swift */; };
+		1FDB13EF222686F5007CD0E2 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB13EE222686F5007CD0E2 /* MainMenuView.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
 		1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */; };
@@ -170,6 +171,7 @@
 		1FC7ED3A21E5E67B002F1422 /* CanvasRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasRoutes.swift; sourceTree = "<group>"; };
 		1FC7ED3C21E5E929002F1422 /* CanvasCourseRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasCourseRouting.swift; sourceTree = "<group>"; };
 		1FDB13EC222231EB007CD0E2 /* ModularKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModularKeyboard.swift; sourceTree = "<group>"; };
+		1FDB13EE222686F5007CD0E2 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
 		1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 			isa = PBXGroup;
 			children = (
 				1F68B2C02154C1C400DC9525 /* MainMenuVC.swift */,
+				1FDB13EE222686F5007CD0E2 /* MainMenuView.swift */,
 			);
 			path = "Main Menu";
 			sourceTree = "<group>";
@@ -847,6 +850,7 @@
 				1F16E625220B352300FC7B78 /* FriendsVC.swift in Sources */,
 				1FAF4D0821B4FF6100843C89 /* AlertBP.swift in Sources */,
 				1F42503221E4047A00CE108C /* LoginView.swift in Sources */,
+				1FDB13EF222686F5007CD0E2 /* MainMenuView.swift in Sources */,
 				1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
