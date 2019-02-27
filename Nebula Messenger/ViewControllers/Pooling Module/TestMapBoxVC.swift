@@ -9,8 +9,7 @@
 import UIKit
 import Mapbox
 
-class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate {
-    
+class TestMapBoxVC: UIViewController {
     
     var mapView: TestMapBoxView!
     var poolsInArea = [PublicPool]()
@@ -23,8 +22,79 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
     let impactNotif = UINotificationFeedbackGenerator()
     
     var testPool = PublicPool(coordinates: [0, 0], poolId: "testpool;;;", name: "Global Pool", creator: "MusicDev", connectionLimit: 1000, usersConnected: [String]())
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("Beginning")
+        mapView = TestMapBoxView(frame: self.view.frame)
+        mapView.map.userTrackingMode = .follow
+        
+        self.view.addSubview(mapView)
+        
+        mapView.map.delegate = self
+        mapView.poolCollectionView.delegate = self
+        mapView.poolCollectionView.dataSource = self
+        
+        mapView.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        mapView.expandArrow.addTarget(self, action: #selector(expandButtonPressed), for: .touchUpInside)
+        
+        self.currentPools.append(testPool)
+        
+        // gestures
+        let mapViewLongPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressedOnMap(_:)))
+        mapViewLongPress.delegate = self
+        self.mapView.map.addGestureRecognizer(mapViewLongPress)
+
+        // Do any additional setup after loading the view.
+        print("End")
+    }
     
-    // Collectionview stuff
+    override func viewWillAppear(_ animated: Bool) {
+        for pool in globalPools{
+            let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
+            
+            let polygon = polygonCircleForCoordinate(coordinate: coordinate, withMeterRadius: Double(self.defaultRadius))
+            self.mapView.map.addAnnotation(polygon)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        for pool in globalPools{
+            let poolAtPoint = MBPoolAnnotation()
+            
+            //let annotation = PoolAnnotation()
+            let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
+            poolAtPoint.coordinate = coordinate
+            poolAtPoint.title = pool.name
+            poolAtPoint.creator = pool.creator
+            
+            poolAtPoint.subtitle = pool.creator
+            poolAtPoint.imageName = "CloudCircle"
+            poolAtPoint.id = pool.poolId
+            self.mapView.map.addAnnotation(poolAtPoint)
+        }
+    }
+    
+     override func viewDidDisappear(_ animated: Bool) {
+        if let annotations = self.mapView.map.annotations{
+            self.mapView.map.removeAnnotations(annotations)
+        }
+    }
+}
+
+
+
+extension TestMapBoxVC: UIGestureRecognizerDelegate{
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
+
+//MARK: UICollectionView Ext.
+extension TestMapBoxVC: UICollectionViewDelegate, UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currentPools.count
@@ -84,11 +154,11 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
             })
         }
     }
-    
-    // Gesture Delegate
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
+}
+
+
+// MARK: Mapbox Ext.
+extension TestMapBoxVC: MGLMapViewDelegate{
     
     // Mapbox stuff
     func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
@@ -252,68 +322,11 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
             self.mapView.poolCollectionView.reloadData()
         }
     }
+}
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        print("Beginning")
-        mapView = TestMapBoxView(frame: self.view.frame)
-        mapView.map.userTrackingMode = .follow
-        
-        self.view.addSubview(mapView)
-        
-        mapView.map.delegate = self
-        mapView.poolCollectionView.delegate = self
-        mapView.poolCollectionView.dataSource = self
-        
-        mapView.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
-        mapView.expandArrow.addTarget(self, action: #selector(expandButtonPressed), for: .touchUpInside)
-        
-        self.currentPools.append(testPool)
-        
-        // gestures
-        let mapViewLongPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressedOnMap(_:)))
-        mapViewLongPress.delegate = self
-        self.mapView.map.addGestureRecognizer(mapViewLongPress)
 
-        // Do any additional setup after loading the view.
-        print("End")
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        for pool in globalPools{
-            let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
-            
-            let polygon = polygonCircleForCoordinate(coordinate: coordinate, withMeterRadius: Double(self.defaultRadius))
-            self.mapView.map.addAnnotation(polygon)
-        }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        for pool in globalPools{
-            let poolAtPoint = MBPoolAnnotation()
-            
-            //let annotation = PoolAnnotation()
-            let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
-            poolAtPoint.coordinate = coordinate
-            poolAtPoint.title = pool.name
-            poolAtPoint.creator = pool.creator
-            
-            poolAtPoint.subtitle = pool.creator
-            poolAtPoint.imageName = "CloudCircle"
-            poolAtPoint.id = pool.poolId
-            self.mapView.map.addAnnotation(poolAtPoint)
-        }
-    }
-    
-     override func viewDidDisappear(_ animated: Bool) {
-        if let annotations = self.mapView.map.annotations{
-            self.mapView.map.removeAnnotations(annotations)
-        }
-    }
-    
-    // Button methods
+// MARK: Listeners Ext.
+extension TestMapBoxVC{
     
     @objc func backButtonPressed(){
         self.dismiss(animated: true, completion: nil)
@@ -383,5 +396,4 @@ class TestMapBoxVC: UIViewController, MGLMapViewDelegate, UICollectionViewDelega
         // 4. Present the alert.
         self.present(alert, animated: true, completion: nil)
     }
-
 }
