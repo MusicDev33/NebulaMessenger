@@ -215,7 +215,6 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         let selfCViewPoint: CGPoint
         var difference: CGFloat = 0
         var translation: CGPoint = CGPoint(x: 0, y: 0)
-        var lastVelocity: CGFloat = 1
         
         switch sender.state {
         case .began:
@@ -227,7 +226,6 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             difference = selfCViewPoint.y - position.y
         case .changed:
             translation = sender.translation(in: self.topView)
-            lastVelocity = sender.velocity(in: self.topView).y
             self.topView?.selfColorHeightConstraint?.constant = translation.y - difference
             
         case .ended:
@@ -251,7 +249,6 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         let selfCViewPoint: CGPoint
         var difference: CGFloat = 0
         var translation: CGPoint = CGPoint(x: 0, y: 0)
-        var lastVelocity: CGFloat = 1
         
         switch sender.state {
         case .began:
@@ -263,7 +260,6 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             difference = selfCViewPoint.y - position.y
         case .changed:
             translation = sender.translation(in: self.topView)
-            lastVelocity = sender.velocity(in: self.topView).y
             self.topView?.otherColorHeightConstraint?.constant = translation.y - difference
             
         case .ended:

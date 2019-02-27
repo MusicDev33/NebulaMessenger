@@ -190,7 +190,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let convId = userInfo[AnyHashable("id")] as? String,
             let purpose = userInfo[AnyHashable("purpose")] as? String,
             let aps = userInfo[AnyHashable("aps")] as? NSDictionary,
-            let alert = aps["alert"] as? NSDictionary
+            let _ = aps["alert"] as? NSDictionary
             else {
                 // handle any error here
                 return

@@ -24,7 +24,7 @@ class RequestedFriendsVC: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath as IndexPath)
+        _ = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath as IndexPath)
         self.dismiss(animated: true){
         }
     }
