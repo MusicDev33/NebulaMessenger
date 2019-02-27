@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+// Class to explicitly access CustomMath
 class CustomMath {
     static func getPathToCircleCenter(degrees: CGFloat, radius: CGFloat) -> [CGFloat]{
         let rads = (degrees * CGFloat.pi)/180

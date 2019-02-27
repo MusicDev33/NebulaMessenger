@@ -89,6 +89,7 @@ class MessengerVC: UIViewController {
     }*/
     
     var newView: MessengerView!
+    var modularKeyboard: ModularKeyboard!
     var messagesCollectionBottomConstraint: NSLayoutConstraint?
     
     override func viewDidLoad() {

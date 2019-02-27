@@ -105,6 +105,13 @@ class ModularKeyboard: UIView {
         
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.lightGray.cgColor
+        
+        addSubview(grabCircleBackground)
+        addSubview(messageField)
+        
+        addSubview(sendButton)
+        addSubview(downButton)
+        addSubview(closeButton)
     }
     
     required init?(coder aDecoder: NSCoder) {
