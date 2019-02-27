@@ -52,7 +52,7 @@ class NALoading1: UIView {
         var segments: [CAShapeLayer] = []
         let segmentAngle: CGFloat = (360 * 0.125) / 360
         
-        var amountOfSegments = CGFloat(8)
+        let amountOfSegments = CGFloat(8)
         
         for i in 0...7 {
             let circleLayer = CAShapeLayer()

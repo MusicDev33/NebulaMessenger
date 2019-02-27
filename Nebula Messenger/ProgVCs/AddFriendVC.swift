@@ -383,7 +383,7 @@ extension AddFriendVC{
         let store = CNContactStore()
         
         store.requestAccess(for: .contacts) {granted, err in
-            if let err = err{
+            if err != nil{
                 print("Error!")
                 return
             }

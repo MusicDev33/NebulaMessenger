@@ -96,7 +96,6 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegat
         }else{
             UserRoutes.sendLogin(username: usernameText!, password: passwordText!){success in
                 if success.success!{
-                    print(usernameText)
                     UserDefaults.standard.set(usernameText, forKey: "username")
                     UserDefaults.standard.set(passwordText, forKey: "password")
                     UserDefaults.standard.set(true, forKey: "isLoggedIn")

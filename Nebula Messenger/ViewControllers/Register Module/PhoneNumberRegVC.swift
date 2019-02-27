@@ -175,7 +175,7 @@ extension PhoneNumberRegVC{
         let store = CNContactStore()
         
         store.requestAccess(for: .contacts) {granted, err in
-            if let err = err{
+            if err != nil{
                 print("Error!")
                 return
             }
@@ -187,7 +187,7 @@ extension PhoneNumberRegVC{
                 do {
                     try store.enumerateContacts(with: request, usingBlock: {contact, stopPointer in
                         print(contact.givenName, contact.familyName)
-                        print(contact.phoneNumbers.first?.value.stringValue)
+                        print(contact.phoneNumbers.first?.value.stringValue as Any)
                         //print((contact.phoneNumbers[0].value).value(forKey: "digits") as! String)
                         print("")
                     })

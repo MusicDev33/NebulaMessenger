@@ -172,7 +172,7 @@ class UserRoutes{
                     _ = JSON(Json)
                     completion()
                     
-                case .failure(let _):
+                case .failure( _):
                     print("UserRoutes: refresh token in database")
                     completion()
                 }

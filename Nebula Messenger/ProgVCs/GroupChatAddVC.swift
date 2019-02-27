@@ -25,7 +25,6 @@ class GroupChatAddVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath as IndexPath)
-        let cellText = cell.textLabel?.text
         self.dismiss(animated: true){
         }
     }

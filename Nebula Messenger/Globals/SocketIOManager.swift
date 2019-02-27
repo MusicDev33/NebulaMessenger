@@ -45,7 +45,7 @@ class SocketIOManager: NSObject {
         }catch{
             
         }
-        self.socket.emit("currently-typing", with: [dec])
+        self.socket.emit("currently-typing", with: [dec as Any])
     }
     
     static func setServerVersion(version: String, build: String){
@@ -59,7 +59,7 @@ class SocketIOManager: NSObject {
         }catch{
             
         }
-        self.socket.emit("set-version", with: [dec])
+        self.socket.emit("set-version", with: [dec as Any])
     }
     
     static func sendNotTyping(id: String){
@@ -73,7 +73,7 @@ class SocketIOManager: NSObject {
         }catch{
             
         }
-        self.socket.emit("done-typing", with: [dec])
+        self.socket.emit("done-typing", with: [dec as Any])
     }
     
     static func sendRequest(friend: String, friendUsername: String){
@@ -89,7 +89,7 @@ class SocketIOManager: NSObject {
             
         }
         
-        self.socket.emit("add-friend", with: [dec])
+        self.socket.emit("add-friend", with: [dec as Any])
     }
     
     static func sendToTestSocket(title: String, message: String){
@@ -104,7 +104,7 @@ class SocketIOManager: NSObject {
             
         }
         
-        self.socket.emit("test-socket", with: [dec])
+        self.socket.emit("test-socket", with: [dec as Any])
     }
     
     func createNewSocket() -> SocketIOClient{

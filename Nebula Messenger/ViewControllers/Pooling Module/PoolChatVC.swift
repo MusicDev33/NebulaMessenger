@@ -87,7 +87,7 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         let constraintRect = CGSize(width: 200,
                                     height: 1000)
         
-        return NSString(string: text).boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: label.font], context: nil)
+        return NSString(string: text).boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: label.font as Any], context: nil)
     }
 
     override func viewDidLoad() {
@@ -328,7 +328,7 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
                     //let jsonObject = JSON(Json)
                     self.messagesCollection.reloadData()
                     self.newView.messageField.text = ""
-                    SocketIOManager.sendMessage(message: [dec])
+                    SocketIOManager.sendMessage(message: [dec as Any])
                 case .failure(let Json):
                     let jsonObject = JSON(Json)
                     print(jsonObject)
@@ -346,27 +346,21 @@ class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDat
         SocketIOManager.socket.on("message") { ( data, ack) -> Void in
             guard let parsedData = data[0] as? String else { return }
             let msg = JSON.init(parseJSON: parsedData)
-            do {
-                
-                let tempMsg = TerseMessage(_id: "", //Fix this
-                    sender: msg["sender"].string!,
-                    body: msg["body"].string!,
-                    dateTime: msg["dateTime"].string!,
-                    read: false)
-                
-                guard let msgId = msg["id"].string else{
-                    return
-                }
-                
-                if msgId == self.poolId{
-                    self.currentPoolMessages.append(tempMsg)
-                    self.messagesCollection.reloadData()
-                    //self.scrollToBottomAnimated(animated: true)
-                    self.scrollToBottom(animated: true)
-                }
-            } catch {
-                print(msg)
-                print("Error JSON: \(error)")
+            let tempMsg = TerseMessage(_id: "", //Fix this
+                sender: msg["sender"].string!,
+                body: msg["body"].string!,
+                dateTime: msg["dateTime"].string!,
+                read: false)
+            
+            guard let msgId = msg["id"].string else{
+                return
+            }
+            
+            if msgId == self.poolId{
+                self.currentPoolMessages.append(tempMsg)
+                self.messagesCollection.reloadData()
+                //self.scrollToBottomAnimated(animated: true)
+                self.scrollToBottom(animated: true)
             }
         }
     }

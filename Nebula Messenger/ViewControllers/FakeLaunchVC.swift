@@ -29,7 +29,6 @@ class FakeLaunchVC: UIViewController {
         
         if UserDefaults.standard.stringArray(forKey: "quotesArray") != nil{
             let quotes = UserDefaults.standard.stringArray(forKey: "quotesArray")
-            print(quotes)
             let quote = quotes?.randomElement()
             quoteLabel.text = quote
         }
