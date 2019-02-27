@@ -59,7 +59,7 @@ class CreateMessageVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let currentCell = tableView.cellForRow(at: indexPath) as! UITableViewCell
+        let currentCell = tableView.cellForRow(at: indexPath)! // as! UITableViewCell
         let cellText = (currentCell.textLabel?.text!)!
         if self.selectedFriendsList.contains(cellText){
             currentCell.detailTextLabel?.text = " "

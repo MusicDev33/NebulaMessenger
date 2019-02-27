@@ -78,7 +78,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let currentCell = tableView.cellForRow(at: indexPath) as! UITableViewCell
+        let currentCell = tableView.cellForRow(at: indexPath)! // as UITableViewCell
         self.searchBar.resignFirstResponder()
         var cellText = (currentCell.textLabel?.text!)!
         if cellText.contains(" READ"){
@@ -544,8 +544,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         convTable.separatorStyle = .none
         convTable.separatorColor = convTable.backgroundColor
         self.view.addSubview(convTable)
-        
-        let combinedInsets = self.view.safeAreaInsets.bottom + self.view.safeAreaInsets.top
         
         convTable.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 2).isActive = true
         convTable.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1).isActive = true
