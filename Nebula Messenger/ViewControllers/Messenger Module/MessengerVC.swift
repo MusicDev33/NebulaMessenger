@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import CoreData
 
-class MessengerVC: UIViewController, UIGestureRecognizerDelegate {
+class MessengerVC: UIViewController {
     
     var msgList = [TerseMessage]()
     
@@ -87,10 +87,6 @@ class MessengerVC: UIViewController, UIGestureRecognizerDelegate {
             self.involved = newInvolved
         }
     }*/
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return false
-    }
     
     var newView: MessengerView!
     var messagesCollectionBottomConstraint: NSLayoutConstraint?
@@ -259,6 +255,14 @@ class MessengerVC: UIViewController, UIGestureRecognizerDelegate {
             }))
             self.present(alert, animated: true, completion: nil)
         }
+    }
+}
+
+
+// MARK: UIGestureRecognizer Ext.
+extension MessengerVC: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
     }
 }
 
