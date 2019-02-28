@@ -133,17 +133,13 @@ class MessengerVC: UIViewController {
         self.newView.addSubview(self.messagesCollection)
         newView.sendSubviewToBack(self.messagesCollection)
         self.view.addSubview(modularKeyboard)
+        modularKeyboard.buildConstraints()
         
         messagesCollection.topAnchor.constraint(equalTo: newView.navBar.bottomAnchor, constant: 0).isActive = true
-        messagesCollectionBottomConstraint = messagesCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -modularKeyboard.frame.height)
+        messagesCollectionBottomConstraint = messagesCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -(modularKeyboard.heightConstraint?.constant)!)
         messagesCollectionBottomConstraint?.isActive = true
         messagesCollection.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         messagesCollection.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapOnCircle(_:)))
-        tapGesture.numberOfTapsRequired = 2
-        modularKeyboard.addGestureRecognizer(tapGesture)
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.draggedCircle(_:)))
         panGesture.delegate = self
@@ -155,7 +151,7 @@ class MessengerVC: UIViewController {
         modularKeyboard.closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
         modularKeyboard.downButton.addTarget(self, action: #selector(downButtonPressed), for: .touchUpInside)
         modularKeyboard.sendButton.addTarget(self, action: #selector(sendWrapper(sender:)), for: .touchUpInside)
-        //newView.groupFunctionButton.addTarget(self, action: #selector(addToGroupButtonPressed), for: .touchUpInside)
+        //modularKeyboard.groupFunctionButton.addTarget(self, action: #selector(addToGroupButtonPressed), for: .touchUpInside)
         
         let currentlyInvolved = Utility.getFriendsFromConvIdAsArray(user: GlobalUser.username, convId: self.involved)
         self.possibleMembers = GlobalUser.friends.filter {!currentlyInvolved.contains($0)}
@@ -709,10 +705,10 @@ extension MessengerVC: UITextViewDelegate{
                 modularKeyboard.sendButton.isEnabled = false
             }
         }
-        
+        /*
         self.timer?.invalidate()
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(typingTimerComplete), userInfo: nil, repeats: true)
-        SocketIOManager.sendTyping(id: self.id)
+        SocketIOManager.sendTyping(id: self.id)*/
         return true
     }
     
@@ -749,9 +745,6 @@ extension MessengerVC: UINavigationControllerDelegate{
 
 // MARK: Listeners/Selectors Ext.
 extension MessengerVC{
-    @objc func doubleTapOnCircle(_ sender: UITapGestureRecognizer){
-        modularKeyboard.tappedGrabCircle()
-    }
     
     @objc func closeButtonPressed(){
         if !keyboardIsUp{
@@ -830,14 +823,14 @@ extension MessengerVC{
         modularKeyboard.groupFunctionPressed()
     }
     
+    @objc func sendWrapper(sender: UIButton){
+        self.sendMessage(sender)
+    }
+    
     @objc func goBack(sender: UIButton){
         GlobalUser.currentConv = ""
         self.view.endEditing(true)
         self.navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func sendWrapper(sender: UIButton){
-        self.sendMessage(sender)
     }
     
     @objc func swipeRightOnCollection(){
@@ -852,9 +845,5 @@ extension MessengerVC{
     
     @objc func openVC()  {
         self.messagesCollection.reloadData()
-    }
-    
-    @objc func typingTimerComplete(){
-        SocketIOManager.sendNotTyping(id: self.id)
     }
 }

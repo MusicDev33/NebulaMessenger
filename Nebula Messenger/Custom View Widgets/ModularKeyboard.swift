@@ -136,7 +136,7 @@ class ModularKeyboard: UIView {
     
     let screenBounds = UIScreen.main.bounds
     
-    func buildConstraintsForBottomBar(){
+    func buildConstraints(){
         let buttonHeight = CGFloat(40)
         
         addSubview(grabCircleBackground)
