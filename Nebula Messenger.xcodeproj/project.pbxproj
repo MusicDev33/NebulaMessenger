@@ -72,6 +72,7 @@
 		1FC7ED3D21E5E929002F1422 /* CanvasCourseRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7ED3C21E5E929002F1422 /* CanvasCourseRouting.swift */; };
 		1FDB13ED222231EB007CD0E2 /* ModularKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB13EC222231EB007CD0E2 /* ModularKeyboard.swift */; };
 		1FDB13EF222686F5007CD0E2 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB13EE222686F5007CD0E2 /* MainMenuView.swift */; };
+		1FDB13F22227244D007CD0E2 /* MessengerBaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB13F12227244D007CD0E2 /* MessengerBaseVC.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
 		1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */; };
@@ -172,6 +173,7 @@
 		1FC7ED3C21E5E929002F1422 /* CanvasCourseRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasCourseRouting.swift; sourceTree = "<group>"; };
 		1FDB13EC222231EB007CD0E2 /* ModularKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModularKeyboard.swift; sourceTree = "<group>"; };
 		1FDB13EE222686F5007CD0E2 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
+		1FDB13F12227244D007CD0E2 /* MessengerBaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerBaseVC.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
 		1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 				1F68B295215222D000DC9525 /* Nebula Messenger.entitlements */,
 				1F68B2672152227F00DC9525 /* AppDelegate.swift */,
 				1FE4F0F821687CF400E4EF72 /* Custom Classes */,
+				1FDB13F02227242A007CD0E2 /* CustomVC */,
 				1FE4F0FF216B131200E4EF72 /* TestingViewControllers */,
 				1F68B2B9215276AE00DC9525 /* ViewControllers */,
 				1FA20BCA218D7250007317B5 /* ProgVCs */,
@@ -477,6 +480,14 @@
 				1FDB13EC222231EB007CD0E2 /* ModularKeyboard.swift */,
 			);
 			path = "Custom View Widgets";
+			sourceTree = "<group>";
+		};
+		1FDB13F02227242A007CD0E2 /* CustomVC */ = {
+			isa = PBXGroup;
+			children = (
+				1FDB13F12227244D007CD0E2 /* MessengerBaseVC.swift */,
+			);
+			path = CustomVC;
 			sourceTree = "<group>";
 		};
 		1FE4F0F821687CF400E4EF72 /* Custom Classes */ = {
@@ -818,6 +829,7 @@
 				1F68B2AE2152740700DC9525 /* SocketIOManager.swift in Sources */,
 				1F5DAE4521FA316500BC26DB /* TestMapBoxView.swift in Sources */,
 				1F68B2BD2152DD1300DC9525 /* RegisterVC.swift in Sources */,
+				1FDB13F22227244D007CD0E2 /* MessengerBaseVC.swift in Sources */,
 				1FDB13ED222231EB007CD0E2 /* ModularKeyboard.swift in Sources */,
 				1F68B2A42152367A00DC9525 /* FirebaseGlobals.swift in Sources */,
 				1F68B2BB2152789B00DC9525 /* RouteUtils.swift in Sources */,

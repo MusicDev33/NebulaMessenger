@@ -7,7 +7,7 @@
 //
 
 import UIKit
-/*
+
 class ModularKeyboard: UIView {
     let screenSizeX = UIScreen.main.bounds.size.width
     let textViewMaxLines: CGFloat = 6
@@ -227,12 +227,10 @@ class ModularKeyboard: UIView {
     func draggedCircle(x: CGFloat, y: CGFloat){
         if !hasMoved{
             hasMoved = true
-            bottomBarActionButton.isHidden = false
             UIView.animate(withDuration: 0.6, animations: {
                 self.layer.cornerRadius = 16
                 self.alpha = 0.7
                 self.messageField.alpha = 0.3
-                self.bottomBarActionButton.alpha = 1
                 self.layoutIfNeeded()
             })
         }
@@ -245,7 +243,7 @@ class ModularKeyboard: UIView {
         }
     }
     
-    func resetBottomBar(){
+    func resetBottomBar(finished:@escaping () -> Void){
         self.heightConstraint?.constant = 100
         self.widthConstraint?.constant = 0
         
@@ -261,24 +259,23 @@ class ModularKeyboard: UIView {
         resizeMode = false
         UIView.animate(withDuration: 0.3, animations: {
             self.downButton.isHidden = true
-            self.bottomBar.layer.cornerRadius = 0
-            self.bottomBarActionButton.alpha = 0
-            self.bottomBar.alpha = 1
             self.sendButton.alpha = 1
             self.closeButton.alpha = 1
             self.messageField.alpha = 1
+            self.layer.cornerRadius = 0
+            self.alpha = 1
             self.groupFunctionButton.alpha = 1
             self.grabCircleBackground.alpha = 1
             self.closeButton.isEnabled = true
             self.layoutIfNeeded()
         }, completion: {_ in
-            self.bottomBarActionButton.isHidden = true
+            finished()
         })
         hasMoved = false
     }
     
     func moveWithKeyboard(yValue: CGFloat, duration: Double){
-        resetBottomBar()
+        resetBottomBar(){}
         bottomConstraint?.constant -= yValue
         closeButtonLeftConstraint?.constant = 30
         downArrowTopConstraint?.constant = -30
@@ -295,12 +292,11 @@ class ModularKeyboard: UIView {
         resizeMode = !resizeMode
     }
     
-    func closeButtonTapped(){
+    func closeButtonTapped(finished:@escaping () -> Void){
         hasMoved = true
         groupFunctionOpen = true
         
         groupFunctionPressed()
-        self.bottomBarActionButton.isHidden = false
         UIView.animate(withDuration: 0.2, animations: {
             self.grabCircleBackground.alpha = 0
             self.sendButton.alpha = 0
@@ -317,12 +313,11 @@ class ModularKeyboard: UIView {
                 self.alpha = 0.2
                 self.layoutIfNeeded()
             }, completion: {_ in
-                self.animateLayer()
                 UIView.animate(withDuration: 0.1, animations: {
                     self.alpha = 0
                     self.closeButton.alpha = 0
-                    self.bottomBarActionButton.alpha = 1
                     self.layoutIfNeeded()
+                    finished()
                 })
             })
         })
@@ -361,4 +356,3 @@ class ModularKeyboard: UIView {
         groupFunctionOpen = !groupFunctionOpen
     }
 }
-*/

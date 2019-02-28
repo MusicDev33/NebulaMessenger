@@ -95,6 +95,7 @@ class MessengerVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.delegate = self
+        modularKeyboard = ModularKeyboard(frame: self.view.frame, view: self.view)
         // This makes sure you don't exit to the create message page
         if fromCreateMessage{
             let vcAmount = self.navigationController?.viewControllers.count
@@ -109,7 +110,6 @@ class MessengerVC: UIViewController {
         
         
         //Making a collectionview
-        
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: 375, height: 50)
@@ -132,31 +132,29 @@ class MessengerVC: UIViewController {
         self.view.addSubview(newView)
         self.newView.addSubview(self.messagesCollection)
         newView.sendSubviewToBack(self.messagesCollection)
+        self.view.addSubview(modularKeyboard)
         
         messagesCollection.topAnchor.constraint(equalTo: newView.navBar.bottomAnchor, constant: 0).isActive = true
-        messagesCollectionBottomConstraint = messagesCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -newView.bottomBar.frame.height)
+        messagesCollectionBottomConstraint = messagesCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -modularKeyboard.frame.height)
         messagesCollectionBottomConstraint?.isActive = true
         messagesCollection.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        //messagesCollection.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         messagesCollection.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        //messagesCollection.heightAnchor.constraint(equalToConstant: 400).isActive = true
         
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapOnCircle(_:)))
         tapGesture.numberOfTapsRequired = 2
-        //newView.bottomBar.isUserInteractionEnabled = true
-        newView.bottomBar.addGestureRecognizer(tapGesture)
+        modularKeyboard.addGestureRecognizer(tapGesture)
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.draggedCircle(_:)))
         panGesture.delegate = self
-        newView.bottomBar.isUserInteractionEnabled = true
-        newView.bottomBar.addGestureRecognizer(panGesture)
+        modularKeyboard.isUserInteractionEnabled = true
+        modularKeyboard.addGestureRecognizer(panGesture)
         
         newView.bottomBarActionButton.addTarget(self, action: #selector(resetButton), for: .touchUpInside)
         newView.backButton.addTarget(self, action: #selector(goBack(sender:)), for: .touchUpInside)
-        newView.closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
-        newView.downButton.addTarget(self, action: #selector(downButtonPressed), for: .touchUpInside)
-        newView.sendButton.addTarget(self, action: #selector(sendWrapper(sender:)), for: .touchUpInside)
+        modularKeyboard.closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
+        modularKeyboard.downButton.addTarget(self, action: #selector(downButtonPressed), for: .touchUpInside)
+        modularKeyboard.sendButton.addTarget(self, action: #selector(sendWrapper(sender:)), for: .touchUpInside)
         //newView.groupFunctionButton.addTarget(self, action: #selector(addToGroupButtonPressed), for: .touchUpInside)
         
         let currentlyInvolved = Utility.getFriendsFromConvIdAsArray(user: GlobalUser.username, convId: self.involved)
@@ -164,14 +162,14 @@ class MessengerVC: UIViewController {
         
         if self.isGroupChat{
             self.createTableView()
-            newView.buildGroupChatFeatures()
-            newView.groupFunctionButton.addTarget(self, action: #selector(groupFunctionButtonPressed), for: .touchUpInside)
+            modularKeyboard.buildGroupChatFeatures()
+            modularKeyboard.groupFunctionButton.addTarget(self, action: #selector(groupFunctionButtonPressed), for: .touchUpInside)
         }
         
         // Do any additional setup after loading the view.
-        newView.messageField.delegate = self
-        if newView.messageField.text.count == 0{
-            newView.sendButton.isEnabled = false
+        modularKeyboard.messageField.delegate = self
+        if modularKeyboard.messageField.text.count == 0{
+            modularKeyboard.sendButton.isEnabled = false
         }
         
         self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 12, right: 0)
@@ -200,22 +198,20 @@ class MessengerVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.openSocket {
-        }
+        self.openSocket {}
         self.messagesCollection.layoutIfNeeded()
         self.view.alpha = 1
-        newView.messageField.text = UserDefaults.standard.string(forKey: self.id) ?? ""
+        modularKeyboard.messageField.text = UserDefaults.standard.string(forKey: self.id) ?? ""
         NotificationCenter.default.addObserver(self, selector: #selector(self.closeVC), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.openVC), name: UIApplication.didBecomeActiveNotification, object: nil)
-        newView.resizeTextView()
-        let bottom = NSMakeRange(newView.messageField.text.count - 1, 1)
-        newView.messageField.scrollRangeToVisible(bottom)
+        modularKeyboard.resizeTextView()
+        let bottom = NSMakeRange(modularKeyboard.messageField.text.count - 1, 1)
+        modularKeyboard.messageField.scrollRangeToVisible(bottom)
 
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        //self.view.alpha = 0.3
         SocketIOManager.sendNotTyping(id: self.id)
     }
     
@@ -223,7 +219,6 @@ class MessengerVC: UIViewController {
         super.viewDidLayoutSubviews()
         self.messagesCollection.layoutIfNeeded()
         if !didScroll{
-            //self.scrollToBottom(animated: false)
             didScroll = true
         }
     }
@@ -293,7 +288,7 @@ extension MessengerVC{
             
             let safeAreaBottomInset = self.view.safeAreaInsets.bottom
             
-            newView.moveWithKeyboard(yValue: keyboardSize.height - safeAreaBottomInset, duration: keyboardDuration)
+            modularKeyboard.moveWithKeyboard(yValue: keyboardSize.height - safeAreaBottomInset, duration: keyboardDuration)
         }
         self.keyboardIsUp = true
     }
@@ -307,7 +302,9 @@ extension MessengerVC{
             UIView.animate(withDuration: keyboardDuration){
                 self.view.layoutIfNeeded()
             }
-            newView.resetBottomBar()
+            modularKeyboard.resetBottomBar(){
+                self.newView.bottomBarActionButton.isHidden = true
+            }
         }
         self.keyboardIsUp = false
     }
@@ -335,7 +332,7 @@ extension MessengerVC{
             requestJson["groupChat"] = "HELLO" // Set groupChat to something random, it doesn't matter
         }
         
-        let body = self.newView.messageField.text
+        let body = self.modularKeyboard.messageField.text
         
         requestJson["sender"] = GlobalUser.username
         requestJson["body"] = body
@@ -348,7 +345,7 @@ extension MessengerVC{
         
         print(requestJson)
         
-        self.newView.sendButton.isEnabled = false
+        self.modularKeyboard.sendButton.isEnabled = false
         
         do {
             let data = try JSONSerialization.data(withJSONObject: requestJson, options:.prettyPrinted)
@@ -372,7 +369,7 @@ extension MessengerVC{
                     
                     let tempMsg = TerseMessage(_id: "", //Fix this
                         sender: GlobalUser.username,
-                        body: self.newView.messageField.text,
+                        body: self.modularKeyboard.messageField.text,
                         dateTime: now,
                         read: false)
                     
@@ -401,7 +398,7 @@ extension MessengerVC{
                     self.msgList.append(tempMsg)
                     self.messagesCollection.reloadData()
                     self.scrollToBottom(animated: true)
-                    self.newView.messageField.text = ""
+                    self.modularKeyboard.messageField.text = ""
                     
                     if jsonObject["conv"].exists(){
                         self.id = jsonObject["conv"]["id"].string!
@@ -701,15 +698,15 @@ extension MessengerVC: UITextViewDelegate{
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == ""{
             if textView.text.count-1 > 0{
-                newView.sendButton.isEnabled = true
+                modularKeyboard.sendButton.isEnabled = true
             }else{
-                newView.sendButton.isEnabled = false
+                modularKeyboard.sendButton.isEnabled = false
             }
         }else{
             if textView.text.count+1 > 0{
-                newView.sendButton.isEnabled = true
+                modularKeyboard.sendButton.isEnabled = true
             }else{
-                newView.sendButton.isEnabled = false
+                modularKeyboard.sendButton.isEnabled = false
             }
         }
         
@@ -720,11 +717,11 @@ extension MessengerVC: UITextViewDelegate{
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        newView.resizeTextView()
+        modularKeyboard.resizeTextView()
         if textView.text.count == 0{
-            newView.sendButton.isEnabled = false
+            modularKeyboard.sendButton.isEnabled = false
         }else{
-            newView.sendButton.isEnabled = true
+            modularKeyboard.sendButton.isEnabled = true
         }
         UserDefaults.standard.set(textView.text, forKey: self.id)
     }
@@ -753,12 +750,16 @@ extension MessengerVC: UINavigationControllerDelegate{
 // MARK: Listeners/Selectors Ext.
 extension MessengerVC{
     @objc func doubleTapOnCircle(_ sender: UITapGestureRecognizer){
-        newView.tappedGrabCircle()
+        modularKeyboard.tappedGrabCircle()
     }
     
     @objc func closeButtonPressed(){
         if !keyboardIsUp{
-            newView.closeButtonTapped()
+            newView.bottomBarActionButton.isHidden = false
+            modularKeyboard.closeButtonTapped(){
+                self.newView.bottomBarActionButton.alpha = 1
+                self.newView.animateLayer()
+            }
             self.messagesCollectionBottomConstraint?.constant -= 3
             UIView.animate(withDuration: 0.2, animations: {
                 self.view.layoutIfNeeded()
@@ -775,10 +776,16 @@ extension MessengerVC{
         switch sender.state {
         case .began:
             print("hi")
+            if !modularKeyboard.hasMoved{
+                self.newView.bottomBarActionButton.isHidden = false
+                UIView.animate(withDuration: 0.6, animations: {
+                    self.newView.bottomBarActionButton.alpha = 1
+                })
+            }
         case .changed:
             let translation = sender.translation(in: self.view)
             if !self.keyboardIsUp{
-                newView.draggedCircle(x: translation.x, y: translation.y)
+                modularKeyboard.draggedCircle(x: translation.x, y: translation.y)
                 sender.setTranslation(CGPoint.zero, in: self.view)
             }else{
                 if translation.y > 0{
@@ -803,10 +810,13 @@ extension MessengerVC{
     
     @objc func resetButton(){
         collectionMoved = false
-        newView.resetBottomBar()
-        self.messagesCollectionBottomConstraint?.constant = -self.newView.bottomBar.frame.height
+        modularKeyboard.resetBottomBar(){
+            self.newView.bottomBarActionButton.isHidden = true
+        }
+        self.messagesCollectionBottomConstraint?.constant = -self.modularKeyboard.frame.height
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
+            self.newView.bottomBarActionButton.alpha = 0
         }, completion: {_ in
             self.scrollToBottom(animated: true)
         })
@@ -817,7 +827,7 @@ extension MessengerVC{
     }
     
     @objc func groupFunctionButtonPressed(){
-        newView.groupFunctionPressed()
+        modularKeyboard.groupFunctionPressed()
     }
     
     @objc func goBack(sender: UIButton){
@@ -834,7 +844,6 @@ extension MessengerVC{
         GlobalUser.currentConv = ""
         self.view.endEditing(true)
         self.navigationController?.popViewController(animated: true)
-        //self.performSegue(withIdentifier: "messengerVCToMainMenu", sender: self)
     }
     
     @objc func closeVC()  {
