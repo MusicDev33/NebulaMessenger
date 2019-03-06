@@ -22,21 +22,11 @@ class MessengerVC: MessengerBaseVC {
     var deleteArray = [String]()
     var bottomLineView = UIView()
     
-    var keyboardIsUp = false
-    
     var fromCreateMessage = false
     
-    var messagesCollection: UICollectionView! { didSet {
-        messagesCollection.dataSource = self
-        messagesCollection.delegate = self
-        }
-    }
     var maxChars = 22
     
     var didScroll = false
-    
-    var bottomPadding: CGFloat!
-    var topPadding: CGFloat!
     
     var possibleMembers = [String]()
     var possibleMembersTable: UITableView!
@@ -112,6 +102,8 @@ class MessengerVC: MessengerBaseVC {
         messagesCollection = UICollectionView(frame: CGRect(x: 0, y: 100, width: self.view.frame.width, height: 500), collectionViewLayout: layout)
         messagesCollection.register(MessageBubble.self, forCellWithReuseIdentifier: "messageBubble")
         
+        messagesCollection.dataSource = self
+        messagesCollection.delegate = self
         messagesCollection.translatesAutoresizingMaskIntoConstraints = false
         messagesCollection.backgroundColor = UIColor.white
         messagesCollection.isScrollEnabled = true
@@ -168,10 +160,6 @@ class MessengerVC: MessengerBaseVC {
         rightSwipe.direction = .right
         self.messagesCollection.addGestureRecognizer(rightSwipe)
         
-        let window = UIApplication.shared.keyWindow
-        topPadding = window?.safeAreaInsets.top ?? 0
-        bottomPadding = window?.safeAreaInsets.bottom ?? 0
-        
         self.setupKeyboardObservers()
         
         GlobalUser.currentConv = self.id
@@ -217,17 +205,6 @@ class MessengerVC: MessengerBaseVC {
         NotificationCenter.default.removeObserver(self)
     }
     
-    func scrollToBottom(animated: Bool) {
-        DispatchQueue.main.async {
-            self.messagesCollection.layoutIfNeeded()
-            let scrollToY = self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + 12
-            let cInset = self.messagesCollection.contentInset.bottom
-            
-            let contentPoint = CGPoint(x: 0, y: scrollToY + cInset)
-            self.messagesCollection.setContentOffset(contentPoint, animated: animated)
-        }
-    }
-    
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if(event?.subtype == UIEvent.EventSubtype.motionShake) {
             let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
@@ -250,55 +227,6 @@ extension MessengerVC: UIGestureRecognizerDelegate {
         return false
     }
 }
-
-
-// MARK: Keyboard Ext.
-extension MessengerVC{
-    func setupKeyboardObservers(){
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc func handleKeyboardWillShow(notification: NSNotification){
-        guard let info = notification.userInfo,
-            let keyboardFrameValue = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-        
-        let keyboardFrame = keyboardFrameValue.cgRectValue
-        let keyboardSize = keyboardFrame.size
-        
-        let keyboardDuration: Double = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double)
-        if !self.keyboardIsUp{
-            self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: keyboardSize.height+12-bottomPadding, right: 0)
-            self.scrollToBottom(animated: true)
-            UIView.animate(withDuration: keyboardDuration){
-                self.view.layoutIfNeeded()
-            }
-            
-            let safeAreaBottomInset = self.view.safeAreaInsets.bottom
-            
-            modularKeyboard.moveWithKeyboard(yValue: keyboardSize.height - safeAreaBottomInset, duration: keyboardDuration)
-        }
-        self.keyboardIsUp = true
-    }
-    
-    
-    @objc func handleKeyboardWillHide(notification: NSNotification){
-        let keyboardDuration: Double = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double)
-        
-        if self.keyboardIsUp{
-            self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 12, right: 0)
-            UIView.animate(withDuration: keyboardDuration){
-                self.view.layoutIfNeeded()
-            }
-            modularKeyboard.resetBottomBar(){
-                self.newView.bottomBarActionButton.isHidden = true
-            }
-        }
-        self.keyboardIsUp = false
-    }
-}
-
 
 // MARK: Network Ext.
 extension MessengerVC{
@@ -761,7 +689,6 @@ extension MessengerVC{
     @objc func draggedCircle(_ sender:UIPanGestureRecognizer){
         switch sender.state {
         case .began:
-            print("hi")
             if !modularKeyboard.hasMoved{
                 self.newView.bottomBarActionButton.isHidden = false
                 UIView.animate(withDuration: 0.6, animations: {

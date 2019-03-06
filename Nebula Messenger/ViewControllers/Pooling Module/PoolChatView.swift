@@ -191,7 +191,7 @@ class PoolChatView: MessengerBaseView {
         
         closeButton.heightAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
         closeButton.widthAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
-        closeButton.centerYAnchor.constraint(equalTo: grabCircle.centerYAnchor).isActive = true
+        closeButton.centerYAnchor.constraint(equalTo: grabCircleBackground.centerYAnchor).isActive = true
         closeButtonLeftAnchor = closeButton.leftAnchor.constraint(equalTo: bottomBar.leftAnchor, constant: 5)
         closeButtonLeftAnchor?.isActive = true
         closeButtonCenterXAnchor = closeButton.centerXAnchor.constraint(equalTo: bottomBar.centerXAnchor, constant: 0)
@@ -220,7 +220,7 @@ class PoolChatView: MessengerBaseView {
         
         sendButton.heightAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
         sendButton.widthAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
-        sendButton.centerYAnchor.constraint(equalTo: grabCircle.centerYAnchor).isActive = true
+        sendButton.centerYAnchor.constraint(equalTo: grabCircleBackground.centerYAnchor).isActive = true
         sendButton.rightAnchor.constraint(equalTo: grabCircleBackground.leftAnchor, constant: -10).isActive = true
         
     }

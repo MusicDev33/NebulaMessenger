@@ -28,8 +28,6 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
     var bottomPadding: CGFloat!
     var topPadding: CGFloat!
     
-    var keyboardIsUp = false
-    
     var messagesCollectionBottomConstraint: NSLayoutConstraint?
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
