@@ -8,60 +8,7 @@
 
 import UIKit
 
-class PoolChatView: UIView {
-    let screenSizeX = UIScreen.main.bounds.size.width
-    
-    let navBar: UIView = {
-        var view = UIView()
-        view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        view.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 1)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        //view.layer.cornerRadius = 16
-        view.layer.masksToBounds = true
-        
-        return view
-    }()
-    
-    let topLine: UIView = {
-        var view = UIView()
-        view.frame = CGRect(x: 0, y: 0, width: 100, height: 1)
-        view.backgroundColor = UIColor.lightGray
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.masksToBounds = true
-        
-        return view
-    }()
-    
-    
-    let backButton: UIButton = {
-        var button = UIButton()
-        if let image = UIImage(named: "BackArrowBlack") {
-            button.setImage(image, for: .normal)
-        }
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        return button
-    }()
-    
-    let trashButton: UIButton = {
-        var button = UIButton()
-        if let image = UIImage(named: "Trashcan") {
-            button.setImage(image, for: .normal)
-        }
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        return button
-    }()
-    
-    let involvedLabel: UILabel = {
-        var label = UILabel()
-        label.text = "Users"
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = UIColor.black
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+class PoolChatView: MessengerBaseView {
     
     let subscribeBackground: UIView = {
         let view = UIView()
@@ -80,65 +27,6 @@ class PoolChatView: UIView {
         view.bounds.insetBy(dx: -18.0, dy: -18.0)
         
         return view
-    }()
-    
-    let bottomBarActionButton: UIButton = {
-        var button = UIButton()
-        if let image = UIImage(named: "FullscreenBlack") {
-            button.setImage(image, for: .normal)
-        }
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.isHidden = true
-        button.alpha = 0
-        return button
-    }()
-    
-    //For animation
-    let pulsatingLayer: CAShapeLayer = {
-        var layer = CAShapeLayer()
-        // Here we add half of the button's width to the circle's center to get it to center on the button
-        let point = CGPoint(x: UIScreen.main.bounds.size.width/2, y: 25+(UIScreen.main.bounds.size.height/20))
-        let circlePath = UIBezierPath(arcCenter: .zero, radius: CGFloat(20), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
-        
-        let bgColor = nebulaPurple.withAlphaComponent(0.0)
-        layer.path = circlePath.cgPath
-        layer.strokeColor = UIColor.clear.cgColor
-        layer.lineWidth = 10
-        layer.fillColor = bgColor.cgColor
-        layer.lineCap = CAShapeLayerLineCap.round
-        layer.position = point
-        return layer
-    }()
-    
-    // Bottom View
-    let bottomBar: UIView = {
-        var view = UIView()
-        view.frame = CGRect(x: 0, y: 300, width: 100, height: 100)
-        view.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 1)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.masksToBounds = true
-        
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.lightGray.cgColor
-        
-        return view
-    }()
-    
-    var resizeMode = false
-    var hasMoved = false
-    var circleSide = "right"
-    let grabCircle: UIView = {
-        let circle = UIView()
-        let height = CGFloat(20)
-        circle.frame = CGRect(x: 0, y: 0, width: height, height: height)
-        circle.backgroundColor = nebulaPurple
-        circle.translatesAutoresizingMaskIntoConstraints = false
-        circle.layer.cornerRadius = height/2
-        circle.layer.masksToBounds = true
-        
-        circle.bounds.insetBy(dx: -18.0, dy: -18.0)
-        
-        return circle
     }()
     
     private let grabCircleBackground: UIView = {
@@ -204,10 +92,8 @@ class PoolChatView: UIView {
         return button
     }()
     
-    let screenBounds = UIScreen.main.bounds
-    
-    init(frame: CGRect, view: UIView) {
-        super.init(frame: frame)
+    override init(frame: CGRect, view: UIView) {
+        super.init(frame: frame, view: view)
         //self.backgroundColor = UIColor.black
         addSubview(navBar)
         addSubview(topLine)
@@ -223,9 +109,7 @@ class PoolChatView: UIView {
         pulsatingLayer.frame.origin.x += (buttonHeight-10)/2
         pulsatingLayer.frame.origin.y += (buttonHeight-10)/2
         
-        addSubview(bottomBar)
         addSubview(grabCircleBackground)
-        addSubview(grabCircle)
         addSubview(messageField)
         if involvedLabel.text?.count == 0{
             sendButton.isEnabled = false
@@ -243,29 +127,7 @@ class PoolChatView: UIView {
         super.init(coder: aDecoder)
     }
     
-    var involvedWidthAnchor: NSLayoutConstraint?
-    var involvedCenterAnchor: NSLayoutConstraint?
-    
-    var bottomBarCenterX: NSLayoutConstraint?
-    var bottomBarBottom: NSLayoutConstraint?
-    var bottomBarWidthAnchor: NSLayoutConstraint?
-    var bottomBarHeightAnchor: NSLayoutConstraint?
-    
-    var bottomBarToActionButtonX: NSLayoutConstraint?
-    var bottomBarToActionButtonY: NSLayoutConstraint?
-    
-    var closeButtonCenterXAnchor: NSLayoutConstraint?
-    var closeButtonCenterYAnchor: NSLayoutConstraint?
-    var closeButtonLeftAnchor: NSLayoutConstraint?
-    
-    var downArrowTopAnchor: NSLayoutConstraint?
-    var downArrowButtonCenterYAnchor: NSLayoutConstraint?
-    
-    var grabCircleRightAnchor: NSLayoutConstraint?
-    var grabCircleLeftAnchor: NSLayoutConstraint?
-    
-    let buttonHeight = CGFloat(40)
-    func buildConstraintsForNavBar(){
+    override func buildConstraintsForNavBar(){
         navBar.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         navBar.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
         navBar.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.07).isActive = true
@@ -344,15 +206,6 @@ class PoolChatView: UIView {
         downArrowTopAnchor?.isActive = true
         downButton.leftAnchor.constraint(equalTo: bottomBar.leftAnchor, constant: 5).isActive = true
         
-        
-        grabCircleRightAnchor = grabCircle.rightAnchor.constraint(equalTo: bottomBar.rightAnchor, constant: -5)
-        grabCircleRightAnchor?.isActive = true
-        
-        grabCircleLeftAnchor = grabCircle.leftAnchor.constraint(equalTo: closeButton.rightAnchor, constant: 5)
-        
-        grabCircle.topAnchor.constraint(equalTo: bottomBar.topAnchor, constant: 5).isActive = true
-        grabCircle.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        grabCircle.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         grabCircleBackground.rightAnchor.constraint(equalTo: bottomBar.rightAnchor, constant: -5).isActive = true
         
@@ -486,7 +339,6 @@ class PoolChatView: UIView {
         hasMoved = true
         self.bottomBarActionButton.isHidden = false
         UIView.animate(withDuration: 0.2, animations: {
-            self.grabCircle.backgroundColor = nebulaPurple
             self.grabCircleBackground.alpha = 0
             self.sendButton.alpha = 0
             self.grabCircle.alpha = 0
@@ -511,35 +363,6 @@ class PoolChatView: UIView {
                 })
             })
         })
-    }
-    
-    // Animations
-    func animateLayer(){
-        CATransaction.begin()
-        CATransaction.setCompletionBlock({
-            self.pulsatingLayer.fillColor = UIColor.clear.cgColor
-            self.pulsatingLayer.isHidden = true
-            self.pulsatingLayer.removeAllAnimations()
-        })
-        let bgColor = nebulaPurple.withAlphaComponent(0.3)
-        self.pulsatingLayer.fillColor = bgColor.cgColor
-        self.pulsatingLayer.isHidden = false
-        
-        let animation = CABasicAnimation(keyPath: "transform.scale.xy")
-        animation.toValue = 2
-        animation.duration = 0.5
-        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
-        animation.isRemovedOnCompletion = false
-        
-        let alphaAnim = CABasicAnimation(keyPath: "opacity")
-        alphaAnim.toValue = 0.0
-        alphaAnim.duration = 0.5
-        alphaAnim.fillMode = CAMediaTimingFillMode.forwards
-        alphaAnim.isRemovedOnCompletion = false
-        
-        pulsatingLayer.add(alphaAnim, forKey: "alphaChange")
-        pulsatingLayer.add(animation, forKey: "pulsing")
-        CATransaction.commit()
     }
 }
 

@@ -107,6 +107,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             messageVC.id = self.passId
             messageVC.involved = self.passInvolved
             messageVC.friend = self.passFriend
+            messageVC.conversationName = self.passFriend
             messageVC.msgList = self.passMsgList
             messageVC.isGroupChat = self.isGroupChat
             self.isGroupChat = false

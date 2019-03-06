@@ -102,6 +102,7 @@ class CreateMessageVC: UIViewController, UIGestureRecognizerDelegate {
 
     // TODO: Get rid of this...does it even get called????
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("DOES THIS EVEN GET CALLED????")
         if segue.destination is MessengerVC{
             let vc = segue.destination as? MessengerVC
             vc?.id = ""
@@ -310,6 +311,7 @@ extension CreateMessageVC{
                     
                     messageVC.skipNotif = true
                     messageVC.friend = self.passFriend
+                    messageVC.conversationName = self.passFriend
                     
                     if GlobalUser.convNames.contains(self.passFriend){
                         messageVC.involved = GlobalUser.involvedDict[self.passFriend]!
@@ -323,6 +325,7 @@ extension CreateMessageVC{
             }else{
                 messageVC.skipNotif = true
                 messageVC.friend = self.passFriend
+                messageVC.conversationName = self.passFriend
                 
                 if GlobalUser.convNames.contains(self.passFriend){
                     messageVC.involved = GlobalUser.involvedDict[self.passFriend]!
@@ -341,6 +344,7 @@ extension CreateMessageVC{
                     self.passMsgList = messageList
                     
                     messageVC.friend = self.selectedFriendsList[0]
+                    messageVC.conversationName = self.selectedFriendsList[0]
                     self.passFriend = self.selectedFriendsList[0]
                     if GlobalUser.convNames.contains(self.selectedFriendsList[0]){
                         messageVC.involved = GlobalUser.involvedDict[self.passFriend]!

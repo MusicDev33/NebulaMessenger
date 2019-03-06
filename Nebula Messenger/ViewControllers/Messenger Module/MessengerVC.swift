@@ -10,11 +10,8 @@ import UIKit
 import Alamofire
 import CoreData
 
-class MessengerVC: UIViewController {
+class MessengerVC: MessengerBaseVC {
     
-    var msgList = [TerseMessage]()
-    
-    var id = ""
     var involved = ""
     var friend = ""
     var isGroupChat = false
@@ -44,7 +41,6 @@ class MessengerVC: UIViewController {
     var possibleMembers = [String]()
     var possibleMembersTable: UITableView!
     var selectedFriend = ""
-    
     
     var timer: Timer?
     
@@ -89,23 +85,20 @@ class MessengerVC: UIViewController {
     }*/
     
     var newView: MessengerView!
-    var modularKeyboard: ModularKeyboard!
     var messagesCollectionBottomConstraint: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.delegate = self
-        modularKeyboard = ModularKeyboard(frame: self.view.frame, view: self.view)
         // This makes sure you don't exit to the create message page
         if fromCreateMessage{
             let vcAmount = self.navigationController?.viewControllers.count
             self.navigationController?.viewControllers.remove(at: vcAmount! - 2)
         }
         
-        self.view.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 1)
-        if self.friend.count > maxChars{
-            self.friend.removeLast(self.friend.count-maxChars)
-            self.friend += "..."
+        if self.conversationName.count > maxChars{
+            self.conversationName.removeLast(self.conversationName.count-maxChars)
+            self.conversationName += "..."
         }
         
         
@@ -126,7 +119,7 @@ class MessengerVC: UIViewController {
         messagesCollection.alwaysBounceVertical = true
         
         newView = MessengerView(frame: self.view.frame, view: self.view)
-        newView.involvedLabel.text = self.friend
+        newView.involvedLabel.text = self.conversationName
         newView.involvedCenterAnchor?.isActive = true
         
         self.view.addSubview(newView)
@@ -336,7 +329,7 @@ extension MessengerVC{
         requestJson["convId"] = self.involved
         //requestJson["read"] = false
         requestJson["dateTime"] = now
-        requestJson["topic"] = self.friend
+        requestJson["topic"] = self.conversationName
         requestJson["id"] = self.id
         
         print(requestJson)

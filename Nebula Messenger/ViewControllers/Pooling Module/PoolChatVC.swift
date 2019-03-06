@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import FirebaseMessaging
 
-class PoolChatVC: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UITextViewDelegate, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
+class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDataSource, UITextViewDelegate, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
     var currentPoolMessages = [TerseMessage]()
     var poolId = ""
