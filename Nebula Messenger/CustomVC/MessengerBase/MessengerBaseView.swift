@@ -8,93 +8,9 @@
 
 import UIKit
 
-class MessengerBaseView: UIView {
-
-    let screenSizeX = UIScreen.main.bounds.size.width
-    let textViewMaxLines: CGFloat = 6
+class MessengerBaseView: UIView, DefaultMessengerUI {
     
-    let navBar: UIView = {
-        var view = UIView()
-        view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        view.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 0.2)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.masksToBounds = true
-        
-        return view
-    }()
-    
-    let topLine: UIView = {
-        var view = UIView()
-        view.frame = CGRect(x: 0, y: 0, width: 100, height: 1)
-        view.backgroundColor = UIColor.lightGray
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.masksToBounds = true
-        
-        return view
-    }()
-    
-    
-    let backButton: UIButton = {
-        var button = UIButton()
-        if let image = UIImage(named: "BackArrowBlack") {
-            button.setImage(image, for: .normal)
-        }
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        return button
-    }()
-    
-    let trashButton: UIButton = {
-        var button = UIButton()
-        if let image = UIImage(named: "Trashcan") {
-            button.setImage(image, for: .normal)
-        }
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        return button
-    }()
-    
-    let involvedLabel: UILabel = {
-        var label = UILabel()
-        label.text = "Users"
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = UIColor.black
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    let bottomBarActionButton: UIButton = {
-        var button = UIButton()
-        if let image = UIImage(named: "FullscreenBlack") {
-            button.setImage(image, for: .normal)
-        }
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.isHidden = false
-        button.alpha = 0
-        return button
-    }()
-    
-    //For animation
-    let pulsatingLayer: CAShapeLayer = {
-        var layer = CAShapeLayer()
-        // Here we add half of the button's width to the circle's center to get it to center on the button
-        let point = CGPoint(x: UIScreen.main.bounds.size.width/2, y: 25+(UIScreen.main.bounds.size.height/20))
-        let circlePath = UIBezierPath(arcCenter: .zero, radius: CGFloat(20), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
-        
-        let bgColor = nebulaPurple.withAlphaComponent(0.0)
-        layer.path = circlePath.cgPath
-        layer.strokeColor = UIColor.clear.cgColor
-        layer.lineWidth = 10
-        layer.fillColor = bgColor.cgColor
-        layer.lineCap = CAShapeLayerLineCap.round
-        layer.position = point
-        return layer
-    }()
-    
-    // Bottom View
     var hasMoved = false
-    
     let screenBounds = UIScreen.main.bounds
     
     init(frame: CGRect, view: UIView) {
@@ -135,9 +51,6 @@ class MessengerBaseView: UIView {
     
     var downArrowTopAnchor: NSLayoutConstraint?
     var downArrowButtonCenterYAnchor: NSLayoutConstraint?
-    
-    var grabCircleRightAnchor: NSLayoutConstraint?
-    var grabCircleLeftAnchor: NSLayoutConstraint?
     
     let buttonHeight = CGFloat(30)
     func buildConstraintsForNavBar(){

@@ -74,7 +74,6 @@ class MessengerVC: MessengerBaseVC {
         }
     }*/
     
-    var newView: MessengerView!
     var messagesCollectionBottomConstraint: NSLayoutConstraint?
     
     override func viewDidLoad() {
@@ -110,17 +109,17 @@ class MessengerVC: MessengerBaseVC {
         messagesCollection.isUserInteractionEnabled = true
         messagesCollection.alwaysBounceVertical = true
         
-        newView = MessengerView(frame: self.view.frame, view: self.view)
-        newView.involvedLabel.text = self.conversationName
-        newView.involvedCenterAnchor?.isActive = true
+        topView = MessengerView(frame: self.view.frame, view: self.view)
+        topView.involvedLabel.text = self.conversationName
+        topView.involvedCenterAnchor?.isActive = true
         
-        self.view.addSubview(newView)
-        self.newView.addSubview(self.messagesCollection)
-        newView.sendSubviewToBack(self.messagesCollection)
+        self.view.addSubview(topView)
+        self.topView.addSubview(self.messagesCollection)
+        topView.sendSubviewToBack(self.messagesCollection)
         self.view.addSubview(modularKeyboard)
         modularKeyboard.buildConstraints()
         
-        messagesCollection.topAnchor.constraint(equalTo: newView.navBar.bottomAnchor, constant: 0).isActive = true
+        messagesCollection.topAnchor.constraint(equalTo: topView.navBar.bottomAnchor, constant: 0).isActive = true
         messagesCollectionBottomConstraint = messagesCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -(modularKeyboard.heightConstraint?.constant)!)
         messagesCollectionBottomConstraint?.isActive = true
         messagesCollection.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -131,8 +130,8 @@ class MessengerVC: MessengerBaseVC {
         modularKeyboard.isUserInteractionEnabled = true
         modularKeyboard.addGestureRecognizer(panGesture)
         
-        newView.bottomBarActionButton.addTarget(self, action: #selector(resetButton), for: .touchUpInside)
-        newView.backButton.addTarget(self, action: #selector(goBack(sender:)), for: .touchUpInside)
+        topView.bottomBarActionButton.addTarget(self, action: #selector(resetButton), for: .touchUpInside)
+        topView.backButton.addTarget(self, action: #selector(goBack(sender:)), for: .touchUpInside)
         modularKeyboard.closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
         modularKeyboard.downButton.addTarget(self, action: #selector(downButtonPressed), for: .touchUpInside)
         modularKeyboard.sendButton.addTarget(self, action: #selector(sendWrapper(sender:)), for: .touchUpInside)
@@ -669,10 +668,10 @@ extension MessengerVC{
     
     @objc func closeButtonPressed(){
         if !keyboardIsUp{
-            newView.bottomBarActionButton.isHidden = false
+            topView.bottomBarActionButton.isHidden = false
             modularKeyboard.closeButtonTapped(){
-                self.newView.bottomBarActionButton.alpha = 1
-                self.newView.animateLayer()
+                self.topView.bottomBarActionButton.alpha = 1
+                self.topView.animateLayer()
             }
             self.messagesCollectionBottomConstraint?.constant -= 3
             UIView.animate(withDuration: 0.2, animations: {
@@ -690,9 +689,9 @@ extension MessengerVC{
         switch sender.state {
         case .began:
             if !modularKeyboard.hasMoved{
-                self.newView.bottomBarActionButton.isHidden = false
+                self.topView.bottomBarActionButton.isHidden = false
                 UIView.animate(withDuration: 0.6, animations: {
-                    self.newView.bottomBarActionButton.alpha = 1
+                    self.topView.bottomBarActionButton.alpha = 1
                 })
             }
         case .changed:
@@ -724,12 +723,12 @@ extension MessengerVC{
     @objc func resetButton(){
         collectionMoved = false
         modularKeyboard.resetBottomBar(){
-            self.newView.bottomBarActionButton.isHidden = true
+            self.topView.bottomBarActionButton.isHidden = true
         }
         self.messagesCollectionBottomConstraint?.constant = -self.modularKeyboard.frame.height
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
-            self.newView.bottomBarActionButton.alpha = 0
+            self.topView.bottomBarActionButton.alpha = 0
         }, completion: {_ in
             self.scrollToBottom(animated: true)
         })

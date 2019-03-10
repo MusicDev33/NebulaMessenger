@@ -74,6 +74,7 @@
 		1FDB13EF222686F5007CD0E2 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB13EE222686F5007CD0E2 /* MainMenuView.swift */; };
 		1FDB13F22227244D007CD0E2 /* MessengerBaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB13F12227244D007CD0E2 /* MessengerBaseVC.swift */; };
 		1FDB13F5222F3F42007CD0E2 /* MessengerBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB13F4222F3F42007CD0E2 /* MessengerBaseView.swift */; };
+		1FDB13F72235035C007CD0E2 /* MessengerBaseViewProto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB13F62235035C007CD0E2 /* MessengerBaseViewProto.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
 		1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */; };
@@ -176,6 +177,7 @@
 		1FDB13EE222686F5007CD0E2 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		1FDB13F12227244D007CD0E2 /* MessengerBaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerBaseVC.swift; sourceTree = "<group>"; };
 		1FDB13F4222F3F42007CD0E2 /* MessengerBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerBaseView.swift; sourceTree = "<group>"; };
+		1FDB13F62235035C007CD0E2 /* MessengerBaseViewProto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerBaseViewProto.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
 		1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
@@ -497,6 +499,7 @@
 			children = (
 				1FDB13F12227244D007CD0E2 /* MessengerBaseVC.swift */,
 				1FDB13F4222F3F42007CD0E2 /* MessengerBaseView.swift */,
+				1FDB13F62235035C007CD0E2 /* MessengerBaseViewProto.swift */,
 			);
 			path = MessengerBase;
 			sourceTree = "<group>";
@@ -855,6 +858,7 @@
 				1FB413EF21D7306800CB1288 /* FakeLaunchVC.swift in Sources */,
 				1FC7ED3421E4A71F002F1422 /* SettingsCell.swift in Sources */,
 				1F5DAE4321E9F0F600BC26DB /* PhoneNumberRegVC.swift in Sources */,
+				1FDB13F72235035C007CD0E2 /* MessengerBaseViewProto.swift in Sources */,
 				1FC7ED2A21E4912F002F1422 /* CustomTransitions.swift in Sources */,
 				1FB413F221D7587700CB1288 /* CreateMessageView.swift in Sources */,
 				1FE4F101216B139200E4EF72 /* FeedbackVC.swift in Sources */,

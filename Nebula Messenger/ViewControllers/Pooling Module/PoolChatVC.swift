@@ -16,17 +16,7 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
     var poolId = ""
     var poolName = ""
     
-    var newView: PoolChatView!
-    var messagesCollection: UICollectionView! { didSet {
-        messagesCollection.dataSource = self
-        messagesCollection.delegate = self
-        }
-    }
-    
     var subscribed = false
-    
-    var bottomPadding: CGFloat!
-    var topPadding: CGFloat!
     
     var messagesCollectionBottomConstraint: NSLayoutConstraint?
     
@@ -94,15 +84,12 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
         
         GlobalUser.currentConv = self.poolId
         
-        let window = UIApplication.shared.keyWindow
-        topPadding = window?.safeAreaInsets.top ?? 0
-        bottomPadding = window?.safeAreaInsets.bottom ?? 0
+        self.topView = PoolChatView(frame: self.view.frame, view: self.view)
         
-        self.newView = PoolChatView(frame: self.view.frame, view: self.view)
-        self.view.addSubview(newView)
+        self.view.addSubview(topView)
         
-        newView.involvedLabel.text = "Pool"
-        newView.involvedCenterAnchor?.isActive = true
+        topView.involvedLabel.text = "Pool"
+        topView.involvedCenterAnchor?.isActive = true
         
         //Making a collectionview
         
@@ -121,40 +108,37 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
         messagesCollection.isUserInteractionEnabled = true
         messagesCollection.alwaysBounceVertical = true
         
-        self.newView.addSubview(self.messagesCollection)
-        newView.sendSubviewToBack(self.messagesCollection)
+        self.topView.addSubview(self.messagesCollection)
+        topView.sendSubviewToBack(self.messagesCollection)
+        self.view.addSubview(modularKeyboard)
+        modularKeyboard.buildConstraints()
         
-        messagesCollection.topAnchor.constraint(equalTo: newView.navBar.bottomAnchor, constant: 0).isActive = true
-        messagesCollectionBottomConstraint = messagesCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -newView.bottomBar.frame.height)
+        messagesCollection.topAnchor.constraint(equalTo: topView.navBar.bottomAnchor, constant: 0).isActive = true
+        messagesCollectionBottomConstraint = messagesCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -(modularKeyboard.heightConstraint?.constant)!)
         messagesCollectionBottomConstraint?.isActive = true
         messagesCollection.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         messagesCollection.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         
         // Do any additional setup after loading the view.
-        newView.messageField.delegate = self
-        if newView.messageField.text.count == 0{
-            newView.sendButton.isEnabled = false
+        modularKeyboard.messageField.delegate = self
+        if modularKeyboard.messageField.text.count == 0{
+            modularKeyboard.sendButton.isEnabled = false
         }
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapOnCircle(_:)))
-        tapGesture.numberOfTapsRequired = 2
-        //newView.bottomBar.isUserInteractionEnabled = true
-        newView.grabCircle.addGestureRecognizer(tapGesture)
         
         let tapOnSubscribeGesture = UITapGestureRecognizer(target: self, action: #selector(tappedOnSubscribe))
         tapOnSubscribeGesture.delegate = self
-        newView.subscribeView.addGestureRecognizer(tapOnSubscribeGesture)
+        topView.subscribeView.addGestureRecognizer(tapOnSubscribeGesture)
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.draggedCircle(_:)))
         panGesture.delegate = self
-        newView.grabCircle.isUserInteractionEnabled = true
-        newView.grabCircle.addGestureRecognizer(panGesture)
+        modularKeyboard.isUserInteractionEnabled = true
+        modularKeyboard.addGestureRecognizer(panGesture)
         
-        newView.bottomBarActionButton.addTarget(self, action: #selector(resetButton), for: .touchUpInside)
-        newView.backButton.addTarget(self, action: #selector(goBack(sender:)), for: .touchUpInside)
-        newView.closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
-        newView.downButton.addTarget(self, action: #selector(downButtonPressed), for: .touchUpInside)
-        newView.sendButton.addTarget(self, action: #selector(sendWrapper(sender:)), for: .touchUpInside)
+        topView.bottomBarActionButton.addTarget(self, action: #selector(resetButton), for: .touchUpInside)
+        topView.backButton.addTarget(self, action: #selector(goBack(sender:)), for: .touchUpInside)
+        modularKeyboard.closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
+        modularKeyboard.downButton.addTarget(self, action: #selector(downButtonPressed), for: .touchUpInside)
+        modularKeyboard.sendButton.addTarget(self, action: #selector(sendWrapper(sender:)), for: .touchUpInside)
         
         self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 12, right: 0)
         self.messagesCollection.keyboardDismissMode = .interactive
@@ -164,13 +148,13 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
         self.openSocket {
         }
         self.scrollToBottom(animated: true)
-        self.newView.involvedLabel.text = self.poolName
+        self.topView.involvedLabel.text = self.poolName
         
         print("OOOOOOO")
         print(GlobalUser.subscribedPools)
         if GlobalUser.subscribedPools.contains(self.poolId){
             subscribed = true
-            self.newView.subscribeView.backgroundColor = UIColor.green
+            self.topView.subscribeView.backgroundColor = UIColor.green
         }
     }
     
@@ -184,7 +168,7 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
         if subscribed{
             PoolRoutes.removePoolSubscription(poolId: self.poolId, completion: {success in
                 if success == true{
-                    self.newView.subscribeView.backgroundColor = UIColor.red
+                    self.topView.subscribeView.backgroundColor = UIColor.red
                     self.subscribed = false
                     Messaging.messaging().unsubscribe(fromTopic: self.poolId)
                     GlobalUser.subscribedPools = GlobalUser.subscribedPools.filter {$0 != self.poolId}
@@ -195,7 +179,7 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
                 if success == true{
                     self.subscribed = true
                     Messaging.messaging().subscribe(toTopic: self.poolId)
-                    self.newView.subscribeView.backgroundColor = UIColor.green
+                    self.topView.subscribeView.backgroundColor = UIColor.green
                     GlobalUser.subscribedPools.append(self.poolId)
                 }
             })
@@ -214,17 +198,6 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
         NotificationCenter.default.removeObserver(self)
     }
     
-    func scrollToBottom(animated: Bool) {
-        DispatchQueue.main.async {
-            self.messagesCollection.layoutIfNeeded()
-            let scrollToY = self.messagesCollection.contentSize.height - self.messagesCollection.frame.height + 8
-            let cInset = self.messagesCollection.contentInset.bottom
-            
-            let contentPoint = CGPoint(x: 0, y: scrollToY + cInset)
-            self.messagesCollection.setContentOffset(contentPoint, animated: animated)
-        }
-    }
-    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
         return true
@@ -232,52 +205,11 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
     
     func textViewDidChange(_ textView: UITextView) {
         if textView.text.count == 0{
-            newView.sendButton.isEnabled = false
+            modularKeyboard.sendButton.isEnabled = false
         }else{
-            newView.sendButton.isEnabled = true
+            modularKeyboard.sendButton.isEnabled = true
         }
         UserDefaults.standard.set(textView.text, forKey: self.poolId)
-    }
-    
-    func setupKeyboardObservers(){
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc func handleKeyboardWillShow(notification: NSNotification){
-        guard let info = notification.userInfo,
-            let keyboardFrameValue = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-        
-        let keyboardFrame = keyboardFrameValue.cgRectValue
-        let keyboardSize = keyboardFrame.size
-        
-        let keyboardDuration: Double = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double)
-        if !self.keyboardIsUp{
-            self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: keyboardSize.height+12-bottomPadding, right: 0)
-            self.scrollToBottom(animated: true)
-            
-            let safeAreaBottomInset = self.view.safeAreaInsets.bottom
-            UIView.animate(withDuration: keyboardDuration){
-                self.view.layoutIfNeeded()
-            }
-            newView.moveWithKeyboard(yValue: keyboardSize.height - safeAreaBottomInset, duration: keyboardDuration)
-        }
-        self.keyboardIsUp = true
-    }
-    
-    
-    @objc func handleKeyboardWillHide(notification: NSNotification){
-        let keyboardDuration: Double = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double)
-        
-        if self.keyboardIsUp{
-            self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 12, right: 0)
-            UIView.animate(withDuration: keyboardDuration){
-                self.view.layoutIfNeeded()
-            }
-            newView.resetBottomBar()
-        }
-        self.keyboardIsUp = false
     }
     
     @IBAction func sendButtonPressed(_ sender: UIButton) {
@@ -298,7 +230,7 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
         requestJson["groupChat"] = "HELLO"
         
         requestJson["sender"] = GlobalUser.username
-        requestJson["body"] = self.newView.messageField.text
+        requestJson["body"] = self.modularKeyboard.messageField.text
         requestJson["dateTime"] = now
         requestJson["topic"] = "POOL"
         requestJson["id"] = self.poolId
@@ -325,7 +257,7 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
                     //let jsonObject = JSON(Json)
                     //let jsonObject = JSON(Json)
                     self.messagesCollection.reloadData()
-                    self.newView.messageField.text = ""
+                    self.modularKeyboard.messageField.text = ""
                     SocketIOManager.sendMessage(message: [dec as Any])
                 case .failure(let Json):
                     let jsonObject = JSON(Json)
@@ -363,14 +295,13 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
         }
     }
     
-    // newView Actions
-    @objc func doubleTapOnCircle(_ sender: UITapGestureRecognizer){
-        newView.tappedGrabCircle()
-    }
-    
+    // topView Actions
     @objc func closeButtonPressed(){
         if !keyboardIsUp{
-            newView.closeButtonTapped()
+            modularKeyboard.closeButtonTapped(){
+                self.topView.bottomBarActionButton.alpha = 1
+                self.topView.animateLayer()
+            }
             self.messagesCollectionBottomConstraint?.constant -= 3
             UIView.animate(withDuration: 0.2, animations: {
                 self.view.layoutIfNeeded()
@@ -391,7 +322,7 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
         case .changed:
             let translation = sender.translation(in: self.view)
             if !self.keyboardIsUp{
-                newView.draggedCircle(x: translation.x, y: translation.y)
+                modularKeyboard.draggedCircle(x: translation.x, y: translation.y)
                 sender.setTranslation(CGPoint.zero, in: self.view)
             }
             if !collectionMoved{
@@ -416,8 +347,10 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
     
     @objc func resetButton(){
         collectionMoved = false
-        newView.resetBottomBar()
-        self.messagesCollectionBottomConstraint?.constant = -self.newView.bottomBar.frame.height
+        modularKeyboard.resetBottomBar(){
+            self.topView.bottomBarActionButton.isHidden = true
+        }
+        self.messagesCollectionBottomConstraint?.constant = -self.modularKeyboard.frame.height
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
         }, completion: {_ in

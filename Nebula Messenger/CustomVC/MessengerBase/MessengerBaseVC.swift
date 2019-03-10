@@ -24,6 +24,8 @@ class MessengerBaseVC: UIViewController {
     var bottomPadding: CGFloat!
     var topPadding: CGFloat!
     
+    var topView: MessengerBaseView!
+    
     var messagesCollection: UICollectionView!
 
     override func viewDidLoad() {
@@ -77,7 +79,7 @@ extension MessengerBaseVC{
                 self.view.layoutIfNeeded()
             }
             modularKeyboard.resetBottomBar(){
-                self.newView.bottomBarActionButton.isHidden = true
+                self.topView.bottomBarActionButton.isHidden = true
             }
         }
         self.keyboardIsUp = false
