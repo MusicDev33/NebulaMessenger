@@ -102,6 +102,9 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
         messagesCollection = UICollectionView(frame: CGRect(x: 0, y: 100, width: self.view.frame.width, height: 500), collectionViewLayout: layout)
         messagesCollection.register(MessageBubble.self, forCellWithReuseIdentifier: "messageBubble")
         
+        messagesCollection.dataSource = self
+        messagesCollection.delegate = self
+        
         messagesCollection.translatesAutoresizingMaskIntoConstraints = false
         messagesCollection.backgroundColor = UIColor.white
         messagesCollection.isScrollEnabled = true
