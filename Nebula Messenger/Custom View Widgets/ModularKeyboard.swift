@@ -235,9 +235,9 @@ class ModularKeyboard: UIView {
             })
         }
         
-        if resizeMode{
+        if resizeMode {
             heightConstraint?.constant -= y
-        }else{
+        } else {
             bottomConstraint?.constant += y
             centerXConstraint?.constant += x
         }
@@ -275,15 +275,18 @@ class ModularKeyboard: UIView {
     }
     
     func moveWithKeyboard(yValue: CGFloat, duration: Double){
-        resetBottomBar(){}
-        bottomConstraint?.constant -= yValue
-        closeButtonLeftConstraint?.constant = 30
-        downArrowTopConstraint?.constant = -30
+        resetBottomBar(){
+        }
+        self.bottomConstraint?.constant -= yValue
+        self.closeButtonLeftConstraint?.constant = 30
+        self.downArrowTopConstraint?.constant = -30
         
         UIView.animate(withDuration: duration, animations: {
             self.downButton.isHidden = false
             self.closeButton.isEnabled = false
             self.layoutIfNeeded()
+        }, completion: {_ in
+            print("KEYBOARD DONE MOVING")
         })
     }
     

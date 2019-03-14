@@ -566,7 +566,7 @@ extension MessengerVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.view.endEditing(true)
+        //self.view.endEditing(true)
     }
     
 }
