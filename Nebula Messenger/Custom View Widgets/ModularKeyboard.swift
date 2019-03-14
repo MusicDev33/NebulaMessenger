@@ -15,7 +15,7 @@ class ModularKeyboard: UIView {
     var resizeMode = false
     var hasMoved = false
     
-    private let grabCircleBackground: UIView = {
+    let grabCircleBackground: UIView = {
         let circle = UIView()
         let height = CGFloat(20)
         circle.frame = CGRect(x: 0, y: 0, width: height, height: height)
@@ -234,65 +234,6 @@ class ModularKeyboard: UIView {
                 self.layoutIfNeeded()
             })
         }
-        
-        if resizeMode {
-            heightConstraint?.constant -= y
-        } else {
-            bottomConstraint?.constant += y
-            centerXConstraint?.constant += x
-        }
-    }
-    
-    func resetBottomBar(finished:@escaping () -> Void){
-        self.heightConstraint?.constant = 100
-        self.widthConstraint?.constant = 0
-        
-        self.bottomConstraint?.constant = 0
-        self.centerXConstraint?.constant = 0
-        
-        self.closeButtonCenterXConstraint?.isActive = false
-        self.closeButtonCenterYConstraint?.isActive = false
-        
-        closeButtonLeftConstraint?.constant = 0
-        downArrowTopConstraint?.constant = 0
-        
-        resizeMode = false
-        UIView.animate(withDuration: 0.3, animations: {
-            self.downButton.isHidden = true
-            self.sendButton.alpha = 1
-            self.closeButton.alpha = 1
-            self.messageField.alpha = 1
-            self.layer.cornerRadius = 0
-            self.alpha = 1
-            self.groupFunctionButton.alpha = 1
-            self.grabCircleBackground.alpha = 1
-            self.closeButton.isEnabled = true
-            self.layoutIfNeeded()
-        }, completion: {_ in
-            finished()
-        })
-        hasMoved = false
-    }
-    
-    func moveWithKeyboard(yValue: CGFloat, duration: Double){
-        resetBottomBar(){
-        }
-        self.bottomConstraint?.constant -= yValue
-        self.closeButtonLeftConstraint?.constant = 30
-        self.downArrowTopConstraint?.constant = -30
-        
-        UIView.animate(withDuration: duration, animations: {
-            self.downButton.isHidden = false
-            self.closeButton.isEnabled = false
-            self.layoutIfNeeded()
-        }, completion: {_ in
-            print("KEYBOARD DONE MOVING")
-        })
-    }
-    
-    
-    func tappedGrabCircle(){
-        resizeMode = !resizeMode
     }
     
     func closeButtonTapped(finished:@escaping () -> Void){

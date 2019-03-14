@@ -64,7 +64,7 @@ extension MessengerBaseVC{
             
             let safeAreaBottomInset = self.view.safeAreaInsets.bottom
             
-            modularKeyboard.moveWithKeyboard(yValue: keyboardSize.height - safeAreaBottomInset, duration: keyboardDuration)
+            self.moveWithKeyboard(yValue: keyboardSize.height - safeAreaBottomInset, duration: keyboardDuration)
         }
         self.keyboardIsUp = true
     }
@@ -78,9 +78,7 @@ extension MessengerBaseVC{
             UIView.animate(withDuration: keyboardDuration){
                 self.view.layoutIfNeeded()
             }
-            modularKeyboard.resetBottomBar(){
-                self.topView.bottomBarActionButton.isHidden = true
-            }
+            resetBottomBar()
         }
         self.keyboardIsUp = false
     }
@@ -98,5 +96,60 @@ extension MessengerBaseVC {
             let contentPoint = CGPoint(x: 0, y: scrollToY + cInset)
             self.messagesCollection.setContentOffset(contentPoint, animated: animated)
         }
+    }
+}
+
+// MARK: Modular Keyboard Animation
+// After a bit of thinking, it makes most sense to put the animation
+// functions in this file, as the keyboard's animations could change
+// depending on the view it's being presented as.
+// Functions that don't rely on a specific ViewController
+//are still part of the ModKey, like draggedCircle().
+extension MessengerBaseVC {
+    func resetBottomBar(){
+        modularKeyboard.heightConstraint?.constant = 100
+        modularKeyboard.widthConstraint?.constant = 0
+        
+        modularKeyboard.bottomConstraint?.constant = 0
+        modularKeyboard.centerXConstraint?.constant = 0
+        
+        modularKeyboard.closeButtonCenterXConstraint?.isActive = false
+        modularKeyboard.closeButtonCenterYConstraint?.isActive = false
+        
+        modularKeyboard.closeButtonLeftConstraint?.constant = 0
+        modularKeyboard.downArrowTopConstraint?.constant = 0
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.modularKeyboard.downButton.isHidden = true
+            self.modularKeyboard.sendButton.alpha = 1
+            self.modularKeyboard.closeButton.alpha = 1
+            self.modularKeyboard.messageField.alpha = 1
+            self.modularKeyboard.layer.cornerRadius = 0
+            self.modularKeyboard.alpha = 1
+            self.modularKeyboard.groupFunctionButton.alpha = 1
+            self.modularKeyboard.grabCircleBackground.alpha = 1
+            self.modularKeyboard.closeButton.isEnabled = true
+            self.view.layoutIfNeeded()
+        }, completion: {_ in
+            self.topView.bottomBarActionButton.isHidden = true
+        })
+        modularKeyboard.hasMoved = false
+    }
+    
+    func moveWithKeyboard(yValue: CGFloat, duration: Double){
+        resetBottomBar()
+        
+        modularKeyboard.bottomConstraint?.constant -= yValue
+        modularKeyboard.closeButtonLeftConstraint?.constant = 30
+        modularKeyboard.downArrowTopConstraint?.constant = -30
+        
+        UIView.animate(withDuration: duration, animations: {
+            self.modularKeyboard.downButton.isHidden = false
+            self.modularKeyboard.closeButton.isEnabled = false
+            //self.modularKeyboard.layoutIfNeeded()
+            self.view.layoutIfNeeded()
+        }, completion: {_ in
+            print("KEYBOARD DONE MOVING")
+        })
     }
 }

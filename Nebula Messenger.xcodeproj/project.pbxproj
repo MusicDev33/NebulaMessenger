@@ -76,6 +76,10 @@
 		1FDB13F5222F3F42007CD0E2 /* MessengerBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB13F4222F3F42007CD0E2 /* MessengerBaseView.swift */; };
 		1FDB13F72235035C007CD0E2 /* MessengerBaseViewProto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB13F62235035C007CD0E2 /* MessengerBaseViewProto.swift */; };
 		1FDB13F922361ACD007CD0E2 /* PoolChatViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB13F822361ACD007CD0E2 /* PoolChatViewProtocol.swift */; };
+		1FDB14C4223A488E007CD0E2 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FDB14C3223A488E007CD0E2 /* NotificationCenter.framework */; };
+		1FDB14C7223A488E007CD0E2 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB14C6223A488E007CD0E2 /* TodayViewController.swift */; };
+		1FDB14CA223A488F007CD0E2 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FDB14C8223A488E007CD0E2 /* MainInterface.storyboard */; };
+		1FDB14CE223A488F007CD0E2 /* Nebula Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1FDB14C2223A488E007CD0E2 /* Nebula Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
 		1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */; };
@@ -101,7 +105,28 @@
 			remoteGlobalIDString = 1F68B2632152227F00DC9525;
 			remoteInfo = "Nebula Messenger";
 		};
+		1FDB14CC223A488F007CD0E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F68B25C2152227F00DC9525 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1FDB14C1223A488E007CD0E2;
+			remoteInfo = "Nebula Widget";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1FDB14D2223A488F007CD0E2 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1FDB14CE223A488F007CD0E2 /* Nebula Widget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1F16E62122078E5F00FC7B78 /* SearchBarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarHeaderView.swift; sourceTree = "<group>"; };
@@ -180,6 +205,11 @@
 		1FDB13F4222F3F42007CD0E2 /* MessengerBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerBaseView.swift; sourceTree = "<group>"; };
 		1FDB13F62235035C007CD0E2 /* MessengerBaseViewProto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerBaseViewProto.swift; sourceTree = "<group>"; };
 		1FDB13F822361ACD007CD0E2 /* PoolChatViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolChatViewProtocol.swift; sourceTree = "<group>"; };
+		1FDB14C2223A488E007CD0E2 /* Nebula Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Nebula Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FDB14C3223A488E007CD0E2 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		1FDB14C6223A488E007CD0E2 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		1FDB14C9223A488F007CD0E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		1FDB14CB223A488F007CD0E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
 		1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
@@ -224,6 +254,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1FDB14BF223A488E007CD0E2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FDB14C4223A488E007CD0E2 /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -260,6 +298,7 @@
 				1F68B2662152227F00DC9525 /* Nebula Messenger */,
 				1F68B27B2152228100DC9525 /* Nebula MessengerTests */,
 				1F68B2862152228100DC9525 /* Nebula MessengerUITests */,
+				1FDB14C5223A488E007CD0E2 /* Nebula Widget */,
 				1F68B2652152227F00DC9525 /* Products */,
 				1F68B296215222DD00DC9525 /* Frameworks */,
 				D184A180A39800284F0C7F7D /* Pods */,
@@ -272,6 +311,7 @@
 				1F68B2642152227F00DC9525 /* Nebula Messenger.app */,
 				1F68B2782152228100DC9525 /* Nebula MessengerTests.xctest */,
 				1F68B2832152228100DC9525 /* Nebula MessengerUITests.xctest */,
+				1FDB14C2223A488E007CD0E2 /* Nebula Widget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -326,6 +366,7 @@
 				34311F4A11E9114E39FEE217 /* Pods_Nebula_Messenger.framework */,
 				B194178D93103E59D5D33947 /* Pods_Nebula_MessengerTests.framework */,
 				C1265EF37ED48A66D44E1595 /* Pods_Nebula_MessengerUITests.framework */,
+				1FDB14C3223A488E007CD0E2 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -507,6 +548,16 @@
 			path = MessengerBase;
 			sourceTree = "<group>";
 		};
+		1FDB14C5223A488E007CD0E2 /* Nebula Widget */ = {
+			isa = PBXGroup;
+			children = (
+				1FDB14C6223A488E007CD0E2 /* TodayViewController.swift */,
+				1FDB14C8223A488E007CD0E2 /* MainInterface.storyboard */,
+				1FDB14CB223A488F007CD0E2 /* Info.plist */,
+			);
+			path = "Nebula Widget";
+			sourceTree = "<group>";
+		};
 		1FE4F0F821687CF400E4EF72 /* Custom Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -561,10 +612,12 @@
 				1F68B2622152227F00DC9525 /* Resources */,
 				1F2CE44D2174903F00B15C59 /* Increment Build */,
 				9220E27C2E09F7C67DEB28FC /* [CP] Embed Pods Frameworks */,
+				1FDB14D2223A488F007CD0E2 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				1FDB14CD223A488F007CD0E2 /* PBXTargetDependency */,
 			);
 			name = "Nebula Messenger";
 			productName = "Nebula Messenger";
@@ -609,13 +662,30 @@
 			productReference = 1F68B2832152228100DC9525 /* Nebula MessengerUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		1FDB14C1223A488E007CD0E2 /* Nebula Widget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1FDB14D1223A488F007CD0E2 /* Build configuration list for PBXNativeTarget "Nebula Widget" */;
+			buildPhases = (
+				1FDB14BE223A488E007CD0E2 /* Sources */,
+				1FDB14BF223A488E007CD0E2 /* Frameworks */,
+				1FDB14C0223A488E007CD0E2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Nebula Widget";
+			productName = "Nebula Widget";
+			productReference = 1FDB14C2223A488E007CD0E2 /* Nebula Widget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		1F68B25C2152227F00DC9525 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1000;
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "Shelby McCowan";
 				TargetAttributes = {
@@ -656,6 +726,9 @@
 						CreatedOnToolsVersion = 10.0;
 						TestTargetID = 1F68B2632152227F00DC9525;
 					};
+					1FDB14C1223A488E007CD0E2 = {
+						CreatedOnToolsVersion = 10.1;
+					};
 				};
 			};
 			buildConfigurationList = 1F68B25F2152227F00DC9525 /* Build configuration list for PBXProject "Nebula Messenger" */;
@@ -674,6 +747,7 @@
 				1F68B2632152227F00DC9525 /* Nebula Messenger */,
 				1F68B2772152228100DC9525 /* Nebula MessengerTests */,
 				1F68B2822152228100DC9525 /* Nebula MessengerUITests */,
+				1FDB14C1223A488E007CD0E2 /* Nebula Widget */,
 			);
 		};
 /* End PBXProject section */
@@ -704,6 +778,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FDB14C0223A488E007CD0E2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FDB14CA223A488F007CD0E2 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -903,6 +985,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1FDB14BE223A488E007CD0E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FDB14C7223A488E007CD0E2 /* TodayViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -916,6 +1006,11 @@
 			target = 1F68B2632152227F00DC9525 /* Nebula Messenger */;
 			targetProxy = 1F68B2842152228100DC9525 /* PBXContainerItemProxy */;
 		};
+		1FDB14CD223A488F007CD0E2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1FDB14C1223A488E007CD0E2 /* Nebula Widget */;
+			targetProxy = 1FDB14CC223A488F007CD0E2 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -925,6 +1020,14 @@
 				1F68B2712152228100DC9525 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		1FDB14C8223A488E007CD0E2 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1FDB14C9223A488F007CD0E2 /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1050,6 +1153,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DDB3068D867D34DC3384F248 /* Pods-Nebula Messenger.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Nebula Messenger/Nebula Messenger.entitlements";
 				CODE_SIGN_STYLE = Automatic;
@@ -1071,6 +1175,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 79D2AC0E990DB0988BFB8A3D /* Pods-Nebula Messenger.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Nebula Messenger/Nebula Messenger.entitlements";
 				CODE_SIGN_STYLE = Automatic;
@@ -1174,6 +1279,46 @@
 			};
 			name = Release;
 		};
+		1FDB14CF223A488F007CD0E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C98483BJST;
+				INFOPLIST_FILE = "Nebula Widget/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "musicdev.Nebula-Messenger.Nebula-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1FDB14D0223A488F007CD0E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C98483BJST;
+				INFOPLIST_FILE = "Nebula Widget/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "musicdev.Nebula-Messenger.Nebula-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1209,6 +1354,15 @@
 			buildConfigurations = (
 				1F68B2932152228100DC9525 /* Debug */,
 				1F68B2942152228100DC9525 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1FDB14D1223A488F007CD0E2 /* Build configuration list for PBXNativeTarget "Nebula Widget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1FDB14CF223A488F007CD0E2 /* Debug */,
+				1FDB14D0223A488F007CD0E2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

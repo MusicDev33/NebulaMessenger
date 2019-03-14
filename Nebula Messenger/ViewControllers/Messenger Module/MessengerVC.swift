@@ -671,13 +671,13 @@ extension MessengerVC{
             topView.bottomBarActionButton.isHidden = false
             modularKeyboard.closeButtonTapped(){
                 self.topView.bottomBarActionButton.alpha = 1
-                self.topView.animateLayer()
             }
             self.messagesCollectionBottomConstraint?.constant -= 3
             UIView.animate(withDuration: 0.2, animations: {
                 self.view.layoutIfNeeded()
             }, completion:{_ in
                 self.messagesCollectionBottomConstraint?.constant = 0
+                self.topView.animateLayer()
                 UIView.animate(withDuration: 0.2, animations: {
                     self.view.layoutIfNeeded()
                 })
@@ -722,9 +722,7 @@ extension MessengerVC{
     
     @objc func resetButton(){
         collectionMoved = false
-        modularKeyboard.resetBottomBar(){
-            self.topView.bottomBarActionButton.isHidden = true
-        }
+        self.resetBottomBar()
         self.messagesCollectionBottomConstraint?.constant = -self.modularKeyboard.frame.height
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()

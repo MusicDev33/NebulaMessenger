@@ -350,9 +350,9 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
     
     @objc func resetButton(){
         collectionMoved = false
-        modularKeyboard.resetBottomBar(){
-            self.topView.bottomBarActionButton.isHidden = true
-        }
+//        modularKeyboard.resetBottomBar(){
+//            self.topView.bottomBarActionButton.isHidden = true
+//        }
         self.messagesCollectionBottomConstraint?.constant = -self.modularKeyboard.frame.height
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()

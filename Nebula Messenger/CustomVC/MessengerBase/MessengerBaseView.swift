@@ -196,7 +196,11 @@ class MessengerBaseView: UIView, DefaultMessengerUI, PoolChatViewProtocol {
         bottomBarActionButton.widthAnchor.constraint(equalToConstant: buttonHeight).isActive = true
         bottomBarActionButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
         bottomBarActionButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0).isActive = true
-        bottomBarActionButton.topAnchor.constraint(equalTo: involvedLabel.bottomAnchor, constant: 0).isActive = true
+        
+        let topAnchorConst = 20 * (self.frame.height/896.0) - 20
+        print("TOP")
+        print(topAnchorConst)
+        bottomBarActionButton.topAnchor.constraint(equalTo: involvedLabel.bottomAnchor, constant: topAnchorConst).isActive = true
     }
     
     func setPoolChatConst(){
