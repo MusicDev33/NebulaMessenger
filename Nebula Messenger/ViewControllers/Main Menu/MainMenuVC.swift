@@ -74,6 +74,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             cell.textLabel?.text = convName
         }
         
+        cell.backgroundColor = UIColor.clear
+        
         return cell
     }
     

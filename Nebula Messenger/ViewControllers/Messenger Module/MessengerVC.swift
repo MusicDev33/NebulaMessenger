@@ -90,6 +90,17 @@ class MessengerVC: MessengerBaseVC {
             self.conversationName += "..."
         }
         
+        self.view.backgroundColor = UIColor.white
+        
+        self.view.setGradientRandom(colorOne: nebulaPurpleLightUltra, colorTwo: UIColor.white)
+        
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.extraLight)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = self.view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.view.addSubview(blurEffectView)
+        blurEffectView.layer.zPosition = 0
+        
         
         //Making a collectionview
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -176,7 +187,7 @@ class MessengerVC: MessengerBaseVC {
         super.viewWillDisappear(animated)
         self.openSocket {}
         self.messagesCollection.layoutIfNeeded()
-        self.view.alpha = 1
+        //self.view.alpha = 1
         modularKeyboard.messageField.text = UserDefaults.standard.string(forKey: self.id) ?? ""
         NotificationCenter.default.addObserver(self, selector: #selector(self.closeVC), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.openVC), name: UIApplication.didBecomeActiveNotification, object: nil)

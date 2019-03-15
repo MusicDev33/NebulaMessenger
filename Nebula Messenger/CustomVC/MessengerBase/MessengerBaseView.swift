@@ -17,7 +17,7 @@ class MessengerBaseView: UIView, DefaultMessengerUI, PoolChatViewProtocol {
     var navBar: UIView = {
         let view = UIView()
         view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        view.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 0.2)
+        view.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 0.0)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.masksToBounds = true
         

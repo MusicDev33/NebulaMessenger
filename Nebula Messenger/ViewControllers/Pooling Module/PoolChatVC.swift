@@ -80,7 +80,17 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 1)
+        
+        self.view.backgroundColor = UIColor.white
+        
+        self.view.setGradientRandom(colorOne: nebulaBlueLight, colorTwo: UIColor.white)
+        
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.extraLight)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = self.view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.view.addSubview(blurEffectView)
+        blurEffectView.layer.zPosition = 0
         
         GlobalUser.currentConv = self.poolId
         
@@ -301,6 +311,7 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
     // topView Actions
     @objc func closeButtonPressed(){
         if !keyboardIsUp{
+            topView.bottomBarActionButton.isHidden = false
             modularKeyboard.closeButtonTapped(){
                 self.topView.bottomBarActionButton.alpha = 1
                 self.topView.animateLayer()
@@ -350,9 +361,9 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
     
     @objc func resetButton(){
         collectionMoved = false
-//        modularKeyboard.resetBottomBar(){
-//            self.topView.bottomBarActionButton.isHidden = true
-//        }
+        self.resetBottomBar()
+        
+        self.topView.bottomBarActionButton.isHidden = true
         self.messagesCollectionBottomConstraint?.constant = -self.modularKeyboard.frame.height
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()

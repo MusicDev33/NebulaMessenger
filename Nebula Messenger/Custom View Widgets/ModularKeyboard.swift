@@ -94,6 +94,8 @@ class ModularKeyboard: UIView {
         return button
     }()
     
+    var blurEffectView: UIView!
+    
     var parentView = UIView()
     
     init(frame: CGRect, view: UIView) {
@@ -234,6 +236,12 @@ class ModularKeyboard: UIView {
                 self.layoutIfNeeded()
             })
         }
+        
+        bottomConstraint?.constant += y
+        centerXConstraint?.constant += x
+        
+//        bottomBarBottom?.constant += y
+//        bottomBarCenterX?.constant += x
     }
     
     func closeButtonTapped(finished:@escaping () -> Void){

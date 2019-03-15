@@ -31,6 +31,12 @@ let nebulaYellow = UIColor(red: 216/255, green: 216/255, blue: 17/255, alpha: 1)
 let nebulaBurn = UIColor(red: 206/255, green: 143/255, blue: 16/255, alpha: 1)
 let nebulaPink = UIColor(red: 1, green: 209/255, blue: 220/255, alpha: 1)
 
+// Gradient Colors
+let nebulaPurpleLight = UIColor(red: 228/255, green: 65/255, blue: 198/255, alpha: 0.5)//198,65,168
+let nebulaPurpleLightUltra = UIColor(red: 228/255, green: 65/255, blue: 198/255, alpha: 0.4)//198,65,168
+
+let nebulaBlueLight = UIColor(red: 2/255, green: 168/255, blue: 247/255, alpha: 0.6)
+
 // Misc
 let nebulaSkyBorder = UIColor(red: 17/255, green: 214/255, blue: 214/255, alpha: 1)
 
@@ -200,5 +206,60 @@ extension String {
             previous = cur
         }
         return chars
+    }
+}
+
+extension UIView {
+    func setGradient(colorOne: UIColor, colorTwo: UIColor){
+        let gradient = CAGradientLayer()
+        gradient.frame = bounds
+        gradient.colors = [colorOne.cgColor, colorTwo.cgColor]
+        gradient.locations = [0.0, 1.0]
+        gradient.startPoint = CGPoint(x: 1.0, y: 1.0)
+        gradient.endPoint = CGPoint(x: 0.0, y: 0.0)
+        
+        layer.insertSublayer(gradient, at: 0)
+    }
+    
+    func setGradientRandom(colorOne: UIColor, colorTwo: UIColor){
+        let gradient = CAGradientLayer()
+        gradient.frame = bounds
+        gradient.colors = [colorOne.cgColor, colorTwo.cgColor]
+        
+        let addLocation = Double.random(in: 0.0...0.2)
+        let subtractLocation = Double.random(in: 0.8...1.0)
+        
+        gradient.locations = [NSNumber(value: addLocation), NSNumber(value : subtractLocation)]
+        
+        let startX = Int.random(in: 0...1)
+        let startY = Int.random(in: 0...1)
+        
+        gradient.startPoint = CGPoint(x: CGFloat(startX), y: CGFloat(startY))
+        gradient.endPoint = CGPoint(x: CGFloat(startX - 1).magnitude, y: CGFloat(startY - 1).magnitude)
+        
+        layer.insertSublayer(gradient, at: 0)
+    }
+    
+    func createRandomGradientView(colorOne: UIColor, colorTwo: UIColor) -> UIView{
+        let gradient = CAGradientLayer()
+        gradient.frame = bounds
+        gradient.colors = [colorOne.cgColor, colorTwo.cgColor]
+        
+        let bgView = UIView(frame: bounds)
+        
+        let addLocation = Double.random(in: 0.0...0.2)
+        let subtractLocation = Double.random(in: 0.8...1.0)
+        
+        gradient.locations = [NSNumber(value: addLocation), NSNumber(value : subtractLocation)]
+        
+        let startX = Int.random(in: 0...1)
+        let startY = Int.random(in: 0...1)
+        
+        gradient.startPoint = CGPoint(x: CGFloat(startX), y: CGFloat(startY))
+        gradient.endPoint = CGPoint(x: CGFloat(startX - 1).magnitude, y: CGFloat(startY - 1).magnitude)
+        
+        bgView.layer.insertSublayer(gradient, at: 0)
+        
+        return bgView
     }
 }

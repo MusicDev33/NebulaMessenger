@@ -31,8 +31,8 @@ class MessengerBaseVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        modularKeyboard = ModularKeyboard(frame: self.view.frame, view: self.view)
-        self.view.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 1)
+        modularKeyboard = ModularKeyboard(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100), view: self.view)
+        self.view.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 0)
         
         topPadding = UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0
         bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
