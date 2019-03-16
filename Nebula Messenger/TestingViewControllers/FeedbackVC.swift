@@ -118,4 +118,8 @@ class FeedbackVC: UIViewController, UITextViewDelegate {
             textView.textColor = UIColor.lightGray
         }
     }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        print("Handy!")
+    }
 }

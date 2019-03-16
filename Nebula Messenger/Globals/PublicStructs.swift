@@ -262,4 +262,41 @@ extension UIView {
         
         return bgView
     }
+    
+    func createRandomGradientHalf(colorOne: UIColor, colorTwo: UIColor){
+        let gradient = CAGradientLayer()
+        gradient.frame = bounds
+        gradient.colors = [colorOne.cgColor, colorTwo.cgColor]
+        
+        let addLocation = Double.random(in: 0.0...0.2)
+        let subtractLocation = Double.random(in: 0.8...1.0)
+        
+        gradient.locations = [NSNumber(value: addLocation), NSNumber(value : subtractLocation)]
+        
+        let startX = Int.random(in: 0...1)
+        let startY = Double.random(in: 0.5...1)
+        
+        gradient.startPoint = CGPoint(x: CGFloat(startX), y: CGFloat(startY))
+        gradient.endPoint = CGPoint(x: CGFloat(startX - 1).magnitude, y: CGFloat(startY - 1.5).magnitude)
+        
+        layer.insertSublayer(gradient, at: 0)
+    }
+}
+
+extension UIViewController {
+    override open func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if(event?.subtype == UIEvent.EventSubtype.motionShake) {
+            let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Give Feedback", style: .default, handler: {action in
+                let feedbackVC = FeedbackVC()
+                feedbackVC.modalPresentationStyle = .overCurrentContext
+                self.present(feedbackVC, animated: true, completion: nil)
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
+                
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
 }

@@ -82,20 +82,6 @@ class CreateMessageVC: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidDisappear(animated)
         backButton.removeFromSuperview()
     }
-    
-    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        if(event?.subtype == UIEvent.EventSubtype.motionShake) {
-            let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Give Feedback", style: .default, handler: {action in
-                let feedbackVC = FeedbackVC()
-                feedbackVC.modalPresentationStyle = .overCurrentContext
-                self.present(feedbackVC, animated: true, completion: nil)
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
-            }))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
 
     
     // MARK: - Navigation

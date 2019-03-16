@@ -50,6 +50,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     var navType = NavType.fromRight
     
+    var topView: MainMenuView!
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchConvMode{
             return searchResults.count
@@ -241,9 +243,9 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         profileLocation = (UIScreen.main.bounds.width * 0.075)
         
         navigationItem.hidesBackButton = true
-        setupNavbar()
+        self.navigationController?.view.backgroundColor = UIColor.white
         
-        self.createConvTable()
+        setupNavbar()
         
         self.view.backgroundColor = UIColor.white
         
@@ -284,10 +286,20 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 }
             }
         }
-        self.createBottomBar()
-        self.createNebulaButton()
-        self.createAddFriendsButton()
-        self.createCreateMessageButton()
+        
+        let newView = MainMenuView(frame: self.view.frame, view: self.view)
+        newView.convTable.delegate = self
+        newView.convTable.dataSource = self
+        newView.convTable.reloadData()
+        
+        self.convTable = newView.convTable
+        
+        newView.addFriendsButton.addTarget(self, action: #selector(addFriendsButtonPressed), for: .touchUpInside)
+        newView.nebulaButton.addTarget(self, action: #selector(nebulaButtonPressed), for: .touchUpInside)
+        newView.createMessageButton.addTarget(self, action: #selector(createMessageButtonTapped), for: .touchUpInside)
+        
+        
+        self.view = newView
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -297,7 +309,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             
         }
         GlobalUser.currentConv = ""
-        self.convTable.reloadData()
         
         self.navType = .fromRight
         navigationController?.delegate = self
@@ -391,11 +402,6 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.convTable.reloadData()
-    }
-    
-    override func viewSafeAreaInsetsDidChange() {
-        convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.view.safeAreaLayoutGuide.layoutFrame.height - 60)
-        convTableHeightAnchor?.isActive = true
     }
     
     //MARK: Actions
@@ -514,118 +520,5 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 GlobalUser.requestedFriends.append(friendUsername)
             }
         }
-    }
-    
-    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        if(event?.subtype == UIEvent.EventSubtype.motionShake) {
-            let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Give Feedback", style: .default, handler: {action in
-                let feedbackVC = FeedbackVC()
-                feedbackVC.modalPresentationStyle = .overCurrentContext
-                self.present(feedbackVC, animated: true, completion: nil)
-            }))
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
-                
-            }))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
-    // MARK: UI Creation
-    // This will be moved into another file soon
-    var convTableHeightAnchor: NSLayoutConstraint?
-    
-    func createConvTable(){
-        convTable = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .plain)
-        convTable.register(UITableViewCell.self, forCellReuseIdentifier: "conversationCell")
-        convTable.register(SearchBarHeaderView.self, forHeaderFooterViewReuseIdentifier: "headerCell")
-        convTable.dataSource = self
-        convTable.delegate = self
-        convTable.translatesAutoresizingMaskIntoConstraints = false
-        convTable.isScrollEnabled = true
-        convTable.separatorStyle = .none
-        convTable.separatorColor = convTable.backgroundColor
-        self.view.addSubview(convTable)
-        
-        convTable.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 2).isActive = true
-        convTable.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1).isActive = true
-        convTable.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.view.safeAreaLayoutGuide.layoutFrame.height - 60)
-        convTableHeightAnchor?.isActive = true
-    }
-    
-    var bottomBarHeightAnchor: NSLayoutConstraint?
-    
-    func createBottomBar(){
-        bottomBarView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        bottomBarView.backgroundColor = panelColorTwo
-        bottomBarView.translatesAutoresizingMaskIntoConstraints = false
-        bottomBarView.layer.borderWidth = 1
-        bottomBarView.layer.borderColor = panelColorOne.cgColor
-        bottomBarView.alpha = 0.95
-        
-        self.view.addSubview(bottomBarView)
-        
-        bottomBarView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        bottomBarView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        bottomBarView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        bottomBarHeightAnchor = bottomBarView.heightAnchor.constraint(equalToConstant: 60)
-        bottomBarHeightAnchor?.isActive = true
-    }
-    
-    
-    func createAddFriendsButton(){
-        addFriendsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        addFriendsButton.translatesAutoresizingMaskIntoConstraints = false
-        if let image = UIImage(named: "GroupAddBlack") {
-            addFriendsButton.setImage(image, for: .normal)
-        }
-        addFriendsButton.tintColor = nebulaPurple
-        addFriendsButton.addTarget(self, action: #selector(addFriendsButtonPressed), for: .touchUpInside)
-        
-        self.view.addSubview(addFriendsButton)
-        
-        addFriendsButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        addFriendsButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        addFriendsButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
-        addFriendsButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
-    }
-    
-    // Lol what a name
-    func createCreateMessageButton(){
-        createMessageButton = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        createMessageButton.translatesAutoresizingMaskIntoConstraints = false
-        if let image = UIImage(named: "EditIconBlack") {
-            createMessageButton.setImage(image, for: .normal)
-        }
-        createMessageButton.tintColor = nebulaPurple
-        createMessageButton.addTarget(self, action: #selector(createMessageButtonTapped), for: .touchUpInside)
-        
-        self.view.addSubview(createMessageButton)
-        
-        createMessageButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        createMessageButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        createMessageButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20).isActive = true
-        createMessageButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -12).isActive = true
-    }
-    
-    func createNebulaButton(){
-        nebulaButton = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        nebulaButton.translatesAutoresizingMaskIntoConstraints = false
-        if let image = UIImage(named: "Pool") {
-            nebulaButton.setImage(image, for: .normal)
-        }
-        nebulaButton.addTarget(self, action: #selector(nebulaButtonPressed), for: .touchUpInside)
-        
-        self.view.addSubview(nebulaButton)
-        
-        nebulaButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        nebulaButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        nebulaButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-        nebulaButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
     }
 }
