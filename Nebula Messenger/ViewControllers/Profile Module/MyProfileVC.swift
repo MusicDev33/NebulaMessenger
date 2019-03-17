@@ -44,12 +44,12 @@ class MyProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             
             if collectionView == self.topView?.otherColorCollectionView{
                 UserDefaults.standard.set(colorsList[indexPath.row], forKey: "otherTextColor")
-                otherTextColor = colorsDict[colorsList[indexPath.row]] ?? nebulaBlue
+                otherTextColor = colorsDict[colorsList[indexPath.row]] ?? Colors.nebulaBlue
                 selectedOtherColor = indexPath
                 topView?.otherColorView.backgroundColor = cell.colorImg.backgroundColor
             }else{
                 UserDefaults.standard.set(colorsList[indexPath.row], forKey: "userTextColor")
-                userTextColor = colorsDict[colorsList[indexPath.row]] ?? nebulaPurple
+                userTextColor = colorsDict[colorsList[indexPath.row]] ?? Colors.nebulaPurple
                 selectedUserColor = indexPath
                 topView?.personalColorView.backgroundColor = cell.colorImg.backgroundColor
             }

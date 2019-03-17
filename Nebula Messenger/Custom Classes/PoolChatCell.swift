@@ -24,7 +24,7 @@ class PoolChatCell: UICollectionViewCell{
     
     let bgView: UIView = {
         var view = UIView()
-        view.backgroundColor = nebulaPurple
+        view.backgroundColor = Colors.nebulaPurple
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 12
         view.layer.masksToBounds = true

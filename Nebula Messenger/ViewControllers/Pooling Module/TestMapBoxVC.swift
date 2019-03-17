@@ -181,11 +181,11 @@ extension TestMapBoxVC: MGLMapViewDelegate{
         if let castAnnotation = annotation as? MBPoolAnnotation {
             switch castAnnotation.creator {
             case GlobalUser.username:
-                annotationColor = nebulaPurple
+                annotationColor = Colors.nebulaPurple
             default:
                 // UIColor(red: 0.03, green: 0.80, blue: 0.69, alpha: 1.0)
                 // Saving this color for later
-                annotationColor = nebulaBlue
+                annotationColor = Colors.nebulaBlue
             }
             
             if GlobalUser.subscribedPools.contains(castAnnotation.id){
@@ -197,6 +197,7 @@ extension TestMapBoxVC: MGLMapViewDelegate{
             }
             
             if ((castAnnotation.imageName) == nil) {
+                print("NOPE")
                 return nil
             }
         }
@@ -295,7 +296,7 @@ extension TestMapBoxVC: MGLMapViewDelegate{
     }
     
     func mapView(_ mapView: MGLMapView, fillColorForPolygonAnnotation annotation: MGLPolygon) -> UIColor {
-        return nebulaPurple
+        return Colors.nebulaPurple
     }
     
     // User location

@@ -26,9 +26,9 @@ class MainMenuView: UIView {
     let bottomBarView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = panelColorTwo
+        view.backgroundColor = Colors.panelColorTwo
         view.layer.borderWidth = 1
-        view.layer.borderColor = panelColorOne.cgColor
+        view.layer.borderColor = Colors.panelColorOne.cgColor
         view.alpha = 0.95
         
         return view
@@ -40,7 +40,7 @@ class MainMenuView: UIView {
         if let image = UIImage(named: "GroupAddBlack") {
             addFriendsButton.setImage(image, for: .normal)
         }
-        addFriendsButton.tintColor = nebulaPurple
+        addFriendsButton.tintColor = Colors.nebulaPurple
         
         return addFriendsButton
     }()
@@ -61,7 +61,7 @@ class MainMenuView: UIView {
         if let image = UIImage(named: "EditIconBlack") {
             createMessageButton.setImage(image, for: .normal)
         }
-        createMessageButton.tintColor = nebulaPurple
+        createMessageButton.tintColor = Colors.nebulaPurple
         
         return createMessageButton
     }()
@@ -94,10 +94,6 @@ class MainMenuView: UIView {
         convTable.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1).isActive = true
         convTable.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         convTable.bottomAnchor.constraint(equalTo: self.bottomBarView.topAnchor, constant: 60).isActive = true
-//        convTableHeightAnchor = convTable.heightAnchor.constraint(equalToConstant: self.parentView.safeAreaLayoutGuide.layoutFrame.height - 60)
-//        convTableHeightAnchor?.isActive = true
-        
-        print(convTableHeightAnchor?.constant)
     }
     
     var bottomBarHeightAnchor: NSLayoutConstraint?

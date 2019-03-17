@@ -13,7 +13,7 @@ class ColorCell: UICollectionViewCell{
     
     let colorImg: UIView = {
         var view = UIView()
-        view.backgroundColor = nebulaFlame
+        view.backgroundColor = Colors.nebulaFlame
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true

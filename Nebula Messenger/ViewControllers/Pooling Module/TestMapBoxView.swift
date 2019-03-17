@@ -20,7 +20,7 @@ class TestMapBoxView: UIView {
         let view = MGLMapView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), styleURL: styleURL)
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.tintColor = nebulaPurple
+        view.tintColor = Colors.nebulaPurpleLight
         view.showsUserLocation = true
         
         // ??? wtf
@@ -38,7 +38,7 @@ class TestMapBoxView: UIView {
     let backButtonBackground: UIView = {
         var view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = nebulaPurple
+        view.backgroundColor = Colors.nebulaPurple
         view.layer.cornerRadius = 20
         return view
     }()
@@ -57,7 +57,7 @@ class TestMapBoxView: UIView {
     
     let cViewXBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = nebulaPurple
+        view.backgroundColor = Colors.nebulaPurple
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 0
         
@@ -75,7 +75,7 @@ class TestMapBoxView: UIView {
     let expandArrowBackground: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = nebulaPurple
+        view.backgroundColor = Colors.nebulaPurple
         view.layer.cornerRadius = 19
         view.alpha = 0
         
@@ -111,10 +111,10 @@ class TestMapBoxView: UIView {
         
         poolCollectionView.layer.borderWidth = 1
         if Utility.dayTimeCheck() == "day"{
-            poolCollectionView.backgroundColor = panelColorOneAlt
-            poolCollectionView.layer.borderColor = borderColorOne.cgColor
+            poolCollectionView.backgroundColor = Colors.panelColorOneAlt
+            poolCollectionView.layer.borderColor = Colors.borderColorOne.cgColor
         }else{
-            poolCollectionView.backgroundColor = panelColorTwo
+            poolCollectionView.backgroundColor = Colors.panelColorTwo
         }
         poolCollectionView.layer.cornerRadius = 16
         poolCollectionView.showsVerticalScrollIndicator = false

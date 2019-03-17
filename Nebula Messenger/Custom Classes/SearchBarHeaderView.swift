@@ -41,7 +41,7 @@ class SearchBarHeaderView: UITableViewHeaderFooterView {
                     textField.bounds = bounds
                     textField.layer.cornerRadius = 10
                     textField.layer.borderWidth = 1.0
-                    textField.layer.borderColor = nebulaPurple.cgColor
+                    textField.layer.borderColor = Colors.nebulaPurple.cgColor
                     textField.backgroundColor = UIColor.white
                 }
             }

@@ -15,9 +15,9 @@ class NALoading1: UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.alpha = 0.5
-        view.backgroundColor = nebulaPurple
+        view.backgroundColor = Colors.nebulaPurple
         view.layer.borderWidth = 10
-        view.layer.borderColor = nebulaPurple.cgColor
+        view.layer.borderColor = Colors.nebulaPurple.cgColor
         return view
     }()
     
@@ -68,7 +68,7 @@ class NALoading1: UIView {
             circleLayer.strokeEnd = circleLayer.strokeStart + segmentAngle - gapSize
             
             circleLayer.lineWidth = 3
-            circleLayer.strokeColor = nebulaBlue.cgColor
+            circleLayer.strokeColor = Colors.nebulaBlue.cgColor
             circleLayer.fillColor = UIColor.clear.cgColor
             
             let segmentLength = (1/amountOfSegments)*360
@@ -88,8 +88,8 @@ class NALoading1: UIView {
             anim.duration = 1.5
             
             let blueToPurpleAnim = CABasicAnimation(keyPath: #keyPath(CAShapeLayer.strokeColor))
-            blueToPurpleAnim.fromValue = nebulaBlue.cgColor
-            blueToPurpleAnim.toValue = nebulaPurple.cgColor
+            blueToPurpleAnim.fromValue = Colors.nebulaBlue.cgColor
+            blueToPurpleAnim.toValue = Colors.nebulaPurple.cgColor
             blueToPurpleAnim.duration = 1.5
             
             // Return Animation
@@ -100,8 +100,8 @@ class NALoading1: UIView {
             returnAnim.beginTime = 1.5
             
             let purpleToBlueAnim = CABasicAnimation(keyPath: #keyPath(CAShapeLayer.strokeColor))
-            purpleToBlueAnim.fromValue = nebulaPurple.cgColor
-            purpleToBlueAnim.toValue = nebulaBlue.cgColor
+            purpleToBlueAnim.fromValue = Colors.nebulaPurple.cgColor
+            purpleToBlueAnim.toValue = Colors.nebulaBlue.cgColor
             purpleToBlueAnim.duration = 1.5
             purpleToBlueAnim.beginTime = 1.5
             
@@ -114,13 +114,13 @@ class NALoading1: UIView {
             
             if i == 7{
                 let purpleToBlueAnim = CABasicAnimation(keyPath: #keyPath(CAShapeLayer.borderColor))
-                purpleToBlueAnim.fromValue = nebulaPurple.cgColor
-                purpleToBlueAnim.toValue = nebulaBlue.cgColor
+                purpleToBlueAnim.fromValue = Colors.nebulaPurple.cgColor
+                purpleToBlueAnim.toValue = Colors.nebulaBlue.cgColor
                 purpleToBlueAnim.duration = 1.5
                 
                 let blueToPurpleAnim = CABasicAnimation(keyPath: #keyPath(CAShapeLayer.borderColor))
-                blueToPurpleAnim.fromValue = nebulaBlue.cgColor
-                blueToPurpleAnim.toValue = nebulaPurple.cgColor
+                blueToPurpleAnim.fromValue = Colors.nebulaBlue.cgColor
+                blueToPurpleAnim.toValue = Colors.nebulaPurple.cgColor
                 blueToPurpleAnim.duration = 1.5
                 blueToPurpleAnim.beginTime = 1.5
                 

@@ -16,13 +16,13 @@ class RegisterView: UIView {
         textField.placeholder = "Name"
         textField.layer.cornerRadius = 8
         textField.layer.borderWidth = 1
-        textField.layer.borderColor = nebulaBlue.cgColor
+        textField.layer.borderColor = Colors.nebulaBlue.cgColor
         
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
         textField.leftViewMode = .always
         
         textField.returnKeyType = .next
-        textField.tintColor = nebulaBlue
+        textField.tintColor = Colors.nebulaBlue
         
         return textField
     }()
@@ -33,13 +33,13 @@ class RegisterView: UIView {
         textField.placeholder = "Email"
         textField.layer.cornerRadius = 8
         textField.layer.borderWidth = 1
-        textField.layer.borderColor = nebulaBlue.cgColor
+        textField.layer.borderColor = Colors.nebulaBlue.cgColor
         
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
         textField.leftViewMode = .always
         
         textField.returnKeyType = .next
-        textField.tintColor = nebulaBlue
+        textField.tintColor = Colors.nebulaBlue
         
         return textField
     }()
@@ -50,13 +50,13 @@ class RegisterView: UIView {
         textField.placeholder = "Username"
         textField.layer.cornerRadius = 8
         textField.layer.borderWidth = 1
-        textField.layer.borderColor = nebulaBlue.cgColor
+        textField.layer.borderColor = Colors.nebulaBlue.cgColor
         
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
         textField.leftViewMode = .always
         
         textField.returnKeyType = .next
-        textField.tintColor = nebulaBlue
+        textField.tintColor = Colors.nebulaBlue
         
         return textField
     }()
@@ -67,14 +67,14 @@ class RegisterView: UIView {
         textField.placeholder = "Password"
         textField.layer.cornerRadius = 8
         textField.layer.borderWidth = 1
-        textField.layer.borderColor = nebulaBlue.cgColor
+        textField.layer.borderColor = Colors.nebulaBlue.cgColor
         textField.isSecureTextEntry = true
         
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
         textField.leftViewMode = .always
         
         textField.returnKeyType = .go
-        textField.tintColor = nebulaBlue
+        textField.tintColor = Colors.nebulaBlue
         
         return textField
     }()
@@ -83,7 +83,7 @@ class RegisterView: UIView {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Register", for: .normal)
-        button.tintColor = nebulaBlue
+        button.tintColor = Colors.nebulaBlue
         
         return button
     }()
@@ -92,7 +92,7 @@ class RegisterView: UIView {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Already have an account? Tap here.", for: .normal)
-        button.tintColor = nebulaBlue
+        button.tintColor = Colors.nebulaBlue
         
         return button
     }()

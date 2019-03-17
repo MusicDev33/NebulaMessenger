@@ -35,26 +35,26 @@ class SettingsView: UIView {
     
     let satelliteOptionButton: UIButton = {
         let view = UIButton(type: .system)
-        view.backgroundColor = nebulaBlue
+        view.backgroundColor = Colors.nebulaBlue
         view.tintColor = UIColor.white
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
         
         view.setTitle("Satellite", for: .normal)
-        view.layer.borderColor = nebulaPurple.cgColor
+        view.layer.borderColor = Colors.nebulaPurple.cgColor
         
         return view
     }()
     
     let experimentalOptionButton: UIButton = {
         let view = UIButton(type: .system)
-        view.backgroundColor = nebulaPurple
+        view.backgroundColor = Colors.nebulaPurple
         view.tintColor = UIColor.white
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
         
         view.setTitle("Experimental", for: .normal)
-        view.layer.borderColor = nebulaBlue.cgColor
+        view.layer.borderColor = Colors.nebulaBlue.cgColor
         
         return view
     }()
@@ -63,7 +63,7 @@ class SettingsView: UIView {
         // Yes, it's default and nav...I'm 2 for 2 when it comes to terrible naming
         let view = UIButton(type: .system)
         if Utility.dayTimeCheck() == "day"{
-            view.backgroundColor = nebulaSky
+            view.backgroundColor = Colors.nebulaSky
             view.tintColor = UIColor.black
             view.setTitle("Default: Day", for: .normal)
             view.layer.borderColor = UIColor(red: 9/255, green: 55/255, blue: 130/255, alpha: 1).cgColor
@@ -71,7 +71,7 @@ class SettingsView: UIView {
             view.backgroundColor = UIColor(red: 9/255, green: 55/255, blue: 130/255, alpha: 1)
             view.tintColor = UIColor.white
             view.setTitle("Default: Night", for: .normal)
-            view.layer.borderColor = nebulaSky.cgColor
+            view.layer.borderColor = Colors.nebulaSky.cgColor
         }
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
@@ -93,7 +93,7 @@ class SettingsView: UIView {
         self.settingsCView.alwaysBounceVertical = true
         self.settingsCView.translatesAutoresizingMaskIntoConstraints = false
         settingsCView.register(PoolChatCell.self, forCellWithReuseIdentifier: "poolChatCell")
-        settingsCView.backgroundColor = panelColorTwo
+        settingsCView.backgroundColor = Colors.panelColorTwo
         settingsCView.layer.cornerRadius = 16
         
         addSubview(settingsCView)

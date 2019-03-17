@@ -289,7 +289,7 @@ class ModularKeyboard: UIView {
         if !groupFunctionOpen{
             groupAddButtonTopAnchor?.constant = 20
             UIView.animate(withDuration: 0.2, animations: {
-                self.groupFunctionButton.tintColor = nebulaBlue
+                self.groupFunctionButton.tintColor = Colors.nebulaBlue
                 self.groupAddButton.alpha = 1
                 self.groupAddButton.isHidden = false
                 self.layoutIfNeeded()
@@ -298,7 +298,7 @@ class ModularKeyboard: UIView {
         if groupFunctionOpen{
             groupAddButtonTopAnchor?.constant = 0
             UIView.animate(withDuration: 0.1, animations: {
-                self.groupFunctionButton.tintColor = nebulaPurple
+                self.groupFunctionButton.tintColor = Colors.nebulaPurple
                 self.groupAddButton.alpha = 0
                 self.layoutIfNeeded()
             }, completion: {_ in

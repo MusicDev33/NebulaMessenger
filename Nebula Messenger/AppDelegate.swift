@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         window = UIWindow(frame: UIScreen.main.bounds)
         //window?.backgroundColor = UIColor.white
         // Override point for customization after application launch.
-        self.window!.tintColor = nebulaPurple
+        self.window!.tintColor = Colors.nebulaPurple
         setColors()
         
         FirebaseApp.configure()
@@ -78,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         self.window?.makeKeyAndVisible()
-        self.window?.tintColor = nebulaPurple
+        self.window?.tintColor = Colors.nebulaPurple
         
         return true
     }

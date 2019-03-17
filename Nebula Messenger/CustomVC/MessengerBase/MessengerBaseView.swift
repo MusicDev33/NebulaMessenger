@@ -135,7 +135,7 @@ class MessengerBaseView: UIView, DefaultMessengerUI, PoolChatViewProtocol {
             self.pulsatingLayer.isHidden = true
             self.pulsatingLayer.removeAllAnimations()
         })
-        let bgColor = nebulaPurple.withAlphaComponent(0.3)
+        let bgColor = Colors.nebulaPurple.withAlphaComponent(0.3)
         self.pulsatingLayer.fillColor = bgColor.cgColor
         self.pulsatingLayer.isHidden = false
         
@@ -224,7 +224,7 @@ class MessengerBaseView: UIView, DefaultMessengerUI, PoolChatViewProtocol {
         let point = CGPoint(x: UIScreen.main.bounds.size.width/2, y: 25+(UIScreen.main.bounds.size.height/20))
         let circlePath = UIBezierPath(arcCenter: .zero, radius: CGFloat(20), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
         
-        let bgColor = nebulaPurple.withAlphaComponent(0.0)
+        let bgColor = Colors.nebulaPurple.withAlphaComponent(0.0)
         layer.path = circlePath.cgPath
         layer.strokeColor = UIColor.clear.cgColor
         layer.lineWidth = 10

@@ -80,6 +80,7 @@
 		1FDB14C7223A488E007CD0E2 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB14C6223A488E007CD0E2 /* TodayViewController.swift */; };
 		1FDB14CA223A488F007CD0E2 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FDB14C8223A488E007CD0E2 /* MainInterface.storyboard */; };
 		1FDB14CE223A488F007CD0E2 /* Nebula Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1FDB14C2223A488E007CD0E2 /* Nebula Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1FDB14D4223E2F46007CD0E2 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB14D3223E2F45007CD0E2 /* Colors.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
 		1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */; };
@@ -210,6 +211,7 @@
 		1FDB14C6223A488E007CD0E2 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		1FDB14C9223A488F007CD0E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		1FDB14CB223A488F007CD0E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1FDB14D3223E2F45007CD0E2 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
 		1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 				1F68B2B5215275CB00DC9525 /* PublicStructs.swift */,
 				1F68B2B72152762A00DC9525 /* Utility.swift */,
 				1FC7ED3721E5C564002F1422 /* CustomMath.swift */,
+				1FDB14D3223E2F45007CD0E2 /* Colors.swift */,
 			);
 			path = Globals;
 			sourceTree = "<group>";
@@ -928,6 +931,7 @@
 				1F68B2AE2152740700DC9525 /* SocketIOManager.swift in Sources */,
 				1F5DAE4521FA316500BC26DB /* TestMapBoxView.swift in Sources */,
 				1F68B2BD2152DD1300DC9525 /* RegisterVC.swift in Sources */,
+				1FDB14D4223E2F46007CD0E2 /* Colors.swift in Sources */,
 				1FDB13F22227244D007CD0E2 /* MessengerBaseVC.swift in Sources */,
 				1FDB13ED222231EB007CD0E2 /* ModularKeyboard.swift in Sources */,
 				1F68B2A42152367A00DC9525 /* FirebaseGlobals.swift in Sources */,

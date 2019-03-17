@@ -26,9 +26,9 @@ class RequestedTableViewCell: UITableViewCell {
         let button = UIButton(type: .system)
         button.setTitle("Accept", for: .normal)
         button.tintColor = UIColor.white
-        button.backgroundColor = nebulaPurple
+        button.backgroundColor = Colors.nebulaPurple
         button.layer.cornerRadius = 15
-        button.layer.borderColor = nebulaPurple.cgColor
+        button.layer.borderColor = Colors.nebulaPurple.cgColor
         button.layer.borderWidth = 1
         button.translatesAutoresizingMaskIntoConstraints = false
         

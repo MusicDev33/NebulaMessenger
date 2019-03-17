@@ -16,7 +16,7 @@ class LoginView: UIView {
         textField.placeholder = "Username"
         textField.layer.cornerRadius = 8
         textField.layer.borderWidth = 1
-        textField.layer.borderColor = nebulaPurple.cgColor
+        textField.layer.borderColor = Colors.nebulaPurple.cgColor
         
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
         textField.leftViewMode = .always
@@ -32,7 +32,7 @@ class LoginView: UIView {
         textField.placeholder = "Password"
         textField.layer.cornerRadius = 8
         textField.layer.borderWidth = 1
-        textField.layer.borderColor = nebulaPurple.cgColor
+        textField.layer.borderColor = Colors.nebulaPurple.cgColor
         textField.isSecureTextEntry = true
         
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))

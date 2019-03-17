@@ -42,7 +42,7 @@ class FriendsVC: UIViewController, UIGestureRecognizerDelegate, CAAnimationDeleg
             for subSubview in subview.subviews  {
                 if let textField = subSubview as? UITextField {
                     UIView.animate(withDuration: 0.4, animations: {
-                        textField.backgroundColor = panelColorOneAlt
+                        textField.backgroundColor = Colors.panelColorOneAlt
                     })
                 }
             }
@@ -212,7 +212,7 @@ extension FriendsVC: UITableViewDelegate, UITableViewDataSource{
             cell.action = { (cell) in
                 cell.acceptButton.backgroundColor = UIColor.white
                 cell.acceptButton.setTitle("Accepted", for: .normal)
-                cell.acceptButton.tintColor = nebulaPurple
+                cell.acceptButton.tintColor = Colors.nebulaPurple
                 cell.acceptButton.isUserInteractionEnabled = false
                 GlobalUser.requestedFriends = GlobalUser.requestedFriends.filter {$0 != cell.usernameLabel.text}
                 

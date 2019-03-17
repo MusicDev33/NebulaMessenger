@@ -159,7 +159,7 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
         let buttonHeight = CGFloat(floatLiteral: 30)
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight))
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        button.backgroundColor = nebulaPurple
+        button.backgroundColor = Colors.nebulaPurple
         button.layer.cornerRadius = 10
         button.setTitle("Send Feedback", for: .normal)
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
@@ -170,7 +170,7 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
     func createSearchView(){
         friendView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         friendView.translatesAutoresizingMaskIntoConstraints = false
-        friendView.backgroundColor = nebulaPurple
+        friendView.backgroundColor = Colors.nebulaPurple
         friendView.layer.cornerRadius = 16
         friendView.alpha = 0
         self.view.addSubview(friendView)
@@ -190,9 +190,9 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
         addFriendButton = UIButton(type: .system)
         addFriendButton.translatesAutoresizingMaskIntoConstraints = false
         addFriendButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        addFriendButton.setTitleColor(disabledButtonColor, for: .disabled)
+        addFriendButton.setTitleColor(Colors.disabledButtonColor, for: .disabled)
         addFriendButton.tintColor = UIColor.white
-        addFriendButton.backgroundColor = nebulaBlue
+        addFriendButton.backgroundColor = Colors.nebulaBlue
         addFriendButton.layer.cornerRadius = 16
         addFriendButton.setTitle("Add", for: .normal)
         addFriendButton.addTarget(self, action: #selector(addFriend), for: .touchUpInside)

@@ -50,8 +50,8 @@ class PhoneNumberRegVC: UIViewController, UIGestureRecognizerDelegate, UITextFie
         numberTextField?.placeholder = "(012) 345-6789"
         numberTextField?.layer.cornerRadius = 8
         numberTextField?.layer.borderWidth = 1
-        numberTextField?.layer.borderColor = nebulaBlue.cgColor
-        numberTextField?.tintColor = nebulaBlue
+        numberTextField?.layer.borderColor = Colors.nebulaBlue.cgColor
+        numberTextField?.tintColor = Colors.nebulaBlue
         
         numberTextField?.keyboardType = .numberPad
         
@@ -68,13 +68,13 @@ class PhoneNumberRegVC: UIViewController, UIGestureRecognizerDelegate, UITextFie
         addNumberButton = UIButton(type: .system)
         addNumberButton?.translatesAutoresizingMaskIntoConstraints = false
         addNumberButton?.setTitle("Add Number", for: .normal)
-        addNumberButton?.tintColor = nebulaBlue
+        addNumberButton?.tintColor = Colors.nebulaBlue
         addNumberButton?.addTarget(self, action: #selector(addNumberButtonPressed), for: .touchUpInside)
         
         cancelButton = UIButton(type: .system)
         cancelButton?.translatesAutoresizingMaskIntoConstraints = false
         cancelButton?.setTitle("Add Later", for: .normal)
-        cancelButton?.tintColor = nebulaBlue
+        cancelButton?.tintColor = Colors.nebulaBlue
         cancelButton?.addTarget(self, action: #selector(addLaterButtonPressed), for: .touchUpInside)
         
         self.view.addSubview(addNumberButton!)

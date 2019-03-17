@@ -41,7 +41,7 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
             cell.bubbleView.backgroundColor = userTextColor
             cell.bubbleViewRightAnchor?.isActive = true
             cell.bubbleViewLeftAnchor?.isActive = false
-            if cell.bubbleView.backgroundColor == nebulaPink{
+            if cell.bubbleView.backgroundColor == Colors.nebulaPink{
                 cell.textView.textColor = UIColor.black
             }
             
@@ -50,7 +50,7 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
             cell.bubbleView.backgroundColor = otherTextColor
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true
-            if cell.bubbleView.backgroundColor == nebulaPink{
+            if cell.bubbleView.backgroundColor == Colors.nebulaPink{
                 cell.textView.textColor = UIColor.black
             }
             
@@ -83,7 +83,7 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
         
         self.view.backgroundColor = UIColor.white
         
-        self.view.setGradientRandom(colorOne: nebulaBlueLight, colorTwo: UIColor.white)
+        self.view.setGradientRandom(colorOne: Colors.nebulaBlueLight, colorTwo: UIColor.white)
         
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)

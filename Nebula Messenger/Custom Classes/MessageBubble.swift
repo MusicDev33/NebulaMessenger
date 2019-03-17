@@ -43,7 +43,7 @@ class MessageBubble: UICollectionViewCell{
     
     let bubbleView: UIView = {
         var view = UIView()
-        view.backgroundColor = nebulaPurple
+        view.backgroundColor = Colors.nebulaPurple
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true

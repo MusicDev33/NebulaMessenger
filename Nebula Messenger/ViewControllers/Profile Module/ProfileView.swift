@@ -38,7 +38,7 @@ class ProfileView: UIView {
         var button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.systemFont(ofSize: 24)
-        button.setTitleColor(nebulaPurple, for: .normal)
+        button.setTitleColor(Colors.nebulaPurple, for: .normal)
         button.setTitleColor(UIColor.lightGray, for: .highlighted)
         button.setTitleColor(UIColor.lightGray, for: .disabled)
         button.setTitle("Log Out", for: .normal)
@@ -81,11 +81,11 @@ class ProfileView: UIView {
     let profilePicView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = nebulaSky
+        view.backgroundColor = Colors.nebulaSky
         view.layer.cornerRadius = CGFloat(32)
         
         view.layer.borderWidth = 1
-        view.layer.borderColor = nebulaFlame.cgColor
+        view.layer.borderColor = Colors.nebulaFlame.cgColor
         
         return view
     }()
@@ -104,7 +104,7 @@ class ProfileView: UIView {
         self.optionsView.alwaysBounceVertical = true
         self.optionsView.translatesAutoresizingMaskIntoConstraints = false
         optionsView.register(PoolChatCell.self, forCellWithReuseIdentifier: "poolChatCell")
-        optionsView.backgroundColor = panelColorTwo
+        optionsView.backgroundColor = Colors.panelColorTwo
         optionsView.layer.cornerRadius = 16
         
         addSubview(optionsView)
@@ -124,7 +124,7 @@ class ProfileView: UIView {
         selfColorCollectionView.alwaysBounceVertical = true
         selfColorCollectionView.translatesAutoresizingMaskIntoConstraints = false
         selfColorCollectionView.register(ColorCell.self, forCellWithReuseIdentifier: "colorSquare")
-        selfColorCollectionView.backgroundColor = panelColorTwo
+        selfColorCollectionView.backgroundColor = Colors.panelColorTwo
         selfColorCollectionView.layer.cornerRadius = 8
         
         addSubview(selfColorCollectionView)
@@ -144,7 +144,7 @@ class ProfileView: UIView {
         otherColorCollectionView.alwaysBounceVertical = true
         otherColorCollectionView.translatesAutoresizingMaskIntoConstraints = false
         otherColorCollectionView.register(ColorCell.self, forCellWithReuseIdentifier: "colorSquare")
-        otherColorCollectionView.backgroundColor = panelColorTwo
+        otherColorCollectionView.backgroundColor = Colors.panelColorTwo
         otherColorCollectionView.layer.cornerRadius = 8
         
         addSubview(otherColorCollectionView)

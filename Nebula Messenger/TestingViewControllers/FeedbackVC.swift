@@ -84,7 +84,7 @@ class FeedbackVC: UIViewController, UITextViewDelegate {
         let buttonY = textView.frame.origin.y + textView.frame.height + 30
         let button = UIButton(frame: CGRect(x: buttonX, y: buttonY, width: buttonWidth, height: buttonHeight))
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        button.backgroundColor = nebulaPurple
+        button.backgroundColor = Colors.nebulaPurple
         button.layer.cornerRadius = 10
         button.setTitle("Send Feedback", for: .normal)
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)

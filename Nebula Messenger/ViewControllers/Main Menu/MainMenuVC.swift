@@ -35,7 +35,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var profileLocation: CGFloat!
     var exitSearchButton: UIButton!
     
-    // Add names here to allow the users to access pools
+    // Names here are excluded from diagnostics
     let adminUsers = ["MusicDev"]
     
     var passMsgList = [TerseMessage]()
@@ -70,7 +70,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             let convName = GlobalUser.convNames[indexPath.row]
             
             if GlobalUser.unreadList.contains(GlobalUser.masterDict[convName]!.id!){
-                cell.textLabel?.textColor = nebulaBlue
+                cell.textLabel?.textColor = Colors.nebulaBlue
                 cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
             }
             cell.textLabel?.text = convName
@@ -264,9 +264,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         SocketIOManager.establishConnection()
         //self.configureSearchController()
-        if self.adminUsers.contains(GlobalUser.username) {
-            
-        }else{
+        if !self.adminUsers.contains(GlobalUser.username) {
             let df = DateFormatter()
             df.dateFormat = "dd/MM/yyyy hh:mm:ss"
             
@@ -344,7 +342,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                     textField.bounds = bounds
                     textField.layer.cornerRadius = 10
                     textField.layer.borderWidth = 1.0
-                    textField.layer.borderColor = nebulaPurple.cgColor
+                    textField.layer.borderColor = Colors.nebulaPurple.cgColor
                     UIView.animate(withDuration: 0.4, animations: {
                         textField.backgroundColor = UIColor.white
                     })

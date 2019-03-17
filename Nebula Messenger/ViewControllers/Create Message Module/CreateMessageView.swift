@@ -12,7 +12,7 @@ class CreateMessageView: UIView {
     
     let continueButtonBg: UIView = {
         let view = UIView()
-        view.backgroundColor = nebulaPurple
+        view.backgroundColor = Colors.nebulaPurple
         view.layer.cornerRadius = 20
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true

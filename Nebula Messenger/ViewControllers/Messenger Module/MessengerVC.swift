@@ -92,7 +92,7 @@ class MessengerVC: MessengerBaseVC {
         
         self.view.backgroundColor = UIColor.white
         
-        self.view.setGradientRandom(colorOne: nebulaPurpleLightUltra, colorTwo: UIColor.white)
+        self.view.setGradientRandom(colorOne: Colors.nebulaPurpleLightUltra, colorTwo: UIColor.white)
         
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -512,7 +512,7 @@ extension MessengerVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             cell.bubbleView.backgroundColor = onlyEmoji ? UIColor.clear : userTextColor
             cell.bubbleViewRightAnchor?.isActive = true
             cell.bubbleViewLeftAnchor?.isActive = false
-            if cell.bubbleView.backgroundColor == nebulaPink{
+            if cell.bubbleView.backgroundColor == Colors.nebulaPink{
                 cell.textView.textColor = UIColor.black
             }
             cell.senderHideBottomAnchor?.isActive = true
@@ -521,7 +521,7 @@ extension MessengerVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             cell.bubbleView.backgroundColor = onlyEmoji ? UIColor.clear : otherTextColor
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true
-            if cell.bubbleView.backgroundColor == nebulaPink{
+            if cell.bubbleView.backgroundColor == Colors.nebulaPink{
                 cell.textView.textColor = UIColor.black
             }
             if isGroupChat{
