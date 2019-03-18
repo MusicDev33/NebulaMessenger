@@ -34,7 +34,7 @@ class Colors {
     
     // Gradient Colors
     static let nebulaPurpleLight = UIColor(red: 228/255, green: 65/255, blue: 198/255, alpha: 0.5)
-    static let nebulaPurpleLightUltra = UIColor(red: 228/255, green: 65/255, blue: 198/255, alpha: 0.4)
+    static let nebulaPurpleLightUltra = UIColor(red: 228/255, green: 65/255, blue: 198/255, alpha: 0.2)
     
     static let nebulaBlueLight = UIColor(red: 2/255, green: 168/255, blue: 247/255, alpha: 0.6)
     

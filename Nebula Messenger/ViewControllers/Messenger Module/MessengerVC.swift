@@ -131,7 +131,8 @@ class MessengerVC: MessengerBaseVC {
         modularKeyboard.buildConstraints()
         
         messagesCollection.topAnchor.constraint(equalTo: topView.navBar.bottomAnchor, constant: 0).isActive = true
-        messagesCollectionBottomConstraint = messagesCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -(modularKeyboard.heightConstraint?.constant)!)
+        //messagesCollectionBottomConstraint = messagesCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -(modularKeyboard.heightConstraint?.constant)!)
+        messagesCollectionBottomConstraint = messagesCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         messagesCollectionBottomConstraint?.isActive = true
         messagesCollection.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         messagesCollection.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
@@ -163,7 +164,7 @@ class MessengerVC: MessengerBaseVC {
             modularKeyboard.sendButton.isEnabled = false
         }
         
-        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 12, right: 0)
+        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 112, right: 0)
         self.messagesCollection.keyboardDismissMode = .onDrag
         
         let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(swipeRightOnCollection))
@@ -669,13 +670,13 @@ extension MessengerVC{
             modularKeyboard.closeButtonTapped(){
                 self.topView.bottomBarActionButton.alpha = 1
             }
-            self.messagesCollectionBottomConstraint?.constant -= 3
             UIView.animate(withDuration: 0.2, animations: {
+                self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 100, right: 0)
                 self.view.layoutIfNeeded()
             }, completion:{_ in
-                self.messagesCollectionBottomConstraint?.constant = 0
                 self.topView.animateLayer()
                 UIView.animate(withDuration: 0.2, animations: {
+                    self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 12, right: 0)
                     self.view.layoutIfNeeded()
                 })
             })
@@ -702,11 +703,8 @@ extension MessengerVC{
                 }
             }
             if !collectionMoved{
-                self.messagesCollectionBottomConstraint?.constant = 0
-                //self.collectionBottomAnchor?.constant = 100
-                let quickFrame = self.messagesCollection.frame
                 UIView.animate(withDuration: 0.3){
-                    self.messagesCollection.frame = CGRect(x: quickFrame.origin.x, y: quickFrame.origin.y, width: quickFrame.width, height: quickFrame.height+100)
+                    self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 12, right: 0)
                     self.view.layoutIfNeeded()
                 }
                 print("moved")
@@ -720,8 +718,8 @@ extension MessengerVC{
     @objc func resetButton(){
         collectionMoved = false
         self.resetBottomBar()
-        self.messagesCollectionBottomConstraint?.constant = -self.modularKeyboard.frame.height
         UIView.animate(withDuration: 0.3, animations: {
+            self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 112, right: 0)
             self.view.layoutIfNeeded()
             self.topView.bottomBarActionButton.alpha = 0
         }, completion: {_ in

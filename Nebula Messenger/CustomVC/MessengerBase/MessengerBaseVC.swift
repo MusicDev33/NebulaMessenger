@@ -56,7 +56,7 @@ extension MessengerBaseVC{
         
         let keyboardDuration: Double = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double)
         if !self.keyboardIsUp{
-            self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: keyboardSize.height+12-bottomPadding, right: 0)
+            self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: keyboardSize.height+12-bottomPadding+100, right: 0)
             self.scrollToBottom(animated: true)
             UIView.animate(withDuration: keyboardDuration){
                 self.view.layoutIfNeeded()
@@ -74,7 +74,7 @@ extension MessengerBaseVC{
         let keyboardDuration: Double = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double)
         
         if self.keyboardIsUp{
-            self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 12, right: 0)
+            self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 112, right: 0)
             UIView.animate(withDuration: keyboardDuration){
                 self.view.layoutIfNeeded()
             }

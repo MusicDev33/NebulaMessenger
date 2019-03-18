@@ -102,7 +102,7 @@ class ModularKeyboard: UIView {
         super.init(frame: frame)
         self.parentView = view
         
-        self.backgroundColor = UIColor(red: 234/255, green: 236/255, blue: 239/255, alpha: 1)
+        self.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 0.8)
         self.translatesAutoresizingMaskIntoConstraints = false
         
         self.layer.borderWidth = 1

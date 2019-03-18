@@ -10,7 +10,7 @@ import UIKit
 import FirebaseInstanceID
 import MediaPlayer
 
-class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate, UIGestureRecognizerDelegate, CAAnimationDelegate, UINavigationControllerDelegate {
+class MainMenuVC: UIViewController, UIGestureRecognizerDelegate, CAAnimationDelegate {
     var passId = ""
     var passInvolved = ""
     var passFriend = ""
@@ -52,6 +52,117 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     var topView: MainMenuView!
     
+    var searchBarWidth: NSLayoutConstraint?
+    var searchBarRightAnchor: NSLayoutConstraint?
+    
+    var searchBarWidthAnchor: NSLayoutConstraint?
+    
+    var navSearchBarWidthAnchor: NSLayoutConstraint?
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        profileLocation = (UIScreen.main.bounds.width * 0.075)
+        
+        navigationItem.hidesBackButton = true
+        self.navigationController?.view.backgroundColor = UIColor.white
+        
+        setupNavbar()
+        
+        self.view.backgroundColor = UIColor.white
+        
+        for i in GlobalUser.convNames{
+            if GlobalUser.masterDict[i]?.lastMessage == GlobalUser.masterDict[i]?.lastRead{
+            }else{
+                //cell.backgroundColor = nebulaBlue
+                let unreadId = GlobalUser.masterDict[i]!.id!
+                GlobalUser.unreadList.append(unreadId)
+            }
+        }
+        
+        if outdated{
+            Alert.basicAlert(on: self, with: "App is outdated!", message: "Update through TestFlight!")
+        }
+        
+        SocketIOManager.establishConnection()
+        //self.configureSearchController()
+        if !self.adminUsers.contains(GlobalUser.username) {
+            let df = DateFormatter()
+            df.dateFormat = "dd/MM/yyyy hh:mm:ss"
+            
+            // Creating the date object
+            let now = df.string(from: Date())
+            DiagnosticRoutes.sendInfo(info: "Logged in.", optional: now)
+        }
+        
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                print("Error fetching remote instance ID: \(error)")
+            } else if let result = result {
+                print("Remote instance ID token: \(result.token)")
+                FirebaseGlobals.globalDeviceToken = result.token
+                UserRoutes.refreshToken {
+                    print("Refreshed Token.")
+                }
+            }
+        }
+        
+        let newView = MainMenuView(frame: self.view.frame, view: self.view)
+        newView.convTable.delegate = self
+        newView.convTable.dataSource = self
+        newView.convTable.reloadData()
+        
+        self.convTable = newView.convTable
+        
+        newView.addFriendsButton.addTarget(self, action: #selector(addFriendsButtonPressed), for: .touchUpInside)
+        newView.nebulaButton.addTarget(self, action: #selector(nebulaButtonPressed), for: .touchUpInside)
+        newView.createMessageButton.addTarget(self, action: #selector(createMessageButtonTapped), for: .touchUpInside)
+        
+        self.view = newView
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        impact.prepare()
+        self.openSocket{}
+        GlobalUser.currentConv = ""
+        self.navType = .fromRight
+        navigationController?.delegate = self
+        
+        navSearchBar.delegate = self
+        navSearchBar.isUserInteractionEnabled = true
+        
+        profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
+        exitSearchButton.addTarget(self, action: #selector(exitSearchButtonPressed), for: .touchUpInside)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = false
+        self.searchBar.placeholder = "Conversations"
+        self.profileButtonCenterXAnchor?.constant = profileLocation
+        self.exitSearchRightAnchor?.constant = -6
+        self.navSearchBarWidthAnchor?.constant = -8
+        for subview in navSearchBar.subviews  {
+            for subSubview in subview.subviews  {
+                if let textField = subSubview as? UITextField {
+                    textField.backgroundColor = UIColor.white
+                }
+            }
+        }
+        profileButton.removeTarget(nil, action: nil, for: .allEvents)
+        profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.convTable.reloadData()
+    }
+}
+
+// MARK: TableView
+extension MainMenuVC: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchConvMode{
             return searchResults.count
@@ -60,10 +171,8 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     
-    var searchBarWidthAnchor: NSLayoutConstraint?
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell:UITableViewCell=UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "conversationCell")
+        let cell: UITableViewCell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "conversationCell")
         if self.searchConvMode{
             cell.textLabel?.text = self.searchResults[indexPath.row]
         } else{
@@ -126,7 +235,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         //let deleteAction = self.contextualDeleteAction(forRowAtIndexPath: indexPath)
         let deleteAction = self.contextualDelete(forRowAtIndexPath: indexPath)
- 
+        
         let swipeConfig = UISwipeActionsConfiguration(actions: [deleteAction])
         return swipeConfig
     }
@@ -147,10 +256,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         action.backgroundColor = UIColor.red
         return action
     }
-    
-    var searchBarWidth: NSLayoutConstraint?
-    var searchBarRightAnchor: NSLayoutConstraint?
-    
+}
+
+// MARK: UISearchBar
+extension MainMenuVC: UISearchResultsUpdating, UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.searchConvMode = true
         self.searchResults = GlobalUser.convNames
@@ -182,9 +291,9 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
+    
     // We're just going to pretend like I understand what these functions do
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print("HI")
         if searchText == "" {
             self.searchResults = GlobalUser.convNames
             self.convTable.reloadData()
@@ -223,7 +332,10 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.convTable.reloadData()
         }
     }
-    
+}
+
+
+extension MainMenuVC: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         switch operation {
@@ -236,89 +348,11 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             return CustomAnim(duration: TimeInterval(UINavigationController.hideShowBarDuration), isPresenting: false, direction: self.navType)
         }
     }
-    
-    //Start of non-search part
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        profileLocation = (UIScreen.main.bounds.width * 0.075)
-        
-        navigationItem.hidesBackButton = true
-        self.navigationController?.view.backgroundColor = UIColor.white
-        
-        setupNavbar()
-        
-        self.view.backgroundColor = UIColor.white
-        
-        for i in GlobalUser.convNames{
-            if GlobalUser.masterDict[i]?.lastMessage == GlobalUser.masterDict[i]?.lastRead{
-            }else{
-                //cell.backgroundColor = nebulaBlue
-                let unreadId = GlobalUser.masterDict[i]!.id!
-                GlobalUser.unreadList.append(unreadId)
-            }
-        }
-        
-        if outdated{
-            Alert.basicAlert(on: self, with: "App is outdated!", message: "Update through TestFlight!")
-        }
-        
-        SocketIOManager.establishConnection()
-        //self.configureSearchController()
-        if !self.adminUsers.contains(GlobalUser.username) {
-            let df = DateFormatter()
-            df.dateFormat = "dd/MM/yyyy hh:mm:ss"
-            
-            // Creating the date object
-            let now = df.string(from: Date())
-            DiagnosticRoutes.sendInfo(info: "Logged in.", optional: now)
-        }
-        
-        InstanceID.instanceID().instanceID { (result, error) in
-            if let error = error {
-                print("Error fetching remote instance ID: \(error)")
-            } else if let result = result {
-                print("Remote instance ID token: \(result.token)")
-                FirebaseGlobals.globalDeviceToken = result.token
-                UserRoutes.refreshToken {
-                    print("Refreshed Token.")
-                }
-            }
-        }
-        
-        let newView = MainMenuView(frame: self.view.frame, view: self.view)
-        newView.convTable.delegate = self
-        newView.convTable.dataSource = self
-        newView.convTable.reloadData()
-        
-        self.convTable = newView.convTable
-        
-        newView.addFriendsButton.addTarget(self, action: #selector(addFriendsButtonPressed), for: .touchUpInside)
-        newView.nebulaButton.addTarget(self, action: #selector(nebulaButtonPressed), for: .touchUpInside)
-        newView.createMessageButton.addTarget(self, action: #selector(createMessageButtonTapped), for: .touchUpInside)
-        
-        
-        self.view = newView
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        impact.prepare()
-        self.openSocket {
-            
-        }
-        GlobalUser.currentConv = ""
-        
-        self.navType = .fromRight
-        navigationController?.delegate = self
-        
-        navSearchBar.delegate = self
-        navSearchBar.isUserInteractionEnabled = true
-        
-        profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
-        exitSearchButton.addTarget(self, action: #selector(exitSearchButtonPressed), for: .touchUpInside)
-    }
-    
-    var navSearchBarWidthAnchor: NSLayoutConstraint?
+}
+
+
+// MARK: Setup Nav
+extension MainMenuVC {
     
     func setupNavbar(){
         profileButton = UIButton(type: .system)
@@ -375,94 +409,13 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         exitSearchRightAnchor = exitSearchButton.rightAnchor.constraint(equalTo: (navigationController?.navigationBar.rightAnchor)!, constant: -6)
         exitSearchRightAnchor?.isActive = true
         exitSearchButton.centerYAnchor.constraint(equalTo: navSearchBar.centerYAnchor).isActive = true
-        
     }
+}
+
+
+// MARK: Socket Stuff
+extension MainMenuVC {
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.isNavigationBarHidden = false
-        self.searchBar.placeholder = "Conversations"
-        self.profileButtonCenterXAnchor?.constant = profileLocation
-        self.exitSearchRightAnchor?.constant = -6
-        self.navSearchBarWidthAnchor?.constant = -8
-        for subview in navSearchBar.subviews  {
-            for subSubview in subview.subviews  {
-                if let textField = subSubview as? UITextField {
-                    textField.backgroundColor = UIColor.white
-                }
-            }
-        }
-        
-        profileButton.removeTarget(nil, action: nil, for: .allEvents)
-        profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.convTable.reloadData()
-    }
-    
-    //MARK: Actions
-    @objc func exitSearchButtonPressed(){
-        self.searchBar.resignFirstResponder()
-        self.navSearchBar.text = ""
-        self.searchResults = GlobalUser.convNames
-        self.convTable.reloadData()
-        
-        self.navigationController?.navigationBar.endEditing(true)
-    }
-    
-    @objc func profileButtonPressed(){
-        //SocketIOManager.sendToTestSocket(title: "Hey! Listen!", message: "How are you?")
-        self.view.endEditing(true)
-        self.navSearchBar.resignFirstResponder()
-        //self.searchBar.placeholder = "New Message"
-        let profileVC = MyProfileVC()
-        self.navigationController?.pushViewController(profileVC, animated: true)
-    }
-    
-    @objc func nebulaButtonPressed(){
-        impact.impactOccurred()
-        
-        let mapVC = TestMapBoxVC()
-        mapVC.modalTransitionStyle = .crossDissolve
-        
-        self.present(mapVC, animated: true)
-    }
-    
-    @objc func createMessageButtonTapped() {
-        let createMessageVC = CreateMessageVC()
-        self.navSearchBar.placeholder = "New Message"
-        createMessageVC.searchBar = self.navSearchBar
-        createMessageVC.navProfileButton = profileButton
-        createMessageVC.navProfileCenterXAnchor = self.profileButtonCenterXAnchor
-        createMessageVC.searchBarRightAnchor = self.navSearchBarWidthAnchor
-        createMessageVC.closeSearchButton = exitSearchButton
-        
-        self.navType = .fromRight
-        
-        createMessageVC.modalPresentationStyle = .overFullScreen
-        self.navigationController?.pushViewController(createMessageVC, animated: true)
-    }
-    
-    @objc func addFriendsButtonPressed() {
-        self.navSearchBar.placeholder = "Friend Requests"
-        
-        let friendsVC = FriendsVC()
-        friendsVC.profileButton = self.profileButton
-        friendsVC.exitSearchButton = self.exitSearchButton
-        friendsVC.searchBar = self.navSearchBar
-        
-        friendsVC.exitSearchRightAnchor = self.exitSearchRightAnchor
-        friendsVC.searchBarRightAnchor = self.navSearchBarWidthAnchor
-        self.navType = .fromLeft
-        
-        friendsVC.addFriendButton = self.profileButton
-        
-        navigationController?.pushViewController(friendsVC, animated: true)
-    }
-    
-    //MARK: Sockets
     func openSocket(completion: () -> Void) {
         SocketIOManager.socket.on("message") { ( data, ack) -> Void in
             guard let parsedData = data[0] as? String else { return }
@@ -518,5 +471,67 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 GlobalUser.requestedFriends.append(friendUsername)
             }
         }
+    }
+}
+
+// MARK: Listeners
+extension MainMenuVC {
+    
+    @objc func exitSearchButtonPressed(){
+        self.searchBar.resignFirstResponder()
+        self.navSearchBar.text = ""
+        self.searchResults = GlobalUser.convNames
+        self.convTable.reloadData()
+        
+        self.navigationController?.navigationBar.endEditing(true)
+    }
+    
+    @objc func profileButtonPressed(){
+        self.view.endEditing(true)
+        self.navSearchBar.resignFirstResponder()
+        //self.searchBar.placeholder = "New Message"
+        let profileVC = MyProfileVC()
+        self.navigationController?.pushViewController(profileVC, animated: true)
+    }
+    
+    @objc func nebulaButtonPressed(){
+        impact.impactOccurred()
+        
+        let mapVC = TestMapBoxVC()
+        mapVC.modalTransitionStyle = .crossDissolve
+        
+        self.present(mapVC, animated: true)
+    }
+    
+    @objc func createMessageButtonTapped() {
+        let createMessageVC = CreateMessageVC()
+        self.navSearchBar.placeholder = "New Message"
+        createMessageVC.searchBar = self.navSearchBar
+        createMessageVC.navProfileButton = profileButton
+        createMessageVC.navProfileCenterXAnchor = self.profileButtonCenterXAnchor
+        createMessageVC.searchBarRightAnchor = self.navSearchBarWidthAnchor
+        createMessageVC.closeSearchButton = exitSearchButton
+        
+        self.navType = .fromRight
+        
+        createMessageVC.modalPresentationStyle = .overFullScreen
+        self.navigationController?.pushViewController(createMessageVC, animated: true)
+    }
+    
+    @objc func addFriendsButtonPressed() {
+        self.navSearchBar.placeholder = "Friend Requests"
+        
+        let friendsVC = FriendsVC()
+        friendsVC.profileButton = self.profileButton
+        friendsVC.exitSearchButton = self.exitSearchButton
+        friendsVC.searchBar = self.navSearchBar
+        
+        friendsVC.exitSearchRightAnchor = self.exitSearchRightAnchor
+        friendsVC.searchBarRightAnchor = self.navSearchBarWidthAnchor
+        self.navType = .fromLeft
+        
+        friendsVC.addFriendButton = self.profileButton
+        
+        navigationController?.pushViewController(friendsVC, animated: true)
     }
 }

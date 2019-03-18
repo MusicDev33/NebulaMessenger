@@ -127,7 +127,7 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
         modularKeyboard.buildConstraints()
         
         messagesCollection.topAnchor.constraint(equalTo: topView.navBar.bottomAnchor, constant: 0).isActive = true
-        messagesCollectionBottomConstraint = messagesCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -(modularKeyboard.heightConstraint?.constant)!)
+        messagesCollectionBottomConstraint = messagesCollection.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         messagesCollectionBottomConstraint?.isActive = true
         messagesCollection.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         messagesCollection.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
@@ -153,7 +153,7 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
         modularKeyboard.downButton.addTarget(self, action: #selector(downButtonPressed), for: .touchUpInside)
         modularKeyboard.sendButton.addTarget(self, action: #selector(sendWrapper(sender:)), for: .touchUpInside)
         
-        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 12, right: 0)
+        self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 112, right: 0)
         self.messagesCollection.keyboardDismissMode = .interactive
         
         self.setupKeyboardObservers()
@@ -163,8 +163,6 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
         self.scrollToBottom(animated: true)
         self.topView.involvedLabel.text = self.poolName
         
-        print("OOOOOOO")
-        print(GlobalUser.subscribedPools)
         if GlobalUser.subscribedPools.contains(self.poolId){
             subscribed = true
             self.topView.subscribeView.backgroundColor = UIColor.green
@@ -234,8 +232,6 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
         
         // Creating the date object
         var now = df.string(from: Date())
-        print(now)
-        print("DATE")
         now.insert("a", at: now.index(now.startIndex, offsetBy: +11))
         now.insert("t", at: now.index(now.startIndex, offsetBy: +12))
         now.insert(" ", at: now.index(now.startIndex, offsetBy: +13))
@@ -249,12 +245,8 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
         requestJson["id"] = self.poolId
         requestJson["isPool"] = true
         
-        print(requestJson)
-        
         do {
             let data = try JSONSerialization.data(withJSONObject: requestJson, options:.prettyPrinted)
-            // dec = decoded
-            print(data)
             let dec = String(data: data, encoding: .utf8)
             
             var request = URLRequest(url: url!)
@@ -285,7 +277,6 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
     
     //MARK: Sockets
     func openSocket(completion: () -> Void) {
-        print("Opened Pool Socket!")
         SocketIOManager.socket.on("message") { ( data, ack) -> Void in
             guard let parsedData = data[0] as? String else { return }
             let msg = JSON.init(parseJSON: parsedData)
@@ -302,7 +293,6 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
             if msgId == self.poolId{
                 self.currentPoolMessages.append(tempMsg)
                 self.messagesCollection.reloadData()
-                //self.scrollToBottomAnimated(animated: true)
                 self.scrollToBottom(animated: true)
             }
         }
@@ -316,12 +306,12 @@ class PoolChatVC: MessengerBaseVC, UICollectionViewDelegate, UICollectionViewDat
                 self.topView.bottomBarActionButton.alpha = 1
                 self.topView.animateLayer()
             }
-            self.messagesCollectionBottomConstraint?.constant -= 3
             UIView.animate(withDuration: 0.2, animations: {
+                self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 102, right: 0)
                 self.view.layoutIfNeeded()
             }, completion:{_ in
-                self.messagesCollectionBottomConstraint?.constant = 0
                 UIView.animate(withDuration: 0.2, animations: {
+                    self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 12, right: 0)
                     self.view.layoutIfNeeded()
                 })
             })
