@@ -169,11 +169,11 @@ class UserRoutes{
             Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
                 switch response.result{
                 case .success(let Json):
-                    _ = JSON(Json)
+                    let result = JSON(Json)
+                    print(result)
                     completion()
                     
                 case .failure( _):
-                    print("UserRoutes: refresh token in database")
                     completion()
                 }
             })

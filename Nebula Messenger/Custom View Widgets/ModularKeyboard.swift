@@ -15,6 +15,8 @@ class ModularKeyboard: UIView {
     var resizeMode = false
     var hasMoved = false
     
+    var textStorage = ""
+    
     let grabCircleBackground: UIView = {
         let circle = UIView()
         let height = CGFloat(20)
@@ -229,6 +231,10 @@ class ModularKeyboard: UIView {
     func draggedCircle(x: CGFloat, y: CGFloat){
         if !hasMoved{
             hasMoved = true
+            self.groupFunctionButton.isEnabled = false
+            if groupFunctionOpen{
+                self.groupFunctionPressed()
+            }
             UIView.animate(withDuration: 0.6, animations: {
                 self.layer.cornerRadius = 16
                 self.alpha = 0.7
@@ -306,5 +312,21 @@ class ModularKeyboard: UIView {
             })
         }
         groupFunctionOpen = !groupFunctionOpen
+    }
+    
+    func disableButtons(){
+        self.closeButton.isEnabled = false
+        self.textStorage = self.messageField.text
+        self.messageField.text = ""
+        self.sendButton.isEnabled = false
+    }
+    
+    func enableButtons(){
+        self.closeButton.isEnabled = true
+        self.messageField.text = self.textStorage
+        self.textStorage = ""
+        if self.messageField.text.count > 0{
+            self.sendButton.isEnabled = true
+        }
     }
 }

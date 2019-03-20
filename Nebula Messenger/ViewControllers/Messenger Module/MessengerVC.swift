@@ -31,50 +31,16 @@ class MessengerVC: MessengerBaseVC {
     var possibleMembers = [String]()
     var possibleMembersTable: UITableView!
     var selectedFriend = ""
+    var possibleMembersTableVisible = false
     
     var timer: Timer?
     
     var collectionMoved = false
     
-    /*
-    @objc func confirmAddButtonPressed(){
-        // This is basically just taking off the semicolon and adding a user then re-adding it
-        // String manipulation in Swift sucks...that or I'm just dumb
-        var newInvolved = self.involved
-        newInvolved.remove(at: newInvolved.index(before: newInvolved.endIndex))
-        newInvolved += ":"
-        newInvolved += self.selectedFriend
-        newInvolved += ";"
-        newInvolved = Utility.alphabetSort(preConvId: newInvolved)
-        
-        ConversationRoutes.changeGroupMembers(id: id, newInvolved: newInvolved, oldInvolved: involved){
-            UIView.animate(withDuration: 0.4, animations: { () -> Void in
-                self.possibleMembersTable.frame.origin.y = self.view.frame.height
-                self.exitGroupButton.alpha = 0
-                self.exitGroupButton.frame.origin.x -= 50
-                self.confirmAddButton.alpha = 0
-                self.confirmAddButton.frame.origin.x += 50
-                
-                //Rotate buttons
-                self.confirmAddButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-                self.exitGroupButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-            }, completion: {finished in
-                self.exitGroupButton.removeFromSuperview()
-                self.possibleMembersTable.removeFromSuperview()
-                self.confirmAddButton.removeFromSuperview()
-            })
-            self.addToGroupButton.isEnabled = true
-            
-            self.friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: newInvolved)
-            if self.friend.count > self.maxChars{
-                self.friend.removeLast(self.friend.count-self.maxChars)
-                self.friend += "..."
-            }
-            self.involved = newInvolved
-        }
-    }*/
-    
     var messagesCollectionBottomConstraint: NSLayoutConstraint?
+    
+    var possibleMembersVisibleConstraint: NSLayoutConstraint?
+    var possibleMembersDefaultConstraint: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -156,6 +122,7 @@ class MessengerVC: MessengerBaseVC {
             self.createTableView()
             modularKeyboard.buildGroupChatFeatures()
             modularKeyboard.groupFunctionButton.addTarget(self, action: #selector(groupFunctionButtonPressed), for: .touchUpInside)
+            modularKeyboard.groupAddButton.addTarget(self, action: #selector(addFriendButtonPressed), for: .touchUpInside)
         }
         
         // Do any additional setup after loading the view.
@@ -582,6 +549,17 @@ extension MessengerVC: UITableViewDataSource, UITableViewDelegate{
         self.possibleMembersTable.register(UITableViewCell.self, forCellReuseIdentifier: "friendCell")
         self.possibleMembersTable.dataSource = self
         self.possibleMembersTable.delegate = self
+        
+        self.view.addSubview(self.possibleMembersTable)
+        self.possibleMembersTable.translatesAutoresizingMaskIntoConstraints = false
+        self.possibleMembersTable.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        self.possibleMembersTable.bottomAnchor.constraint(equalTo: self.modularKeyboard.topAnchor, constant: 0).isActive = true
+        
+        possibleMembersDefaultConstraint = self.possibleMembersTable.topAnchor.constraint(equalTo: self.modularKeyboard.topAnchor, constant: 0)
+        possibleMembersDefaultConstraint?.isActive = true
+        
+        possibleMembersVisibleConstraint = self.possibleMembersTable.topAnchor.constraint(equalTo: self.topView.navBar.bottomAnchor, constant: 0)
+        possibleMembersVisibleConstraint?.isActive = false
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -601,6 +579,15 @@ extension MessengerVC: UITableViewDataSource, UITableViewDelegate{
             //self.confirmAddButton.isEnabled = true
         }else{
             print(self.selectedFriend)
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if let tableView = scrollView as? UITableView{
+            if tableView.contentOffset.y < -50.0{
+                
+                addFriendButtonPressed()
+            }
         }
     }
 }
@@ -664,6 +651,76 @@ extension MessengerVC: UINavigationControllerDelegate{
 // MARK: Listeners/Selectors Ext.
 extension MessengerVC{
     
+    @objc func groupFunctionButtonPressed(){
+        modularKeyboard.groupFunctionPressed()
+        
+        if self.possibleMembersTableVisible{
+            addFriendButtonPressed()
+        }
+    }
+    
+    @objc func addFriendButtonPressed(){
+        if !self.possibleMembersTableVisible{
+            possibleMembersVisibleConstraint?.isActive = true
+            possibleMembersDefaultConstraint?.isActive = false
+            UIView.animate(withDuration: 0.2, animations: {
+                self.view.layoutIfNeeded()
+                self.modularKeyboard.groupAddButton.tintColor = Colors.nebulaBlue
+            }, completion: {_ in
+                self.possibleMembersTableVisible = true
+                self.modularKeyboard.disableButtons()
+            })
+        }else{
+            possibleMembersVisibleConstraint?.isActive = false
+            possibleMembersDefaultConstraint?.isActive = true
+            UIView.animate(withDuration: 0.1, animations: {
+                self.view.layoutIfNeeded()
+                self.modularKeyboard.groupAddButton.tintColor = Colors.nebulaPurple
+            }, completion: {_ in
+                self.possibleMembersTableVisible = false
+                self.modularKeyboard.enableButtons()
+            })
+        }
+    }
+    
+    /*
+     @objc func confirmAddButtonPressed(){
+     // This is basically just taking off the semicolon and adding a user then re-adding it
+     // String manipulation in Swift sucks...that or I'm just dumb
+     var newInvolved = self.involved
+     newInvolved.remove(at: newInvolved.index(before: newInvolved.endIndex))
+     newInvolved += ":"
+     newInvolved += self.selectedFriend
+     newInvolved += ";"
+     newInvolved = Utility.alphabetSort(preConvId: newInvolved)
+     
+     ConversationRoutes.changeGroupMembers(id: id, newInvolved: newInvolved, oldInvolved: involved){
+     UIView.animate(withDuration: 0.4, animations: { () -> Void in
+     self.possibleMembersTable.frame.origin.y = self.view.frame.height
+     self.exitGroupButton.alpha = 0
+     self.exitGroupButton.frame.origin.x -= 50
+     self.confirmAddButton.alpha = 0
+     self.confirmAddButton.frame.origin.x += 50
+     
+     //Rotate buttons
+     self.confirmAddButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+     self.exitGroupButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+     }, completion: {finished in
+     self.exitGroupButton.removeFromSuperview()
+     self.possibleMembersTable.removeFromSuperview()
+     self.confirmAddButton.removeFromSuperview()
+     })
+     self.addToGroupButton.isEnabled = true
+     
+     self.friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: newInvolved)
+     if self.friend.count > self.maxChars{
+     self.friend.removeLast(self.friend.count-self.maxChars)
+     self.friend += "..."
+     }
+     self.involved = newInvolved
+     }
+     }*/
+    
     @objc func closeButtonPressed(){
         if !keyboardIsUp{
             topView.bottomBarActionButton.isHidden = false
@@ -684,6 +741,10 @@ extension MessengerVC{
     }
     
     @objc func draggedCircle(_ sender:UIPanGestureRecognizer){
+        if self.possibleMembersTableVisible{
+            return
+        }
+        
         switch sender.state {
         case .began:
             if !modularKeyboard.hasMoved{
@@ -729,10 +790,9 @@ extension MessengerVC{
     
     @objc func downButtonPressed(){
         view.endEditing(true)
-    }
-    
-    @objc func groupFunctionButtonPressed(){
-        modularKeyboard.groupFunctionPressed()
+        if self.possibleMembersTableVisible{
+            self.modularKeyboard.closeButton.isEnabled = false
+        }
     }
     
     @objc func sendWrapper(sender: UIButton){

@@ -19,7 +19,6 @@ class Utility {
             }
         }
         return tempList
-        //return string.components(separatedBy: ",")
     }
     
     // Takes convId and sorts the name alphabetically
@@ -108,7 +107,6 @@ class Utility {
         }
         
         userArray = userArray.filter { $0 != user }
-        //userArray = userArray.sorted {$0.localizedStandardCompare($1) == .orderedAscending}
         userArray.sort()
         let joint = ", "
         return userArray.joined(separator: joint)
@@ -155,7 +153,6 @@ class Utility {
         }
         
         userArray = userArray.filter { $0 != user }
-        //userArray = userArray.sorted {$0.localizedStandardCompare($1) == .orderedAscending}
         userArray.sort()
         return userArray
     }
@@ -204,7 +201,7 @@ class Utility {
         let hour = Calendar.current.component(.hour, from: Date())
         let formatter = DateFormatter()
         formatter.dateFormat = "a" // "a" prints "pm" or "am"
-        if hour > 19 || hour < 7{
+        if hour > 19 || hour < 7 {
             return "night"
         }else{
             return "day"

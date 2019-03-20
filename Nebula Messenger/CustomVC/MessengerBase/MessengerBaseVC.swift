@@ -132,6 +132,7 @@ extension MessengerBaseVC {
             self.view.layoutIfNeeded()
         }, completion: {_ in
             self.topView.bottomBarActionButton.isHidden = true
+            self.modularKeyboard.groupFunctionButton.isEnabled = true
         })
         modularKeyboard.hasMoved = false
     }

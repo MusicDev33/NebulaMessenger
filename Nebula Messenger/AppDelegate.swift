@@ -114,7 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Print full message.
         print(userInfo)
         
-        application.applicationIconBadgeNumber = 9
+        application.applicationIconBadgeNumber = 1
         
         completionHandler(UIBackgroundFetchResult.newData)
     }
@@ -196,12 +196,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 return
         }
         
-        print("SOCKET AND NOTIF")
         if (convId != GlobalUser.currentConv && purpose == "Messaging"){
             completionHandler([.alert, .badge, .sound])
         }else if (purpose == "Friend Request" && convId == GlobalUser.username){
             // convId will be the username in this case...it's a hack, I know...
-            print("Checked")
             completionHandler([.alert, .badge, .sound])
         }else{
             completionHandler([])

@@ -31,7 +31,6 @@ class TestMapBoxView: UIView {
         //view.logoView.isHidden = true
         //view.attributionButton.isHidden = true
         
-        
         return view
     }()
     
