@@ -764,43 +764,27 @@ extension MessengerVC{
         }
     }
     
-    /*
-     @objc func confirmAddButtonPressed(){
-     // This is basically just taking off the semicolon and adding a user then re-adding it
-     // String manipulation in Swift sucks...that or I'm just dumb
-     var newInvolved = self.involved
-     newInvolved.remove(at: newInvolved.index(before: newInvolved.endIndex))
-     newInvolved += ":"
-     newInvolved += self.selectedFriend
-     newInvolved += ";"
-     newInvolved = Utility.alphabetSort(preConvId: newInvolved)
-     
-     ConversationRoutes.changeGroupMembers(id: id, newInvolved: newInvolved, oldInvolved: involved){
-     UIView.animate(withDuration: 0.4, animations: { () -> Void in
-     self.possibleMembersTable.frame.origin.y = self.view.frame.height
-     self.exitGroupButton.alpha = 0
-     self.exitGroupButton.frame.origin.x -= 50
-     self.confirmAddButton.alpha = 0
-     self.confirmAddButton.frame.origin.x += 50
-     
-     //Rotate buttons
-     self.confirmAddButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-     self.exitGroupButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-     }, completion: {finished in
-     self.exitGroupButton.removeFromSuperview()
-     self.possibleMembersTable.removeFromSuperview()
-     self.confirmAddButton.removeFromSuperview()
-     })
-     self.addToGroupButton.isEnabled = true
-     
-     self.friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: newInvolved)
-     if self.friend.count > self.maxChars{
-     self.friend.removeLast(self.friend.count-self.maxChars)
-     self.friend += "..."
-     }
-     self.involved = newInvolved
-     }
-     }*/
+    
+    @objc func confirmAddButtonPressed(){
+        // This is basically just taking off the semicolon and adding a user then re-adding it
+        // String manipulation in Swift sucks...that or I'm just dumb
+        var newInvolved = self.involved
+        newInvolved.remove(at: newInvolved.index(before: newInvolved.endIndex))
+        newInvolved += ":"
+        newInvolved += self.selectedFriend
+        newInvolved += ";"
+        newInvolved = Utility.alphabetSort(preConvId: newInvolved)
+        
+        ConversationRoutes.changeGroupMembers(id: id, newInvolved: newInvolved, oldInvolved: involved){
+            
+            self.friend = Utility.getFriendsFromConvId(user: GlobalUser.username, convId: newInvolved)
+            if self.friend.count > self.maxChars{
+                self.friend.removeLast(self.friend.count-self.maxChars)
+                self.friend += "..."
+            }
+            self.involved = newInvolved
+        }
+    }
     
     @objc func testButton(){
         print("Pressed")

@@ -334,7 +334,9 @@ extension PoolChatVC {
     @objc func goBack(sender: UIButton){
         GlobalUser.currentConv = ""
         self.view.endEditing(true)
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: {
+            self.topView.removeFromSuperview()
+        })
     }
     
     @objc func sendButtonPressed(_ sender: UIButton) {
