@@ -614,7 +614,7 @@ extension MessengerVC: UITableViewDataSource, UITableViewDelegate{
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetConstant = Double.pi/49
+        let offsetConstant = (Double.pi/49)/2
         
         if let tableView = scrollView as? UITableView
         {
