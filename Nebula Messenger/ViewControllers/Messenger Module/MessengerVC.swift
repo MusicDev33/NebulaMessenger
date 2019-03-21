@@ -29,6 +29,7 @@ class MessengerVC: MessengerBaseVC {
     var didScroll = false
     
     var possibleMembers = [String]()
+    var selectedPossibleMembers = [String]()
     var possibleMembersTable: UITableView!
     var selectedFriend = ""
     var possibleMembersTableVisible = false
@@ -41,6 +42,9 @@ class MessengerVC: MessengerBaseVC {
     
     var possibleMembersVisibleConstraint: NSLayoutConstraint?
     var possibleMembersDefaultConstraint: NSLayoutConstraint?
+    
+    var didImpact = false
+    let lightImpact = UIImpactFeedbackGenerator(style: .light)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -550,9 +554,9 @@ extension MessengerVC: UITableViewDataSource, UITableViewDelegate{
         self.possibleMembersTable.dataSource = self
         self.possibleMembersTable.delegate = self
         
-        self.view.addSubview(self.possibleMembersTable)
+        self.topView.addSubview(self.possibleMembersTable)
         self.possibleMembersTable.translatesAutoresizingMaskIntoConstraints = false
-        self.possibleMembersTable.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        self.possibleMembersTable.widthAnchor.constraint(equalTo: self.topView.widthAnchor).isActive = true
         self.possibleMembersTable.bottomAnchor.constraint(equalTo: self.modularKeyboard.topAnchor, constant: 0).isActive = true
         
         possibleMembersDefaultConstraint = self.possibleMembersTable.topAnchor.constraint(equalTo: self.modularKeyboard.topAnchor, constant: 0)
@@ -560,6 +564,9 @@ extension MessengerVC: UITableViewDataSource, UITableViewDelegate{
         
         possibleMembersVisibleConstraint = self.possibleMembersTable.topAnchor.constraint(equalTo: self.topView.navBar.bottomAnchor, constant: 0)
         possibleMembersVisibleConstraint?.isActive = false
+        
+        self.topView.layoutConfirmAddFriendButton()
+        topView.confirmAddFriendButton.addTarget(self, action: #selector(testButton), for: .touchUpInside)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -567,26 +574,83 @@ extension MessengerVC: UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath as IndexPath)
+        let cell:UITableViewCell=UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "friendCell")
         cell.textLabel!.text = "\(self.possibleMembers[indexPath.row])"
+        
+        if self.selectedPossibleMembers.contains((cell.textLabel?.text!)!){
+            cell.detailTextLabel?.text = "\u{2714}"
+        }else{
+            cell.detailTextLabel?.text = " "
+        }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let currentCell = tableView.cellForRow(at: indexPath)!
         let cellText = self.possibleMembers[indexPath.row]
         self.selectedFriend = cellText
-        if self.selectedFriend != ""{
-            //self.confirmAddButton.isEnabled = true
+        
+        if self.selectedPossibleMembers.contains(cellText){
+            currentCell.detailTextLabel?.text = " "
+            self.selectedPossibleMembers = self.selectedPossibleMembers.filter {$0 != cellText}
         }else{
-            print(self.selectedFriend)
+            self.selectedPossibleMembers.append(cellText)
+            currentCell.detailTextLabel?.text = "\u{2714}"
+        }
+        
+        if self.selectedPossibleMembers.count > 0{
+            self.topView.showConfirmAddFriendButton()
+        }else{
+            self.topView.hideConfirmAddFriendButton()
+        }
+        
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        lightImpact.prepare()
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetConstant = Double.pi/49
+        
+        if let tableView = scrollView as? UITableView
+        {
+            if tableView.contentOffset.y > -50.0 && tableView.contentOffset.y < 0
+            {
+                self.topView.confirmAddFriendButton.transform = CGAffineTransform(rotationAngle: tableView.contentOffset.y * CGFloat(offsetConstant))
+            }
+            
+            if tableView.contentOffset.y <= -50{
+                self.topView.confirmAddFriendButton.transform = CGAffineTransform(rotationAngle: .pi*2)
+                if !didImpact {
+                    lightImpact.impactOccurred()
+                    didImpact = true
+                }
+            }
+            
+            if tableView.contentOffset.y > -50{
+                didImpact = false
+            }
+            
+            if tableView.contentOffset.y >= 0{
+                self.topView.confirmAddFriendButton.transform = CGAffineTransform(rotationAngle: 0)
+            }
         }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if let tableView = scrollView as? UITableView{
-            if tableView.contentOffset.y < -50.0{
-                
+        if let tableView = scrollView as? UITableView
+        {
+            if tableView.contentOffset.y <= -50.0
+            {
                 addFriendButtonPressed()
+                self.selectedPossibleMembers = [String]()
+                self.topView.hideConfirmAddFriendButton()
+                self.topView.confirmAddFriendButton.transform = CGAffineTransform.identity
+                tableView.reloadData()
             }
         }
     }
@@ -679,6 +743,8 @@ extension MessengerVC{
             }, completion: {_ in
                 self.possibleMembersTableVisible = false
                 self.modularKeyboard.enableButtons()
+                self.topView.hideConfirmAddFriendButton()
+                self.didImpact = false
             })
         }
     }
@@ -720,6 +786,10 @@ extension MessengerVC{
      self.involved = newInvolved
      }
      }*/
+    
+    @objc func testButton(){
+        print("Pressed")
+    }
     
     @objc func closeButtonPressed(){
         if !keyboardIsUp{

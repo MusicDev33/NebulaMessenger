@@ -82,43 +82,6 @@ class CreateMessageVC: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidDisappear(animated)
         backButton.removeFromSuperview()
     }
-
-    
-    // MARK: - Navigation
-
-    // TODO: Get rid of this...does it even get called????
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("DOES THIS EVEN GET CALLED????")
-        if segue.destination is MessengerVC{
-            let vc = segue.destination as? MessengerVC
-            vc?.id = ""
-            if self.selectedFriendsList.count > 1{
-                vc?.skipNotif = true
-                vc?.friend = self.passFriend
-                
-                if GlobalUser.convNames.contains(self.passFriend){
-                    vc?.involved = GlobalUser.involvedDict[self.passFriend]!
-                    vc?.id = GlobalUser.masterDict[self.passFriend]!.id!
-                    vc?.msgList = self.passMsgList
-                }else{
-                    vc?.involved = self.passInvolved
-                }
-                
-            }else{
-                vc?.friend = self.selectedFriendsList[0]
-                self.passFriend = self.selectedFriendsList[0]
-                if GlobalUser.convNames.contains(self.selectedFriendsList[0]){
-                    vc?.involved = GlobalUser.involvedDict[self.passFriend]!
-                    vc?.id = GlobalUser.masterDict[self.passFriend]!.id!
-                    vc?.msgList = self.passMsgList
-                }else{
-                    var passList = self.selectedFriendsList
-                    passList.append(GlobalUser.username)
-                    vc?.involved = Utility.createConvId(names: passList)
-                }
-            }
-        }
-    }
 }
 
 
@@ -128,7 +91,6 @@ extension CreateMessageVC: UISearchResultsUpdating, UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.searchMode = true
         self.searchResults = GlobalUser.friends
-        print("???????????????")
         searchBarRightAnchor?.constant -= 40
         UIView.animate(withDuration: 0.2, animations: {
             self.view.layoutIfNeeded()
@@ -138,7 +100,6 @@ extension CreateMessageVC: UISearchResultsUpdating, UISearchBarDelegate {
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         self.mainTable.reloadData()
-        print("!!!!!!!!!!!!")
         searchBarRightAnchor?.constant = -8
         UIView.animate(withDuration: 0.2, animations: {
             self.view.layoutIfNeeded()

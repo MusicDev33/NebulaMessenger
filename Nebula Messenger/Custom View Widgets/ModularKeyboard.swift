@@ -19,7 +19,7 @@ class ModularKeyboard: UIView {
     
     let grabCircleBackground: UIView = {
         let circle = UIView()
-        let height = CGFloat(20)
+        let height = CGFloat(24)
         circle.frame = CGRect(x: 0, y: 0, width: height, height: height)
         circle.backgroundColor = UIColor(red: 130/255, green: 130/255, blue: 130/255, alpha: 0.1)
         circle.translatesAutoresizingMaskIntoConstraints = false
@@ -32,12 +32,12 @@ class ModularKeyboard: UIView {
         let textView = UITextView()
         textView.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.layer.cornerRadius = 13
+        textView.layer.cornerRadius = 15
         textView.font = UIFont.systemFont(ofSize: 17)
         textView.backgroundColor = .white
         textView.layer.borderWidth = 1
         textView.layer.borderColor = UIColor.lightGray.cgColor
-        textView.textContainerInset = UIEdgeInsets(top: 3, left: 4, bottom: 0, right: 4)
+        textView.textContainerInset = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
         textView.setContentOffset(.zero, animated: true)
         
         return textView
@@ -136,7 +136,7 @@ class ModularKeyboard: UIView {
     
     var messageFieldHeightConstraint: NSLayoutConstraint?
     
-    let buttonHeight = CGFloat(40)
+    let buttonHeight = CGFloat(50)
     
     let screenBounds = UIScreen.main.bounds
     
@@ -184,18 +184,21 @@ class ModularKeyboard: UIView {
         grabCircleBackground.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5).isActive = true
         
         grabCircleBackground.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
-        grabCircleBackground.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        grabCircleBackground.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        grabCircleBackground.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        grabCircleBackground.heightAnchor.constraint(equalToConstant: 24).isActive = true
         
         if messageField.numberOfLines() > 2 {
             let additionConstant = (messageField.font?.lineHeight)! * CGFloat(integerLiteral: 2)
-            messageFieldHeightConstraint = messageField.heightAnchor.constraint(equalToConstant: additionConstant+5)
+            messageFieldHeightConstraint = messageField.heightAnchor.constraint(equalToConstant: additionConstant+20)
             messageField.setContentOffset(.zero, animated: true)
         }else{
+            print("SIZING")
             let additionConstant = (messageField.font?.lineHeight)! * CGFloat(integerLiteral: messageField.numberOfLines())
-            messageFieldHeightConstraint = messageField.heightAnchor.constraint(equalToConstant: additionConstant+5)
+            messageFieldHeightConstraint = messageField.heightAnchor.constraint(equalToConstant: additionConstant)
             messageField.setContentOffset(.zero, animated: true)
         }
+        
+        messageFieldHeightConstraint?.constant += 20
         
         messageFieldHeightConstraint?.isActive = true
         messageField.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9).isActive = true
@@ -245,9 +248,6 @@ class ModularKeyboard: UIView {
         
         bottomConstraint?.constant += y
         centerXConstraint?.constant += x
-        
-//        bottomBarBottom?.constant += y
-//        bottomBarCenterX?.constant += x
     }
     
     func closeButtonTapped(finished:@escaping () -> Void){
@@ -284,16 +284,28 @@ class ModularKeyboard: UIView {
     func resizeTextView(){
         if messageField.numberOfLines() < 3 {
             let additionConstant = (messageField.font?.lineHeight)! * CGFloat(integerLiteral: messageField.numberOfLines())
-            messageFieldHeightConstraint?.constant = additionConstant + 5
+            messageFieldHeightConstraint?.constant = additionConstant + 10
             messageField.setContentOffset(.zero, animated: true)
         }
+        
+        if messageField.numberOfLines() > 1 && self.groupFunctionOpen{
+            groupFunctionPressed()
+        }
+    }
+    
+    func resizeTextViewToOneLine(){
+        let additionConstant = (messageField.font?.lineHeight)!
+        messageFieldHeightConstraint?.constant = additionConstant + 10
+        messageField.setContentOffset(.zero, animated: true)
     }
     
     // Group Actions
     var groupFunctionOpen = false
     func groupFunctionPressed(){
         if !groupFunctionOpen{
-            groupAddButtonTopAnchor?.constant = 20
+            resizeTextViewToOneLine()
+            self.endEditing(true)
+            groupAddButtonTopAnchor?.constant = (buttonHeight/2)
             UIView.animate(withDuration: 0.2, animations: {
                 self.groupFunctionButton.tintColor = Colors.nebulaBlue
                 self.groupAddButton.alpha = 1

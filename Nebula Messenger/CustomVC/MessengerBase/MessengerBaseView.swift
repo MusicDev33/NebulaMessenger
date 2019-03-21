@@ -55,6 +55,26 @@ class MessengerBaseView: UIView, DefaultMessengerUI, PoolChatViewProtocol {
         return button
     }()
     
+    var confirmAddFriendBg: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = Colors.nebulaPurple
+        view.layer.cornerRadius = 22
+        
+        return view
+    }()
+    
+    var confirmAddFriendButton: UIButton = {
+        let button = UIButton(type: .system)
+        if let image = UIImage(named: "PlusSignBlack") {
+            button.setImage(image, for: .normal)
+        }
+        button.tintColor = UIColor.white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
+    
     var involvedLabel: UILabel = {
         let label = UILabel()
         label.text = "Users"
@@ -232,5 +252,37 @@ class MessengerBaseView: UIView, DefaultMessengerUI, PoolChatViewProtocol {
         layer.lineCap = CAShapeLayerLineCap.round
         layer.position = point
         return layer
+    }
+    
+    func layoutConfirmAddFriendButton(){
+        let buttonHeight = CGFloat(60)
+        confirmAddFriendBg.layer.cornerRadius = CGFloat(buttonHeight/2)
+        confirmAddFriendButton.isHidden = true
+        confirmAddFriendBg.isHidden = true
+        
+        self.addSubview(confirmAddFriendBg)
+        self.addSubview(confirmAddFriendButton)
+        
+        confirmAddFriendBg.widthAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+        confirmAddFriendBg.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+        confirmAddFriendBg.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5).isActive = true
+        confirmAddFriendBg.topAnchor.constraint(equalTo: self.navBar.bottomAnchor, constant: 5).isActive = true
+        
+        confirmAddFriendButton.widthAnchor.constraint(equalTo: confirmAddFriendBg.widthAnchor).isActive = true
+        confirmAddFriendButton.heightAnchor.constraint(equalTo: confirmAddFriendBg.heightAnchor).isActive = true
+        confirmAddFriendButton.centerXAnchor.constraint(equalTo: self.confirmAddFriendBg.centerXAnchor, constant: 0).isActive = true
+        confirmAddFriendButton.centerYAnchor.constraint(equalTo: self.confirmAddFriendBg.centerYAnchor, constant: 0).isActive = true
+        
+        confirmAddFriendButton.bounds = confirmAddFriendBg.bounds
+    }
+    
+    func showConfirmAddFriendButton(){
+        confirmAddFriendButton.isHidden = false
+        confirmAddFriendBg.isHidden = false
+    }
+    
+    func hideConfirmAddFriendButton(){
+        confirmAddFriendButton.isHidden = true
+        confirmAddFriendBg.isHidden = true
     }
 }
