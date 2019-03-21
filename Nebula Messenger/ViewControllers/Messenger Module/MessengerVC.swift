@@ -329,6 +329,7 @@ extension MessengerVC{
             
             print(tempMsg)
             
+            // This is for when the message is sent to you
             if conversationsId == self.id{
                 print("Something happened!")
                 if msg["sender"].string! == GlobalUser.username{
@@ -354,9 +355,21 @@ extension MessengerVC{
                     self.scrollToBottom(animated: true)
                 }else{
                     
+                    // For when it's an actual message, not "Someone is typing"
                     self.msgList.append(tempMsg)
                     self.messagesCollection.reloadData()
                     self.scrollToBottom(animated: true)
+                    
+                    if self.possibleMembersTableVisible{
+                        self.lightImpact.impactOccurred()
+                        UIView.animate(withDuration: 0.4, delay: 0.2, animations: {
+                            self.possibleMembersTable.alpha = 0.5
+                        }, completion: {_ in
+                            UIView.animate(withDuration: 0.2, delay: 0.7, animations: {
+                                self.possibleMembersTable.alpha = 1
+                            })
+                        })
+                    }
                     /*
                      self.messagesCollection.reloadData()
                      let lastRow = self.msgList.count - 1
@@ -384,7 +397,7 @@ extension MessengerVC{
                 }
                 //self.scrollToBottomAnimated(animated: true)
             }else{
-                print("Something went wrong")
+                print("Something went wrong (Not really, i'm just dumb)")
             }
         }
         
@@ -745,6 +758,8 @@ extension MessengerVC{
                 self.modularKeyboard.enableButtons()
                 self.topView.hideConfirmAddFriendButton()
                 self.didImpact = false
+                self.selectedPossibleMembers = [String]()
+                self.possibleMembersTable.reloadData()
             })
         }
     }
