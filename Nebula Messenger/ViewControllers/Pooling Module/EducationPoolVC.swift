@@ -1,17 +1,17 @@
 //
-//  TestMapBoxVC.swift
+//  EducationPoolVC.swift
 //  Nebula Messenger
 //
-//  Created by Shelby McCowan on 1/24/19.
+//  Created by Shelby McCowan on 3/21/19.
 //  Copyright © 2019 Shelby McCowan. All rights reserved.
 //
 
 import UIKit
 import Mapbox
 
-class TestMapBoxVC: UIViewController {
-    
-    var mapView: TestMapBoxView!
+class EducationPoolVC: UIViewController {
+
+    var mapView: EducationPoolView!
     var poolsInArea = [PublicPool]()
     var currentPools = [PublicPool]()
     
@@ -21,11 +21,12 @@ class TestMapBoxVC: UIViewController {
     let lightImpact = UIImpactFeedbackGenerator(style: .light)
     let impactNotif = UINotificationFeedbackGenerator()
     
+    // This will probably always just be a global pool
     var testPool = PublicPool(coordinates: [0, 0], poolId: "testpool;;;", name: "Global Pool", creator: "MusicDev", connectionLimit: 1000, usersConnected: [String]())
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        mapView = TestMapBoxView(frame: self.view.frame)
+        mapView = EducationPoolView(frame: self.view.frame)
         mapView.map.userTrackingMode = .follow
         
         self.view.addSubview(mapView)
@@ -44,11 +45,11 @@ class TestMapBoxVC: UIViewController {
         mapViewLongPress.delegate = self
         self.mapView.map.addGestureRecognizer(mapViewLongPress)
         
-        self.mapView.educationViewButton.addTarget(self, action: #selector(switchViewButtonPressed), for: .touchUpInside)
+        self.mapView.normalViewButton.addTarget(self, action: #selector(switchViewButtonPressed), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        for pool in globalPools{
+        for pool in globalEducationPools{
             let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
             
             let polygon = polygonCircleForCoordinate(coordinate: coordinate, withMeterRadius: Double(self.defaultRadius))
@@ -64,7 +65,7 @@ class TestMapBoxVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        for pool in globalPools{
+        for pool in globalEducationPools{
             let poolAtPoint = MBPoolAnnotation()
             
             //let annotation = PoolAnnotation()
@@ -80,7 +81,7 @@ class TestMapBoxVC: UIViewController {
         }
     }
     
-     override func viewDidDisappear(_ animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         if let annotations = self.mapView.map.annotations{
             self.mapView.map.removeAnnotations(annotations)
         }
@@ -89,7 +90,7 @@ class TestMapBoxVC: UIViewController {
 
 
 
-extension TestMapBoxVC: UIGestureRecognizerDelegate{
+extension EducationPoolVC: UIGestureRecognizerDelegate{
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
@@ -97,7 +98,7 @@ extension TestMapBoxVC: UIGestureRecognizerDelegate{
 }
 
 //MARK: UICollectionView Ext.
-extension TestMapBoxVC: UICollectionViewDelegate, UICollectionViewDataSource{
+extension EducationPoolVC: UICollectionViewDelegate, UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currentPools.count
@@ -161,7 +162,7 @@ extension TestMapBoxVC: UICollectionViewDelegate, UICollectionViewDataSource{
 
 
 // MARK: Mapbox Ext.
-extension TestMapBoxVC: MGLMapViewDelegate{
+extension EducationPoolVC: MGLMapViewDelegate{
     
     // Mapbox stuff
     func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
@@ -272,7 +273,7 @@ extension TestMapBoxVC: MGLMapViewDelegate{
         // guard statements
         let point = CLLocation(latitude: userCoord.latitude, longitude: userCoord.longitude)
         
-        for pool in globalPools{
+        for pool in globalEducationPools{
             let poolCenter = CLLocation(latitude: pool.coordinates?[0] ?? 0, longitude: pool.coordinates?[1] ?? 0)
             if point.distance(from: poolCenter) < CLLocationDistance(self.defaultRadius+1) {
                 if !currentPools.contains(where: { $0.poolId == pool.poolId}){
@@ -309,7 +310,7 @@ extension TestMapBoxVC: MGLMapViewDelegate{
         // guard statements
         let point = CLLocation(latitude: userCoord.latitude, longitude: userCoord.longitude)
         
-        for pool in globalPools{
+        for pool in globalEducationPools{
             let poolCenter = CLLocation(latitude: pool.coordinates?[0] ?? 0, longitude: pool.coordinates?[1] ?? 0)
             if point.distance(from: poolCenter) < CLLocationDistance(self.defaultRadius+1) {
                 if !currentPools.contains(where: { $0.poolId == pool.poolId}){
@@ -330,13 +331,10 @@ extension TestMapBoxVC: MGLMapViewDelegate{
 
 
 // MARK: Listeners Ext.
-extension TestMapBoxVC{
+extension EducationPoolVC{
     
     @objc func switchViewButtonPressed(){
-        let eduMapVC = EducationPoolVC()
-        eduMapVC.modalPresentationStyle = .currentContext
-        eduMapVC.modalTransitionStyle = .flipHorizontal
-        self.present(eduMapVC, animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func backButtonPressed(){
@@ -386,7 +384,7 @@ extension TestMapBoxVC{
                 
                 print("POOLTHING")
                 print(pool)
-                globalPools.append(pool)
+                globalEducationPools.append(pool)
                 let annotation = MBPoolAnnotation()
                 let coordinate = CLLocationCoordinate2D(latitude: pool.coordinates![0], longitude: pool.coordinates![1])
                 annotation.coordinate = coordinate

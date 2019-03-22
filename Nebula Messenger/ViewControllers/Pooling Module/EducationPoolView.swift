@@ -1,15 +1,15 @@
 //
-//  TestMapBoxView.swift
+//  EducationPoolView.swift
 //  Nebula Messenger
 //
-//  Created by Shelby McCowan on 1/24/19.
+//  Created by Shelby McCowan on 3/21/19.
 //  Copyright © 2019 Shelby McCowan. All rights reserved.
 //
 
 import UIKit
 import Mapbox
 
-class TestMapBoxView: UIView {
+class EducationPoolView: UIView {
     var poolCollectionView: UICollectionView!
     
     let buttonHeight = CGFloat(30)
@@ -108,8 +108,6 @@ class TestMapBoxView: UIView {
         button.layer.cornerRadius = 16
         button.layer.borderWidth = 2
         
-        button.isEnabled = false
-        
         return button
     }()
     
@@ -129,6 +127,8 @@ class TestMapBoxView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16
         button.layer.borderWidth = 2
+        
+        button.isEnabled = false
         
         return button
     }()
@@ -202,7 +202,7 @@ class TestMapBoxView: UIView {
         print(latitude, longitude)
         map.setCenter(CLLocationCoordinate2D(latitude: latitude, longitude: longitude), zoomLevel: 15, animated: false)
     }
-
+    
     var bButtonBgX: NSLayoutConstraint?
     var bButtonBgY: NSLayoutConstraint?
     

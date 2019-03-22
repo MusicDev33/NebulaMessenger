@@ -82,6 +82,8 @@
 		1FDB14CE223A488F007CD0E2 /* Nebula Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1FDB14C2223A488E007CD0E2 /* Nebula Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1FDB14D4223E2F46007CD0E2 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB14D3223E2F45007CD0E2 /* Colors.swift */; };
 		1FDB14D622449E9D007CD0E2 /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB14D522449E9C007CD0E2 /* Tutorial.swift */; };
+		1FDB14D82244A789007CD0E2 /* EducationPoolVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB14D72244A789007CD0E2 /* EducationPoolVC.swift */; };
+		1FDB14DA2244A7AE007CD0E2 /* EducationPoolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB14D92244A7AE007CD0E2 /* EducationPoolView.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
 		1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */; };
@@ -214,6 +216,8 @@
 		1FDB14CB223A488F007CD0E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1FDB14D3223E2F45007CD0E2 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		1FDB14D522449E9C007CD0E2 /* Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
+		1FDB14D72244A789007CD0E2 /* EducationPoolVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EducationPoolVC.swift; sourceTree = "<group>"; };
+		1FDB14D92244A7AE007CD0E2 /* EducationPoolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EducationPoolView.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
 		1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
@@ -448,8 +452,10 @@
 			children = (
 				1FE4F104216D321A00E4EF72 /* PoolChatVC.swift */,
 				1F7E94BD2199BBAF00AA5715 /* PoolChatView.swift */,
-				1F5DAE4421FA316500BC26DB /* TestMapBoxView.swift */,
 				1F5DAE4621FA33C200BC26DB /* TestMapBoxVC.swift */,
+				1F5DAE4421FA316500BC26DB /* TestMapBoxView.swift */,
+				1FDB14D72244A789007CD0E2 /* EducationPoolVC.swift */,
+				1FDB14D92244A7AE007CD0E2 /* EducationPoolView.swift */,
 			);
 			path = "Pooling Module";
 			sourceTree = "<group>";
@@ -910,6 +916,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F7E94BE2199BBAF00AA5715 /* PoolChatView.swift in Sources */,
+				1FDB14D82244A789007CD0E2 /* EducationPoolVC.swift in Sources */,
 				1F42502F21DC9DFE00CE108C /* ProfileView.swift in Sources */,
 				1F68B2A02152258400DC9525 /* SwiftyJSON.swift in Sources */,
 				1FC7ED2D21E49958002F1422 /* RegisterView.swift in Sources */,
@@ -930,6 +937,7 @@
 				1F7F763421AD10BA008D3BB1 /* AddFriendVC.swift in Sources */,
 				1FDB14D622449E9D007CD0E2 /* Tutorial.swift in Sources */,
 				1F68B2B82152762A00DC9525 /* Utility.swift in Sources */,
+				1FDB14DA2244A7AE007CD0E2 /* EducationPoolView.swift in Sources */,
 				1F170F162162FD1B009673E2 /* FriendRoutes.swift in Sources */,
 				1F2CE44A216DD9C100B15C59 /* PoolAnnotation.swift in Sources */,
 				1F68B2AE2152740700DC9525 /* SocketIOManager.swift in Sources */,
