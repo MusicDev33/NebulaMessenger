@@ -178,6 +178,11 @@ extension MainMenuVC: UITableViewDelegate, UITableViewDataSource {
         } else{
             let convName = GlobalUser.convNames[indexPath.row]
             
+            print("TESTING:")
+            print(convName)
+            print(GlobalUser.masterDict[convName]!)
+            print(GlobalUser.masterDict[convName]!.id!)
+            
             if GlobalUser.unreadList.contains(GlobalUser.masterDict[convName]!.id!){
                 cell.textLabel?.textColor = Colors.nebulaBlue
                 cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)

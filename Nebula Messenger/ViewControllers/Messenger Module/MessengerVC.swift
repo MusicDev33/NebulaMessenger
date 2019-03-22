@@ -579,7 +579,7 @@ extension MessengerVC: UITableViewDataSource, UITableViewDelegate{
         possibleMembersVisibleConstraint?.isActive = false
         
         self.topView.layoutConfirmAddFriendButton()
-        topView.confirmAddFriendButton.addTarget(self, action: #selector(testButton), for: .touchUpInside)
+        topView.confirmAddFriendButton.addTarget(self, action: #selector(confirmAddButtonPressed), for: .touchUpInside)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -770,8 +770,12 @@ extension MessengerVC{
         // String manipulation in Swift sucks...that or I'm just dumb
         var newInvolved = self.involved
         newInvolved.remove(at: newInvolved.index(before: newInvolved.endIndex))
-        newInvolved += ":"
-        newInvolved += self.selectedFriend
+        
+        for friend in self.selectedPossibleMembers{
+            newInvolved += ":"
+            newInvolved += friend
+        }
+        
         newInvolved += ";"
         newInvolved = Utility.alphabetSort(preConvId: newInvolved)
         
@@ -783,11 +787,9 @@ extension MessengerVC{
                 self.friend += "..."
             }
             self.involved = newInvolved
+            self.topView.involvedLabel.text = self.friend
+            self.addFriendButtonPressed()
         }
-    }
-    
-    @objc func testButton(){
-        print("Pressed")
     }
     
     @objc func closeButtonPressed(){
@@ -837,7 +839,6 @@ extension MessengerVC{
                     self.messagesCollection.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 12, right: 0)
                     self.view.layoutIfNeeded()
                 }
-                print("moved")
                 self.collectionMoved = true
             }
         default:
@@ -871,6 +872,10 @@ extension MessengerVC{
     @objc func goBack(sender: UIButton){
         GlobalUser.currentConv = ""
         self.view.endEditing(true)
+        let vcAmount = self.navigationController?.viewControllers.count
+        if let mainVC = self.navigationController?.viewControllers[vcAmount!-2] as? MainMenuVC{
+            mainVC.convTable.reloadData()
+        }
         self.navigationController?.popViewController(animated: true)
     }
     

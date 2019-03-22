@@ -86,6 +86,17 @@ class GlobalUser: NSObject {
         
         GlobalUser.convNames = GlobalUser.convNames.filter { $0 != oldConvName }
         GlobalUser.convNames.append(newConvName)
+        
+        print(oldConvName)
+        print(newConvName)
+        print("GLOBAL")
+        print("")
+        for (key, val) in GlobalUser.masterDict{
+            print(key, val)
+        }
+//        print(GlobalUser.conversations)
+//        print(GlobalUser.involvedDict)
+//        print(GlobalUser.convNames)
     }
     
     static func addConversation(involved: String, id: String, lastRead: String, lastMessage: String){
