@@ -79,6 +79,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         self.window?.makeKeyAndVisible()
         self.window?.tintColor = Colors.nebulaPurple
+        Tutorial.tutorialInit()
+        
         
         return true
     }
