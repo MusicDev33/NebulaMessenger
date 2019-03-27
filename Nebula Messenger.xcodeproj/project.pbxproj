@@ -84,6 +84,10 @@
 		1FDB14D622449E9D007CD0E2 /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB14D522449E9C007CD0E2 /* Tutorial.swift */; };
 		1FDB14D82244A789007CD0E2 /* EducationPoolVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB14D72244A789007CD0E2 /* EducationPoolVC.swift */; };
 		1FDB14DA2244A7AE007CD0E2 /* EducationPoolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB14D92244A7AE007CD0E2 /* EducationPoolView.swift */; };
+		1FDB14DC22460497007CD0E2 /* EduModKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB14DB22460497007CD0E2 /* EduModKey.swift */; };
+		1FDB14DE22488E32007CD0E2 /* QuestionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB14DD22488E32007CD0E2 /* QuestionModule.swift */; };
+		1FDB14E0224B60E6007CD0E2 /* EduPoolChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB14DF224B60E6007CD0E2 /* EduPoolChatVC.swift */; };
+		1FDB14E2224B611A007CD0E2 /* EduPoolChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDB14E1224B611A007CD0E2 /* EduPoolChatView.swift */; };
 		1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */; };
 		1FE4F0FC2168834700E4EF72 /* DiagnosticRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */; };
 		1FE4F0FE216AB86700E4EF72 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */; };
@@ -218,6 +222,10 @@
 		1FDB14D522449E9C007CD0E2 /* Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
 		1FDB14D72244A789007CD0E2 /* EducationPoolVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EducationPoolVC.swift; sourceTree = "<group>"; };
 		1FDB14D92244A7AE007CD0E2 /* EducationPoolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EducationPoolView.swift; sourceTree = "<group>"; };
+		1FDB14DB22460497007CD0E2 /* EduModKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EduModKey.swift; sourceTree = "<group>"; };
+		1FDB14DD22488E32007CD0E2 /* QuestionModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionModule.swift; sourceTree = "<group>"; };
+		1FDB14DF224B60E6007CD0E2 /* EduPoolChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EduPoolChatVC.swift; sourceTree = "<group>"; };
+		1FDB14E1224B611A007CD0E2 /* EduPoolChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EduPoolChatView.swift; sourceTree = "<group>"; };
 		1FE4F0F921687D4400E4EF72 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		1FE4F0FB2168834700E4EF72 /* DiagnosticRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRoutes.swift; sourceTree = "<group>"; };
 		1FE4F0FD216AB86700E4EF72 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
@@ -456,6 +464,8 @@
 				1F5DAE4421FA316500BC26DB /* TestMapBoxView.swift */,
 				1FDB14D72244A789007CD0E2 /* EducationPoolVC.swift */,
 				1FDB14D92244A7AE007CD0E2 /* EducationPoolView.swift */,
+				1FDB14DF224B60E6007CD0E2 /* EduPoolChatVC.swift */,
+				1FDB14E1224B611A007CD0E2 /* EduPoolChatView.swift */,
 			);
 			path = "Pooling Module";
 			sourceTree = "<group>";
@@ -537,6 +547,7 @@
 			isa = PBXGroup;
 			children = (
 				1FDB13EC222231EB007CD0E2 /* ModularKeyboard.swift */,
+				1FDB14DB22460497007CD0E2 /* EduModKey.swift */,
 			);
 			path = "Custom View Widgets";
 			sourceTree = "<group>";
@@ -586,6 +597,7 @@
 				1F16E628220D660F00FC7B78 /* CustomAnim.swift */,
 				1F16E62A220D75BC00FC7B78 /* CustomInteractor.swift */,
 				1F16E62C221014E900FC7B78 /* RequestedTableViewCell.swift */,
+				1FDB14DD22488E32007CD0E2 /* QuestionModule.swift */,
 			);
 			path = "Custom Classes";
 			sourceTree = "<group>";
@@ -936,7 +948,9 @@
 				1FC7ED3021E4A5F1002F1422 /* SettingsView.swift in Sources */,
 				1F7F763421AD10BA008D3BB1 /* AddFriendVC.swift in Sources */,
 				1FDB14D622449E9D007CD0E2 /* Tutorial.swift in Sources */,
+				1FDB14DC22460497007CD0E2 /* EduModKey.swift in Sources */,
 				1F68B2B82152762A00DC9525 /* Utility.swift in Sources */,
+				1FDB14DE22488E32007CD0E2 /* QuestionModule.swift in Sources */,
 				1FDB14DA2244A7AE007CD0E2 /* EducationPoolView.swift in Sources */,
 				1F170F162162FD1B009673E2 /* FriendRoutes.swift in Sources */,
 				1F2CE44A216DD9C100B15C59 /* PoolAnnotation.swift in Sources */,
@@ -947,6 +961,7 @@
 				1FDB13F22227244D007CD0E2 /* MessengerBaseVC.swift in Sources */,
 				1FDB13ED222231EB007CD0E2 /* ModularKeyboard.swift in Sources */,
 				1F68B2A42152367A00DC9525 /* FirebaseGlobals.swift in Sources */,
+				1FDB14E2224B611A007CD0E2 /* EduPoolChatView.swift in Sources */,
 				1F68B2BB2152789B00DC9525 /* RouteUtils.swift in Sources */,
 				1F5DAE4721FA33C200BC26DB /* TestMapBoxVC.swift in Sources */,
 				1FE4F105216D321A00E4EF72 /* PoolChatVC.swift in Sources */,
@@ -980,6 +995,7 @@
 				1F16E625220B352300FC7B78 /* FriendsVC.swift in Sources */,
 				1FAF4D0821B4FF6100843C89 /* AlertBP.swift in Sources */,
 				1F42503221E4047A00CE108C /* LoginView.swift in Sources */,
+				1FDB14E0224B60E6007CD0E2 /* EduPoolChatVC.swift in Sources */,
 				1FDB13EF222686F5007CD0E2 /* MainMenuView.swift in Sources */,
 				1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */,
 			);

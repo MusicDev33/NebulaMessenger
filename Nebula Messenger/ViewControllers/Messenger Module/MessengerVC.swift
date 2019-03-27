@@ -524,9 +524,6 @@ extension MessengerVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print("Testing:)")
-        print(indexPath)
-        print(collectionView.numberOfItems(inSection: 0))
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messageBubble", for: indexPath) as! MessageBubble
         var height: CGFloat = 160
         height = findSize(text: self.msgList[indexPath.row].body!, label: cell.textView).height + 20

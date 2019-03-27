@@ -12,7 +12,7 @@ class ModularKeyboard: UIView {
     let screenSizeX = UIScreen.main.bounds.size.width
     let textViewMaxLines: CGFloat = 6
     
-    var resizeMode = false
+    var mode = ModKeyMode.blank
     var hasMoved = false
     
     var textStorage = ""
@@ -96,6 +96,127 @@ class ModularKeyboard: UIView {
         return button
     }()
     
+    // Other Modes
+    let multipleChoiceView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    let aButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("A", for: .normal)
+        button.tintColor = Colors.nebulaPurple
+        button.layer.borderWidth = 2
+        button.layer.borderColor = Colors.nebulaPurple.cgColor
+        
+        button.layer.cornerRadius = 25
+        
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 32)
+        
+        return button
+    }()
+    
+    let bButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("B", for: .normal)
+        button.tintColor = Colors.nebulaPurple
+        button.layer.borderWidth = 2
+        button.layer.borderColor = Colors.nebulaPurple.cgColor
+        
+        button.layer.cornerRadius = 25
+        
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 32)
+        
+        return button
+    }()
+    
+    let cButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("C", for: .normal)
+        button.tintColor = Colors.nebulaPurple
+        button.layer.borderWidth = 2
+        button.layer.borderColor = Colors.nebulaPurple.cgColor
+        
+        button.layer.cornerRadius = 25
+        
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 32)
+        
+        return button
+    }()
+    
+    let dButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("D", for: .normal)
+        button.tintColor = Colors.nebulaPurple
+        button.layer.borderWidth = 2
+        button.layer.borderColor = Colors.nebulaPurple.cgColor
+        
+        button.layer.cornerRadius = 25
+        
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 32)
+        
+        return button
+    }()
+    
+    let eButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("E", for: .normal)
+        button.tintColor = Colors.nebulaPurple
+        button.layer.borderWidth = 2
+        button.layer.borderColor = Colors.nebulaPurple.cgColor
+        
+        button.layer.cornerRadius = 25
+        
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 32)
+        
+        return button
+    }()
+    
+    // True/False view
+    let tfView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    let trueButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("True", for: .normal)
+        button.tintColor = Colors.nebulaPurple
+        button.layer.borderWidth = 2
+        button.layer.borderColor = Colors.nebulaPurple.cgColor
+        
+        button.layer.cornerRadius = 25
+        
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 32)
+        
+        return button
+    }()
+    
+    let falseButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("False", for: .normal)
+        button.tintColor = Colors.nebulaPurple
+        button.layer.borderWidth = 2
+        button.layer.borderColor = Colors.nebulaPurple.cgColor
+        
+        button.layer.cornerRadius = 25
+        
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 32)
+        
+        return button
+    }()
+    
     var blurEffectView: UIView!
     
     var parentView = UIView()
@@ -109,13 +230,6 @@ class ModularKeyboard: UIView {
         
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.lightGray.cgColor
-        
-        addSubview(grabCircleBackground)
-        addSubview(messageField)
-        
-        addSubview(sendButton)
-        addSubview(downButton)
-        addSubview(closeButton)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -138,9 +252,28 @@ class ModularKeyboard: UIView {
     
     let buttonHeight = CGFloat(50)
     
+    let multiButtonHeight = CGFloat(60)
+    
     let screenBounds = UIScreen.main.bounds
     
+    var multiButtonsCenterConstraint: NSLayoutConstraint?
+    var multiButtonsLaidOutConstraint: NSLayoutConstraint?
+    
+    func setMainWindow(){
+        centerXConstraint = self.centerXAnchor.constraint(equalTo: self.parentView.centerXAnchor, constant: 0)
+        centerXConstraint?.isActive = true
+        bottomConstraint = self.bottomAnchor.constraint(equalTo: self.parentView.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+        bottomConstraint?.isActive = true
+        
+        widthConstraint = self.widthAnchor.constraint(equalTo: parentView.widthAnchor, constant: 0)
+        widthConstraint?.isActive = true
+        heightConstraint = self.heightAnchor.constraint(equalToConstant: 100)
+        heightConstraint?.isActive = true
+    }
+    
     func buildConstraints(){
+        setMainWindow()
+        
         let buttonHeight = CGFloat(40)
         
         addSubview(grabCircleBackground)
@@ -148,21 +281,6 @@ class ModularKeyboard: UIView {
         addSubview(sendButton)
         addSubview(closeButton)
         addSubview(downButton)
-        
-        centerXConstraint = self.centerXAnchor.constraint(equalTo: self.parentView.centerXAnchor, constant: 0)
-        centerXConstraint?.isActive = true
-        bottomConstraint = self.bottomAnchor.constraint(equalTo: self.parentView.safeAreaLayoutGuide.bottomAnchor, constant: 0)
-        bottomConstraint?.isActive = true
-        
-        /*
-        bottomBarToActionButtonX = bottomBar.centerXAnchor.constraint(equalTo: bottomBarActionButton.centerXAnchor, constant: 0)
-        bottomBarToActionButtonY = bottomBar.centerYAnchor.constraint(equalTo: bottomBarActionButton.centerYAnchor, constant: 0)
-         */
-        
-        widthConstraint = self.widthAnchor.constraint(equalTo: parentView.widthAnchor, constant: 0)
-        widthConstraint?.isActive = true
-        heightConstraint = self.heightAnchor.constraint(equalToConstant: 100)
-        heightConstraint?.isActive = true
         
         closeButton.heightAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
         closeButton.widthAnchor.constraint(equalToConstant: buttonHeight-10).isActive = true
@@ -227,6 +345,161 @@ class ModularKeyboard: UIView {
         groupAddButtonTopAnchor = groupAddButton.topAnchor.constraint(equalTo: groupFunctionButton.topAnchor)
         groupAddButtonTopAnchor?.isActive = true
         groupAddButton.centerXAnchor.constraint(equalTo: groupFunctionButton.centerXAnchor, constant: 2).isActive = true
+    }
+    
+    var tfButtonsCenterConstraints = [NSLayoutConstraint]()
+    var tfButtonsLaidOutConstraints = [NSLayoutConstraint]()
+    
+    func buildTFButtons(){
+        setMainWindow()
+        let tfButtonWidth = CGFloat(160)
+        
+        addSubview(trueButton)
+        addSubview(falseButton)
+        
+        trueButton.backgroundColor = UIColor.white
+        falseButton.backgroundColor = UIColor.white
+        
+        self.bringSubviewToFront(trueButton)
+        
+        trueButton.layer.cornerRadius = multiButtonHeight/2.0
+        falseButton.layer.cornerRadius = multiButtonHeight/2.0
+        
+        trueButton.widthAnchor.constraint(equalToConstant: tfButtonWidth).isActive = true
+        falseButton.widthAnchor.constraint(equalToConstant: tfButtonWidth).isActive = true
+        
+        trueButton.heightAnchor.constraint(equalToConstant: multiButtonHeight).isActive = true
+        falseButton.heightAnchor.constraint(equalToConstant: multiButtonHeight).isActive = true
+        
+        trueButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        falseButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        
+        tfButtonsCenterConstraints.append(trueButton.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0))
+        tfButtonsCenterConstraints.append(falseButton.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0))
+        
+        for constraint in tfButtonsCenterConstraints{
+            constraint.isActive = true
+        }
+        
+        self.layoutIfNeeded()
+        
+        tfButtonsLaidOutConstraints.append(trueButton.rightAnchor.constraint(equalTo: self.centerXAnchor, constant: -20))
+        tfButtonsLaidOutConstraints.append(falseButton.leftAnchor.constraint(equalTo: self.centerXAnchor, constant: 20))
+    }
+    
+    func animateTFButtonsOut(){
+        for constraint in tfButtonsCenterConstraints{
+            constraint.isActive = false
+        }
+        
+        for constraint in tfButtonsLaidOutConstraints{
+            constraint.isActive = true
+        }
+        
+        self.trueButton.isHidden = false
+        self.falseButton.isHidden = false
+        
+        UIView.animate(withDuration: 0.4, delay: 0.4, animations: {
+            self.layoutIfNeeded()
+            self.trueButton.alpha = 1
+            self.falseButton.alpha = 1
+        })
+    }
+    
+    func animateTFButtonsIn(){
+        for constraint in tfButtonsCenterConstraints{
+            constraint.isActive = true
+        }
+        
+        for constraint in tfButtonsLaidOutConstraints{
+            constraint.isActive = false
+        }
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.layoutIfNeeded()
+        }, completion: {_ in
+            UIView.animate(withDuration: 0.4, animations: {
+                self.trueButton.alpha = 0
+                self.falseButton.alpha = 0
+            }, completion: {_ in
+                self.trueButton.isHidden = true
+                self.falseButton.isHidden = true
+            })
+        })
+    }
+    
+    func buildMultiChoiceButtons(){
+        setMainWindow()
+        let choiceButtons = [aButton, bButton, cButton, dButton, eButton]
+        
+        for i in 0..<choiceButtons.count{
+            addSubview(choiceButtons[i])
+            choiceButtons[i].backgroundColor = UIColor.white
+            choiceButtons[i].layer.cornerRadius = multiButtonHeight/2.0
+            choiceButtons[i].titleLabel?.font = UIFont.systemFont(ofSize: 26)
+            
+            choiceButtons[i].widthAnchor.constraint(equalToConstant: multiButtonHeight).isActive = true
+            choiceButtons[i].heightAnchor.constraint(equalToConstant: multiButtonHeight).isActive = true
+            choiceButtons[i].centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+            
+            choiceButtons[i].centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0).isActive = true
+        }
+        
+        self.bringSubviewToFront(cButton)
+        
+        self.layoutIfNeeded()
+    }
+    
+    var multiButtonConstraints = [NSLayoutConstraint]()
+    
+    func animateMultiButtonsOut(){
+        let choiceButtons = [aButton, bButton, cButton, dButton, eButton]
+        
+        let screenSizeInset = screenSizeX + 40
+        
+        multiButtonConstraints = [NSLayoutConstraint]()
+        
+        for i in 0..<choiceButtons.count{
+            let floatI = CGFloat(i)
+            let addConstant = (floatI+1.0)/6.0
+            
+            multiButtonConstraints.append(choiceButtons[i].centerXAnchor.constraint(equalTo: self.leftAnchor, constant: (screenSizeInset * addConstant)-20))
+            
+            multiButtonConstraints[i].isActive = true
+        }
+        
+        for button in choiceButtons{
+            button.isHidden = false
+        }
+        
+        UIView.animate(withDuration: 0.5, delay: 0.4, animations: {
+            for button in choiceButtons{
+                button.alpha = 1
+            }
+            self.layoutIfNeeded()
+        })
+    }
+    
+    func animateMultiButtonsIn(){
+        let choiceButtons = [aButton, bButton, cButton, dButton, eButton]
+        
+        for i in 0..<choiceButtons.count{
+            multiButtonConstraints[i].isActive = false
+        }
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.layoutIfNeeded()
+        }, completion: {_ in
+            UIView.animate(withDuration: 0.2, animations: {
+                for button in choiceButtons{
+                    button.alpha = 0
+                }
+            }, completion: {_ in
+                for button in choiceButtons{
+                    button.isHidden = true
+                }
+            })
+        })
     }
     
     

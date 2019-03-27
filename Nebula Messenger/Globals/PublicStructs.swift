@@ -57,6 +57,18 @@ struct Conversation {
     var lastMessage: String
 }
 
+struct TeacherQuestion {
+    var question: String!
+    var date: String!
+    var questionMode: ModKeyMode!
+    var answers: [String:String]!
+    var correctAnswer: String!
+    var questionNumber: Int!
+    var optionalText: String!
+    var groupID: String!
+    var open: Bool!
+}
+
 
 // Simple solution for detecting emojis in a string
 // Thanks, StackOverflow

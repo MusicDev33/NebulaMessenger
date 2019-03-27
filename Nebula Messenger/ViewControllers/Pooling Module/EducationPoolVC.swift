@@ -15,6 +15,11 @@ class EducationPoolVC: UIViewController {
     var poolsInArea = [PublicPool]()
     var currentPools = [PublicPool]()
     
+    var questions = [TeacherQuestion]()
+    
+    // Shameless hack because I'm stupid
+    var questionHeights = [String:CGFloat]()
+    
     let defaultRadius = 30
     
     var didImpact = false
@@ -26,6 +31,29 @@ class EducationPoolVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let question = TeacherQuestion(question: "Find the surface area of a pickle (Yes, this question is harder than Question 1).", date: "3/14/19", questionMode: ModKeyMode.multiChoice,
+                                       answers: ["A":"I don't know",
+                                                 "B":"To get to the other side",
+                                                 "C":"I don't know dude",
+                                                 "D":"I really don't know",
+                                                 "E":"Uhhh...",], correctAnswer: "B", questionNumber: 1, optionalText: "Answer the question!", groupID: "SomeID",
+                                                                  open: false)
+        
+        let question2 = TeacherQuestion(question: " Find the geodesic distance between two tesseracts in a 4th-dimensional non-Euclidean plane, then find the circumference of the subsequent hypersphere (4th-dimensional) with the diameter being the line segment connected by two points.", date: "3/14/19", questionMode: ModKeyMode.multiChoice,
+                                       answers: ["A":"I don't know",
+                                                 "B":"To get to the other side",
+                                                 "C":"I don't know dude",
+                                                 "D":"I really don't know",
+                                                 "E":"Uhhh...",], correctAnswer: "B", questionNumber: 2, optionalText: "Answer the question!", groupID: "SomeID",
+                                                                  open: false)
+        
+        questions.append(question)
+        questions.append(question2)
+        
+        questionHeights[question.question] = 0
+        questionHeights[question2.question] = 0
+        
         mapView = EducationPoolView(frame: self.view.frame)
         mapView.map.userTrackingMode = .follow
         
@@ -98,7 +126,12 @@ extension EducationPoolVC: UIGestureRecognizerDelegate{
 }
 
 //MARK: UICollectionView Ext.
-extension EducationPoolVC: UICollectionViewDelegate, UICollectionViewDataSource{
+extension EducationPoolVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+    
+    func findSize(text: String, label: UILabel) -> CGRect{
+        let constraintRect = CGSize(width: 250, height: 1000)
+        return NSString(string: text).boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: label.font as Any], context: nil)
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currentPools.count
@@ -112,20 +145,30 @@ extension EducationPoolVC: UICollectionViewDelegate, UICollectionViewDataSource{
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //let cell = self.poolTable.dequeueReusableCell(withReuseIdentifier: "poolCell",for: indexPath) as! PoolChatCell
-        let poolId = self.currentPools[indexPath.row].poolId ?? ""
-        let poolName = self.currentPools[indexPath.row].name ?? "Pool"
-        PoolRoutes.getPoolMessages(id: poolId){messagesList in
-            var messages = [TerseMessage]()
-            messages = messagesList
-            let poolChatVC = PoolChatVC()
-            poolChatVC.modalPresentationStyle = .currentContext
-            poolChatVC.poolId = poolId
-            poolChatVC.poolName = poolName
-            poolChatVC.currentPoolMessages = messages
-            self.present(poolChatVC, animated: true, completion: nil)
-        }
+        let eduVC = EduPoolChatVC()
+        eduVC.modalPresentationStyle = .currentContext
+        eduVC.poolId = "Id"
+        eduVC.poolName = "TESTING"
+        eduVC.currentPoolMessages = [TerseMessage]()
+        self.present(eduVC, animated: true, completion: nil)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "questionCell", for: indexPath) as! QuestionModule
+        cell.questionLabel.text = questions[indexPath.row].question!
+        var height: CGFloat = 80
+        
+        questionHeights[questions[indexPath.row].question] = cell.questionLabel.bounds.height + 15
+        
+        if questions[indexPath.row].open{
+            height = cell.questionLabel.bounds.height + 215
+        }else{
+            height = cell.questionLabel.bounds.height + 15
+        }
+        
+        return CGSize(width: view.frame.width, height: height)
+    }
+    
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y <= 0{

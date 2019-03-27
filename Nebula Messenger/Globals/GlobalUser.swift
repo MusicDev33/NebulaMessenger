@@ -20,6 +20,13 @@ var globalPools = [PublicPool]()
 
 var globalEducationPools = [PublicPool]()
 
+enum ModKeyMode {
+    case tf
+    case multiChoice
+    case messaging
+    case blank
+}
+
 class GlobalUser: NSObject {
     static var userMapUrl = pickMap(mapName: UserDefaults.standard.string(forKey: "mapPreference") ?? "default")
     

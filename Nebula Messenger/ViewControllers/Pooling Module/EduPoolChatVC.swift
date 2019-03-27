@@ -1,16 +1,16 @@
 //
-//  PoolChatVC.swift
+//  EduPoolChatVC.swift
 //  Nebula Messenger
 //
-//  Created by Shelby McCowan on 10/9/18.
-//  Copyright © 2018 Shelby McCowan. All rights reserved.
+//  Created by Shelby McCowan on 3/27/19.
+//  Copyright © 2019 Shelby McCowan. All rights reserved.
 //
 
 import UIKit
 import Alamofire
 import FirebaseMessaging
 
-class PoolChatVC: MessengerBaseVC {
+class EduPoolChatVC: MessengerBaseVC {
     
     var currentPoolMessages = [TerseMessage]()
     var poolId = ""
@@ -21,9 +21,36 @@ class PoolChatVC: MessengerBaseVC {
     var messagesCollectionBottomConstraint: NSLayoutConstraint?
     
     var collectionMoved = false
-
+    
+    var questions = [TeacherQuestion]()
+    
+    // Shameless hack because I'm stupid
+    var questionHeights = [String:CGFloat]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let question = TeacherQuestion(question: "Find the surface area of a pickle (Yes, this question is harder than Question 1).", date: "3/14/19", questionMode: ModKeyMode.multiChoice,
+                                       answers: ["A":"I don't know",
+                                                 "B":"To get to the other side",
+                                                 "C":"I don't know dude",
+                                                 "D":"I really don't know",
+                                                 "E":"Uhhh...",], correctAnswer: "B", questionNumber: 1, optionalText: "Answer the question!", groupID: "SomeID",
+                                                                  open: false)
+        
+        let question2 = TeacherQuestion(question: " Find the geodesic distance between two tesseracts in a 4th-dimensional non-Euclidean plane, then find the circumference of the subsequent hypersphere (4th-dimensional) with the diameter being the line segment connected by two points.", date: "3/14/19", questionMode: ModKeyMode.multiChoice,
+                                        answers: ["A":"I don't know",
+                                                  "B":"To get to the other side",
+                                                  "C":"I don't know dude",
+                                                  "D":"I really don't know",
+                                                  "E":"Uhhh...",], correctAnswer: "B", questionNumber: 2, optionalText: "Answer the question!", groupID: "SomeID",
+                                                                   open: false)
+        
+        questions.append(question)
+        questions.append(question2)
+        
+        questionHeights[question.question] = 0
+        questionHeights[question2.question] = 0
         
         self.view.backgroundColor = UIColor.white
         
@@ -53,7 +80,7 @@ class PoolChatVC: MessengerBaseVC {
         layout.scrollDirection = .vertical
         
         messagesCollection = UICollectionView(frame: CGRect(x: 0, y: 100, width: self.view.frame.width, height: 500), collectionViewLayout: layout)
-        messagesCollection.register(MessageBubble.self, forCellWithReuseIdentifier: "messageBubble")
+        messagesCollection.register(QuestionModule.self, forCellWithReuseIdentifier: "questionModule")
         
         messagesCollection.dataSource = self
         messagesCollection.delegate = self
@@ -137,56 +164,55 @@ class PoolChatVC: MessengerBaseVC {
 }
 
 // MARK: CollectionView
-extension PoolChatVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension EduPoolChatVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return currentPoolMessages.count
+        return questions.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messageBubble", for: indexPath) as! MessageBubble
-        let text = self.currentPoolMessages[indexPath.row].body
+        let cell = self.messagesCollection.dequeueReusableCell(withReuseIdentifier: "questionModule", for: indexPath) as! QuestionModule
+        //cell.poolNameLabel.text = self.currentPools[indexPath.row].name
+        cell.questionLabel.text = self.questions[indexPath.row].question
+        cell.questionNumberLabel.text = String(self.questions[indexPath.row].questionNumber)
         
-        cell.textView.text = text
-        cell.bubbleWidthAnchor?.constant = findSize(text: text!, label: cell.textView).width + 32
-        cell.senderLabel.text = ""
-        
-        cell.textView.textColor = UIColor.white
-        
-        cell.senderHeightAnchor?.constant = 0
-        
-        if self.currentPoolMessages[indexPath.row].sender == GlobalUser.username{
-            cell.senderHeightAnchor?.constant = 0
-            cell.bubbleView.backgroundColor = userTextColor
-            cell.bubbleViewRightAnchor?.isActive = true
-            cell.bubbleViewLeftAnchor?.isActive = false
-            if cell.bubbleView.backgroundColor == Colors.nebulaPink{
-                cell.textView.textColor = UIColor.black
-            }
-            
+        if questions[indexPath.row].open{
+            cell.bubbleHeightAnchor?.constant = questionHeights[cell.questionLabel.text!]!
         }else{
-            cell.senderHeightAnchor?.constant = 20
-            cell.bubbleView.backgroundColor = otherTextColor
-            cell.bubbleViewRightAnchor?.isActive = false
-            cell.bubbleViewLeftAnchor?.isActive = true
-            if cell.bubbleView.backgroundColor == Colors.nebulaPink{
-                cell.textView.textColor = UIColor.black
-            }
-            
-            if indexPath.row > 0 && self.currentPoolMessages[indexPath.row-1].sender != self.currentPoolMessages[indexPath.row].sender{
-                cell.senderLabel.text = self.currentPoolMessages[indexPath.row].sender
-            }
-            
-            cell.senderLeftAnchor?.isActive = true
-            cell.senderRightAnchor?.isActive = false
+            cell.bubbleHeightAnchor?.constant = cell.bounds.height
         }
+        
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "messageBubble", for: indexPath) as! MessageBubble
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "questionModule", for: indexPath) as! QuestionModule
+        cell.questionLabel.text = questions[indexPath.row].question!
         var height: CGFloat = 80
-        height = findSize(text: self.currentPoolMessages[indexPath.row].body!, label: cell.textView).height + 20
+        
+        questionHeights[questions[indexPath.row].question] = cell.questionLabel.bounds.height + 15
+        
+        if questions[indexPath.row].open{
+            height = cell.questionLabel.bounds.height + 215
+        }else{
+            height = cell.questionLabel.bounds.height + 15
+        }
+        
         return CGSize(width: view.frame.width, height: height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        questions[indexPath.row].open = true
+        // Works but it's still broken
+        cell?.frame = CGRect(x: (cell?.frame.origin.x)!, y: (cell?.frame.origin.y)!, width: (cell?.frame.width)!, height: (cell?.frame.height)! + 200)
+        
+        collectionView.performBatchUpdates({
+            collectionView.collectionViewLayout.invalidateLayout()
+            
+        }, completion: {_ in
+            
+        })
     }
     
     func findSize(text: String, label: UITextView) -> CGRect{
@@ -197,7 +223,7 @@ extension PoolChatVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
 
 
 // MARK: TextViewDelegate
-extension PoolChatVC: UITextViewDelegate {
+extension EduPoolChatVC: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         return true
     }
@@ -215,7 +241,7 @@ extension PoolChatVC: UITextViewDelegate {
 
 
 // MARK: GestureRecognizers
-extension PoolChatVC: UIGestureRecognizerDelegate {
+extension EduPoolChatVC: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return false
     }
@@ -223,7 +249,7 @@ extension PoolChatVC: UIGestureRecognizerDelegate {
 
 
 // MARK: Sockets
-extension PoolChatVC {
+extension EduPoolChatVC {
     func openSocket(completion: () -> Void) {
         SocketIOManager.socket.on("message") { ( data, ack) -> Void in
             guard let parsedData = data[0] as? String else { return }
@@ -249,7 +275,7 @@ extension PoolChatVC {
 
 
 // MARK: Listeners
-extension PoolChatVC {
+extension EduPoolChatVC {
     @objc func tappedOnSubscribe(){
         if subscribed{
             PoolRoutes.removePoolSubscription(poolId: self.poolId, completion: {success in
