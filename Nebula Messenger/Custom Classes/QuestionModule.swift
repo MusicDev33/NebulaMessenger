@@ -89,8 +89,17 @@ class QuestionModule: UICollectionViewCell{
         addSubview(questionNumberView)
         addSubview(questionNumberLabel)
         addSubview(questionLabel)
-        
-        bubbleHeightAnchor = bubbleView.heightAnchor.constraint(equalToConstant: 0)
+    }
+    
+    func sizeWithLabel(){
+        if questionLabel.numberOfLines > 1{
+            bubbleHeightAnchor?.isActive = false
+            bubbleView.bottomAnchor.constraint(equalTo: questionLabel.bottomAnchor, constant: 5).isActive = true
+        }
+    }
+    
+    func setupConstraints(){
+        bubbleHeightAnchor = bubbleView.heightAnchor.constraint(equalToConstant: 50)
         bubbleHeightAnchor?.isActive = true
         
         //bubbleView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
@@ -122,13 +131,6 @@ class QuestionModule: UICollectionViewCell{
         extraInfoLabel.bottomAnchor.constraint(equalTo: extraInfoView.bottomAnchor, constant: -5).isActive = true
         extraInfoLabel.rightAnchor.constraint(equalTo: extraInfoView.rightAnchor, constant: -5).isActive = true
         extraInfoLabel.leftAnchor.constraint(equalTo: extraInfoView.leftAnchor, constant: 5).isActive = true
-    }
-    
-    func sizeWithLabel(){
-        if questionLabel.numberOfLines > 1{
-            bubbleHeightAnchor?.isActive = false
-            bubbleView.bottomAnchor.constraint(equalTo: questionLabel.bottomAnchor, constant: 5).isActive = true
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {

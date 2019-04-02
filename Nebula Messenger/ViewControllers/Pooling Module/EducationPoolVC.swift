@@ -153,23 +153,6 @@ extension EducationPoolVC: UICollectionViewDelegate, UICollectionViewDataSource,
         self.present(eduVC, animated: true, completion: nil)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "questionCell", for: indexPath) as! QuestionModule
-        cell.questionLabel.text = questions[indexPath.row].question!
-        var height: CGFloat = 80
-        
-        questionHeights[questions[indexPath.row].question] = cell.questionLabel.bounds.height + 15
-        
-        if questions[indexPath.row].open{
-            height = cell.questionLabel.bounds.height + 215
-        }else{
-            height = cell.questionLabel.bounds.height + 15
-        }
-        
-        return CGSize(width: view.frame.width, height: height)
-    }
-    
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y <= 0{
             var scrollOffset = abs(scrollView.contentOffset.y)

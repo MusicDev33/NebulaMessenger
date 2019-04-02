@@ -38,7 +38,7 @@ class EduPoolChatVC: MessengerBaseVC {
                                                  "E":"Uhhh...",], correctAnswer: "B", questionNumber: 1, optionalText: "Answer the question!", groupID: "SomeID",
                                                                   open: false)
         
-        let question2 = TeacherQuestion(question: " Find the geodesic distance between two tesseracts in a 4th-dimensional non-Euclidean plane, then find the circumference of the subsequent hypersphere (4th-dimensional) with the diameter being the line segment connected by two points.", date: "3/14/19", questionMode: ModKeyMode.multiChoice,
+        let question2 = TeacherQuestion(question: "Find the geodesic distance between two tesseracts in a 4th-dimensional non-Euclidean plane, then find the circumference of the subsequent hypersphere (4th-dimensional) with the diameter being the line segment connected by two points.", date: "3/14/19", questionMode: ModKeyMode.multiChoice,
                                         answers: ["A":"I don't know",
                                                   "B":"To get to the other side",
                                                   "C":"I don't know dude",
@@ -75,8 +75,7 @@ class EduPoolChatVC: MessengerBaseVC {
         //Making a collectionview
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: 375, height: 50)
-        layout.estimatedItemSize = CGSize(width: 375, height: 50)
+        layout.itemSize = CGSize(width: self.view.frame.width-20, height: 50)
         layout.scrollDirection = .vertical
         
         messagesCollection = UICollectionView(frame: CGRect(x: 0, y: 100, width: self.view.frame.width, height: 500), collectionViewLayout: layout)
@@ -148,6 +147,8 @@ class EduPoolChatVC: MessengerBaseVC {
         NotificationCenter.default.addObserver(self, selector: #selector(self.openVC), name: UIApplication.didBecomeActiveNotification, object: nil)
         
         modularKeyboard.animateTFButtonsOut()
+        
+        self.messagesCollection.reloadData()
     }
     
     @objc func closeVC()  {
@@ -175,12 +176,9 @@ extension EduPoolChatVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         cell.questionLabel.text = self.questions[indexPath.row].question
         cell.questionNumberLabel.text = String(self.questions[indexPath.row].questionNumber)
         
-        if questions[indexPath.row].open{
-            cell.bubbleHeightAnchor?.constant = questionHeights[cell.questionLabel.text!]!
-        }else{
-            cell.bubbleHeightAnchor?.constant = cell.bounds.height
-        }
+        cell.setupConstraints()
         
+        cell.bubbleHeightAnchor?.constant = cell.bounds.height
         
         return cell
     }
@@ -188,24 +186,21 @@ extension EduPoolChatVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "questionModule", for: indexPath) as! QuestionModule
         cell.questionLabel.text = questions[indexPath.row].question!
-        var height: CGFloat = 80
+        cell.questionLabel.sizeToFit()
+        var height: CGFloat = 300
         
-        questionHeights[questions[indexPath.row].question] = cell.questionLabel.bounds.height + 15
+        let labelLines = CGFloat(cell.questionLabel.calculateMaxLines())
         
-        if questions[indexPath.row].open{
-            height = cell.questionLabel.bounds.height + 215
-        }else{
-            height = cell.questionLabel.bounds.height + 15
-        }
+        height = findSize(text: questions[indexPath.row].question, label: cell.questionLabel, width: cell.questionLabel.bounds.width).height + 25 + (11*(labelLines))
         
         return CGSize(width: view.frame.width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
+        //let cell = collectionView.cellForItem(at: indexPath)
         questions[indexPath.row].open = true
         // Works but it's still broken
-        cell?.frame = CGRect(x: (cell?.frame.origin.x)!, y: (cell?.frame.origin.y)!, width: (cell?.frame.width)!, height: (cell?.frame.height)! + 200)
+        //cell?.frame = CGRect(x: (cell?.frame.origin.x)!, y: (cell?.frame.origin.y)!, width: (cell?.frame.width)!, height: (cell?.frame.height)! + 200)
         
         collectionView.performBatchUpdates({
             collectionView.collectionViewLayout.invalidateLayout()
@@ -215,9 +210,12 @@ extension EduPoolChatVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         })
     }
     
-    func findSize(text: String, label: UITextView) -> CGRect{
-        let constraintRect = CGSize(width: 200, height: 1000)
-        return NSString(string: text).boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: label.font as Any], context: nil)
+    func findSize(text: String, label: UILabel, width: CGFloat) -> CGRect{
+        let constraintRect = CGSize(width: width,
+                                    height: 1000)
+        let defaultFontSize = CGFloat(16)
+        
+        return NSString(string: text).boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: UIFont.systemFont(ofSize: defaultFontSize)], context: nil)
     }
 }
 
