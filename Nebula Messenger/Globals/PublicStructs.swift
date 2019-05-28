@@ -240,7 +240,7 @@ extension UIView {
 
 extension UIViewController {
     override open func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        if(event?.subtype == UIEvent.EventSubtype.motionShake) {
+        if (event?.subtype == UIEvent.EventSubtype.motionShake) {
             let alert = UIAlertController(title: "Shake Feedback", message: "", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Give Feedback", style: .default, handler: {action in
                 let feedbackVC = FeedbackVC()

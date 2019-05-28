@@ -9,6 +9,12 @@
 import Foundation
 
 let baseUrl = "http://159.89.152.215:3000"
+let novaBaseUrl = "http://159.89.152.215:3000/nova/v1/"
+
+let novaUsersRoot = novaBaseUrl + "users"
+let novaPoolsRoot = novaBaseUrl + "pools"
+let novaConvsRoot = novaBaseUrl + "conversations"
+let novaDiagsRoot = novaBaseUrl + "diagnostics"
 
 let userRoot = "http://159.89.152.215:3000/users/"
 let messageRoot = "http://159.89.152.215:3000/messages/"
@@ -20,56 +26,53 @@ let diagRoot = "http://159.89.152.215:3000/diagnostics/"
 
 // MARK: Messages
 
-let sendRoute = messageRoot + "send"
-let getMsgRoute = messageRoot + "getmsgswithidtoken"
-let deleteMsgRoute = messageRoot + "deletemsg"
-let getOneMsgRoute = messageRoot + "getonemsg"
-let deleteMsgsRoute = messageRoot + "deletemsgs"
-
 // MARK: User
-let registerUserRoute = userRoot + "register"
-let authenticateUserRoute = userRoot + "authenticate"
-let adminLoginRoute = userRoot + "adminlogin"
-let adminPassRoute = userRoot + "adminpass"
-let profileRoute = userRoot + "profile"
-let getFriendsAndConvsRoute = userRoot + "getfriendsandconvstoken"
-let getCurrentiOSRoute = userRoot + "getcurrentios"
-let getQuotesRoute = userRoot + "getquote"
-let getUserRoute = userRoot + "getuser"
-let refreshTokenRoute = userRoot + "refreshtoken"
-let addPhoneNumberRoute = userRoot + "addphonenumber"
-let addPoolSubscriptionRoute = userRoot + "addpoolsubscription"
-let removePoolSubscriptionRoute = userRoot + "removepoolsubscription"
+let registerUserRoute = novaUsersRoot + "/register"
+let refreshTokenRoute = novaUsersRoot + "/refreshtoken"
+let addPhoneNumberRoute = novaUsersRoot + "/addphonenumber"
 
 // MARK: Friends
-let getFriendsRoute = friendsRoot + "getfriends"
 let addFriendRoute = friendsRoot + "addfriend"
 let testAddFriendRoute = friendsRoot + "testaddfriend"
-let searchFriendsRoute = friendsRoot + "searchfriends"
 let removeFriendRoute = friendsRoot + "removefriend"
-let requestFriendRoute = friendsRoot + "sendrequest"
 
 // MARK: Conversations
-let getConvsRoute = conversationsRoot + "getconvs"
-let getConvRoute = conversationsRoot + "getconv"
-let addConvRoute = conversationsRoot + "addconv"
-let updateConvRoute = conversationsRoot + "updateconv"
-let deleteConvRoute = conversationsRoot + "deleteconv"
-let updateLastReadRoute = conversationsRoot + "updatelastread"
 let changeGroupMembersRoute = conversationsRoot + "changegroupmembers"
 
 // MARK: Pools
-let createPoolRoute = poolsRoot + "createpool"
-let getPoolsRoute = poolsRoot + "getpools"
+let createPoolRoute = novaPoolsRoot + "/create"
 let sendPoolsRoute = poolsRoot + "send"
-let getPoolMessagesRoute = poolsRoot + "getmsgs"
 let deletePoolRoute = poolsRoot + "deletepool"
-let getPoolsWithUsernameRoute = poolsRoot + "getpoolswithusername"
 
 // MARK: Diagnostics Data
-let sendInfoRoute = diagRoot + "sendinfo"
+let sendInfoRoute = novaDiagsRoot + "/sendinfo"
 
 // For later
 func buildRequest(){
     
 }
+
+// GET ROUTES
+
+// MARK: User
+let getQuotesRoute = novaBaseUrl + "users/quotes"
+let getUserRoute = novaBaseUrl + "users/search/"
+
+// MARK: Friends
+let getFriendsRoute = friendsRoot + "getfriends"
+let searchFriendsRoute = friendsRoot + "searchfriends"
+
+
+// MARK: NOVA
+
+let authUserRoute = novaUsersRoot + "/authenticate"
+
+// MARK: Conversations
+let sendMessageRoute = novaConvsRoot + "???"
+let createConvRoute = novaConvsRoot + "/create"
+
+// MARK: Pools
+let getPoolsRoute = novaPoolsRoot
+let getPoolMessagesRoute = novaPoolsRoot
+
+let getCurrentiOSRoute = novaUsersRoot + "/getcurrentios"

@@ -94,6 +94,7 @@
 		1FE4F101216B139200E4EF72 /* FeedbackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F100216B139200E4EF72 /* FeedbackVC.swift */; };
 		1FE4F103216CA86C00E4EF72 /* PoolChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F102216CA86C00E4EF72 /* PoolChatCell.swift */; };
 		1FE4F105216D321A00E4EF72 /* PoolChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4F104216D321A00E4EF72 /* PoolChatVC.swift */; };
+		1FFB24AF226F6A0B009281C6 /* QuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB24AE226F6A0B009281C6 /* QuestionCell.swift */; };
 		2CCCB3997304155B3445A393 /* Pods_Nebula_MessengerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B194178D93103E59D5D33947 /* Pods_Nebula_MessengerTests.framework */; };
 		3F307F4C0BF787A6773DDA22 /* Pods_Nebula_MessengerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1265EF37ED48A66D44E1595 /* Pods_Nebula_MessengerUITests.framework */; };
 /* End PBXBuildFile section */
@@ -232,6 +233,7 @@
 		1FE4F100216B139200E4EF72 /* FeedbackVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVC.swift; sourceTree = "<group>"; };
 		1FE4F102216CA86C00E4EF72 /* PoolChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolChatCell.swift; sourceTree = "<group>"; };
 		1FE4F104216D321A00E4EF72 /* PoolChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolChatVC.swift; sourceTree = "<group>"; };
+		1FFB24AE226F6A0B009281C6 /* QuestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCell.swift; sourceTree = "<group>"; };
 		34311F4A11E9114E39FEE217 /* Pods_Nebula_Messenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nebula_Messenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D4E0E1BC3C0735B97326380 /* Pods-Nebula MessengerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerUITests/Pods-Nebula MessengerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		751DC700DA180EC2A39C1202 /* Pods-Nebula MessengerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nebula MessengerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nebula MessengerUITests/Pods-Nebula MessengerUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -598,6 +600,7 @@
 				1F16E62A220D75BC00FC7B78 /* CustomInteractor.swift */,
 				1F16E62C221014E900FC7B78 /* RequestedTableViewCell.swift */,
 				1FDB14DD22488E32007CD0E2 /* QuestionModule.swift */,
+				1FFB24AE226F6A0B009281C6 /* QuestionCell.swift */,
 			);
 			path = "Custom Classes";
 			sourceTree = "<group>";
@@ -715,6 +718,7 @@
 				TargetAttributes = {
 					1F68B2632152227F00DC9525 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.AccessWiFi = {
 								enabled = 1;
@@ -744,14 +748,17 @@
 					};
 					1F68B2772152228100DC9525 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1020;
 						TestTargetID = 1F68B2632152227F00DC9525;
 					};
 					1F68B2822152228100DC9525 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1020;
 						TestTargetID = 1F68B2632152227F00DC9525;
 					};
 					1FDB14C1223A488E007CD0E2 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -996,6 +1003,7 @@
 				1FAF4D0821B4FF6100843C89 /* AlertBP.swift in Sources */,
 				1F42503221E4047A00CE108C /* LoginView.swift in Sources */,
 				1FDB14E0224B60E6007CD0E2 /* EduPoolChatVC.swift in Sources */,
+				1FFB24AF226F6A0B009281C6 /* QuestionCell.swift in Sources */,
 				1FDB13EF222686F5007CD0E2 /* MainMenuView.swift in Sources */,
 				1FE4F0FA21687D4400E4EF72 /* MessageBubble.swift in Sources */,
 			);
@@ -1198,7 +1206,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "musicdev.Nebula-Messenger";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1220,7 +1228,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "musicdev.Nebula-Messenger";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -1241,7 +1249,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "musicdev.Nebula-MessengerTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nebula Messenger.app/Nebula Messenger";
 			};
@@ -1263,7 +1271,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "musicdev.Nebula-MessengerTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nebula Messenger.app/Nebula Messenger";
 			};
@@ -1284,7 +1292,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "musicdev.Nebula-MessengerUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = "Nebula Messenger";
 			};
@@ -1305,7 +1313,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "musicdev.Nebula-MessengerUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = "Nebula Messenger";
 			};
@@ -1326,7 +1334,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "musicdev.Nebula-Messenger.Nebula-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1346,7 +1354,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "musicdev.Nebula-Messenger.Nebula-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

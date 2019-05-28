@@ -45,7 +45,7 @@ class EducationPoolVC: UIViewController {
                                                  "B":"To get to the other side",
                                                  "C":"I don't know dude",
                                                  "D":"I really don't know",
-                                                 "E":"Uhhh...",], correctAnswer: "B", questionNumber: 2, optionalText: "Answer the question!", groupID: "SomeID",
+                                                 "E":"Uhhh..."], correctAnswer: "B", questionNumber: 2, optionalText: "Answer the question!", groupID: "SomeID",
                                                                   open: false)
         
         questions.append(question)
@@ -82,11 +82,6 @@ class EducationPoolVC: UIViewController {
             
             let polygon = polygonCircleForCoordinate(coordinate: coordinate, withMeterRadius: Double(self.defaultRadius))
             self.mapView.map.addAnnotation(polygon)
-        }
-        
-        if !Tutorial.didLearnPools(){
-            Alert.basicAlert(on: self, with: "Nebula Pools", message: "Tap and hold anywhere on the map to place a pool. Make sure you're within its radius or you won't be able to chat into it!")
-            UserDefaults.standard.set(true, forKey: "learnedPools")
         }
     }
     

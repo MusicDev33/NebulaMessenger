@@ -173,41 +173,55 @@ extension EduPoolChatVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = self.messagesCollection.dequeueReusableCell(withReuseIdentifier: "questionModule", for: indexPath) as! QuestionModule
         //cell.poolNameLabel.text = self.currentPools[indexPath.row].name
-        cell.questionLabel.text = self.questions[indexPath.row].question
+        let text = self.questions[indexPath.row].question
+        cell.questionLabel.text = text
+        cell.questionLabel.sizeToFit()
         cell.questionNumberLabel.text = String(self.questions[indexPath.row].questionNumber)
-        
         cell.setupConstraints()
         
+        //cell.bubbleHeightAnchor?.constant = questionHeights[text!]!
         cell.bubbleHeightAnchor?.constant = cell.bounds.height
+        cell.layoutIfNeeded()
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        collectionView.reloadData()
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "questionModule", for: indexPath) as! QuestionModule
         cell.questionLabel.text = questions[indexPath.row].question!
-        cell.questionLabel.sizeToFit()
-        var height: CGFloat = 300
+        //cell.questionLabel.sizeToFit()
+        var height: CGFloat = 0
         
         let labelLines = CGFloat(cell.questionLabel.calculateMaxLines())
         
         height = findSize(text: questions[indexPath.row].question, label: cell.questionLabel, width: cell.questionLabel.bounds.width).height + 25 + (11*(labelLines))
         
+        questionHeights[questions[indexPath.row].question!] = height
+        
+        if questions[indexPath.row].open{
+            return CGSize(width: view.frame.width, height: height + 100)
+        }
+        
         return CGSize(width: view.frame.width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //let cell = collectionView.cellForItem(at: indexPath)
-        questions[indexPath.row].open = true
+        let cell = collectionView.cellForItem(at: indexPath) as! QuestionModule
         // Works but it's still broken
-        //cell?.frame = CGRect(x: (cell?.frame.origin.x)!, y: (cell?.frame.origin.y)!, width: (cell?.frame.width)!, height: (cell?.frame.height)! + 200)
-        
-        collectionView.performBatchUpdates({
-            collectionView.collectionViewLayout.invalidateLayout()
-            
-        }, completion: {_ in
-            
-        })
+        // cell?.frame = CGRect(x: (cell?.frame.origin.x)!, y: (cell?.frame.origin.y)!, width: (cell?.frame.width)!, height: (cell?.bounds.height)! + 200)
+        self.questions[indexPath.row].open = !self.questions[indexPath.row].open
+        collectionView.collectionViewLayout.invalidateLayout()
+        //cell.bubbleHeightAnchor?.constant += 100
+        UIView.animate(
+            withDuration: 0.55,
+            delay: 0.0,
+            usingSpringWithDamping: 0.5,
+            initialSpringVelocity: 3.0,
+            options: UIView.AnimationOptions(),
+            animations: {
+                collectionView.layoutIfNeeded()
+        }, completion: nil)
     }
     
     func findSize(text: String, label: UILabel, width: CGFloat) -> CGRect{

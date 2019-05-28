@@ -244,6 +244,7 @@ extension CreateMessageVC{
         messageVC.fromCreateMessage = true
         self.searchBar.resignFirstResponder()
         
+        // If groupchat
         if self.selectedFriendsList.count > 1{
             var quickInvolved = Utility.createGroupConvId(names: self.selectedFriendsList)
             quickInvolved = Utility.alphabetSort(preConvId: quickInvolved)
@@ -251,6 +252,8 @@ extension CreateMessageVC{
             
             self.passFriend = quickConvName
             self.passInvolved = quickInvolved
+            
+            // If conversation exists
             if GlobalUser.convNames.contains(quickConvName){
                 let quickId = GlobalUser.masterDict[quickConvName]!.id
                 MessageRoutes.getMessages(id: quickId!){messageList in
@@ -270,6 +273,7 @@ extension CreateMessageVC{
                     self.navigationController?.pushViewController(messageVC, animated: true)
                 }
             }else{
+                // If conversation doesn't already exist
                 messageVC.skipNotif = true
                 messageVC.friend = self.passFriend
                 messageVC.conversationName = self.passFriend
@@ -315,6 +319,7 @@ extension CreateMessageVC{
                     var passList = self.selectedFriendsList
                     passList.append(GlobalUser.username)
                     messageVC.involved = Utility.createConvId(names: passList)
+                    messageVC.conversationName = self.selectedFriendsList[0]
                 }
                 self.navigationController?.pushViewController(messageVC, animated: true)
             }

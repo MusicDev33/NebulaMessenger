@@ -430,6 +430,11 @@ extension MainMenuVC {
                 return
             }
             
+            guard let realMsgConvID = msg["id"].string else{
+                print("Error on receive message: Main Menu, msg.id")
+                return
+            }
+            
             if msgConvId.contains(GlobalUser.username){
                 GlobalUser.unreadList.append(msg["id"].string!)
                 self.convTable.reloadData()
@@ -444,7 +449,7 @@ extension MainMenuVC {
             }
             
             if !conversationExists{
-                ConversationRoutes.getOneConversation(involved: msgConvId, completion: {convList in
+                ConversationRoutes.getOneConversation(convID: realMsgConvID, completion: {convList in
                     // convList is an array of strings
                     GlobalUser.addConversation(involved: convList[0], id: convList[1], lastRead: convList[2], lastMessage: convList[3])
                     GlobalUser.unreadList.append(convList[1])

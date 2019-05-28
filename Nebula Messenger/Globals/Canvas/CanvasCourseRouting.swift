@@ -11,11 +11,11 @@ import Alamofire
 
 func getStudents(stringUrl: String){
     print("HEY")
-    var requestJson = [String: Any]()
+    let requestJson = [String: Any]()
     let url = URL(string: stringUrl)
     
     do {
-        let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
+        let _ = try JSONSerialization.data(withJSONObject: requestJson, options: [])
         
         var request = URLRequest(url: url!)
         request.httpMethod = "GET"

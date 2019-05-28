@@ -25,8 +25,39 @@ class RequestedFriendsVC: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         _ = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath as IndexPath)
-        self.dismiss(animated: true){
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath as IndexPath)
+        let action = UIContextualAction(style: .normal, title: "Delete") {(action, view, nil) in
+            print("Action")
         }
+        
+        return UISwipeActionsConfiguration(actions: [action])
+        /*
+        guard let cellText = cell.textLabel?.text else {
+            print("ERROR IN FILE")
+            return nil
+        }
+        print("TRUST")
+        let action = UIContextualAction(style: .destructive, title: "Delete") { (contextAction: UIContextualAction, sourceView: UIView, completionHandler: (Bool) -> Void) in
+                                            if true {
+                                                UserRoutes.deleteFriendRequest(friend: cellText, completion: {
+                                                    self.friendsTable.reloadData()
+                                                })
+                                                completionHandler(true)
+                                            }
+                                            completionHandler(false)
+        }
+        
+        action.backgroundColor = .red
+        
+        let config = UISwipeActionsConfiguration(actions: [action])
+        return config*/
     }
     
     override func viewDidLoad() {

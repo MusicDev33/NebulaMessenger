@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import CoreData
+import Foundation
 
 class MessengerVC: MessengerBaseVC {
     
@@ -147,8 +148,7 @@ class MessengerVC: MessengerBaseVC {
         GlobalUser.currentConv = self.id
         self.scrollToBottom(animated: false)
         if msgList.count > 0{
-            ConversationRoutes.updateLastRead(id: self.id, msgId: msgList[msgList.count-1]._id ?? "NA"){
-            }
+            ConversationRoutes.updateConversation(convID: self.id, completion: {})
         }
         GlobalUser.unreadList = GlobalUser.unreadList.filter {$0 != self.id}
         
@@ -166,7 +166,21 @@ class MessengerVC: MessengerBaseVC {
         modularKeyboard.resizeTextView()
         let bottom = NSMakeRange(modularKeyboard.messageField.text.count - 1, 1)
         modularKeyboard.messageField.scrollRangeToVisible(bottom)
-
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if self.id == ""{
+            print("No ID")
+            var idString = ""
+            let epochTime = String(Int(NSDate().timeIntervalSince1970))
+            idString += epochTime
+            idString += ":"
+            idString += GlobalUser.username
+            self.id = idString
+        }
+        print("NAME")
+        print(self.conversationName)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -199,8 +213,55 @@ extension MessengerVC: UIGestureRecognizerDelegate {
 // MARK: Network Ext.
 extension MessengerVC{
     
+    func createConv(completion:@escaping () -> ()){
+        var url = URL(string: novaConvsRoot)
+        var urlString = novaConvsRoot
+        
+        if self.id == ""{
+            // create convid here
+            let currentEpochTime = Int(NSDate().timeIntervalSince1970)
+            let strEpochTime = String(currentEpochTime)
+            urlString += "/"
+            urlString += strEpochTime
+            urlString += ":"
+            urlString += GlobalUser.username
+            urlString += "/send"
+            url = URL(string: urlString)
+        }else{
+            urlString += "/"
+            urlString += self.id
+            urlString += "/send"
+            url = URL(string: urlString)
+        }
+        
+        var requestJson = [String:Any]()
+        requestJson["sender"] = GlobalUser.username
+        requestJson["involved"] = self.involved
+        
+        do {
+            let data = try JSONSerialization.data(withJSONObject: requestJson, options: [])
+            var request = RouteUtils.basicJsonRequest(url: url!, method: "POST", data: data)
+            
+            Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
+                switch response.result{
+                case .success(let Json):
+                    let jsonObject = JSON(Json)
+                    print("JSON RES")
+                    print(jsonObject)
+                    completion()
+                case .failure(let Json):
+                    let jObj = JSON(Json)
+                    print(jObj)
+                    print("Couldn't create thing")
+                }
+            })
+        }catch{
+        }
+    }
+    
     func sendMessage(_ sender: UIButton) {
-        let url = URL(string: sendRoute)
+        var urlString = novaConvsRoot + "/" + self.id + "/send"
+        let url = URL(string: urlString)
         
         var requestJson = [String:Any]()
         let df = DateFormatter()
@@ -222,7 +283,7 @@ extension MessengerVC{
         requestJson["sender"] = GlobalUser.username
         requestJson["body"] = body
         
-        requestJson["convId"] = self.involved
+        requestJson["involved"] = self.involved
         //requestJson["read"] = false
         requestJson["dateTime"] = now
         requestJson["topic"] = self.conversationName
@@ -243,6 +304,7 @@ extension MessengerVC{
             request.httpBody = data
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("application/json", forHTTPHeaderField: "Accept")
+            request.addValue(GlobalUser.token, forHTTPHeaderField: "Authorization")
             
             Alamofire.request(request).responseJSON(completionHandler: { response -> Void in
                 
@@ -285,7 +347,7 @@ extension MessengerVC{
                     self.scrollToBottom(animated: true)
                     self.modularKeyboard.messageField.text = ""
                     
-                    if jsonObject["conv"].exists(){
+                    if jsonObject["didCreateConv"].boolValue == true{
                         self.id = jsonObject["conv"]["id"].string!
                         let lastMessage = jsonObject["conv"]["lastMessage"].string!
                         let lastRead = jsonObject["conv"]["lastMsgRead"][GlobalUser.username].string!
@@ -393,8 +455,7 @@ extension MessengerVC{
                      })*/
                     
                 }
-                ConversationRoutes.updateLastRead(id: self.id, msgId: ""){
-                }
+                ConversationRoutes.updateConversation(convID: self.id, completion: {})
                 //self.scrollToBottomAnimated(animated: true)
             }else{
                 print("Something went wrong (Not really, i'm just dumb)")

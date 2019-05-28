@@ -229,11 +229,30 @@ extension FriendsVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let addFriendsVC = AddFriendVC()
-        addFriendsVC.modalPresentationStyle = .overCurrentContext
-        self.present(addFriendsVC, animated: true, completion: {
-            tableView.deselectRow(at: indexPath, animated: true)
-        })
+        
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let cellText = GlobalUser.requestedFriends[indexPath.row]
+        print(cellText)
+        
+        let action = UIContextualAction(style: .destructive, title: "Delete") { (contextAction: UIContextualAction, sourceView: UIView, completionHandler: (Bool) -> Void) in
+            if true {
+                
+                UserRoutes.deleteFriendRequest(friend: cellText ?? "master", completion: {
+                    self.currentRequestedFriends = GlobalUser.requestedFriends
+                    self.friendTable.reloadData()
+                })
+                completionHandler(true)
+            }
+            completionHandler(false)
+        }
+        
+        action.backgroundColor = .red
+        
+        let config = UISwipeActionsConfiguration(actions: [action])
+        return config
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

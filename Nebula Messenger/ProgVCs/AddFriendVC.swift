@@ -279,7 +279,7 @@ class AddFriendVC: UIViewController, UITextFieldDelegate {
     
     @objc func addFriend(){
         addFriendButton.isEnabled = false
-        FriendRoutes.requestFriend(friend: usernameLabel.text!){
+        UserRoutes.requestFriend(friend: usernameLabel.text!){
             if !GlobalUser.friends.contains(self.usernameLabel.text!){
                 SocketIOManager.sendRequest(friend: self.realNameLabel.text!, friendUsername: self.usernameLabel.text!)
             }
